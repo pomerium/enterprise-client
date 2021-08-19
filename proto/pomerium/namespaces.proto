@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "google/protobuf/timestamp.proto";
+
+// Namespace defines a namespace
+message Namespace {
+  string id = 1;
+  string parent_id = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp modified_at = 4;
+  google.protobuf.Timestamp deleted_at = 5;
+  string name = 6;
+
+  // computed
+  int64 route_count = 7;
+  // computed
+  int64 policy_count = 8;
+}
+
+message DeleteNamespaceRequest { string id = 1; }
+message DeleteNamespaceResponse {}
+message GetNamespaceRequest { string id = 1; }
+message GetNamespaceResponse { Namespace namespace = 1; }
+message ListNamespacesRequest {}
+message ListNamespacesResponse { repeated Namespace namespaces = 1; }
+message SetNamespaceRequest { Namespace namespace = 1; }
+message SetNamespaceResponse { Namespace namespace = 1; }
+
+// NamespaceService manages namespaces
+service NamespaceService {
+  // DeleteNamespace deletes a namespace
+  rpc DeleteNamespace(DeleteNamespaceRequest) returns (DeleteNamespaceResponse);
+  // GetNamespace retrieves a namespace
+  rpc GetNamespace(GetNamespaceRequest) returns (GetNamespaceResponse);
+  // ListNamespaces lists all namespaces
+  rpc ListNamespaces(ListNamespacesRequest) returns (ListNamespacesResponse);
+  // SetNamespace creates a namespace or, if the id is specified, updates an
+  // existing namespace
+  rpc SetNamespace(SetNamespaceRequest) returns (SetNamespaceResponse);
+}
+
+// NamespacePermission defines a permission binding to an identity
+message NamespacePermission {
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp modified_at = 3;
+  string namespace_id = 4;
+  string namespace_name = 8;
+  string subject_type = 5;
+  string subject_id = 6;
+  string role = 7;
+}
+
+// NamespacePermissionGroup defines a permission binding to a group identity
+message NamespacePermissionGroup {
+  string group_id = 1;
+  string group_name = 2;
+  string group_email = 3;
+  string namespace_id = 4;
+  string namespace_name = 5;
+  string role = 6;
+}
+
+// NamespacePermissionUser defines a permission binding to a user identity
+message NamespacePermissionUser {
+  string user_id = 1;
+  string user_name = 2;
+  string user_email = 3;
+  repeated string group_ids = 4;
+  string namespace_id = 5;
+  string namespace_name = 7;
+  string role = 6;
+}
+
+message DeleteNamespacePermissionRequest { string id = 1; }
+message DeleteNamespacePermissionResponse {}
+message GetNamespacePermissionRequest { string id = 1; }
+message GetNamespacePermissionResponse {
+  NamespacePermission namespace_permission = 1;
+}
+message ListNamespacePermissionsRequest {}
+message ListNamespacePermissionsResponse {
+  repeated NamespacePermission namespace_permissions = 1;
+}
+message ListNamespacePermissionGroupsRequest { string namespace_id = 1; }
+message ListNamespacePermissionGroupsResponse {
+  repeated NamespacePermissionGroup groups = 1;
+}
+message ListNamespacePermissionUsersRequest { string namespace_id = 1; }
+message ListNamespacePermissionUsersResponse {
+  repeated NamespacePermissionUser users = 1;
+}
+message SetNamespacePermissionRequest {
+  NamespacePermission namespace_permission = 1;
+}
+message SetNamespacePermissionResponse {
+  NamespacePermission namespace_permission = 1;
+}
+
+// NamespacePermissionService manages permissions set on namespaces
+service NamespacePermissionService {
+  // DeleteNamespacePermission removes an existing permission definition
+  rpc DeleteNamespacePermission(DeleteNamespacePermissionRequest)
+      returns (DeleteNamespacePermissionResponse);
+  // GetNamespacePermission retrieves an existing permission definition
+  rpc GetNamespacePermission(GetNamespacePermissionRequest)
+      returns (GetNamespacePermissionResponse);
+  // ListNamespacePermissions retrieves existing permissions for all namespaces
+  rpc ListNamespacePermissions(ListNamespacePermissionsRequest)
+      returns (ListNamespacePermissionsResponse);
+  // ListNamespacePermissionGroups retrieves existing group based permissions on
+  // a namespace
+  rpc ListNamespacePermissionGroups(ListNamespacePermissionGroupsRequest)
+      returns (ListNamespacePermissionGroupsResponse);
+  // ListNamespacePermissionUsers retrieves existing user based permissions on a
+  // namespace
+  rpc ListNamespacePermissionUsers(ListNamespacePermissionUsersRequest)
+      returns (ListNamespacePermissionUsersResponse);
+  // SetNamespacePermission set a new permission definition on a namespace
+  rpc SetNamespacePermission(SetNamespacePermissionRequest)
+      returns (SetNamespacePermissionResponse);
+}

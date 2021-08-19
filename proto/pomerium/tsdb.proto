@@ -1,0 +1,393 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "validate/validate.proto";
+
+message Range {
+  // Start time
+  google.protobuf.Timestamp start = 1
+      [ (validate.rules).timestamp.required = true ];
+  // End time
+  google.protobuf.Timestamp end = 2
+      [ (validate.rules).timestamp.required = true ];
+  // Max time between two slices within [start:end]
+  google.protobuf.Duration step = 3
+      [ (validate.rules).duration.required = true ];
+}
+
+// RouteMatcher may be used to query data for multiple routes
+message RouteMatcher {
+  oneof matcher {
+    // route database ID
+    string route_id = 1 [ (validate.rules).string.min_len = 1 ];
+    // namespace ID
+    string namespace_id = 2 [ (validate.rules).string.min_len = 1 ];
+  };
+}
+
+// Rate defines time-sampled values
+enum Rate {
+  // undefined means this is an actual value that is not sampled
+  NONE = 0;
+  // value represents <something> per second
+  PER_SECOND = 1;
+}
+
+// see
+// https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats
+enum Metric {
+  UNDEFINED_METRIC_DO_NOT_USE = 0;
+
+  /*
+      envoy cluster stats
+  */
+  // request counter
+  REQUESTS = 1;
+  // request rate (per second)
+  REQUESTS_RATE = 2;
+  // duration of the request in milliseconds - this is a histogram counter and
+  // requires percentile
+  REQUESTS_DURATION_MS = 3;
+  // returns distribution of response codes
+  RESPONSE_CODES = 4;
+
+  /*
+      authz filter counters
+      https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_authz_filter#statistics
+  */
+
+  // Total responses from the authz filter (note that does not imply that
+  // requests were allowed to pass thru)
+  AUTHZ_OK = 20;
+  // Total responses from the authorizations service that were to deny the
+  // traffic.
+  AUTHZ_DENIED = 21;
+  // Total errors contacting the external service.
+  AUTHZ_ERROR = 22;
+  // Total requests that are allowed without calling external services due to
+  // the filter is disabled.
+  AUTHZ_DISABLED = 23;
+  // Total requests that were error(s) but were allowed through because of
+  // failure_mode_allow set to true.
+  AUTHZ_FAILURE_MODE_ALLOWED = 24;
+
+  /*
+      cluster (upstream hosts) membership gauges
+      https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats.html?highlight=membership_
+  */
+
+  // Current cluster healthy total (inclusive of both health checking and
+  // outlier detection)
+  MEMBERSHIP_HEALTHY = 30;
+  // Current cluster degraded total
+  MEMBERSHIP_DEGRADED = 31;
+  // Current cluster excluded total
+  MEMBERSHIP_EXCLUDED = 32;
+  // Current cluster membership total
+  MEMBERSHIP_TOTAL = 33;
+
+  /*
+   */
+  // bytes received - upstream_cx_rx_bytes_total
+  RX_BYTES = 40;
+  // bytes sent - upstream_cx_tx_bytes_total
+  TX_BYTES = 41;
+  // total of rx + tx bytes
+  TOTAL_BYTES = 42;
+
+  /*
+      system metrics
+  */
+  MEMORY_ALLOCATED = 51;
+  CPU_USAGE = 52;
+
+  /*
+      identity provider specific
+  */
+  IDP_LAST_REFRESH_TIMESTAMP = 60;
+
+  /*
+      configuration related
+  */
+  CONFIG_LAST_RELOAD_SUCCESS_TIMESTAMP = 70;
+  BUILD_INFO = 71;
+  CONFIG_CHECKSUM_LOCAL = 72;
+  CONFIG_CHECKSUM_DATABROKER = 73;
+  CONFIG_VERSION = 74;
+  CONFIG_ERRORS = 75;
+  CONFIG_CONSOLE_VERSION = 76;
+
+  // prometheus metrics
+  PROMETHEUS_STORAGE_BYTES = 80;
+}
+
+message String {
+  string value = 1;
+  google.protobuf.Timestamp ts = 2;
+}
+
+message Scalar {
+  double value = 1;
+  google.protobuf.Timestamp ts = 2;
+}
+
+message TimeSeries {
+  map<string, string> labels = 1;
+  repeated Scalar series = 2;
+}
+
+message Matrix { repeated TimeSeries series = 1; }
+
+message Sample {
+  map<string, string> labels = 1;
+  Scalar value = 2;
+}
+
+message Vector { repeated Sample samples = 1; }
+
+// request route-specific metric time series
+message RouteMetricSeriesRequest {
+  // route to match
+  RouteMatcher matcher = 1 [ (validate.rules).message.required = true ];
+  // metric to retrieve
+  Metric metric = 2 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ],
+  } ];
+  // time range and sampling step
+  Range range = 3 [ (validate.rules).message.required = true ];
+}
+
+// request route-specific metric time series histogram
+message RouteMetricSeriesHistogramRequest {
+  // route to match
+  RouteMatcher matcher = 1 [ (validate.rules).message.required = true ];
+  // metric to retrieve
+  Metric metric = 2 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ],
+  } ];
+  // time range and sampling step
+  Range range = 3 [ (validate.rules).message.required = true ];
+  // if data for the metric was precomputed as histogram, the data may be
+  // requested within a certain percentile
+  double percentile = 4 [ (validate.rules).double = {gte : 0, lte : 1.0} ];
+}
+
+message ServerMetricSeriesRequest {
+  // metric to retrieve
+  Metric metric = 2 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ],
+  } ];
+  // time range and sampling step
+  Range range = 3 [ (validate.rules).message.required = true ];
+  // if data for the metric was precomputed as histogram, the data may be
+  // requested within a certain percentile
+  double percentile = 4 [ (validate.rules).double = {gte : 0, lte : 1.0} ];
+  // server component and instance ID
+  Component component = 5 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ],
+  } ];
+  string instance_id = 6 [ (validate.rules).string.min_len = 1 ];
+}
+
+message ServerMetricRequest {
+  Component component = 1 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ]
+  } ];
+  string instance_id = 2 [ (validate.rules).string.min_len = 1 ];
+  // metric to retrieve
+  Metric metric = 3 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ],
+  } ];
+}
+
+// Used to request a particular metric change within a given period of time
+message RouteMetricChangeRequest {
+  // route to match
+  RouteMatcher matcher = 1 [ (validate.rules).message.required = true ];
+  // metric to retrieve
+  Metric metric = 2 [ (validate.rules).enum.defined_only = true ];
+  // Start time
+  google.protobuf.Timestamp start = 3
+      [ (validate.rules).timestamp.required = true ];
+  // End time
+  google.protobuf.Timestamp end = 4
+      [ (validate.rules).timestamp.required = true ];
+}
+
+// TimeSeries response returns
+message TimeSeriesResponse {
+  // provided for time-sampled values - i.e. requests <per second>
+  Rate rate = 1;
+  // series are (timestamp,value) data points
+  repeated Scalar series = 2;
+}
+
+// Multiple time series response
+message TimeSeriesResponseMulti {
+  Rate rate = 1;
+  repeated TimeSeries series = 2;
+}
+
+// returns histogram values
+message ScalarBuckets {
+  message Bucket {
+    // bucket identifier
+    double less_or_equal_than = 1;
+    // occurences for the given bucket
+    int64 count = 2;
+  }
+  repeated Bucket buckets = 1;
+}
+
+enum Component {
+  UNKNOWN_DO_NOT_USE = 0;
+
+  AUTHENTICATE = 1;
+  AUTHORIZE = 2;
+  DATABROKER = 3;
+  CONSOLE = 4;
+  PROXY = 5;
+
+  // used when all components are running in the all-in-one mode
+  ALL_IN_ONE = 6;
+
+  // Proxy envoy is always reported separately
+  PROXY_ENVOY = 7;
+
+  PROMETHEUS = 8;
+}
+
+// uptime info for all pomerium services for a given period of time
+message UptimeRequest {
+  google.protobuf.Timestamp start = 1
+      [ (validate.rules).timestamp.required = true ];
+  google.protobuf.Timestamp end = 2
+      [ (validate.rules).timestamp.required = true ];
+
+  Component component = 3 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ]
+  } ];
+  string instance_id = 4 [ (validate.rules).string.min_len = 1 ];
+}
+
+/*
+    service uptime is calculated based on liveness probe published by each
+   component it is delivered as 2-level hierarchical periods to make it simple
+   for the UI consumer it does not provide statistics as data representation
+   makes it trivial to calculate depending on the UI requirements
+*/
+message UptimeResponse {
+  enum Status {
+    UNDEFINED_STATUS_DO_NOT_USE = 0;
+    // fully operational
+    LIVE = 1;
+    // no data is available for the period in the prometheus
+    NO_DATA = 2;
+    // prometheus is up but the scraping instance is down
+    DOWN = 3;
+  }
+
+  // summary provides a higher level information re health of the component
+  message Summary {
+    google.protobuf.Timestamp start = 1;
+    google.protobuf.Timestamp end = 2;
+    // aggregate status of the system
+    Status status = 3;
+  }
+
+  repeated Summary intervals = 1;
+}
+
+message GetInstancesRequest {
+  google.protobuf.Timestamp start = 1
+      [ (validate.rules).timestamp.required = true ];
+  google.protobuf.Timestamp end = 2
+      [ (validate.rules).timestamp.required = true ];
+}
+
+message Instances {
+  message Instance {
+    Component component = 1;
+    // ID that should be used in requests for metrics
+    string id = 2;
+    // human readable instance name
+    string name = 3;
+  }
+  repeated Instance instances = 1;
+}
+
+message GetInstanceInfoRequest {
+  Component component = 3 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ]
+  } ];
+  string instance_id = 4 [ (validate.rules).string.min_len = 1 ];
+}
+
+message GetStatusRequest {}
+
+message GetStatusResponse {
+  message Target {
+    enum Health {
+      TARGET_HEALTH_UNKNOWN = 0;
+      TARGET_HEALTH_UP = 1;
+      TARGET_HEALTH_DOWN = 2;
+    }
+    string scrape_url = 1;
+    string global_url = 2;
+    string last_error = 3;
+    google.protobuf.Timestamp last_scrape = 4;
+    Health health = 5;
+  }
+  repeated Target targets = 1;
+  oneof status {
+    bool ok = 2;
+    string last_error = 3;
+  }
+}
+
+// TimeSeriesDB is a generic service that is meant to be able to query for
+// historical metrics and should provide a sufficient abstraction between the UI
+// and underlying time series service, would it be Prometheus, embedded TSDB or
+// other 3rd party provider
+service TimeSeriesDB {
+  // returns metric change for a period of time
+  rpc GetRouteMetricChange(RouteMetricChangeRequest) returns (Scalar);
+  // returns buckets of values for a given metric
+  rpc GetRouteMetricChangeHistogram(RouteMetricChangeRequest)
+      returns (ScalarBuckets);
+  // returns metric change as time series
+  rpc GetRouteMetricSeries(RouteMetricSeriesRequest)
+      returns (TimeSeriesResponse);
+  // returns metric change as time series
+  rpc GetRouteMetricSeriesHistogram(RouteMetricSeriesHistogramRequest)
+      returns (TimeSeriesResponse);
+  // returns multiple annotated time series
+  rpc GetRouteMetricSeriesMulti(RouteMetricSeriesRequest)
+      returns (TimeSeriesResponseMulti);
+  // returns service uptime statistics
+  rpc GetUptime(UptimeRequest) returns (UptimeResponse);
+  // returns list of system services with metrics
+  rpc GetInstances(GetInstancesRequest) returns (Instances);
+  // returns server queries
+  rpc GetServerMetricSeries(ServerMetricSeriesRequest)
+      returns (TimeSeriesResponse);
+  // returns current metric value
+  rpc GetServerMetric(ServerMetricRequest) returns (Sample);
+  // returns current status of scraping targets
+  rpc GetStatus(GetStatusRequest) returns (GetStatusResponse);
+}
+
+message Labels { map<string, string> labels = 1; }

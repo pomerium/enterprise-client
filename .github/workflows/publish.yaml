@@ -1,0 +1,21 @@
+name: Publish
+on:
+  push:
+  pull_request_target:
+jobs:
+  copy-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Copy
+        uses: andstor/copycat-action@v3
+        with:
+          personal_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
+          src_path: /go/pb/.
+          dst_path: /pb/.
+          dst_owner: pomerium
+          dst_repo_name: enterprise-client-go
+          clean: true

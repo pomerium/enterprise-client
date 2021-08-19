@@ -1,0 +1,12 @@
+[submodule "proto/data-plane-api"]
+	path = proto/data-plane-api
+	url = git@github.com:envoyproxy/data-plane-api
+[submodule "proto/googleapis"]
+	path = proto/googleapis
+	url = git@github.com:googleapis/googleapis.git
+[submodule "proto/udpa"]
+	path = proto/udpa
+	url = git@github.com:cncf/udpa.git
+[submodule "proto/protoc-gen-validate"]
+	path = proto/protoc-gen-validate
+	url = git@github.com:envoyproxy/protoc-gen-validate.git

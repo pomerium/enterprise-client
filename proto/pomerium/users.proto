@@ -1,0 +1,200 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+// RecoveryToken is a recovery account for logging into the console without a
+// functioning Pomerium proxy
+message RecoveryToken {
+  string id = 1;
+  string namespace = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp modified_at = 4;
+  google.protobuf.Timestamp expires_at = 5;
+  string public_key = 6;
+}
+
+// GroupInfo defines a directory group in the databroker
+message GroupInfo {
+  string id = 1;
+  string name = 2;
+}
+
+// UserInfo defines the metadata for a directory user in the databroker
+message UserInfo {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  repeated string groups = 4;
+  map<string, string> namespace_roles = 5;
+  string picture_url = 6;
+
+  bool is_impersonated = 7;
+}
+
+message GetUserInfoRequest { optional string user_id = 1; }
+message GetUserInfoResponse { UserInfo user_info = 1; }
+
+// QueryGroupsRequest defines the groups to retrieve
+message QueryGroupsRequest {
+  string query = 1;
+  int64 offset = 2;
+  int64 limit = 3;
+}
+
+// QueryGroupsResponse is the list of groups retrieved from a QueryGroupsRequest
+message QueryGroupsResponse {
+  repeated GroupInfo groups = 1;
+  int64 total_count = 2;
+}
+
+// QueryUsersRequest defines the users to retrieve
+message QueryUsersRequest {
+  // list Users with any fields that match the query
+  string query = 1;
+  // list Users starting from an offset in the total list
+  int64 offset = 2;
+  // limit the number of User entries returned
+  int64 limit = 3;
+}
+
+// QueryUsersResponse is the list of users retrieved from a QueryUsersRequest
+message QueryUsersResponse {
+  repeated UserInfo users = 1;
+  int64 total_count = 2;
+}
+
+// UserService supports querying directory data from the databroker
+service UserService {
+  // GetUserInfo retrieves identity information and permission mappings for a
+  // user
+  rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);
+  // QueryGroups retrieves groups from the databroker based on
+  // QueryGroupsRequest parameters
+  rpc QueryGroups(QueryGroupsRequest) returns (QueryGroupsResponse);
+  // QueryUsers retrieves users from the databroker based on QueryUsersRequest
+  // parameters
+  rpc QueryUsers(QueryUsersRequest) returns (QueryUsersResponse);
+}
+
+// PomeriumServiceAccount defines the identity properties of a service account
+message PomeriumServiceAccount {
+  string id = 1;
+  optional string namespace_id = 8;
+  string user_id = 2;
+  google.protobuf.Timestamp expires_at = 3;
+  google.protobuf.Timestamp issued_at = 4;
+}
+
+message AddPomeriumServiceAccountRequest {
+  PomeriumServiceAccount service_account = 1;
+}
+message AddPomeriumServiceAccountResponse {
+  PomeriumServiceAccount service_account = 1;
+  string JWT = 2;
+}
+message DeletePomeriumServiceAccountRequest { string id = 1; }
+message DeletePomeriumServiceAccountResponse {}
+message GetPomeriumServiceAccountRequest { string id = 1; }
+message GetPomeriumServiceAccountResponse {
+  PomeriumServiceAccount service_account = 1;
+}
+
+// ListPomeriumServiceAccountsRequest specifies the service accounts to list
+message ListPomeriumServiceAccountsRequest { string namespace = 1; }
+
+// ListPomeriumServiceAccountsResponse is the list of service accounts found for
+// a ListPomeriumServiceAccountsRequest
+message ListPomeriumServiceAccountsResponse {
+  repeated PomeriumServiceAccount service_accounts = 1;
+}
+
+// PomeriumServiceAccountService manages service accounts for use with the
+// pomerium console API
+service PomeriumServiceAccountService {
+  // AddPomeriumServiceAccount creates a new service account
+  rpc AddPomeriumServiceAccount(AddPomeriumServiceAccountRequest)
+      returns (AddPomeriumServiceAccountResponse);
+  // DeletePomeriumServiceAccount removes an existing service account
+  rpc DeletePomeriumServiceAccount(DeletePomeriumServiceAccountRequest)
+      returns (DeletePomeriumServiceAccountResponse);
+  // GetPomeriumServiceAccount retrieves an existing service account
+  rpc GetPomeriumServiceAccount(GetPomeriumServiceAccountRequest)
+      returns (GetPomeriumServiceAccountResponse);
+  // ListPomeriumServiceAccounts lists service accounts based on the parameters
+  // in ListPomeriumServiceAccountsRequest
+  rpc ListPomeriumServiceAccounts(ListPomeriumServiceAccountsRequest)
+      returns (ListPomeriumServiceAccountsResponse);
+}
+
+// PomeriumSession defines a user session from the databroker
+message PomeriumSession {
+  message Group {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+  }
+
+  message User {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+  }
+
+  string id = 1;
+  User user = 2;
+  repeated Group groups = 3;
+  string issuer = 4;
+  google.protobuf.Timestamp issued_at = 5;
+  google.protobuf.Timestamp expires_at = 6;
+  repeated string audience = 7;
+  map<string, google.protobuf.ListValue> claims = 8;
+}
+
+message DeletePomeriumSessionRequest { string id = 1; }
+message DeletePomeriumSessionResponse {}
+message GetPomeriumSessionRequest { string id = 1; }
+message GetPomeriumSessionResponse { PomeriumSession session = 1; }
+
+// ListPomeriumSessionsRequest specifies the sessions to list
+message ListPomeriumSessionsRequest {
+  // list Sessions with any fields that contain the query string
+  optional string query = 1;
+  // list Sessions starting from an offset in the total list
+  optional int64 offset = 2;
+  // limit the number of Session entries returned
+  optional int64 limit = 3;
+  // sort the Sessions by newest, oldest or name
+  optional string order_by = 4;
+  optional string user_id = 5;
+}
+// ListPomeriumSessionsResponse is the sessions found for a
+// ListPomeriumSessionsRequest
+message ListPomeriumSessionsResponse {
+  repeated PomeriumSession sessions = 1;
+  int64 total_count = 2;
+}
+
+// ImpersonateRequest defines the identity information to impersonate
+message ImpersonateRequest { string session_id = 1; }
+message ImpersonateResponse {}
+
+// PomeriumSessionService manages user sessions inside the databroker
+service PomeriumSessionService {
+  // DeletePomeriumSession clears an existing user session
+  rpc DeletePomeriumSession(DeletePomeriumSessionRequest)
+      returns (DeletePomeriumSessionResponse);
+  // GetPomeriumSession retrieves information about an existing user session
+  rpc GetPomeriumSession(GetPomeriumSessionRequest)
+      returns (GetPomeriumSessionResponse);
+  // Impersonate updates an existing session to impersonate another identity
+  rpc Impersonate(ImpersonateRequest) returns (ImpersonateResponse);
+  // ListPomeriumSessions lists existing sessions based on the parameters of
+  // ListPomeriumSessionsRequest
+  rpc ListPomeriumSessions(ListPomeriumSessionsRequest)
+      returns (ListPomeriumSessionsResponse);
+}
