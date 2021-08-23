@@ -3,13 +3,9 @@ on:
   push:
   pull_request_target:
 jobs:
-  copy-code:
+  copy-go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
       - name: Copy generated Go
         uses: andstor/copycat-action@v3
         with:
@@ -19,7 +15,9 @@ jobs:
           dst_owner: pomerium
           dst_repo_name: enterprise-client-go
           clean: true
-
+  copy-python:
+    runs-on: ubuntu-latest
+    steps:
       - name: Copy generated Python
         uses: andstor/copycat-action@v3
         with:
