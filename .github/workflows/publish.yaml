@@ -27,7 +27,7 @@ jobs:
         uses: andstor/copycat-action@v3
         with:
           personal_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
-          src_path: /python/pb/${{ matrix.dep }}.
+          src_path: /python/pb/${{ matrix.dep }}/.
           dst_path: /src/${{ matrix.dep }}/.
           dst_owner: pomerium
           dst_repo_name: enterprise-client-python
