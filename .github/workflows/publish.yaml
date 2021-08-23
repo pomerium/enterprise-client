@@ -10,7 +10,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Copy
+      - name: Copy generated Go
         uses: andstor/copycat-action@v3
         with:
           personal_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
@@ -18,4 +18,14 @@ jobs:
           dst_path: /pb/.
           dst_owner: pomerium
           dst_repo_name: enterprise-client-go
+          clean: true
+
+      - name: Copy generated Python
+        uses: andstor/copycat-action@v3
+        with:
+          personal_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
+          src_path: /python/pb/.
+          dst_path: /pb/.
+          dst_owner: pomerium
+          dst_repo_name: enterprise-client-python
           clean: true
