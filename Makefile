@@ -29,13 +29,13 @@ clean-python:
 .PHONY: gen-python
 gen-python:
 	@echo "==> $@"
-	@mkdir -p $(PREFIX)/python/pb $(PREFIX)/python/pb/pomerium
-	$(PYTHON) -m grpc_tools.protoc $(INCLUDES) --experimental_allow_proto3_optional --python_out=python/pb/ $(DEPS_PROTOS)
-	$(PYTHON) -m grpc_tools.protoc $(INCLUDES) --experimental_allow_proto3_optional --python_out=python/pb/pomerium --grpc_python_out=python/pb/pomerium $(PROTOS)
+	@mkdir -p $(PREFIX)/python/pb $(PREFIX)/python/pb/pomerium/pb
+	$(PYTHON) -m grpc_tools.protoc $(INCLUDES) --experimental_allow_proto3_optional --python_out=python/pb $(DEPS_PROTOS)
+	$(PYTHON) -m grpc_tools.protoc $(INCLUDES) --experimental_allow_proto3_optional --python_out=python/pb/pomerium/pb --grpc_python_out=python/pb/pomerium/pb $(PROTOS)
 	# marking all directories as modules
-	@find $(PREFIX)/python/pb/{pomerium,envoy,udpa,validate,xds} -type d -exec touch {}/__init__.py \;
+	@find $(PREFIX)/python/pb/{pomerium/pb,envoy,udpa,validate,xds} -type d -exec touch {}/__init__.py \;
 	# converting python to python3
-	@2to3 -w -n $(PREFIX)/python/pb/
+	@2to3 -w -n $(PREFIX)/python/pb
 
 .PHONY: pkg-python
 pkg-python:
