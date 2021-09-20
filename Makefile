@@ -61,7 +61,7 @@ pkg: pkg-python
 
 .PHONY: docs
 docs:
-	protoc --doc_out=./ --doc_opt=markdown,README.md \
+	protoc --doc_out=./ --doc_opt=.template.mustache,API.md \
 		--experimental_allow_proto3_optional=true \
 		$(INCLUDES) \
 		$(PROTOS)
