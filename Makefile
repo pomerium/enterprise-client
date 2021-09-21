@@ -26,12 +26,13 @@ clean-python:
 	@echo "==> $@"
 	$(RM) -r $(PREFIX)/python/pb
 
+# requires: pip install grpcio grpcio-tools mypy-protobuf 
 .PHONY: gen-python
 gen-python:
 	@echo "==> $@"
 	@mkdir -p $(PREFIX)/python/pb $(PREFIX)/python/pb/pomerium/pb
-	$(PYTHON) -m grpc_tools.protoc $(INCLUDES) --experimental_allow_proto3_optional --python_out=python/pb $(DEPS_PROTOS)
-	$(PYTHON) -m grpc_tools.protoc $(INCLUDES) --experimental_allow_proto3_optional --python_out=python/pb/pomerium/pb --grpc_python_out=python/pb/pomerium/pb $(PROTOS)
+	$(PYTHON) -m grpc_tools.protoc $(INCLUDES) --experimental_allow_proto3_optional --python_out=python/pb --mypy_out=python/pb $(DEPS_PROTOS)
+	$(PYTHON) -m grpc_tools.protoc $(INCLUDES) --experimental_allow_proto3_optional --python_out=python/pb/pomerium/pb --mypy_out=python/pb/pomerium/pb --grpc_python_out=python/pb/pomerium/pb --mypy_grpc_out=python/pb/pomerium/pb $(PROTOS)
 	# marking all directories as modules
 	@find $(PREFIX)/python/pb/{pomerium/pb,envoy,udpa,validate,xds} -type d -exec touch {}/__init__.py \;
 	# converting python to python3
@@ -65,4 +66,3 @@ docs:
 		--experimental_allow_proto3_optional=true \
 		$(INCLUDES) \
 		$(PROTOS)
-
