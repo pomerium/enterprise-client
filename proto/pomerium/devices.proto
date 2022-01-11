@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+enum DeviceKind {
+  UNKNOWN = 0;
+  FIDO_U2F = 1;
+  ANDROID = 2;
+  APPLE = 3;
+  TPM = 4;
+  WINDOWS = 5;
+}
+
+message WebAuthnOptions {
+  enum AttestationConveyancePreference {
+    NONE = 0;
+    INDIRECT = 1;
+    DIRECT = 2;
+    ENTERPRISE = 3;
+  }
+  enum AuthenticatorAttachment {
+    PLATFORM = 0;
+    CROSS_PLATFORM = 2;
+  }
+  enum PublicKeyCredentialType { PUBLIC_KEY = 0; }
+  enum ResidentKeyRequirement {
+    RESIDENT_KEY_DISCOURAGED = 0;
+    RESIDENT_KEY_PREFERRED = 1;
+    RESIDENT_KEY_REQUIRED = 2;
+  }
+  enum UserVerificationRequirement {
+    USER_VERIFICATION_DISCOURAGED = 0;
+    USER_VERIFICATION_PREFERRED = 1;
+    USER_VERIFICATION_REQUIRED = 2;
+  }
+
+  message AuthenticatorSelectionCriteria {
+    optional AuthenticatorAttachment authenticator_attachment = 1;
+    optional bool require_resident_key = 2;
+    optional ResidentKeyRequirement resident_key_requirement = 3;
+    optional UserVerificationRequirement user_verification = 4;
+  }
+  message PublicKeyCredentialParameters {
+    int64 alg = 1;
+    PublicKeyCredentialType type = 2;
+  }
+
+  optional AttestationConveyancePreference attestation = 1;
+  optional AuthenticatorSelectionCriteria authenticator_selection = 2;
+  repeated PublicKeyCredentialParameters pub_key_cred_params = 3;
+}
+
+// A DeviceType constrains which kinds of devices are allowed to be registered.
+message DeviceType {
+  message WebAuthn { WebAuthnOptions options = 1; }
+
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp modified_at = 3;
+  google.protobuf.Timestamp deleted_at = 4;
+  string name = 5;
+  oneof specifier { WebAuthn webauthn = 6; }
+}
+
+// A DeviceEnrollment is used to approve a user's device.
+message DeviceEnrollment {
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp modified_at = 3;
+  google.protobuf.Timestamp deleted_at = 4;
+
+  string device_type_id = 5;
+  string device_credential_id = 6;
+  string user_id = 7;
+
+  google.protobuf.Timestamp approved_at = 8;
+  string approved_by_user_id = 9;
+  google.protobuf.Timestamp enrolled_at = 10;
+  string user_agent = 11;
+  string ip_address = 12;
+}
+
+// A DeviceCredential is a user's device-specific credential.
+message DeviceCredential {
+  message WebAuthn {
+    bytes id = 1;
+    bytes public_key = 2;
+
+    // the options that were used to do initial registration
+    bytes register_options = 3;
+    // the response returned from initial registration
+    bytes register_response = 4;
+    // subsequent authenticate responses
+    repeated bytes authenticate_response = 5;
+  }
+
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp modified_at = 3;
+  google.protobuf.Timestamp deleted_at = 4;
+
+  string device_type_id = 5;
+  string device_enrollment_id = 6;
+  string user_id = 7;
+
+  oneof specifier { WebAuthn webauthn = 8; }
+}
+
+// A DeviceOwnerCredentialRecord is used to track credential owners to prevent
+// credential re-use.
+message DeviceOwnerCredentialRecord {
+  bytes id = 1;
+  bytes owner_id = 2;
+  bytes public_key = 3;
+}
+
+message ApproveDeviceRequest {
+  oneof id {
+    string credential_id = 1;
+    string enrollment_id = 2;
+  }
+}
+
+message CreateDeviceEnrollmentRequest {
+  DeviceEnrollment enrollment = 1;
+  string redirect_url = 2;
+}
+
+message CreateDeviceEnrollmentResponse {
+  DeviceEnrollment enrollment = 1;
+  string enrollment_url = 2;
+}
+
+message DeleteDeviceRequest {
+  oneof id {
+    string credential_id = 1;
+    string enrollment_id = 2;
+  }
+}
+
+message DeleteDeviceTypeRequest { string type_id = 1; }
+
+message ListDevicesRequest {
+  optional string type_id = 1;
+  optional string user_id = 2;
+  optional string approved_by = 3;
+}
+
+message ListDevicesResponse {
+  message Device {
+    DeviceType type = 1;
+    DeviceCredential credential = 2;
+    DeviceEnrollment enrollment = 3;
+    DeviceKind kind = 4;
+
+    string user_name = 5;
+    string approved_by_user_name = 6;
+  }
+  repeated Device devices = 4;
+}
+
+message ListDeviceTypesResponse { repeated DeviceType types = 1; }
+
+message SetDeviceTypeRequest { DeviceType type = 1; }
+
+message SetDeviceTypeResponse { DeviceType type = 1; }
+
+// DeviceService manages device credentials, enrollments and types
+service DeviceService {
+  rpc ApproveDevice(ApproveDeviceRequest) returns (google.protobuf.Empty);
+  rpc CreateDeviceEnrollment(CreateDeviceEnrollmentRequest)
+      returns (CreateDeviceEnrollmentResponse);
+  rpc SetDeviceType(SetDeviceTypeRequest) returns (SetDeviceTypeResponse);
+  rpc DeleteDevice(DeleteDeviceRequest) returns (google.protobuf.Empty);
+  rpc DeleteDeviceType(DeleteDeviceTypeRequest) returns (google.protobuf.Empty);
+  rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse);
+  rpc ListDeviceTypes(google.protobuf.Empty) returns (ListDeviceTypesResponse);
+}

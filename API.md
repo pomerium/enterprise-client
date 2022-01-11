@@ -16,6 +16,27 @@
 
 
 
+  - [DeviceService](#deviceservice)
+  
+    - [ApproveDevice](#approvedevice)
+  
+    - [CreateDeviceEnrollment](#createdeviceenrollment)
+  
+    - [SetDeviceType](#setdevicetype)
+  
+    - [DeleteDevice](#deletedevice)
+  
+    - [DeleteDeviceType](#deletedevicetype)
+  
+    - [ListDevices](#listdevices)
+  
+    - [ListDeviceTypes](#listdevicetypes)
+  
+
+
+
+
+
   - [Events](#events)
   
     - [Sync](#sync)
@@ -273,6 +294,8 @@ history
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | entry | [ ActivityLogEntry](#activitylogentry) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _previous_entry_id.previous_entry_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _next_entry_id.next_entry_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -389,6 +412,402 @@ ListActivityLogEntriesRequest
  <!-- end messages -->
 
 ## Enums
+ <!-- end Enums -->
+
+
+# DeviceService
+DeviceService manages device credentials, enrollments and types
+
+## Methods
+### ApproveDevice
+
+> **rpc** ApproveDevice([ApproveDeviceRequest](#approvedevicerequest))
+    [.google.protobuf.Empty](#googleprotobufempty)
+
+
+### CreateDeviceEnrollment
+
+> **rpc** CreateDeviceEnrollment([CreateDeviceEnrollmentRequest](#createdeviceenrollmentrequest))
+    [CreateDeviceEnrollmentResponse](#createdeviceenrollmentresponse)
+
+
+### SetDeviceType
+
+> **rpc** SetDeviceType([SetDeviceTypeRequest](#setdevicetyperequest))
+    [SetDeviceTypeResponse](#setdevicetyperesponse)
+
+
+### DeleteDevice
+
+> **rpc** DeleteDevice([DeleteDeviceRequest](#deletedevicerequest))
+    [.google.protobuf.Empty](#googleprotobufempty)
+
+
+### DeleteDeviceType
+
+> **rpc** DeleteDeviceType([DeleteDeviceTypeRequest](#deletedevicetyperequest))
+    [.google.protobuf.Empty](#googleprotobufempty)
+
+
+### ListDevices
+
+> **rpc** ListDevices([ListDevicesRequest](#listdevicesrequest))
+    [ListDevicesResponse](#listdevicesresponse)
+
+
+### ListDeviceTypes
+
+> **rpc** ListDeviceTypes([.google.protobuf.Empty](#googleprotobufempty))
+    [ListDeviceTypesResponse](#listdevicetypesresponse)
+
+
+ <!-- end methods -->
+ <!-- end services -->
+
+## Messages
+
+
+### ApproveDeviceRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) id.credential_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) id.enrollment_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### CreateDeviceEnrollmentRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| enrollment | [ DeviceEnrollment](#deviceenrollment) | none |
+| redirect_url | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### CreateDeviceEnrollmentResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| enrollment | [ DeviceEnrollment](#deviceenrollment) | none |
+| enrollment_url | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteDeviceRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) id.credential_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) id.enrollment_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteDeviceTypeRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| type_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeviceCredential
+A DeviceCredential is a user's device-specific credential.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| device_type_id | [ string](#string) | none |
+| device_enrollment_id | [ string](#string) | none |
+| user_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) specifier.webauthn | [ DeviceCredential.WebAuthn](#devicecredentialwebauthn) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeviceCredential.WebAuthn
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ bytes](#bytes) | none |
+| public_key | [ bytes](#bytes) | none |
+| register_options | [ bytes](#bytes) | the options that were used to do initial registration |
+| register_response | [ bytes](#bytes) | the response returned from initial registration |
+| authenticate_response | [repeated bytes](#bytes) | subsequent authenticate responses |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeviceEnrollment
+A DeviceEnrollment is used to approve a user's device.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| device_type_id | [ string](#string) | none |
+| device_credential_id | [ string](#string) | none |
+| user_id | [ string](#string) | none |
+| approved_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| approved_by_user_id | [ string](#string) | none |
+| enrolled_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| user_agent | [ string](#string) | none |
+| ip_address | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeviceOwnerCredentialRecord
+A DeviceOwnerCredentialRecord is used to track credential owners to prevent
+credential re-use.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ bytes](#bytes) | none |
+| owner_id | [ bytes](#bytes) | none |
+| public_key | [ bytes](#bytes) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeviceType
+A DeviceType constrains which kinds of devices are allowed to be registered.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| name | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) specifier.webauthn | [ DeviceType.WebAuthn](#devicetypewebauthn) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeviceType.WebAuthn
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| options | [ WebAuthnOptions](#webauthnoptions) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListDeviceTypesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| types | [repeated DeviceType](#devicetype) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListDevicesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _type_id.type_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_id.user_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _approved_by.approved_by | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListDevicesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| devices | [repeated ListDevicesResponse.Device](#listdevicesresponsedevice) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListDevicesResponse.Device
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| type | [ DeviceType](#devicetype) | none |
+| credential | [ DeviceCredential](#devicecredential) | none |
+| enrollment | [ DeviceEnrollment](#deviceenrollment) | none |
+| kind | [ DeviceKind](#devicekind) | none |
+| user_name | [ string](#string) | none |
+| approved_by_user_name | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetDeviceTypeRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| type | [ DeviceType](#devicetype) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetDeviceTypeResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| type | [ DeviceType](#devicetype) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### WebAuthnOptions
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _attestation.attestation | [optional WebAuthnOptions.AttestationConveyancePreference](#webauthnoptionsattestationconveyancepreference) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authenticator_selection.authenticator_selection | [optional WebAuthnOptions.AuthenticatorSelectionCriteria](#webauthnoptionsauthenticatorselectioncriteria) | none |
+| pub_key_cred_params | [repeated WebAuthnOptions.PublicKeyCredentialParameters](#webauthnoptionspublickeycredentialparameters) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### WebAuthnOptions.AuthenticatorSelectionCriteria
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authenticator_attachment.authenticator_attachment | [optional WebAuthnOptions.AuthenticatorAttachment](#webauthnoptionsauthenticatorattachment) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _require_resident_key.require_resident_key | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _resident_key_requirement.resident_key_requirement | [optional WebAuthnOptions.ResidentKeyRequirement](#webauthnoptionsresidentkeyrequirement) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_verification.user_verification | [optional WebAuthnOptions.UserVerificationRequirement](#webauthnoptionsuserverificationrequirement) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### WebAuthnOptions.PublicKeyCredentialParameters
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| alg | [ int64](#int64) | none |
+| type | [ WebAuthnOptions.PublicKeyCredentialType](#webauthnoptionspublickeycredentialtype) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+
+
+### DeviceKind {#devicekind}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN | 0 | none |
+| FIDO_U2F | 1 | none |
+| ANDROID | 2 | none |
+| APPLE | 3 | none |
+| TPM | 4 | none |
+| WINDOWS | 5 | none |
+
+
+
+
+### WebAuthnOptions.AttestationConveyancePreference {#webauthnoptionsattestationconveyancepreference}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| NONE | 0 | none |
+| INDIRECT | 1 | none |
+| DIRECT | 2 | none |
+| ENTERPRISE | 3 | none |
+
+
+
+
+### WebAuthnOptions.AuthenticatorAttachment {#webauthnoptionsauthenticatorattachment}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PLATFORM | 0 | none |
+| CROSS_PLATFORM | 2 | none |
+
+
+
+
+### WebAuthnOptions.PublicKeyCredentialType {#webauthnoptionspublickeycredentialtype}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PUBLIC_KEY | 0 | none |
+
+
+
+
+### WebAuthnOptions.ResidentKeyRequirement {#webauthnoptionsresidentkeyrequirement}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| RESIDENT_KEY_DISCOURAGED | 0 | none |
+| RESIDENT_KEY_PREFERRED | 1 | none |
+| RESIDENT_KEY_REQUIRED | 2 | none |
+
+
+
+
+### WebAuthnOptions.UserVerificationRequirement {#webauthnoptionsuserverificationrequirement}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| USER_VERIFICATION_DISCOURAGED | 0 | none |
+| USER_VERIFICATION_PREFERRED | 1 | none |
+| USER_VERIFICATION_REQUIRED | 2 | none |
+
+
  <!-- end Enums -->
 
 
@@ -669,6 +1088,7 @@ ListKeyPairsRequest defines the types of key pairs to list
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Key Pairs starting from an offset in the total list |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of entries returned |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | `newest`, `oldest`, `name`, `from` |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _domain.domain | [optional string](#string) | return key pairs that match the given domain |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1719,7 +2139,6 @@ Settings defines the global pomerium settings
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_zipkin_endpoint.tracing_zipkin_endpoint | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_address.grpc_address | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_insecure.grpc_insecure | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _forward_auth_url.forward_auth_url | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cache_service_url.cache_service_url | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _databroker_service_url.databroker_service_url | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _client_ca.client_ca | [optional string](#string) | none |
@@ -2301,6 +2720,18 @@ https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manag
 | MEMORY_ALLOCATED | 51 | system metrics |
 | CPU_USAGE | 52 | none |
 | IDP_LAST_REFRESH_TIMESTAMP | 60 | identity provider specific |
+| IDP_LAST_USER_REFRESH_SUCCESS_TIMESTAMP | 100 | none |
+| IDP_LAST_USER_REFRESH_ERROR_TIMESTAMP | 101 | none |
+| IDP_LAST_USER_REFRESH_ERROR | 102 | none |
+| IDP_LAST_USER_REFRESH_SUCCESS | 103 | none |
+| IDP_LAST_USER_GROUP_REFRESH_SUCCESS_TIMESTAMP | 104 | none |
+| IDP_LAST_USER_GROUP_REFRESH_ERROR_TIMESTAMP | 105 | none |
+| IDP_LAST_USER_GROUP_REFRESH_ERROR | 106 | none |
+| IDP_LAST_USER_GROUP_REFRESH_SUCCESS | 107 | none |
+| IDP_LAST_SESSION_REFRESH_SUCCESS_TIMESTAMP | 108 | none |
+| IDP_LAST_SESSION_REFRESH_ERROR_TIMESTAMP | 109 | none |
+| IDP_LAST_SESSION_REFRESH_ERROR | 110 | none |
+| IDP_LAST_SESSION_REFRESH_SUCCESS | 111 | none |
 | CONFIG_LAST_RELOAD_SUCCESS_TIMESTAMP | 70 | configuration related |
 | BUILD_INFO | 71 | none |
 | CONFIG_CHECKSUM_LOCAL | 72 | none |
@@ -2641,6 +3072,7 @@ PomeriumServiceAccount defines the identity properties of a service account
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _namespace_id.namespace_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _description.description | [optional string](#string) | none |
 | user_id | [ string](#string) | none |
 | expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | issued_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |

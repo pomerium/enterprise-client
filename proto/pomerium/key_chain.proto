@@ -129,6 +129,8 @@ message ListKeyPairsRequest {
   optional int64 limit = 4;
   // `newest`, `oldest`, `name`, `from`
   optional string order_by = 5;
+  // return key pairs that match the given domain
+  optional string domain = 6;
 }
 
 // ListKeyPairsResponse is the list of Key Pairs found from a

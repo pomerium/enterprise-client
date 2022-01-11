@@ -41,7 +41,11 @@ message ActivityLogEntry {
 }
 
 message GetActivityLogEntryRequest { string id = 1; }
-message GetActivityLogEntryResponse { ActivityLogEntry entry = 1; }
+message GetActivityLogEntryResponse {
+  ActivityLogEntry entry = 1;
+  optional string previous_entry_id = 2;
+  optional string next_entry_id = 3;
+}
 
 // ListActivityLogEntriesRequest defines the types of Activity Log entries to
 // list
@@ -74,7 +78,8 @@ message ListActivityLogEntriesRequest {
 
   // used to sort the db query
   message Sort {
-    // `activity_type` | `created_at` | `namespace_name` | `user_name` | `user_email` | `entity_type`
+    // `activity_type` | `created_at` | `namespace_name` | `user_name` |
+    // `user_email` | `entity_type`
     string column = 1;
     // `ASC` | `DESC`
     string direction = 2;
