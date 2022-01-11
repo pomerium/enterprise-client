@@ -56,7 +56,6 @@ gen-go:
 	@mkdir -p $(PREFIX)/go/pb
 	protoc $(INCLUDES) --experimental_allow_proto3_optional --go_opt="$(GO_ENVOY_PATHS)" --go_out="plugins=grpc,paths=source_relative:go/pb" $(PROTOS)
 
-
 .PHONY: gen
 gen: gen-python gen-go docs
 
