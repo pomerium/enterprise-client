@@ -54,7 +54,6 @@ clean-go:
 gen-go:
 	@echo "==> $@"
 	@mkdir -p $(PREFIX)/go/pb
-	# protoc $(INCLUDES) --experimental_allow_proto3_optional --go_out="paths=source_relative:go/pb" --go-grpc_out="paths=source_relative:go/pb" $(PROTOS)
 	protoc $(INCLUDES) --experimental_allow_proto3_optional --go_opt="$(GO_ENVOY_PATHS)" --go_out="plugins=grpc,paths=source_relative:go/pb" $(PROTOS)
 
 
