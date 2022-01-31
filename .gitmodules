@@ -10,3 +10,6 @@
 [submodule "proto/protoc-gen-validate"]
 	path = proto/protoc-gen-validate
 	url = git@github.com:envoyproxy/protoc-gen-validate.git
+[submodule "proto/xds"]
+	path = proto/xds
+	url = https://github.com/cncf/xds/

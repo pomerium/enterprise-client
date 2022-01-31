@@ -63,7 +63,6 @@ message Settings {
   optional string tracing_zipkin_endpoint = 45;
   optional string grpc_address = 46;
   optional bool grpc_insecure = 47;
-  optional string forward_auth_url = 50;
   optional string cache_service_url = 51;
   optional string databroker_service_url = 52;
   optional string client_ca = 53;

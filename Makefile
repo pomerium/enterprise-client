@@ -1,14 +1,16 @@
 PREFIX?=$(shell pwd)
-INCLUDES=-I proto/protoc-gen-validate -I proto/udpa -I proto/data-plane-api -I proto/pomerium -I proto/googleapis
+INCLUDES=-I proto/protoc-gen-validate -I proto/data-plane-api -I proto/pomerium -I proto/googleapis -I proto/xds
 DEPS_PROTOS=proto/data-plane-api/envoy/config/core/v3/*.proto \
     proto/data-plane-api/envoy/config/cluster/v3/*.proto \
     $(shell find proto/data-plane-api/envoy/config/route -type f -name '*.proto') \
     $(shell find proto/data-plane-api/envoy/config/endpoint -type f -name '*.proto') \
     $(shell find proto/data-plane-api/envoy/annotations -type f -name '*.proto') \
     $(shell find proto/data-plane-api/envoy/type -type f -name '*.proto') \
-	proto/protoc-gen-validate/validate/*.proto \
-    proto/udpa/udpa/annotations/*.proto \
-    proto/udpa/xds/core/v3/*.proto
+ 	proto/protoc-gen-validate/validate/*.proto \
+    proto/xds/udpa/annotations/*.proto \
+    proto/xds/xds/core/v3/*.proto \
+    proto/xds/xds/annotations/v3/*.proto
+
 GO_ENVOY_PATHS=Menvoy/config/route/v3/route_components.proto=github.com/envoyproxy/go-control-plane/envoy/config/route/v3,Menvoy/config/cluster/v3/cluster.proto=github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3
 
 PROTOS=proto/pomerium/*.proto
