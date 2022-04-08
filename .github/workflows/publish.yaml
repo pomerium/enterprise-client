@@ -15,6 +15,7 @@ jobs:
           dst_path: /pb/.
           dst_owner: pomerium
           dst_repo_name: enterprise-client-go
+          dst_branch: main
           clean: true
 
   copy-python-deps:
@@ -32,6 +33,7 @@ jobs:
           dst_path: /src/${{ matrix.dep }}/.
           dst_owner: pomerium
           dst_repo_name: enterprise-client-python
+          dst_branch: main
           clean: true
 
   copy-python:
@@ -45,4 +47,5 @@ jobs:
           dst_path: /src/pomerium/pb/.
           dst_owner: pomerium
           dst_repo_name: enterprise-client-python
+          dst_branch: main
           clean: true
