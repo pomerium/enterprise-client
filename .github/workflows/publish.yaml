@@ -23,7 +23,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        dep: [envoy, udpa, validate, xds]
+        dep: [envoy, validate, xds]
     steps:
       - name: Copy generated Python
         uses: andstor/copycat-action@v3
