@@ -18,6 +18,12 @@ message RouteRewriteHeader {
 
 // Route defines a proxy route's settings and policy associations
 message Route {
+  enum AuthorizationHeaderMode {
+    PASS_THROUGH = 0;
+    ACCESS_TOKEN = 1;
+    ID_TOKEN = 2;
+  }
+
   string id = 1;
   string namespace_id = 29;
   google.protobuf.Timestamp created_at = 2;
@@ -63,6 +69,7 @@ message Route {
   map<string, string> set_request_headers = 23;
   repeated string remove_request_headers = 24;
   repeated RouteRewriteHeader rewrite_response_headers = 44;
+  AuthorizationHeaderMode set_authorization_header = 50;
 
   optional bool preserve_host_header = 25;
   optional bool pass_identity_headers = 26;

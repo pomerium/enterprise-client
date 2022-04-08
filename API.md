@@ -169,6 +169,10 @@
   
     - [GetStatus](#getstatus)
   
+    - [GetLastError](#getlasterror)
+  
+    - [GetUsageReport](#getusagereport)
+  
 
 
 
@@ -1948,6 +1952,7 @@ Route defines a proxy route's settings and policy associations
 | set_request_headers | [map Route.SetRequestHeadersEntry](#routesetrequestheadersentry) | none |
 | remove_request_headers | [repeated string](#string) | none |
 | rewrite_response_headers | [repeated RouteRewriteHeader](#routerewriteheader) | none |
+| set_authorization_header | [ Route.AuthorizationHeaderMode](#routeauthorizationheadermode) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _preserve_host_header.preserve_host_header | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token.kubernetes_service_account_token | [optional string](#string) | none |
@@ -2022,6 +2027,18 @@ LoadRoutesRequest
  <!-- end messages -->
 
 ## Enums
+
+
+### Route.AuthorizationHeaderMode {#routeauthorizationheadermode}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PASS_THROUGH | 0 | none |
+| ACCESS_TOKEN | 1 | none |
+| ID_TOKEN | 2 | none |
+
+
  <!-- end Enums -->
 
 
@@ -2274,10 +2291,46 @@ returns current metric value
     [GetStatusResponse](#getstatusresponse)
 
 returns current status of scraping targets
+### GetLastError
+
+> **rpc** GetLastError([LastErrorRequest](#lasterrorrequest))
+    [LastErrorResponse](#lasterrorresponse)
+
+returns last known error for a metric, if available
+### GetUsageReport
+
+> **rpc** GetUsageReport([UsageReportRequest](#usagereportrequest))
+    [UsageReportResponse](#usagereportresponse)
+
+returns usage report
  <!-- end methods -->
  <!-- end services -->
 
 ## Messages
+
+
+### ConsoleMetricRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| metric | [ Metric](#metric) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ConsoleMetricSeriesRequest
+Requests console metric time series
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| metric | [ Metric](#metric) | metric to retrieve |
+| start | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | Start time |
+| end | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | End time |
+ <!-- end Fields -->
+ <!-- end HasFields -->
 
 
 ### GetInstanceInfoRequest
@@ -2381,6 +2434,29 @@ returns current status of scraping targets
 | ----- | ---- | ----------- |
 | key | [ string](#string) | none |
 | value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### LastErrorRequest
+LastErrorRequest will fetch last known error for certain error-related metrics
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| metric | [ Metric](#metric) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### LastErrorResponse
+LastErrorResponse returns last known error for certain error-related metrics
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| ts | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| message | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2650,6 +2726,23 @@ summary provides a higher level information re health of the component
  <!-- end HasFields -->
 
 
+### UsageReportRequest
+
+
+ <!-- end HasFields -->
+
+
+### UsageReportResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| report | [ bytes](#bytes) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### Vector
 
 
@@ -2740,6 +2833,8 @@ https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manag
 | CONFIG_ERRORS | 75 | none |
 | CONFIG_CONSOLE_VERSION | 76 | none |
 | PROMETHEUS_STORAGE_BYTES | 80 | prometheus metrics |
+| MONTHLY_ACTIVE_USERS_THRESHOLD | 90 | console metrics |
+| MONTHLY_ACTIVE_USERS | 91 | none |
 
 
 
@@ -2958,6 +3053,7 @@ parameters
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | session | [ PomeriumSession](#pomeriumsession) | none |
+| associated_sessions | [repeated PomeriumSession](#pomeriumsession) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 

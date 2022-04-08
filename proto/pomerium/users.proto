@@ -159,7 +159,10 @@ message PomeriumSession {
 message DeletePomeriumSessionRequest { string id = 1; }
 message DeletePomeriumSessionResponse {}
 message GetPomeriumSessionRequest { string id = 1; }
-message GetPomeriumSessionResponse { PomeriumSession session = 1; }
+message GetPomeriumSessionResponse {
+  PomeriumSession session = 1;
+  repeated PomeriumSession associated_sessions = 2;
+}
 
 // ListPomeriumSessionsRequest specifies the sessions to list
 message ListPomeriumSessionsRequest {

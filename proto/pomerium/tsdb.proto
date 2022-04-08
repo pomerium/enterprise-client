@@ -136,6 +136,10 @@ enum Metric {
 
   // prometheus metrics
   PROMETHEUS_STORAGE_BYTES = 80;
+
+  // console metrics
+  MONTHLY_ACTIVE_USERS_THRESHOLD = 90;
+  MONTHLY_ACTIVE_USERS = 91;
 }
 
 message String {
@@ -221,6 +225,42 @@ message ServerMetricRequest {
     defined_only : true,
     not_in : [ 0 ],
   } ];
+}
+
+message ConsoleMetricRequest {
+  Metric metric = 1 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ],
+  } ];
+}
+
+// Requests console metric time series
+message ConsoleMetricSeriesRequest {
+  // metric to retrieve
+  Metric metric = 1 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ],
+  } ];
+  // Start time
+  google.protobuf.Timestamp start = 2
+      [ (validate.rules).timestamp.required = true ];
+  // End time
+  google.protobuf.Timestamp end = 3
+      [ (validate.rules).timestamp.required = true ];
+}
+
+// LastErrorRequest will fetch last known error for certain error-related metrics
+message LastErrorRequest {
+  Metric metric = 1 [ (validate.rules).enum = {
+    defined_only : true,
+    not_in : [ 0 ],
+  } ];
+}
+
+// LastErrorResponse returns last known error for certain error-related metrics
+message LastErrorResponse {
+  google.protobuf.Timestamp ts = 1;
+  string message = 2;
 }
 
 // Used to request a particular metric change within a given period of time
@@ -370,6 +410,11 @@ message GetStatusResponse {
   }
 }
 
+message UsageReportRequest {}
+message UsageReportResponse {
+  bytes report = 1;
+}
+
 // TimeSeriesDB is a generic service that is meant to be able to query for
 // historical metrics and should provide a sufficient abstraction between the UI
 // and underlying time series service, would it be Prometheus, embedded TSDB or
@@ -400,6 +445,10 @@ service TimeSeriesDB {
   rpc GetServerMetric(ServerMetricRequest) returns (Sample);
   // returns current status of scraping targets
   rpc GetStatus(GetStatusRequest) returns (GetStatusResponse);
+  // returns last known error for a metric, if available
+  rpc GetLastError(LastErrorRequest) returns (LastErrorResponse);
+  // returns usage report
+  rpc GetUsageReport(UsageReportRequest) returns (UsageReportResponse);
 }
 
 message Labels { map<string, string> labels = 1; }
