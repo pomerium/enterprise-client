@@ -3,42 +3,54 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class ContextParams(google.protobuf.message.Message):
     """Additional parameters that can be used to select resource variants. These include any
     global context parameters, per-resource type client feature capabilities and per-resource
     type functional attributes. All per-resource type attributes will be `xds.resource.`
     prefixed and some of these are documented below:
+
     `xds.resource.listening_address`: The value is "IP:port" (e.g. "10.1.1.3:8080") which is
       the listening address of a Listener. Used in a Listener resource query.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class ParamsEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
-        value: typing.Text = ...
-        def __init__(self,
+        key: builtins.str
+        value: builtins.str
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            value : typing.Text = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+            key: builtins.str = ...,
+            value: builtins.str = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     PARAMS_FIELD_NUMBER: builtins.int
     @property
-    def params(self) -> google.protobuf.internal.containers.ScalarMap[typing.Text, typing.Text]: ...
-    def __init__(self,
+    def params(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]: ...
+    def __init__(
+        self,
         *,
-        params : typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"params",b"params"]) -> None: ...
+        params: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["params", b"params"]) -> None: ...
+
 global___ContextParams = ContextParams

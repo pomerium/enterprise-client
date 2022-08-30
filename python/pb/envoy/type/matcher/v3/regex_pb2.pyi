@@ -6,33 +6,41 @@ import builtins
 import google.protobuf.descriptor
 import google.protobuf.message
 import google.protobuf.wrappers_pb2
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class RegexMatcher(google.protobuf.message.Message):
     """[#protodoc-title: Regex matcher]
 
     A regex matcher designed for safety when used with untrusted input.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class GoogleRE2(google.protobuf.message.Message):
         """Google's `RE2 <https://github.com/google/re2>`_ regex engine. The regex string must adhere to
         the documented `syntax <https://github.com/google/re2/wiki/Syntax>`_. The engine is designed
         to complete execution in linear time as well as limit the amount of memory used.
 
-        Envoy supports program size checking via runtime. The runtime keys `re2.max_program_size.error_level`
-        and `re2.max_program_size.warn_level` can be set to integers as the maximum program size or
+        Envoy supports program size checking via runtime. The runtime keys ``re2.max_program_size.error_level``
+        and ``re2.max_program_size.warn_level`` can be set to integers as the maximum program size or
         complexity that a compiled regex can have before an exception is thrown or a warning is
-        logged, respectively. `re2.max_program_size.error_level` defaults to 100, and
-        `re2.max_program_size.warn_level` has no default if unset (will not check/log a warning).
+        logged, respectively. ``re2.max_program_size.error_level`` defaults to 100, and
+        ``re2.max_program_size.warn_level`` has no default if unset (will not check/log a warning).
 
-        Envoy emits two stats for tracking the program size of regexes: the histogram `re2.program_size`,
-        which records the program size, and the counter `re2.exceeded_warn_level`, which is incremented
+        Envoy emits two stats for tracking the program size of regexes: the histogram ``re2.program_size``,
+        which records the program size, and the counter ``re2.exceeded_warn_level``, which is incremented
         each time the program size exceeds the warn level threshold.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         MAX_PROGRAM_SIZE_FIELD_NUMBER: builtins.int
         @property
         def max_program_size(self) -> google.protobuf.wrappers_pb2.UInt32Value:
@@ -49,38 +57,42 @@ class RegexMatcher(google.protobuf.message.Message):
              Although this field is deprecated, the program size will still be checked against the
              global ``re2.max_program_size.error_level`` runtime value.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            max_program_size : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"max_program_size",b"max_program_size"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"max_program_size",b"max_program_size"]) -> None: ...
+            max_program_size: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["max_program_size", b"max_program_size"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["max_program_size", b"max_program_size"]) -> None: ...
 
     GOOGLE_RE2_FIELD_NUMBER: builtins.int
     REGEX_FIELD_NUMBER: builtins.int
     @property
     def google_re2(self) -> global___RegexMatcher.GoogleRE2:
         """Google's RE2 regex engine."""
-        pass
-    regex: typing.Text = ...
-    """The regex match string. The string must be supported by the configured engine."""
-
-    def __init__(self,
+    regex: builtins.str
+    """The regex match string. The string must be supported by the configured engine. The regex is matched
+    against the full string, not as a partial match.
+    """
+    def __init__(
+        self,
         *,
-        google_re2 : typing.Optional[global___RegexMatcher.GoogleRE2] = ...,
-        regex : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"engine_type",b"engine_type",u"google_re2",b"google_re2"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"engine_type",b"engine_type",u"google_re2",b"google_re2",u"regex",b"regex"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"engine_type",b"engine_type"]) -> typing.Optional[typing_extensions.Literal["google_re2"]]: ...
+        google_re2: global___RegexMatcher.GoogleRE2 | None = ...,
+        regex: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["engine_type", b"engine_type", "google_re2", b"google_re2"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["engine_type", b"engine_type", "google_re2", b"google_re2", "regex", b"regex"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["engine_type", b"engine_type"]) -> typing_extensions.Literal["google_re2"] | None: ...
+
 global___RegexMatcher = RegexMatcher
 
 class RegexMatchAndSubstitute(google.protobuf.message.Message):
     """Describes how to match a string and then produce a new string using a regular
     expression and a substitution string.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     PATTERN_FIELD_NUMBER: builtins.int
     SUBSTITUTION_FIELD_NUMBER: builtins.int
     @property
@@ -95,8 +107,7 @@ class RegexMatchAndSubstitute(google.protobuf.message.Message):
         used in the pattern to extract portions of the subject string, and then
         referenced in the substitution string.
         """
-        pass
-    substitution: typing.Text = ...
+    substitution: builtins.str
     """The string that should be substituted into matching portions of the
     subject string during a substitution operation to produce a new string.
     Capture groups in the pattern can be referenced in the substitution
@@ -104,15 +115,16 @@ class RegexMatchAndSubstitute(google.protobuf.message.Message):
     defined by the chosen regular expression engine. Google's `RE2
     <https://github.com/google/re2>`_ regular expression engine uses a
     backslash followed by the capture group number to denote a numbered
-    capture group. E.g., ``\1`` refers to capture group 1, and ``\2`` refers
+    capture group. E.g., ``\\1`` refers to capture group 1, and ``\\2`` refers
     to capture group 2.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        pattern : typing.Optional[global___RegexMatcher] = ...,
-        substitution : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"pattern",b"pattern"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"pattern",b"pattern",u"substitution",b"substitution"]) -> None: ...
+        pattern: global___RegexMatcher | None = ...,
+        substitution: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["pattern", b"pattern"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["pattern", b"pattern", "substitution", b"substitution"]) -> None: ...
+
 global___RegexMatchAndSubstitute = RegexMatchAndSubstitute

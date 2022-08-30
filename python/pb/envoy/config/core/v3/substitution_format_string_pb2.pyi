@@ -3,16 +3,21 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.base_pb2
 import envoy.config.core.v3.extension_pb2
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
 import google.protobuf.struct_pb2
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class SubstitutionFormatString(google.protobuf.message.Message):
     """[#protodoc-title: Substitution format string]
@@ -21,14 +26,16 @@ class SubstitutionFormatString(google.protobuf.message.Message):
     to generate a new string in either plain text or JSON format.
     [#next-free-field: 7]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     TEXT_FORMAT_FIELD_NUMBER: builtins.int
     JSON_FORMAT_FIELD_NUMBER: builtins.int
     TEXT_FORMAT_SOURCE_FIELD_NUMBER: builtins.int
     OMIT_EMPTY_VALUES_FIELD_NUMBER: builtins.int
     CONTENT_TYPE_FIELD_NUMBER: builtins.int
     FORMATTERS_FIELD_NUMBER: builtins.int
-    text_format: typing.Text = ...
+    text_format: builtins.str
     """Specify a format with command operators to form a text string.
     Its details is described in :ref:`format string<config_access_log_format_strings>`.
 
@@ -37,7 +44,7 @@ class SubstitutionFormatString(google.protobuf.message.Message):
     .. validated-code-block:: yaml
       :type-name: envoy.config.core.v3.SubstitutionFormatString
 
-      text_format: "%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%\n"
+      text_format: "%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%\\n"
 
     generates plain text similar to:
 
@@ -47,7 +54,6 @@ class SubstitutionFormatString(google.protobuf.message.Message):
 
     Deprecated in favor of :ref:`text_format_source <envoy_v3_api_field_config.core.v3.SubstitutionFormatString.text_format_source>`. To migrate text format strings, use the :ref:`inline_string <envoy_v3_api_field_config.core.v3.DataSource.inline_string>` field.
     """
-
     @property
     def json_format(self) -> google.protobuf.struct_pb2.Struct:
         """Specify a format with command operators to form a JSON string.
@@ -72,7 +78,6 @@ class SubstitutionFormatString(google.protobuf.message.Message):
            "message": "My error message"
          }
         """
-        pass
     @property
     def text_format_source(self) -> envoy.config.core.v3.base_pb2.DataSource:
         """Specify a format with command operators to form a text string.
@@ -84,7 +89,7 @@ class SubstitutionFormatString(google.protobuf.message.Message):
           :type-name: envoy.config.core.v3.SubstitutionFormatString
 
           text_format_source:
-            inline_string: "%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%\n"
+            inline_string: "%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%\\n"
 
         generates plain text similar to:
 
@@ -92,43 +97,41 @@ class SubstitutionFormatString(google.protobuf.message.Message):
 
           upstream connect error:503:path=/foo
         """
-        pass
-    omit_empty_values: builtins.bool = ...
+    omit_empty_values: builtins.bool
     """If set to true, when command operators are evaluated to null,
 
     * for ``text_format``, the output of the empty operator is changed from ``-`` to an
       empty string, so that empty values are omitted entirely.
     * for ``json_format`` the keys with null values are omitted in the output structure.
     """
-
-    content_type: typing.Text = ...
-    """Specify a *content_type* field.
-    If this field is not set then ``text/plain`` is used for *text_format* and
-    ``application/json`` is used for *json_format*.
+    content_type: builtins.str
+    """Specify a ``content_type`` field.
+    If this field is not set then ``text/plain`` is used for ``text_format`` and
+    ``application/json`` is used for ``json_format``.
 
     .. validated-code-block:: yaml
       :type-name: envoy.config.core.v3.SubstitutionFormatString
 
       content_type: "text/html; charset=UTF-8"
     """
-
     @property
     def formatters(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.extension_pb2.TypedExtensionConfig]:
         """Specifies a collection of Formatter plugins that can be called from the access log configuration.
         See the formatters extensions documentation for details.
         [#extension-category: envoy.formatter]
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        text_format : typing.Text = ...,
-        json_format : typing.Optional[google.protobuf.struct_pb2.Struct] = ...,
-        text_format_source : typing.Optional[envoy.config.core.v3.base_pb2.DataSource] = ...,
-        omit_empty_values : builtins.bool = ...,
-        content_type : typing.Text = ...,
-        formatters : typing.Optional[typing.Iterable[envoy.config.core.v3.extension_pb2.TypedExtensionConfig]] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"format",b"format",u"json_format",b"json_format",u"text_format",b"text_format",u"text_format_source",b"text_format_source"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"content_type",b"content_type",u"format",b"format",u"formatters",b"formatters",u"json_format",b"json_format",u"omit_empty_values",b"omit_empty_values",u"text_format",b"text_format",u"text_format_source",b"text_format_source"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"format",b"format"]) -> typing.Optional[typing_extensions.Literal["text_format","json_format","text_format_source"]]: ...
+        text_format: builtins.str = ...,
+        json_format: google.protobuf.struct_pb2.Struct | None = ...,
+        text_format_source: envoy.config.core.v3.base_pb2.DataSource | None = ...,
+        omit_empty_values: builtins.bool = ...,
+        content_type: builtins.str = ...,
+        formatters: collections.abc.Iterable[envoy.config.core.v3.extension_pb2.TypedExtensionConfig] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["format", b"format", "json_format", b"json_format", "text_format", b"text_format", "text_format_source", b"text_format_source"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["content_type", b"content_type", "format", b"format", "formatters", b"formatters", "json_format", b"json_format", "omit_empty_values", b"omit_empty_values", "text_format", b"text_format", "text_format_source", b"text_format_source"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["format", b"format"]) -> typing_extensions.Literal["text_format", "json_format", "text_format_source"] | None: ...
+
 global___SubstitutionFormatString = SubstitutionFormatString

@@ -7,10 +7,14 @@ import envoy.type.matcher.v3.number_pb2
 import envoy.type.matcher.v3.string_pb2
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class ValueMatcher(google.protobuf.message.Message):
     """[#protodoc-title: Value matcher]
@@ -19,12 +23,17 @@ class ValueMatcher(google.protobuf.message.Message):
     StructValue is not supported and is always not matched.
     [#next-free-field: 7]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class NullMatch(google.protobuf.message.Message):
         """NullMatch is an empty message to specify a null value."""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-        def __init__(self,
-            ) -> None: ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        def __init__(
+            self,
+        ) -> None: ...
 
     NULL_MATCH_FIELD_NUMBER: builtins.int
     DOUBLE_MATCH_FIELD_NUMBER: builtins.int
@@ -35,63 +44,62 @@ class ValueMatcher(google.protobuf.message.Message):
     @property
     def null_match(self) -> global___ValueMatcher.NullMatch:
         """If specified, a match occurs if and only if the target value is a NullValue."""
-        pass
     @property
     def double_match(self) -> envoy.type.matcher.v3.number_pb2.DoubleMatcher:
         """If specified, a match occurs if and only if the target value is a double value and is
         matched to this field.
         """
-        pass
     @property
     def string_match(self) -> envoy.type.matcher.v3.string_pb2.StringMatcher:
         """If specified, a match occurs if and only if the target value is a string value and is
         matched to this field.
         """
-        pass
-    bool_match: builtins.bool = ...
+    bool_match: builtins.bool
     """If specified, a match occurs if and only if the target value is a bool value and is equal
     to this field.
     """
-
-    present_match: builtins.bool = ...
+    present_match: builtins.bool
     """If specified, value match will be performed based on whether the path is referring to a
     valid primitive value in the metadata. If the path is referring to a non-primitive value,
     the result is always not matched.
     """
-
     @property
     def list_match(self) -> global___ListMatcher:
         """If specified, a match occurs if and only if the target value is a list value and
         is matched to this field.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        null_match : typing.Optional[global___ValueMatcher.NullMatch] = ...,
-        double_match : typing.Optional[envoy.type.matcher.v3.number_pb2.DoubleMatcher] = ...,
-        string_match : typing.Optional[envoy.type.matcher.v3.string_pb2.StringMatcher] = ...,
-        bool_match : builtins.bool = ...,
-        present_match : builtins.bool = ...,
-        list_match : typing.Optional[global___ListMatcher] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"bool_match",b"bool_match",u"double_match",b"double_match",u"list_match",b"list_match",u"match_pattern",b"match_pattern",u"null_match",b"null_match",u"present_match",b"present_match",u"string_match",b"string_match"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"bool_match",b"bool_match",u"double_match",b"double_match",u"list_match",b"list_match",u"match_pattern",b"match_pattern",u"null_match",b"null_match",u"present_match",b"present_match",u"string_match",b"string_match"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"match_pattern",b"match_pattern"]) -> typing.Optional[typing_extensions.Literal["null_match","double_match","string_match","bool_match","present_match","list_match"]]: ...
+        null_match: global___ValueMatcher.NullMatch | None = ...,
+        double_match: envoy.type.matcher.v3.number_pb2.DoubleMatcher | None = ...,
+        string_match: envoy.type.matcher.v3.string_pb2.StringMatcher | None = ...,
+        bool_match: builtins.bool = ...,
+        present_match: builtins.bool = ...,
+        list_match: global___ListMatcher | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["bool_match", b"bool_match", "double_match", b"double_match", "list_match", b"list_match", "match_pattern", b"match_pattern", "null_match", b"null_match", "present_match", b"present_match", "string_match", b"string_match"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["bool_match", b"bool_match", "double_match", b"double_match", "list_match", b"list_match", "match_pattern", b"match_pattern", "null_match", b"null_match", "present_match", b"present_match", "string_match", b"string_match"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["match_pattern", b"match_pattern"]) -> typing_extensions.Literal["null_match", "double_match", "string_match", "bool_match", "present_match", "list_match"] | None: ...
+
 global___ValueMatcher = ValueMatcher
 
 class ListMatcher(google.protobuf.message.Message):
     """Specifies the way to match a list value."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     ONE_OF_FIELD_NUMBER: builtins.int
     @property
     def one_of(self) -> global___ValueMatcher:
         """If specified, at least one of the values in the list must match the value specified."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        one_of : typing.Optional[global___ValueMatcher] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"match_pattern",b"match_pattern",u"one_of",b"one_of"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"match_pattern",b"match_pattern",u"one_of",b"one_of"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"match_pattern",b"match_pattern"]) -> typing.Optional[typing_extensions.Literal["one_of"]]: ...
+        one_of: global___ValueMatcher | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["match_pattern", b"match_pattern", "one_of", b"one_of"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["match_pattern", b"match_pattern", "one_of", b"one_of"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["match_pattern", b"match_pattern"]) -> typing_extensions.Literal["one_of"] | None: ...
+
 global___ListMatcher = ListMatcher

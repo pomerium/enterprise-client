@@ -5,19 +5,27 @@ isort:skip_file
 import builtins
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class Authority(google.protobuf.message.Message):
     """xDS authority information."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     NAME_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
-    def __init__(self,
+    name: builtins.str
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"name",b"name"]) -> None: ...
+        name: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["name", b"name"]) -> None: ...
+
 global___Authority = Authority

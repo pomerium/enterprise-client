@@ -3,19 +3,22 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.type.matcher.v3.value_pb2
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class MetadataMatcher(google.protobuf.message.Message):
-    """[#protodoc-title: Metadata matcher]
-
-    MetadataMatcher provides a general interface to check if a given value is matched in
+    """MetadataMatcher provides a general interface to check if a given value is matched in
     :ref:`Metadata <envoy_v3_api_msg_config.core.v3.Metadata>`. It uses `filter` and `path` to retrieve the value
     from the Metadata and then check if it's matched to the specified value.
 
@@ -76,50 +79,52 @@ class MetadataMatcher(google.protobuf.message.Message):
 
     [#next-major-version: MetadataMatcher should use StructMatcher]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class PathSegment(google.protobuf.message.Message):
         """Specifies the segment in a path to retrieve value from Metadata.
         Note: Currently it's not supported to retrieve a value from a list in Metadata. This means that
         if the segment key refers to a list, it has to be the last segment in a path.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-        KEY_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
-        """If specified, use the key to retrieve the value in a Struct."""
 
-        def __init__(self,
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        KEY_FIELD_NUMBER: builtins.int
+        key: builtins.str
+        """If specified, use the key to retrieve the value in a Struct."""
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"key",b"key",u"segment",b"segment"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"segment",b"segment"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"segment",b"segment"]) -> typing.Optional[typing_extensions.Literal["key"]]: ...
+            key: builtins.str = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["key", b"key", "segment", b"segment"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "segment", b"segment"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["segment", b"segment"]) -> typing_extensions.Literal["key"] | None: ...
 
     FILTER_FIELD_NUMBER: builtins.int
     PATH_FIELD_NUMBER: builtins.int
     VALUE_FIELD_NUMBER: builtins.int
     INVERT_FIELD_NUMBER: builtins.int
-    filter: typing.Text = ...
+    filter: builtins.str
     """The filter name to retrieve the Struct from the Metadata."""
-
     @property
     def path(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___MetadataMatcher.PathSegment]:
         """The path to retrieve the Value from the Struct."""
-        pass
     @property
     def value(self) -> envoy.type.matcher.v3.value_pb2.ValueMatcher:
         """The MetadataMatcher is matched if the value retrieved by path is matched to this value."""
-        pass
-    invert: builtins.bool = ...
+    invert: builtins.bool
     """If true, the match result will be inverted."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        filter : typing.Text = ...,
-        path : typing.Optional[typing.Iterable[global___MetadataMatcher.PathSegment]] = ...,
-        value : typing.Optional[envoy.type.matcher.v3.value_pb2.ValueMatcher] = ...,
-        invert : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"filter",b"filter",u"invert",b"invert",u"path",b"path",u"value",b"value"]) -> None: ...
+        filter: builtins.str = ...,
+        path: collections.abc.Iterable[global___MetadataMatcher.PathSegment] | None = ...,
+        value: envoy.type.matcher.v3.value_pb2.ValueMatcher | None = ...,
+        invert: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["filter", b"filter", "invert", b"invert", "path", b"path", "value", b"value"]) -> None: ...
+
 global___MetadataMatcher = MetadataMatcher

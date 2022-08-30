@@ -3,6 +3,7 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.address_pb2
 import envoy.config.core.v3.backoff_pb2
 import envoy.config.core.v3.http_uri_pb2
@@ -15,11 +16,25 @@ import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
 import google.protobuf.struct_pb2
 import google.protobuf.wrappers_pb2
+import sys
 import typing
-import typing_extensions
 import xds.core.v3.context_params_pb2
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
+
+class _RoutingPriority:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _RoutingPriorityEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_RoutingPriority.ValueType], builtins.type):  # noqa: F821
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    DEFAULT: _RoutingPriority.ValueType  # 0
+    HIGH: _RoutingPriority.ValueType  # 1
 
 class RoutingPriority(_RoutingPriority, metaclass=_RoutingPriorityEnumTypeWrapper):
     """[#protodoc-title: Common types]
@@ -32,89 +47,78 @@ class RoutingPriority(_RoutingPriority, metaclass=_RoutingPriorityEnumTypeWrappe
     upstream host. In the future Envoy will likely support true HTTP/2 priority
     over a single upstream connection.
     """
-    pass
-class _RoutingPriority:
-    V = typing.NewType('V', builtins.int)
-class _RoutingPriorityEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_RoutingPriority.V], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-    DEFAULT = RoutingPriority.V(0)
-    HIGH = RoutingPriority.V(1)
 
-DEFAULT = RoutingPriority.V(0)
-HIGH = RoutingPriority.V(1)
+DEFAULT: RoutingPriority.ValueType  # 0
+HIGH: RoutingPriority.ValueType  # 1
 global___RoutingPriority = RoutingPriority
 
+class _RequestMethod:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _RequestMethodEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_RequestMethod.ValueType], builtins.type):  # noqa: F821
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    METHOD_UNSPECIFIED: _RequestMethod.ValueType  # 0
+    GET: _RequestMethod.ValueType  # 1
+    HEAD: _RequestMethod.ValueType  # 2
+    POST: _RequestMethod.ValueType  # 3
+    PUT: _RequestMethod.ValueType  # 4
+    DELETE: _RequestMethod.ValueType  # 5
+    CONNECT: _RequestMethod.ValueType  # 6
+    OPTIONS: _RequestMethod.ValueType  # 7
+    TRACE: _RequestMethod.ValueType  # 8
+    PATCH: _RequestMethod.ValueType  # 9
 
 class RequestMethod(_RequestMethod, metaclass=_RequestMethodEnumTypeWrapper):
     """HTTP request method."""
-    pass
-class _RequestMethod:
-    V = typing.NewType('V', builtins.int)
-class _RequestMethodEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_RequestMethod.V], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-    METHOD_UNSPECIFIED = RequestMethod.V(0)
-    GET = RequestMethod.V(1)
-    HEAD = RequestMethod.V(2)
-    POST = RequestMethod.V(3)
-    PUT = RequestMethod.V(4)
-    DELETE = RequestMethod.V(5)
-    CONNECT = RequestMethod.V(6)
-    OPTIONS = RequestMethod.V(7)
-    TRACE = RequestMethod.V(8)
-    PATCH = RequestMethod.V(9)
 
-METHOD_UNSPECIFIED = RequestMethod.V(0)
-GET = RequestMethod.V(1)
-HEAD = RequestMethod.V(2)
-POST = RequestMethod.V(3)
-PUT = RequestMethod.V(4)
-DELETE = RequestMethod.V(5)
-CONNECT = RequestMethod.V(6)
-OPTIONS = RequestMethod.V(7)
-TRACE = RequestMethod.V(8)
-PATCH = RequestMethod.V(9)
+METHOD_UNSPECIFIED: RequestMethod.ValueType  # 0
+GET: RequestMethod.ValueType  # 1
+HEAD: RequestMethod.ValueType  # 2
+POST: RequestMethod.ValueType  # 3
+PUT: RequestMethod.ValueType  # 4
+DELETE: RequestMethod.ValueType  # 5
+CONNECT: RequestMethod.ValueType  # 6
+OPTIONS: RequestMethod.ValueType  # 7
+TRACE: RequestMethod.ValueType  # 8
+PATCH: RequestMethod.ValueType  # 9
 global___RequestMethod = RequestMethod
 
+class _TrafficDirection:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _TrafficDirectionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_TrafficDirection.ValueType], builtins.type):  # noqa: F821
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    UNSPECIFIED: _TrafficDirection.ValueType  # 0
+    """Default option is unspecified."""
+    INBOUND: _TrafficDirection.ValueType  # 1
+    """The transport is used for incoming traffic."""
+    OUTBOUND: _TrafficDirection.ValueType  # 2
+    """The transport is used for outgoing traffic."""
 
 class TrafficDirection(_TrafficDirection, metaclass=_TrafficDirectionEnumTypeWrapper):
     """Identifies the direction of the traffic relative to the local Envoy."""
-    pass
-class _TrafficDirection:
-    V = typing.NewType('V', builtins.int)
-class _TrafficDirectionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_TrafficDirection.V], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-    UNSPECIFIED = TrafficDirection.V(0)
-    """Default option is unspecified."""
 
-    INBOUND = TrafficDirection.V(1)
-    """The transport is used for incoming traffic."""
-
-    OUTBOUND = TrafficDirection.V(2)
-    """The transport is used for outgoing traffic."""
-
-
-UNSPECIFIED = TrafficDirection.V(0)
+UNSPECIFIED: TrafficDirection.ValueType  # 0
 """Default option is unspecified."""
-
-INBOUND = TrafficDirection.V(1)
+INBOUND: TrafficDirection.ValueType  # 1
 """The transport is used for incoming traffic."""
-
-OUTBOUND = TrafficDirection.V(2)
+OUTBOUND: TrafficDirection.ValueType  # 2
 """The transport is used for outgoing traffic."""
-
 global___TrafficDirection = TrafficDirection
-
 
 class Locality(google.protobuf.message.Message):
     """Identifies location of where either Envoy runs or where upstream hosts run."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     REGION_FIELD_NUMBER: builtins.int
     ZONE_FIELD_NUMBER: builtins.int
     SUB_ZONE_FIELD_NUMBER: builtins.int
-    region: typing.Text = ...
+    region: builtins.str
     """Region this :ref:`zone <envoy_v3_api_field_config.core.v3.Locality.zone>` belongs to."""
-
-    zone: typing.Text = ...
+    zone: builtins.str
     """Defines the local service zone where Envoy is running. Though optional, it
     should be set if discovery service routing is used and the discovery
     service exposes :ref:`zone data <envoy_v3_api_field_config.endpoint.v3.LocalityLbEndpoints.locality>`,
@@ -124,97 +128,103 @@ class Locality(google.protobuf.message.Message):
     on AWS, `Zone <https://cloud.google.com/compute/docs/regions-zones/>`_ on
     GCP, etc.
     """
-
-    sub_zone: typing.Text = ...
+    sub_zone: builtins.str
     """When used for locality of upstream hosts, this field further splits zone
     into smaller chunks of sub-zones so they can be load balanced
     independently.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        region : typing.Text = ...,
-        zone : typing.Text = ...,
-        sub_zone : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"region",b"region",u"sub_zone",b"sub_zone",u"zone",b"zone"]) -> None: ...
+        region: builtins.str = ...,
+        zone: builtins.str = ...,
+        sub_zone: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["region", b"region", "sub_zone", b"sub_zone", "zone", b"zone"]) -> None: ...
+
 global___Locality = Locality
 
 class BuildVersion(google.protobuf.message.Message):
     """BuildVersion combines SemVer version of extension with free-form build information
     (i.e. 'alpha', 'private-build') as a set of strings.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     VERSION_FIELD_NUMBER: builtins.int
     METADATA_FIELD_NUMBER: builtins.int
     @property
     def version(self) -> envoy.type.v3.semantic_version_pb2.SemanticVersion:
         """SemVer version of extension."""
-        pass
     @property
     def metadata(self) -> google.protobuf.struct_pb2.Struct:
         """Free-form build information.
         Envoy defines several well known keys in the source/common/version/version.h file
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        version : typing.Optional[envoy.type.v3.semantic_version_pb2.SemanticVersion] = ...,
-        metadata : typing.Optional[google.protobuf.struct_pb2.Struct] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"metadata",b"metadata",u"version",b"version"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"metadata",b"metadata",u"version",b"version"]) -> None: ...
+        version: envoy.type.v3.semantic_version_pb2.SemanticVersion | None = ...,
+        metadata: google.protobuf.struct_pb2.Struct | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["metadata", b"metadata", "version", b"version"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["metadata", b"metadata", "version", b"version"]) -> None: ...
+
 global___BuildVersion = BuildVersion
 
 class Extension(google.protobuf.message.Message):
     """Version and identification for an Envoy extension.
-    [#next-free-field: 6]
+    [#next-free-field: 7]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     NAME_FIELD_NUMBER: builtins.int
     CATEGORY_FIELD_NUMBER: builtins.int
     TYPE_DESCRIPTOR_FIELD_NUMBER: builtins.int
     VERSION_FIELD_NUMBER: builtins.int
     DISABLED_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    TYPE_URLS_FIELD_NUMBER: builtins.int
+    name: builtins.str
     """This is the name of the Envoy filter as specified in the Envoy
     configuration, e.g. envoy.filters.http.router, com.acme.widget.
     """
-
-    category: typing.Text = ...
+    category: builtins.str
     """Category of the extension.
     Extension category names use reverse DNS notation. For instance "envoy.filters.listener"
     for Envoy's built-in listener filters or "com.acme.filters.http" for HTTP filters from
     acme.com vendor.
     [#comment:TODO(yanavlasov): Link to the doc with existing envoy category names.]
     """
-
-    type_descriptor: typing.Text = ...
+    type_descriptor: builtins.str
     """[#not-implemented-hide:] Type descriptor of extension configuration proto.
     [#comment:TODO(yanavlasov): Link to the doc with existing configuration protos.]
     [#comment:TODO(yanavlasov): Add tests when PR #9391 lands.]
     """
-
     @property
     def version(self) -> global___BuildVersion:
         """The version is a property of the extension and maintained independently
         of other extensions and the Envoy API.
         This field is not set when extension did not provide version information.
         """
-        pass
-    disabled: builtins.bool = ...
+    disabled: builtins.bool
     """Indicates that the extension is present but was disabled via dynamic configuration."""
-
-    def __init__(self,
+    @property
+    def type_urls(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """Type URLs of extension configuration protos."""
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        category : typing.Text = ...,
-        type_descriptor : typing.Text = ...,
-        version : typing.Optional[global___BuildVersion] = ...,
-        disabled : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"version",b"version"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"category",b"category",u"disabled",b"disabled",u"name",b"name",u"type_descriptor",b"type_descriptor",u"version",b"version"]) -> None: ...
+        name: builtins.str = ...,
+        category: builtins.str = ...,
+        type_descriptor: builtins.str = ...,
+        version: global___BuildVersion | None = ...,
+        disabled: builtins.bool = ...,
+        type_urls: collections.abc.Iterable[builtins.str] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["version", b"version"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["category", b"category", "disabled", b"disabled", "name", b"name", "type_descriptor", b"type_descriptor", "type_urls", b"type_urls", "version", b"version"]) -> None: ...
+
 global___Extension = Extension
 
 class Node(google.protobuf.message.Message):
@@ -223,21 +233,25 @@ class Node(google.protobuf.message.Message):
     configuration for serving.
     [#next-free-field: 13]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class DynamicParametersEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
+        key: builtins.str
         @property
         def value(self) -> xds.core.v3.context_params_pb2.ContextParams: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            value : typing.Optional[xds.core.v3.context_params_pb2.ContextParams] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+            key: builtins.str = ...,
+            value: xds.core.v3.context_params_pb2.ContextParams | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     CLUSTER_FIELD_NUMBER: builtins.int
@@ -250,7 +264,7 @@ class Node(google.protobuf.message.Message):
     EXTENSIONS_FIELD_NUMBER: builtins.int
     CLIENT_FEATURES_FIELD_NUMBER: builtins.int
     LISTENING_ADDRESSES_FIELD_NUMBER: builtins.int
-    id: typing.Text = ...
+    id: builtins.str
     """An opaque node identifier for the Envoy node. This also provides the local
     service node name. It should be set if any of the following features are
     used: :ref:`statsd <arch_overview_statistics>`, :ref:`CDS
@@ -258,8 +272,7 @@ class Node(google.protobuf.message.Message):
     <arch_overview_tracing>`, either in this message or via
     :option:`--service-node`.
     """
-
-    cluster: typing.Text = ...
+    cluster: builtins.str
     """Defines the local service cluster name where Envoy is running. Though
     optional, it should be set if any of the following features are used:
     :ref:`statsd <arch_overview_statistics>`, :ref:`health check cluster
@@ -273,78 +286,70 @@ class Node(google.protobuf.message.Message):
     <arch_overview_tracing>`, either in this message or via
     :option:`--service-cluster`.
     """
-
     @property
     def metadata(self) -> google.protobuf.struct_pb2.Struct:
         """Opaque metadata extending the node identifier. Envoy will pass this
         directly to the management server.
         """
-        pass
     @property
-    def dynamic_parameters(self) -> google.protobuf.internal.containers.MessageMap[typing.Text, xds.core.v3.context_params_pb2.ContextParams]:
+    def dynamic_parameters(self) -> google.protobuf.internal.containers.MessageMap[builtins.str, xds.core.v3.context_params_pb2.ContextParams]:
         """Map from xDS resource type URL to dynamic context parameters. These may vary at runtime (unlike
         other fields in this message). For example, the xDS client may have a shard identifier that
         changes during the lifetime of the xDS client. In Envoy, this would be achieved by updating the
         dynamic context on the Server::Instance's LocalInfo context provider. The shard ID dynamic
         parameter then appears in this field during future discovery requests.
         """
-        pass
     @property
     def locality(self) -> global___Locality:
         """Locality specifying where the Envoy instance is running."""
-        pass
-    user_agent_name: typing.Text = ...
+    user_agent_name: builtins.str
     """Free-form string that identifies the entity requesting config.
     E.g. "envoy" or "grpc"
     """
-
-    user_agent_version: typing.Text = ...
+    user_agent_version: builtins.str
     """Free-form string that identifies the version of the entity requesting config.
     E.g. "1.12.2" or "abcd1234", or "SpecialEnvoyBuild"
     """
-
     @property
     def user_agent_build_version(self) -> global___BuildVersion:
         """Structured version of the entity requesting config."""
-        pass
     @property
     def extensions(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Extension]:
         """List of extensions and their versions supported by the node."""
-        pass
     @property
-    def client_features(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def client_features(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Client feature support list. These are well known features described
         in the Envoy API repository for a given major version of an API. Client features
-        use reverse DNS naming scheme, for example `com.acme.feature`.
+        use reverse DNS naming scheme, for example ``com.acme.feature``.
         See :ref:`the list of features <client_features>` that xDS client may
         support.
         """
-        pass
     @property
     def listening_addresses(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.address_pb2.Address]:
         """Known listening ports on the node as a generic hint to the management server
         for filtering :ref:`listeners <config_listeners>` to be returned. For example,
         if there is a listener bound to port 80, the list can optionally contain the
-        SocketAddress `(0.0.0.0,80)`. The field is optional and just a hint.
+        SocketAddress ``(0.0.0.0,80)``. The field is optional and just a hint.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        id : typing.Text = ...,
-        cluster : typing.Text = ...,
-        metadata : typing.Optional[google.protobuf.struct_pb2.Struct] = ...,
-        dynamic_parameters : typing.Optional[typing.Mapping[typing.Text, xds.core.v3.context_params_pb2.ContextParams]] = ...,
-        locality : typing.Optional[global___Locality] = ...,
-        user_agent_name : typing.Text = ...,
-        user_agent_version : typing.Text = ...,
-        user_agent_build_version : typing.Optional[global___BuildVersion] = ...,
-        extensions : typing.Optional[typing.Iterable[global___Extension]] = ...,
-        client_features : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        listening_addresses : typing.Optional[typing.Iterable[envoy.config.core.v3.address_pb2.Address]] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"locality",b"locality",u"metadata",b"metadata",u"user_agent_build_version",b"user_agent_build_version",u"user_agent_version",b"user_agent_version",u"user_agent_version_type",b"user_agent_version_type"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"client_features",b"client_features",u"cluster",b"cluster",u"dynamic_parameters",b"dynamic_parameters",u"extensions",b"extensions",u"id",b"id",u"listening_addresses",b"listening_addresses",u"locality",b"locality",u"metadata",b"metadata",u"user_agent_build_version",b"user_agent_build_version",u"user_agent_name",b"user_agent_name",u"user_agent_version",b"user_agent_version",u"user_agent_version_type",b"user_agent_version_type"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"user_agent_version_type",b"user_agent_version_type"]) -> typing.Optional[typing_extensions.Literal["user_agent_version","user_agent_build_version"]]: ...
+        id: builtins.str = ...,
+        cluster: builtins.str = ...,
+        metadata: google.protobuf.struct_pb2.Struct | None = ...,
+        dynamic_parameters: collections.abc.Mapping[builtins.str, xds.core.v3.context_params_pb2.ContextParams] | None = ...,
+        locality: global___Locality | None = ...,
+        user_agent_name: builtins.str = ...,
+        user_agent_version: builtins.str = ...,
+        user_agent_build_version: global___BuildVersion | None = ...,
+        extensions: collections.abc.Iterable[global___Extension] | None = ...,
+        client_features: collections.abc.Iterable[builtins.str] | None = ...,
+        listening_addresses: collections.abc.Iterable[envoy.config.core.v3.address_pb2.Address] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["locality", b"locality", "metadata", b"metadata", "user_agent_build_version", b"user_agent_build_version", "user_agent_version", b"user_agent_version", "user_agent_version_type", b"user_agent_version_type"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["client_features", b"client_features", "cluster", b"cluster", "dynamic_parameters", b"dynamic_parameters", "extensions", b"extensions", "id", b"id", "listening_addresses", b"listening_addresses", "locality", b"locality", "metadata", b"metadata", "user_agent_build_version", b"user_agent_build_version", "user_agent_name", b"user_agent_name", "user_agent_version", b"user_agent_version", "user_agent_version_type", b"user_agent_version_type"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["user_agent_version_type", b"user_agent_version_type"]) -> typing_extensions.Literal["user_agent_version", "user_agent_build_version"] | None: ...
+
 global___Node = Node
 
 class Metadata(google.protobuf.message.Message):
@@ -371,330 +376,364 @@ class Metadata(google.protobuf.message.Message):
       (x-envoy-upstream-canary) and for stats purposes.
     [#next-major-version: move to type/metadata/v2]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class FilterMetadataEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
+        key: builtins.str
         @property
         def value(self) -> google.protobuf.struct_pb2.Struct: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            value : typing.Optional[google.protobuf.struct_pb2.Struct] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+            key: builtins.str = ...,
+            value: google.protobuf.struct_pb2.Struct | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     class TypedFilterMetadataEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
+        key: builtins.str
         @property
         def value(self) -> google.protobuf.any_pb2.Any: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            value : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+            key: builtins.str = ...,
+            value: google.protobuf.any_pb2.Any | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     FILTER_METADATA_FIELD_NUMBER: builtins.int
     TYPED_FILTER_METADATA_FIELD_NUMBER: builtins.int
     @property
-    def filter_metadata(self) -> google.protobuf.internal.containers.MessageMap[typing.Text, google.protobuf.struct_pb2.Struct]:
-        """Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*
+    def filter_metadata(self) -> google.protobuf.internal.containers.MessageMap[builtins.str, google.protobuf.struct_pb2.Struct]:
+        """Key is the reverse DNS filter name, e.g. com.acme.widget. The ``envoy.*``
         namespace is reserved for Envoy's built-in filters.
-        If both *filter_metadata* and
+        If both ``filter_metadata`` and
         :ref:`typed_filter_metadata <envoy_v3_api_field_config.core.v3.Metadata.typed_filter_metadata>`
         fields are present in the metadata with same keys,
-        only *typed_filter_metadata* field will be parsed.
+        only ``typed_filter_metadata`` field will be parsed.
         """
-        pass
     @property
-    def typed_filter_metadata(self) -> google.protobuf.internal.containers.MessageMap[typing.Text, google.protobuf.any_pb2.Any]:
-        """Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*
+    def typed_filter_metadata(self) -> google.protobuf.internal.containers.MessageMap[builtins.str, google.protobuf.any_pb2.Any]:
+        """Key is the reverse DNS filter name, e.g. com.acme.widget. The ``envoy.*``
         namespace is reserved for Envoy's built-in filters.
         The value is encoded as google.protobuf.Any.
         If both :ref:`filter_metadata <envoy_v3_api_field_config.core.v3.Metadata.filter_metadata>`
-        and *typed_filter_metadata* fields are present in the metadata with same keys,
-        only *typed_filter_metadata* field will be parsed.
+        and ``typed_filter_metadata`` fields are present in the metadata with same keys,
+        only ``typed_filter_metadata`` field will be parsed.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        filter_metadata : typing.Optional[typing.Mapping[typing.Text, google.protobuf.struct_pb2.Struct]] = ...,
-        typed_filter_metadata : typing.Optional[typing.Mapping[typing.Text, google.protobuf.any_pb2.Any]] = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"filter_metadata",b"filter_metadata",u"typed_filter_metadata",b"typed_filter_metadata"]) -> None: ...
+        filter_metadata: collections.abc.Mapping[builtins.str, google.protobuf.struct_pb2.Struct] | None = ...,
+        typed_filter_metadata: collections.abc.Mapping[builtins.str, google.protobuf.any_pb2.Any] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["filter_metadata", b"filter_metadata", "typed_filter_metadata", b"typed_filter_metadata"]) -> None: ...
+
 global___Metadata = Metadata
 
 class RuntimeUInt32(google.protobuf.message.Message):
     """Runtime derived uint32 with a default when not specified."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     DEFAULT_VALUE_FIELD_NUMBER: builtins.int
     RUNTIME_KEY_FIELD_NUMBER: builtins.int
-    default_value: builtins.int = ...
+    default_value: builtins.int
     """Default value if runtime value is not available."""
-
-    runtime_key: typing.Text = ...
+    runtime_key: builtins.str
     """Runtime key to get value for comparison. This value is used if defined."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        default_value : builtins.int = ...,
-        runtime_key : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"runtime_key",b"runtime_key"]) -> None: ...
+        default_value: builtins.int = ...,
+        runtime_key: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "runtime_key", b"runtime_key"]) -> None: ...
+
 global___RuntimeUInt32 = RuntimeUInt32
 
 class RuntimePercent(google.protobuf.message.Message):
     """Runtime derived percentage with a default when not specified."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     DEFAULT_VALUE_FIELD_NUMBER: builtins.int
     RUNTIME_KEY_FIELD_NUMBER: builtins.int
     @property
     def default_value(self) -> envoy.type.v3.percent_pb2.Percent:
         """Default value if runtime value is not available."""
-        pass
-    runtime_key: typing.Text = ...
+    runtime_key: builtins.str
     """Runtime key to get value for comparison. This value is used if defined."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        default_value : typing.Optional[envoy.type.v3.percent_pb2.Percent] = ...,
-        runtime_key : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"runtime_key",b"runtime_key"]) -> None: ...
+        default_value: envoy.type.v3.percent_pb2.Percent | None = ...,
+        runtime_key: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["default_value", b"default_value"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "runtime_key", b"runtime_key"]) -> None: ...
+
 global___RuntimePercent = RuntimePercent
 
 class RuntimeDouble(google.protobuf.message.Message):
     """Runtime derived double with a default when not specified."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     DEFAULT_VALUE_FIELD_NUMBER: builtins.int
     RUNTIME_KEY_FIELD_NUMBER: builtins.int
-    default_value: builtins.float = ...
+    default_value: builtins.float
     """Default value if runtime value is not available."""
-
-    runtime_key: typing.Text = ...
+    runtime_key: builtins.str
     """Runtime key to get value for comparison. This value is used if defined."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        default_value : builtins.float = ...,
-        runtime_key : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"runtime_key",b"runtime_key"]) -> None: ...
+        default_value: builtins.float = ...,
+        runtime_key: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "runtime_key", b"runtime_key"]) -> None: ...
+
 global___RuntimeDouble = RuntimeDouble
 
 class RuntimeFeatureFlag(google.protobuf.message.Message):
     """Runtime derived bool with a default when not specified."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     DEFAULT_VALUE_FIELD_NUMBER: builtins.int
     RUNTIME_KEY_FIELD_NUMBER: builtins.int
     @property
     def default_value(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Default value if runtime value is not available."""
-        pass
-    runtime_key: typing.Text = ...
+    runtime_key: builtins.str
     """Runtime key to get value for comparison. This value is used if defined. The boolean value must
     be represented via its
     `canonical JSON encoding <https://developers.google.com/protocol-buffers/docs/proto3#json>`_.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        default_value : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        runtime_key : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"runtime_key",b"runtime_key"]) -> None: ...
+        default_value: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        runtime_key: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["default_value", b"default_value"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "runtime_key", b"runtime_key"]) -> None: ...
+
 global___RuntimeFeatureFlag = RuntimeFeatureFlag
 
 class QueryParameter(google.protobuf.message.Message):
     """Query parameter name/value pair."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     KEY_FIELD_NUMBER: builtins.int
     VALUE_FIELD_NUMBER: builtins.int
-    key: typing.Text = ...
+    key: builtins.str
     """The key of the query parameter. Case sensitive."""
-
-    value: typing.Text = ...
+    value: builtins.str
     """The value of the query parameter."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        key : typing.Text = ...,
-        value : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+        key: builtins.str = ...,
+        value: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+
 global___QueryParameter = QueryParameter
 
 class HeaderValue(google.protobuf.message.Message):
     """Header name/value pair."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     KEY_FIELD_NUMBER: builtins.int
     VALUE_FIELD_NUMBER: builtins.int
-    key: typing.Text = ...
+    key: builtins.str
     """Header name."""
-
-    value: typing.Text = ...
+    value: builtins.str
     """Header value.
 
     The same :ref:`format specifier <config_access_log_format>` as used for
     :ref:`HTTP access logging <config_access_log>` applies here, however
-    unknown header values are replaced with the empty string instead of `-`.
+    unknown header values are replaced with the empty string instead of ``-``.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        key : typing.Text = ...,
-        value : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+        key: builtins.str = ...,
+        value: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+
 global___HeaderValue = HeaderValue
 
 class HeaderValueOption(google.protobuf.message.Message):
     """Header name/value pair plus option to control append behavior."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    class HeaderAppendAction(_HeaderAppendAction, metaclass=_HeaderAppendActionEnumTypeWrapper):
-        """Describes the supported actions types for header append action."""
-        pass
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class _HeaderAppendAction:
-        V = typing.NewType('V', builtins.int)
-    class _HeaderAppendActionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_HeaderAppendAction.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        APPEND_IF_EXISTS_OR_ADD = HeaderValueOption.HeaderAppendAction.V(0)
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _HeaderAppendActionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[HeaderValueOption._HeaderAppendAction.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        APPEND_IF_EXISTS_OR_ADD: HeaderValueOption._HeaderAppendAction.ValueType  # 0
         """This action will append the specified value to the existing values if the header
         already exists. If the header doesn't exist then this will add the header with
         specified key and value.
         """
-
-        ADD_IF_ABSENT = HeaderValueOption.HeaderAppendAction.V(1)
+        ADD_IF_ABSENT: HeaderValueOption._HeaderAppendAction.ValueType  # 1
         """This action will add the header if it doesn't already exist. If the header
         already exists then this will be a no-op.
         """
-
-        OVERWRITE_IF_EXISTS_OR_ADD = HeaderValueOption.HeaderAppendAction.V(2)
+        OVERWRITE_IF_EXISTS_OR_ADD: HeaderValueOption._HeaderAppendAction.ValueType  # 2
         """This action will overwrite the specified value by discarding any existing values if
         the header already exists. If the header doesn't exist then this will add the header
         with specified key and value.
         """
 
+    class HeaderAppendAction(_HeaderAppendAction, metaclass=_HeaderAppendActionEnumTypeWrapper):
+        """Describes the supported actions types for header append action."""
 
-    APPEND_IF_EXISTS_OR_ADD = HeaderValueOption.HeaderAppendAction.V(0)
+    APPEND_IF_EXISTS_OR_ADD: HeaderValueOption.HeaderAppendAction.ValueType  # 0
     """This action will append the specified value to the existing values if the header
     already exists. If the header doesn't exist then this will add the header with
     specified key and value.
     """
-
-    ADD_IF_ABSENT = HeaderValueOption.HeaderAppendAction.V(1)
+    ADD_IF_ABSENT: HeaderValueOption.HeaderAppendAction.ValueType  # 1
     """This action will add the header if it doesn't already exist. If the header
     already exists then this will be a no-op.
     """
-
-    OVERWRITE_IF_EXISTS_OR_ADD = HeaderValueOption.HeaderAppendAction.V(2)
+    OVERWRITE_IF_EXISTS_OR_ADD: HeaderValueOption.HeaderAppendAction.ValueType  # 2
     """This action will overwrite the specified value by discarding any existing values if
     the header already exists. If the header doesn't exist then this will add the header
     with specified key and value.
     """
 
-
     HEADER_FIELD_NUMBER: builtins.int
     APPEND_FIELD_NUMBER: builtins.int
     APPEND_ACTION_FIELD_NUMBER: builtins.int
+    KEEP_EMPTY_VALUE_FIELD_NUMBER: builtins.int
     @property
     def header(self) -> global___HeaderValue:
         """Header name/value pair that this option applies to."""
-        pass
     @property
     def append(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Should the value be appended? If true (default), the value is appended to
         existing values. Otherwise it replaces any existing values.
+        This field is deprecated and please use
+        :ref:`append_action <envoy_v3_api_field_config.core.v3.HeaderValueOption.append_action>` as replacement.
         """
-        pass
-    append_action: global___HeaderValueOption.HeaderAppendAction.V = ...
-    """[#not-implemented-hide:] Describes the action taken to append/overwrite the given value for an existing header
-    or to only add this header if it's absent. Value defaults to :ref:`APPEND_IF_EXISTS_OR_ADD<envoy_v3_api_enum_value_config.core.v3.HeaderValueOption.HeaderAppendAction.APPEND_IF_EXISTS_OR_ADD>`.
+    append_action: global___HeaderValueOption.HeaderAppendAction.ValueType
+    """Describes the action taken to append/overwrite the given value for an existing header
+    or to only add this header if it's absent.
+    Value defaults to :ref:`APPEND_IF_EXISTS_OR_ADD
+    <envoy_v3_api_enum_value_config.core.v3.HeaderValueOption.HeaderAppendAction.APPEND_IF_EXISTS_OR_ADD>`.
     """
-
-    def __init__(self,
+    keep_empty_value: builtins.bool
+    """Is the header value allowed to be empty? If false (default), custom headers with empty values are dropped,
+    otherwise they are added.
+    """
+    def __init__(
+        self,
         *,
-        header : typing.Optional[global___HeaderValue] = ...,
-        append : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        append_action : global___HeaderValueOption.HeaderAppendAction.V = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"append",b"append",u"header",b"header"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"append",b"append",u"append_action",b"append_action",u"header",b"header"]) -> None: ...
+        header: global___HeaderValue | None = ...,
+        append: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        append_action: global___HeaderValueOption.HeaderAppendAction.ValueType = ...,
+        keep_empty_value: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["append", b"append", "header", b"header"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["append", b"append", "append_action", b"append_action", "header", b"header", "keep_empty_value", b"keep_empty_value"]) -> None: ...
+
 global___HeaderValueOption = HeaderValueOption
 
 class HeaderMap(google.protobuf.message.Message):
     """Wrapper for a set of headers."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     HEADERS_FIELD_NUMBER: builtins.int
     @property
     def headers(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HeaderValue]: ...
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        headers : typing.Optional[typing.Iterable[global___HeaderValue]] = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"headers",b"headers"]) -> None: ...
+        headers: collections.abc.Iterable[global___HeaderValue] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["headers", b"headers"]) -> None: ...
+
 global___HeaderMap = HeaderMap
 
 class WatchedDirectory(google.protobuf.message.Message):
     """A directory that is watched for changes, e.g. by inotify on Linux. Move/rename
     events inside this directory trigger the watch.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    PATH_FIELD_NUMBER: builtins.int
-    path: typing.Text = ...
-    """Directory path to watch."""
 
-    def __init__(self,
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    PATH_FIELD_NUMBER: builtins.int
+    path: builtins.str
+    """Directory path to watch."""
+    def __init__(
+        self,
         *,
-        path : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"path",b"path"]) -> None: ...
+        path: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["path", b"path"]) -> None: ...
+
 global___WatchedDirectory = WatchedDirectory
 
 class DataSource(google.protobuf.message.Message):
     """Data source consisting of a file, an inline value, or an environment variable."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     FILENAME_FIELD_NUMBER: builtins.int
     INLINE_BYTES_FIELD_NUMBER: builtins.int
     INLINE_STRING_FIELD_NUMBER: builtins.int
     ENVIRONMENT_VARIABLE_FIELD_NUMBER: builtins.int
-    filename: typing.Text = ...
+    filename: builtins.str
     """Local filesystem data source."""
-
-    inline_bytes: builtins.bytes = ...
+    inline_bytes: builtins.bytes
     """Bytes inlined in the configuration."""
-
-    inline_string: typing.Text = ...
+    inline_string: builtins.str
     """String inlined in the configuration."""
-
-    environment_variable: typing.Text = ...
+    environment_variable: builtins.str
     """Environment variable data source."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        filename : typing.Text = ...,
-        inline_bytes : builtins.bytes = ...,
-        inline_string : typing.Text = ...,
-        environment_variable : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"environment_variable",b"environment_variable",u"filename",b"filename",u"inline_bytes",b"inline_bytes",u"inline_string",b"inline_string",u"specifier",b"specifier"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"environment_variable",b"environment_variable",u"filename",b"filename",u"inline_bytes",b"inline_bytes",u"inline_string",b"inline_string",u"specifier",b"specifier"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"specifier",b"specifier"]) -> typing.Optional[typing_extensions.Literal["filename","inline_bytes","inline_string","environment_variable"]]: ...
+        filename: builtins.str = ...,
+        inline_bytes: builtins.bytes = ...,
+        inline_string: builtins.str = ...,
+        environment_variable: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["environment_variable", b"environment_variable", "filename", b"filename", "inline_bytes", b"inline_bytes", "inline_string", b"inline_string", "specifier", b"specifier"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["environment_variable", b"environment_variable", "filename", b"filename", "inline_bytes", b"inline_bytes", "inline_string", b"inline_string", "specifier", b"specifier"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["specifier", b"specifier"]) -> typing_extensions.Literal["filename", "inline_bytes", "inline_string", "environment_variable"] | None: ...
+
 global___DataSource = DataSource
 
 class RetryPolicy(google.protobuf.message.Message):
     """The message specifies the retry policy of remote data source when fetching fails."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     RETRY_BACK_OFF_FIELD_NUMBER: builtins.int
     NUM_RETRIES_FIELD_NUMBER: builtins.int
     @property
@@ -703,70 +742,73 @@ class RetryPolicy(google.protobuf.message.Message):
         This parameter is optional, in which case the default base interval is 1000 milliseconds. The
         default maximum interval is 10 times the base interval.
         """
-        pass
     @property
     def num_retries(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Specifies the allowed number of retries. This parameter is optional and
         defaults to 1.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        retry_back_off : typing.Optional[envoy.config.core.v3.backoff_pb2.BackoffStrategy] = ...,
-        num_retries : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"num_retries",b"num_retries",u"retry_back_off",b"retry_back_off"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"num_retries",b"num_retries",u"retry_back_off",b"retry_back_off"]) -> None: ...
+        retry_back_off: envoy.config.core.v3.backoff_pb2.BackoffStrategy | None = ...,
+        num_retries: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["num_retries", b"num_retries", "retry_back_off", b"retry_back_off"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["num_retries", b"num_retries", "retry_back_off", b"retry_back_off"]) -> None: ...
+
 global___RetryPolicy = RetryPolicy
 
 class RemoteDataSource(google.protobuf.message.Message):
     """The message specifies how to fetch data from remote and how to verify it."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     HTTP_URI_FIELD_NUMBER: builtins.int
     SHA256_FIELD_NUMBER: builtins.int
     RETRY_POLICY_FIELD_NUMBER: builtins.int
     @property
     def http_uri(self) -> envoy.config.core.v3.http_uri_pb2.HttpUri:
         """The HTTP URI to fetch the remote data."""
-        pass
-    sha256: typing.Text = ...
+    sha256: builtins.str
     """SHA256 string for verifying data."""
-
     @property
     def retry_policy(self) -> global___RetryPolicy:
         """Retry policy for fetching remote data."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        http_uri : typing.Optional[envoy.config.core.v3.http_uri_pb2.HttpUri] = ...,
-        sha256 : typing.Text = ...,
-        retry_policy : typing.Optional[global___RetryPolicy] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"http_uri",b"http_uri",u"retry_policy",b"retry_policy"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"http_uri",b"http_uri",u"retry_policy",b"retry_policy",u"sha256",b"sha256"]) -> None: ...
+        http_uri: envoy.config.core.v3.http_uri_pb2.HttpUri | None = ...,
+        sha256: builtins.str = ...,
+        retry_policy: global___RetryPolicy | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["http_uri", b"http_uri", "retry_policy", b"retry_policy"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["http_uri", b"http_uri", "retry_policy", b"retry_policy", "sha256", b"sha256"]) -> None: ...
+
 global___RemoteDataSource = RemoteDataSource
 
 class AsyncDataSource(google.protobuf.message.Message):
     """Async data source which support async data fetch."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     LOCAL_FIELD_NUMBER: builtins.int
     REMOTE_FIELD_NUMBER: builtins.int
     @property
     def local(self) -> global___DataSource:
         """Local async data source."""
-        pass
     @property
     def remote(self) -> global___RemoteDataSource:
         """Remote async data source."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        local : typing.Optional[global___DataSource] = ...,
-        remote : typing.Optional[global___RemoteDataSource] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"local",b"local",u"remote",b"remote",u"specifier",b"specifier"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"local",b"local",u"remote",b"remote",u"specifier",b"specifier"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"specifier",b"specifier"]) -> typing.Optional[typing_extensions.Literal["local","remote"]]: ...
+        local: global___DataSource | None = ...,
+        remote: global___RemoteDataSource | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["local", b"local", "remote", b"remote", "specifier", b"specifier"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["local", b"local", "remote", b"remote", "specifier", b"specifier"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["specifier", b"specifier"]) -> typing_extensions.Literal["local", "remote"] | None: ...
+
 global___AsyncDataSource = AsyncDataSource
 
 class TransportSocket(google.protobuf.message.Message):
@@ -775,24 +817,27 @@ class TransportSocket(google.protobuf.message.Message):
     empty, a default transport socket implementation and configuration will be
     chosen based on the platform and existence of tls_context.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     NAME_FIELD_NUMBER: builtins.int
     TYPED_CONFIG_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    name: builtins.str
     """The name of the transport socket to instantiate. The name must match a supported transport
     socket implementation.
     """
-
     @property
     def typed_config(self) -> google.protobuf.any_pb2.Any: ...
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        typed_config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"config_type",b"config_type",u"typed_config",b"typed_config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"config_type",b"config_type",u"name",b"name",u"typed_config",b"typed_config"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"config_type",b"config_type"]) -> typing.Optional[typing_extensions.Literal["typed_config"]]: ...
+        name: builtins.str = ...,
+        typed_config: google.protobuf.any_pb2.Any | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["config_type", b"config_type", "typed_config", b"typed_config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["config_type", b"config_type", "name", b"name", "typed_config", b"typed_config"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["config_type", b"config_type"]) -> typing_extensions.Literal["typed_config"] | None: ...
+
 global___TransportSocket = TransportSocket
 
 class RuntimeFractionalPercent(google.protobuf.message.Message):
@@ -805,40 +850,45 @@ class RuntimeFractionalPercent(google.protobuf.message.Message):
       :ref:`FractionalPercent <envoy_v3_api_msg_type.v3.FractionalPercent>` proto represented as JSON/YAML
       and may also be represented as an integer with the assumption that the value is an integral
       percentage out of 100. For instance, a runtime key lookup returning the value "42" would parse
-      as a `FractionalPercent` whose numerator is 42 and denominator is HUNDRED.
+      as a ``FractionalPercent`` whose numerator is 42 and denominator is HUNDRED.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     DEFAULT_VALUE_FIELD_NUMBER: builtins.int
     RUNTIME_KEY_FIELD_NUMBER: builtins.int
     @property
     def default_value(self) -> envoy.type.v3.percent_pb2.FractionalPercent:
         """Default value if the runtime value's for the numerator/denominator keys are not available."""
-        pass
-    runtime_key: typing.Text = ...
+    runtime_key: builtins.str
     """Runtime key for a YAML representation of a FractionalPercent."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        default_value : typing.Optional[envoy.type.v3.percent_pb2.FractionalPercent] = ...,
-        runtime_key : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"runtime_key",b"runtime_key"]) -> None: ...
+        default_value: envoy.type.v3.percent_pb2.FractionalPercent | None = ...,
+        runtime_key: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["default_value", b"default_value"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "runtime_key", b"runtime_key"]) -> None: ...
+
 global___RuntimeFractionalPercent = RuntimeFractionalPercent
 
 class ControlPlane(google.protobuf.message.Message):
     """Identifies a specific ControlPlane instance that Envoy is connected to."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     IDENTIFIER_FIELD_NUMBER: builtins.int
-    identifier: typing.Text = ...
+    identifier: builtins.str
     """An opaque control plane identifier that uniquely identifies an instance
     of control plane. This can be used to identify which control plane instance,
     the Envoy is connected to.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        identifier : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"identifier",b"identifier"]) -> None: ...
+        identifier: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["identifier", b"identifier"]) -> None: ...
+
 global___ControlPlane = ControlPlane

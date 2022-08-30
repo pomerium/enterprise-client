@@ -6,17 +6,23 @@ import builtins
 import envoy.type.v3.range_pb2
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class DoubleMatcher(google.protobuf.message.Message):
     """[#protodoc-title: Number matcher]
 
     Specifies the way to match a double value.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     RANGE_FIELD_NUMBER: builtins.int
     EXACT_FIELD_NUMBER: builtins.int
     @property
@@ -24,16 +30,16 @@ class DoubleMatcher(google.protobuf.message.Message):
         """If specified, the input double value must be in the range specified here.
         Note: The range is using half-open interval semantics [start, end).
         """
-        pass
-    exact: builtins.float = ...
+    exact: builtins.float
     """If specified, the input double value must be equal to the value specified here."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        range : typing.Optional[envoy.type.v3.range_pb2.DoubleRange] = ...,
-        exact : builtins.float = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"exact",b"exact",u"match_pattern",b"match_pattern",u"range",b"range"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"exact",b"exact",u"match_pattern",b"match_pattern",u"range",b"range"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"match_pattern",b"match_pattern"]) -> typing.Optional[typing_extensions.Literal["range","exact"]]: ...
+        range: envoy.type.v3.range_pb2.DoubleRange | None = ...,
+        exact: builtins.float = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["exact", b"exact", "match_pattern", b"match_pattern", "range", b"range"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["exact", b"exact", "match_pattern", b"match_pattern", "range", b"range"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["match_pattern", b"match_pattern"]) -> typing_extensions.Literal["range", "exact"] | None: ...
+
 global___DoubleMatcher = DoubleMatcher

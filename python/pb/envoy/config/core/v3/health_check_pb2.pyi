@@ -3,6 +3,7 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.base_pb2
 import envoy.config.core.v3.event_service_config_pb2
 import envoy.type.matcher.v3.string_pb2
@@ -16,10 +17,41 @@ import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
 import google.protobuf.struct_pb2
 import google.protobuf.wrappers_pb2
+import sys
 import typing
-import typing_extensions
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
+
+class _HealthStatus:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _HealthStatusEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_HealthStatus.ValueType], builtins.type):  # noqa: F821
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    UNKNOWN: _HealthStatus.ValueType  # 0
+    """The health status is not known. This is interpreted by Envoy as ``HEALTHY``."""
+    HEALTHY: _HealthStatus.ValueType  # 1
+    """Healthy."""
+    UNHEALTHY: _HealthStatus.ValueType  # 2
+    """Unhealthy."""
+    DRAINING: _HealthStatus.ValueType  # 3
+    """Connection draining in progress. E.g.,
+    `<https://aws.amazon.com/blogs/aws/elb-connection-draining-remove-instances-from-service-with-care/>`_
+    or
+    `<https://cloud.google.com/compute/docs/load-balancing/enabling-connection-draining>`_.
+    This is interpreted by Envoy as ``UNHEALTHY``.
+    """
+    TIMEOUT: _HealthStatus.ValueType  # 4
+    """Health check timed out. This is part of HDS and is interpreted by Envoy as
+    ``UNHEALTHY``.
+    """
+    DEGRADED: _HealthStatus.ValueType  # 5
+    """Degraded."""
 
 class HealthStatus(_HealthStatus, metaclass=_HealthStatusEnumTypeWrapper):
     """[#protodoc-title: Health check]
@@ -29,121 +61,117 @@ class HealthStatus(_HealthStatus, metaclass=_HealthStatusEnumTypeWrapper):
 
     Endpoint health status.
     """
-    pass
-class _HealthStatus:
-    V = typing.NewType('V', builtins.int)
-class _HealthStatusEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_HealthStatus.V], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-    UNKNOWN = HealthStatus.V(0)
-    """The health status is not known. This is interpreted by Envoy as *HEALTHY*."""
 
-    HEALTHY = HealthStatus.V(1)
-    """Healthy."""
-
-    UNHEALTHY = HealthStatus.V(2)
-    """Unhealthy."""
-
-    DRAINING = HealthStatus.V(3)
-    """Connection draining in progress. E.g.,
-    `<https://aws.amazon.com/blogs/aws/elb-connection-draining-remove-instances-from-service-with-care/>`_
-    or
-    `<https://cloud.google.com/compute/docs/load-balancing/enabling-connection-draining>`_.
-    This is interpreted by Envoy as *UNHEALTHY*.
-    """
-
-    TIMEOUT = HealthStatus.V(4)
-    """Health check timed out. This is part of HDS and is interpreted by Envoy as
-    *UNHEALTHY*.
-    """
-
-    DEGRADED = HealthStatus.V(5)
-    """Degraded."""
-
-
-UNKNOWN = HealthStatus.V(0)
-"""The health status is not known. This is interpreted by Envoy as *HEALTHY*."""
-
-HEALTHY = HealthStatus.V(1)
+UNKNOWN: HealthStatus.ValueType  # 0
+"""The health status is not known. This is interpreted by Envoy as ``HEALTHY``."""
+HEALTHY: HealthStatus.ValueType  # 1
 """Healthy."""
-
-UNHEALTHY = HealthStatus.V(2)
+UNHEALTHY: HealthStatus.ValueType  # 2
 """Unhealthy."""
-
-DRAINING = HealthStatus.V(3)
+DRAINING: HealthStatus.ValueType  # 3
 """Connection draining in progress. E.g.,
 `<https://aws.amazon.com/blogs/aws/elb-connection-draining-remove-instances-from-service-with-care/>`_
 or
 `<https://cloud.google.com/compute/docs/load-balancing/enabling-connection-draining>`_.
-This is interpreted by Envoy as *UNHEALTHY*.
+This is interpreted by Envoy as ``UNHEALTHY``.
 """
-
-TIMEOUT = HealthStatus.V(4)
+TIMEOUT: HealthStatus.ValueType  # 4
 """Health check timed out. This is part of HDS and is interpreted by Envoy as
-*UNHEALTHY*.
+``UNHEALTHY``.
 """
-
-DEGRADED = HealthStatus.V(5)
+DEGRADED: HealthStatus.ValueType  # 5
 """Degraded."""
-
 global___HealthStatus = HealthStatus
 
+class HealthStatusSet(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    STATUSES_FIELD_NUMBER: builtins.int
+    @property
+    def statuses(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[global___HealthStatus.ValueType]:
+        """An order-independent set of health status."""
+    def __init__(
+        self,
+        *,
+        statuses: collections.abc.Iterable[global___HealthStatus.ValueType] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["statuses", b"statuses"]) -> None: ...
+
+global___HealthStatusSet = HealthStatusSet
 
 class HealthCheck(google.protobuf.message.Message):
     """[#next-free-field: 25]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class Payload(google.protobuf.message.Message):
         """Describes the encoding of the payload bytes in the payload."""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         TEXT_FIELD_NUMBER: builtins.int
         BINARY_FIELD_NUMBER: builtins.int
-        text: typing.Text = ...
+        text: builtins.str
         """Hex encoded payload. E.g., "000000FF"."""
-
-        binary: builtins.bytes = ...
-        """[#not-implemented-hide:] Binary payload."""
-
-        def __init__(self,
+        binary: builtins.bytes
+        """Binary payload."""
+        def __init__(
+            self,
             *,
-            text : typing.Text = ...,
-            binary : builtins.bytes = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"binary",b"binary",u"payload",b"payload",u"text",b"text"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"binary",b"binary",u"payload",b"payload",u"text",b"text"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"payload",b"payload"]) -> typing.Optional[typing_extensions.Literal["text","binary"]]: ...
+            text: builtins.str = ...,
+            binary: builtins.bytes = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["binary", b"binary", "payload", b"payload", "text", b"text"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["binary", b"binary", "payload", b"payload", "text", b"text"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["payload", b"payload"]) -> typing_extensions.Literal["text", "binary"] | None: ...
 
     class HttpHealthCheck(google.protobuf.message.Message):
-        """[#next-free-field: 13]"""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        """[#next-free-field: 15]"""
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         HOST_FIELD_NUMBER: builtins.int
         PATH_FIELD_NUMBER: builtins.int
         SEND_FIELD_NUMBER: builtins.int
         RECEIVE_FIELD_NUMBER: builtins.int
+        RESPONSE_BUFFER_SIZE_FIELD_NUMBER: builtins.int
         REQUEST_HEADERS_TO_ADD_FIELD_NUMBER: builtins.int
         REQUEST_HEADERS_TO_REMOVE_FIELD_NUMBER: builtins.int
         EXPECTED_STATUSES_FIELD_NUMBER: builtins.int
         RETRIABLE_STATUSES_FIELD_NUMBER: builtins.int
         CODEC_CLIENT_TYPE_FIELD_NUMBER: builtins.int
         SERVICE_NAME_MATCHER_FIELD_NUMBER: builtins.int
-        host: typing.Text = ...
+        METHOD_FIELD_NUMBER: builtins.int
+        host: builtins.str
         """The value of the host header in the HTTP health check request. If
         left empty (default value), the name of the cluster this health check is associated
         with will be used. The host header can be customized for a specific endpoint by setting the
         :ref:`hostname <envoy_v3_api_field_config.endpoint.v3.Endpoint.HealthCheckConfig.hostname>` field.
         """
-
-        path: typing.Text = ...
+        path: builtins.str
         """Specifies the HTTP path that will be requested during health checking. For example
-        */healthcheck*.
+        ``/healthcheck``.
         """
-
         @property
         def send(self) -> global___HealthCheck.Payload:
             """[#not-implemented-hide:] HTTP specific payload."""
-            pass
         @property
-        def receive(self) -> global___HealthCheck.Payload:
-            """[#not-implemented-hide:] HTTP specific response."""
-            pass
+        def receive(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HealthCheck.Payload]:
+            """Specifies a list of HTTP expected responses to match in the first ``response_buffer_size`` bytes of the response body.
+            If it is set, both the expected response check and status code determine the health check.
+            When checking the response, “fuzzy” matching is performed such that each payload block must be found,
+            and in the order specified, but not necessarily contiguous.
+
+            .. note::
+
+              It is recommended to set ``response_buffer_size`` based on the total Payload size for efficiency.
+              The default buffer size is 1024 bytes when it is not set.
+            """
+        @property
+        def response_buffer_size(self) -> google.protobuf.wrappers_pb2.UInt64Value:
+            """Specifies the size of response buffer in bytes that is used to Payload match.
+            The default value is 1024. Setting to 0 implies that the Payload will be matched against the entire response.
+            """
         @property
         def request_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
             """Specifies a list of HTTP headers that should be added to each request that is sent to the
@@ -151,13 +179,11 @@ class HealthCheck(google.protobuf.message.Message):
             the documentation on :ref:`custom request headers
             <config_http_conn_man_headers_custom_request_headers>`.
             """
-            pass
         @property
-        def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+        def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
             """Specifies a list of HTTP headers that should be removed from each request that is sent to the
             health checked cluster.
             """
-            pass
         @property
         def expected_statuses(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.type.v3.range_pb2.Int64Range]:
             """Specifies a list of HTTP response statuses considered healthy. If provided, replaces default
@@ -165,7 +191,6 @@ class HealthCheck(google.protobuf.message.Message):
             semantics of :ref:`Int64Range <envoy_v3_api_msg_type.v3.Int64Range>`. The start and end of each
             range are required. Only statuses in the range [100, 600) are allowed.
             """
-            pass
         @property
         def retriable_statuses(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.type.v3.range_pb2.Int64Range]:
             """Specifies a list of HTTP response statuses considered retriable. If provided, responses in this range
@@ -179,10 +204,8 @@ class HealthCheck(google.protobuf.message.Message):
             the host being considered immediately unhealthy i.e. if status code 200 is expected and there are no configured retriable statuses, any
             non-200 response will result in the host being marked unhealthy.
             """
-            pass
-        codec_client_type: envoy.type.v3.http_pb2.CodecClientType.V = ...
+        codec_client_type: envoy.type.v3.http_pb2.CodecClientType.ValueType
         """Use specified application protocol for health checks."""
-
         @property
         def service_name_matcher(self) -> envoy.type.matcher.v3.string_pb2.StringMatcher:
             """An optional service name parameter which is used to validate the identity of
@@ -190,61 +213,70 @@ class HealthCheck(google.protobuf.message.Message):
             <envoy_v3_api_msg_type.matcher.v3.StringMatcher>`. See the :ref:`architecture overview
             <arch_overview_health_checking_identity>` for more information.
             """
-            pass
-        def __init__(self,
+        method: envoy.config.core.v3.base_pb2.RequestMethod.ValueType
+        """HTTP Method that will be used for health checking, default is "GET".
+        GET, HEAD, POST, PUT, DELETE, OPTIONS, TRACE, PATCH methods are supported, but making request body is not supported.
+        CONNECT method is disallowed because it is not appropriate for health check request.
+        If a non-200 response is expected by the method, it needs to be set in :ref:`expected_statuses <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.expected_statuses>`.
+        """
+        def __init__(
+            self,
             *,
-            host : typing.Text = ...,
-            path : typing.Text = ...,
-            send : typing.Optional[global___HealthCheck.Payload] = ...,
-            receive : typing.Optional[global___HealthCheck.Payload] = ...,
-            request_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-            request_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-            expected_statuses : typing.Optional[typing.Iterable[envoy.type.v3.range_pb2.Int64Range]] = ...,
-            retriable_statuses : typing.Optional[typing.Iterable[envoy.type.v3.range_pb2.Int64Range]] = ...,
-            codec_client_type : envoy.type.v3.http_pb2.CodecClientType.V = ...,
-            service_name_matcher : typing.Optional[envoy.type.matcher.v3.string_pb2.StringMatcher] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"receive",b"receive",u"send",b"send",u"service_name_matcher",b"service_name_matcher"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"codec_client_type",b"codec_client_type",u"expected_statuses",b"expected_statuses",u"host",b"host",u"path",b"path",u"receive",b"receive",u"request_headers_to_add",b"request_headers_to_add",u"request_headers_to_remove",b"request_headers_to_remove",u"retriable_statuses",b"retriable_statuses",u"send",b"send",u"service_name_matcher",b"service_name_matcher"]) -> None: ...
+            host: builtins.str = ...,
+            path: builtins.str = ...,
+            send: global___HealthCheck.Payload | None = ...,
+            receive: collections.abc.Iterable[global___HealthCheck.Payload] | None = ...,
+            response_buffer_size: google.protobuf.wrappers_pb2.UInt64Value | None = ...,
+            request_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+            request_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+            expected_statuses: collections.abc.Iterable[envoy.type.v3.range_pb2.Int64Range] | None = ...,
+            retriable_statuses: collections.abc.Iterable[envoy.type.v3.range_pb2.Int64Range] | None = ...,
+            codec_client_type: envoy.type.v3.http_pb2.CodecClientType.ValueType = ...,
+            service_name_matcher: envoy.type.matcher.v3.string_pb2.StringMatcher | None = ...,
+            method: envoy.config.core.v3.base_pb2.RequestMethod.ValueType = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["response_buffer_size", b"response_buffer_size", "send", b"send", "service_name_matcher", b"service_name_matcher"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["codec_client_type", b"codec_client_type", "expected_statuses", b"expected_statuses", "host", b"host", "method", b"method", "path", b"path", "receive", b"receive", "request_headers_to_add", b"request_headers_to_add", "request_headers_to_remove", b"request_headers_to_remove", "response_buffer_size", b"response_buffer_size", "retriable_statuses", b"retriable_statuses", "send", b"send", "service_name_matcher", b"service_name_matcher"]) -> None: ...
 
     class TcpHealthCheck(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         SEND_FIELD_NUMBER: builtins.int
         RECEIVE_FIELD_NUMBER: builtins.int
         @property
         def send(self) -> global___HealthCheck.Payload:
             """Empty payloads imply a connect-only health check."""
-            pass
         @property
         def receive(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HealthCheck.Payload]:
             """When checking the response, “fuzzy” matching is performed such that each
-            binary block must be found, and in the order specified, but not
+            payload block must be found, and in the order specified, but not
             necessarily contiguous.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            send : typing.Optional[global___HealthCheck.Payload] = ...,
-            receive : typing.Optional[typing.Iterable[global___HealthCheck.Payload]] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"send",b"send"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"receive",b"receive",u"send",b"send"]) -> None: ...
+            send: global___HealthCheck.Payload | None = ...,
+            receive: collections.abc.Iterable[global___HealthCheck.Payload] | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["send", b"send"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["receive", b"receive", "send", b"send"]) -> None: ...
 
     class RedisHealthCheck(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KEY_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
+        key: builtins.str
         """If set, optionally perform ``EXISTS <key>`` instead of ``PING``. A return value
         from Redis of 0 (does not exist) is considered a passing healthcheck. A return value other
         than 0 is considered a failure. This allows the user to mark a Redis instance for maintenance
         by setting the specified key to any value and waiting for traffic to drain.
         """
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key"]) -> None: ...
+            key: builtins.str = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key"]) -> None: ...
 
     class GrpcHealthCheck(google.protobuf.message.Message):
         """`grpc.health.v1.Health
@@ -252,49 +284,61 @@ class HealthCheck(google.protobuf.message.Message):
         healthcheck. See `gRPC doc <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`_
         for details.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         SERVICE_NAME_FIELD_NUMBER: builtins.int
         AUTHORITY_FIELD_NUMBER: builtins.int
-        service_name: typing.Text = ...
+        INITIAL_METADATA_FIELD_NUMBER: builtins.int
+        service_name: builtins.str
         """An optional service name parameter which will be sent to gRPC service in
         `grpc.health.v1.HealthCheckRequest
         <https://github.com/grpc/grpc/blob/master/src/proto/grpc/health/v1/health.proto#L20>`_.
         message. See `gRPC health-checking overview
         <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`_ for more information.
         """
-
-        authority: typing.Text = ...
+        authority: builtins.str
         """The value of the :authority header in the gRPC health check request. If
         left empty (default value), the name of the cluster this health check is associated
         with will be used. The authority header can be customized for a specific endpoint by setting
         the :ref:`hostname <envoy_v3_api_field_config.endpoint.v3.Endpoint.HealthCheckConfig.hostname>` field.
         """
-
-        def __init__(self,
+        @property
+        def initial_metadata(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
+            """Specifies a list of key-value pairs that should be added to the metadata of each GRPC call
+            that is sent to the health checked cluster. For more information, including details on header value syntax,
+            see the documentation on :ref:`custom request headers
+            <config_http_conn_man_headers_custom_request_headers>`.
+            """
+        def __init__(
+            self,
             *,
-            service_name : typing.Text = ...,
-            authority : typing.Text = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"authority",b"authority",u"service_name",b"service_name"]) -> None: ...
+            service_name: builtins.str = ...,
+            authority: builtins.str = ...,
+            initial_metadata: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["authority", b"authority", "initial_metadata", b"initial_metadata", "service_name", b"service_name"]) -> None: ...
 
     class CustomHealthCheck(google.protobuf.message.Message):
         """Custom health check."""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         NAME_FIELD_NUMBER: builtins.int
         TYPED_CONFIG_FIELD_NUMBER: builtins.int
-        name: typing.Text = ...
+        name: builtins.str
         """The registered name of the custom health checker."""
-
         @property
         def typed_config(self) -> google.protobuf.any_pb2.Any: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            name : typing.Text = ...,
-            typed_config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"config_type",b"config_type",u"typed_config",b"typed_config"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"config_type",b"config_type",u"name",b"name",u"typed_config",b"typed_config"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"config_type",b"config_type"]) -> typing.Optional[typing_extensions.Literal["typed_config"]]: ...
+            name: builtins.str = ...,
+            typed_config: google.protobuf.any_pb2.Any | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["config_type", b"config_type", "typed_config", b"typed_config"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["config_type", b"config_type", "name", b"name", "typed_config", b"typed_config"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["config_type", b"config_type"]) -> typing_extensions.Literal["typed_config"] | None: ...
 
     class TlsOptions(google.protobuf.message.Message):
         """Health checks occur over the transport socket specified for the cluster. This implies that if a
@@ -302,21 +346,23 @@ class HealthCheck(google.protobuf.message.Message):
 
         This allows overriding the cluster TLS settings, just for health check connections.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         ALPN_PROTOCOLS_FIELD_NUMBER: builtins.int
         @property
-        def alpn_protocols(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+        def alpn_protocols(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
             """Specifies the ALPN protocols for health check connections. This is useful if the
             corresponding upstream is using ALPN-based :ref:`FilterChainMatch
             <envoy_v3_api_msg_config.listener.v3.FilterChainMatch>` along with different protocols for health checks
             versus data connections. If empty, no ALPN protocols will be set on health check connections.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            alpn_protocols : typing.Optional[typing.Iterable[typing.Text]] = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"alpn_protocols",b"alpn_protocols"]) -> None: ...
+            alpn_protocols: collections.abc.Iterable[builtins.str] | None = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["alpn_protocols", b"alpn_protocols"]) -> None: ...
 
     TIMEOUT_FIELD_NUMBER: builtins.int
     INTERVAL_FIELD_NUMBER: builtins.int
@@ -346,73 +392,60 @@ class HealthCheck(google.protobuf.message.Message):
         """The time to wait for a health check response. If the timeout is reached the
         health check attempt will be considered a failure.
         """
-        pass
     @property
     def interval(self) -> google.protobuf.duration_pb2.Duration:
         """The interval between health checks."""
-        pass
     @property
     def initial_jitter(self) -> google.protobuf.duration_pb2.Duration:
         """An optional jitter amount in milliseconds. If specified, Envoy will start health
         checking after for a random time in ms between 0 and initial_jitter. This only
         applies to the first health check.
         """
-        pass
     @property
     def interval_jitter(self) -> google.protobuf.duration_pb2.Duration:
         """An optional jitter amount in milliseconds. If specified, during every
         interval Envoy will add interval_jitter to the wait time.
         """
-        pass
-    interval_jitter_percent: builtins.int = ...
+    interval_jitter_percent: builtins.int
     """An optional jitter amount as a percentage of interval_ms. If specified,
-    during every interval Envoy will add interval_ms *
-    interval_jitter_percent / 100 to the wait time.
+    during every interval Envoy will add ``interval_ms`` *
+    ``interval_jitter_percent`` / 100 to the wait time.
 
     If interval_jitter_ms and interval_jitter_percent are both set, both of
     them will be used to increase the wait time.
     """
-
     @property
     def unhealthy_threshold(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The number of unhealthy health checks required before a host is marked
-        unhealthy. Note that for *http* health checking if a host responds with a code not in
+        unhealthy. Note that for ``http`` health checking if a host responds with a code not in
         :ref:`expected_statuses <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.expected_statuses>`
         or :ref:`retriable_statuses <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.retriable_statuses>`,
         this threshold is ignored and the host is considered immediately unhealthy.
         """
-        pass
     @property
     def healthy_threshold(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The number of healthy health checks required before a host is marked
         healthy. Note that during startup, only a single successful health check is
         required to mark a host healthy.
         """
-        pass
     @property
     def alt_port(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """[#not-implemented-hide:] Non-serving port for health checking."""
-        pass
     @property
     def reuse_connection(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Reuse health check connection between health checks. Default is true."""
-        pass
     @property
     def http_health_check(self) -> global___HealthCheck.HttpHealthCheck:
         """HTTP health check."""
-        pass
     @property
     def tcp_health_check(self) -> global___HealthCheck.TcpHealthCheck:
         """TCP health check."""
-        pass
     @property
     def grpc_health_check(self) -> global___HealthCheck.GrpcHealthCheck:
         """gRPC health check."""
-        pass
     @property
     def custom_health_check(self) -> global___HealthCheck.CustomHealthCheck:
         """Custom health check."""
-        pass
     @property
     def no_traffic_interval(self) -> google.protobuf.duration_pb2.Duration:
         """The "no traffic interval" is a special health check interval that is used when a cluster has
@@ -424,7 +457,6 @@ class HealthCheck(google.protobuf.message.Message):
 
         The default value for "no traffic interval" is 60 seconds.
         """
-        pass
     @property
     def no_traffic_healthy_interval(self) -> google.protobuf.duration_pb2.Duration:
         """The "no traffic healthy interval" is a special health check interval that
@@ -432,7 +464,7 @@ class HealthCheck(google.protobuf.message.Message):
         (including new hosts) when the cluster has received no traffic.
 
         This is useful for when we want to send frequent health checks with
-        `no_traffic_interval` but then revert to lower frequency `no_traffic_healthy_interval` once
+        ``no_traffic_interval`` but then revert to lower frequency ``no_traffic_healthy_interval`` once
         a host in the cluster is marked as healthy.
 
         Once a cluster has been used for traffic routing, Envoy will shift back to using the
@@ -441,7 +473,6 @@ class HealthCheck(google.protobuf.message.Message):
         If no_traffic_healthy_interval is not set, it will default to the
         no traffic interval and send that interval regardless of health state.
         """
-        pass
     @property
     def unhealthy_interval(self) -> google.protobuf.duration_pb2.Duration:
         """The "unhealthy interval" is a health check interval that is used for hosts that are marked as
@@ -450,7 +481,6 @@ class HealthCheck(google.protobuf.message.Message):
 
         The default value for "unhealthy interval" is the same as "interval".
         """
-        pass
     @property
     def unhealthy_edge_interval(self) -> google.protobuf.duration_pb2.Duration:
         """The "unhealthy edge interval" is a special health check interval that is used for the first
@@ -460,7 +490,6 @@ class HealthCheck(google.protobuf.message.Message):
 
         The default value for "unhealthy edge interval" is the same as "unhealthy interval".
         """
-        pass
     @property
     def healthy_edge_interval(self) -> google.protobuf.duration_pb2.Duration:
         """The "healthy edge interval" is a special health check interval that is used for the first
@@ -469,29 +498,24 @@ class HealthCheck(google.protobuf.message.Message):
 
         The default value for "healthy edge interval" is the same as the default interval.
         """
-        pass
-    event_log_path: typing.Text = ...
+    event_log_path: builtins.str
     """Specifies the path to the :ref:`health check event log <arch_overview_health_check_logging>`.
     If empty, no event log will be written.
     """
-
     @property
     def event_service(self) -> envoy.config.core.v3.event_service_config_pb2.EventServiceConfig:
         """[#not-implemented-hide:]
         The gRPC service for the health check event service.
         If empty, health check events won't be sent to a remote endpoint.
         """
-        pass
-    always_log_health_check_failures: builtins.bool = ...
+    always_log_health_check_failures: builtins.bool
     """If set to true, health check failure events will always be logged. If set to false, only the
     initial health check failure event will be logged.
     The default value is false.
     """
-
     @property
     def tls_options(self) -> global___HealthCheck.TlsOptions:
         """This allows overriding the cluster TLS settings, just for health check connections."""
-        pass
     @property
     def transport_socket_match_criteria(self) -> google.protobuf.struct_pb2.Struct:
         """Optional key/value pairs that will be used to match a transport socket from those specified in the cluster's
@@ -515,7 +539,7 @@ class HealthCheck(google.protobuf.message.Message):
              name: envoy.transport_sockets.tls
              config: { ... } # tls socket configuration
 
-        If this field is set, then for health checks it will supersede an entry of *envoy.transport_socket* in the
+        If this field is set, then for health checks it will supersede an entry of ``envoy.transport_socket`` in the
         :ref:`LbEndpoint.Metadata <envoy_v3_api_field_config.endpoint.v3.LbEndpoint.metadata>`.
         This allows using different transport socket capabilities for health checking versus proxying to the
         endpoint.
@@ -525,34 +549,35 @@ class HealthCheck(google.protobuf.message.Message):
         the cluster's :ref:`transport socket <envoy_v3_api_field_config.cluster.v3.Cluster.transport_socket>`
         will be used for health check socket configuration.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        initial_jitter : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        interval_jitter : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        interval_jitter_percent : builtins.int = ...,
-        unhealthy_threshold : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        healthy_threshold : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        alt_port : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        reuse_connection : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        http_health_check : typing.Optional[global___HealthCheck.HttpHealthCheck] = ...,
-        tcp_health_check : typing.Optional[global___HealthCheck.TcpHealthCheck] = ...,
-        grpc_health_check : typing.Optional[global___HealthCheck.GrpcHealthCheck] = ...,
-        custom_health_check : typing.Optional[global___HealthCheck.CustomHealthCheck] = ...,
-        no_traffic_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        no_traffic_healthy_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        unhealthy_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        unhealthy_edge_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        healthy_edge_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        event_log_path : typing.Text = ...,
-        event_service : typing.Optional[envoy.config.core.v3.event_service_config_pb2.EventServiceConfig] = ...,
-        always_log_health_check_failures : builtins.bool = ...,
-        tls_options : typing.Optional[global___HealthCheck.TlsOptions] = ...,
-        transport_socket_match_criteria : typing.Optional[google.protobuf.struct_pb2.Struct] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"alt_port",b"alt_port",u"custom_health_check",b"custom_health_check",u"event_service",b"event_service",u"grpc_health_check",b"grpc_health_check",u"health_checker",b"health_checker",u"healthy_edge_interval",b"healthy_edge_interval",u"healthy_threshold",b"healthy_threshold",u"http_health_check",b"http_health_check",u"initial_jitter",b"initial_jitter",u"interval",b"interval",u"interval_jitter",b"interval_jitter",u"no_traffic_healthy_interval",b"no_traffic_healthy_interval",u"no_traffic_interval",b"no_traffic_interval",u"reuse_connection",b"reuse_connection",u"tcp_health_check",b"tcp_health_check",u"timeout",b"timeout",u"tls_options",b"tls_options",u"transport_socket_match_criteria",b"transport_socket_match_criteria",u"unhealthy_edge_interval",b"unhealthy_edge_interval",u"unhealthy_interval",b"unhealthy_interval",u"unhealthy_threshold",b"unhealthy_threshold"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"alt_port",b"alt_port",u"always_log_health_check_failures",b"always_log_health_check_failures",u"custom_health_check",b"custom_health_check",u"event_log_path",b"event_log_path",u"event_service",b"event_service",u"grpc_health_check",b"grpc_health_check",u"health_checker",b"health_checker",u"healthy_edge_interval",b"healthy_edge_interval",u"healthy_threshold",b"healthy_threshold",u"http_health_check",b"http_health_check",u"initial_jitter",b"initial_jitter",u"interval",b"interval",u"interval_jitter",b"interval_jitter",u"interval_jitter_percent",b"interval_jitter_percent",u"no_traffic_healthy_interval",b"no_traffic_healthy_interval",u"no_traffic_interval",b"no_traffic_interval",u"reuse_connection",b"reuse_connection",u"tcp_health_check",b"tcp_health_check",u"timeout",b"timeout",u"tls_options",b"tls_options",u"transport_socket_match_criteria",b"transport_socket_match_criteria",u"unhealthy_edge_interval",b"unhealthy_edge_interval",u"unhealthy_interval",b"unhealthy_interval",u"unhealthy_threshold",b"unhealthy_threshold"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"health_checker",b"health_checker"]) -> typing.Optional[typing_extensions.Literal["http_health_check","tcp_health_check","grpc_health_check","custom_health_check"]]: ...
+        timeout: google.protobuf.duration_pb2.Duration | None = ...,
+        interval: google.protobuf.duration_pb2.Duration | None = ...,
+        initial_jitter: google.protobuf.duration_pb2.Duration | None = ...,
+        interval_jitter: google.protobuf.duration_pb2.Duration | None = ...,
+        interval_jitter_percent: builtins.int = ...,
+        unhealthy_threshold: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        healthy_threshold: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        alt_port: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        reuse_connection: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        http_health_check: global___HealthCheck.HttpHealthCheck | None = ...,
+        tcp_health_check: global___HealthCheck.TcpHealthCheck | None = ...,
+        grpc_health_check: global___HealthCheck.GrpcHealthCheck | None = ...,
+        custom_health_check: global___HealthCheck.CustomHealthCheck | None = ...,
+        no_traffic_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        no_traffic_healthy_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        unhealthy_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        unhealthy_edge_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        healthy_edge_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        event_log_path: builtins.str = ...,
+        event_service: envoy.config.core.v3.event_service_config_pb2.EventServiceConfig | None = ...,
+        always_log_health_check_failures: builtins.bool = ...,
+        tls_options: global___HealthCheck.TlsOptions | None = ...,
+        transport_socket_match_criteria: google.protobuf.struct_pb2.Struct | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["alt_port", b"alt_port", "custom_health_check", b"custom_health_check", "event_service", b"event_service", "grpc_health_check", b"grpc_health_check", "health_checker", b"health_checker", "healthy_edge_interval", b"healthy_edge_interval", "healthy_threshold", b"healthy_threshold", "http_health_check", b"http_health_check", "initial_jitter", b"initial_jitter", "interval", b"interval", "interval_jitter", b"interval_jitter", "no_traffic_healthy_interval", b"no_traffic_healthy_interval", "no_traffic_interval", b"no_traffic_interval", "reuse_connection", b"reuse_connection", "tcp_health_check", b"tcp_health_check", "timeout", b"timeout", "tls_options", b"tls_options", "transport_socket_match_criteria", b"transport_socket_match_criteria", "unhealthy_edge_interval", b"unhealthy_edge_interval", "unhealthy_interval", b"unhealthy_interval", "unhealthy_threshold", b"unhealthy_threshold"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["alt_port", b"alt_port", "always_log_health_check_failures", b"always_log_health_check_failures", "custom_health_check", b"custom_health_check", "event_log_path", b"event_log_path", "event_service", b"event_service", "grpc_health_check", b"grpc_health_check", "health_checker", b"health_checker", "healthy_edge_interval", b"healthy_edge_interval", "healthy_threshold", b"healthy_threshold", "http_health_check", b"http_health_check", "initial_jitter", b"initial_jitter", "interval", b"interval", "interval_jitter", b"interval_jitter", "interval_jitter_percent", b"interval_jitter_percent", "no_traffic_healthy_interval", b"no_traffic_healthy_interval", "no_traffic_interval", b"no_traffic_interval", "reuse_connection", b"reuse_connection", "tcp_health_check", b"tcp_health_check", "timeout", b"timeout", "tls_options", b"tls_options", "transport_socket_match_criteria", b"transport_socket_match_criteria", "unhealthy_edge_interval", b"unhealthy_edge_interval", "unhealthy_interval", b"unhealthy_interval", "unhealthy_threshold", b"unhealthy_threshold"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["health_checker", b"health_checker"]) -> typing_extensions.Literal["http_health_check", "tcp_health_check", "grpc_health_check", "custom_health_check"] | None: ...
+
 global___HealthCheck = HealthCheck

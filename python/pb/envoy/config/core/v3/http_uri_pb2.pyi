@@ -6,21 +6,27 @@ import builtins
 import google.protobuf.descriptor
 import google.protobuf.duration_pb2
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class HttpUri(google.protobuf.message.Message):
     """[#protodoc-title: HTTP Service URI ]
 
     Envoy external URI descriptor
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     URI_FIELD_NUMBER: builtins.int
     CLUSTER_FIELD_NUMBER: builtins.int
     TIMEOUT_FIELD_NUMBER: builtins.int
-    uri: typing.Text = ...
+    uri: builtins.str
     """The HTTP server URI. It should be a full FQDN with protocol, host and path.
 
     Example:
@@ -29,8 +35,7 @@ class HttpUri(google.protobuf.message.Message):
 
        uri: https://www.googleapis.com/oauth2/v1/certs
     """
-
-    cluster: typing.Text = ...
+    cluster: builtins.str
     """A cluster is created in the Envoy "cluster_manager" config
     section. This field specifies the cluster name.
 
@@ -40,18 +45,18 @@ class HttpUri(google.protobuf.message.Message):
 
        cluster: jwks_cluster
     """
-
     @property
     def timeout(self) -> google.protobuf.duration_pb2.Duration:
         """Sets the maximum duration in milliseconds that a response can take to arrive upon request."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        uri : typing.Text = ...,
-        cluster : typing.Text = ...,
-        timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"cluster",b"cluster",u"http_upstream_type",b"http_upstream_type",u"timeout",b"timeout"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"cluster",b"cluster",u"http_upstream_type",b"http_upstream_type",u"timeout",b"timeout",u"uri",b"uri"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"http_upstream_type",b"http_upstream_type"]) -> typing.Optional[typing_extensions.Literal["cluster"]]: ...
+        uri: builtins.str = ...,
+        cluster: builtins.str = ...,
+        timeout: google.protobuf.duration_pb2.Duration | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["cluster", b"cluster", "http_upstream_type", b"http_upstream_type", "timeout", b"timeout"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["cluster", b"cluster", "http_upstream_type", b"http_upstream_type", "timeout", b"timeout", "uri", b"uri"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["http_upstream_type", b"http_upstream_type"]) -> typing_extensions.Literal["cluster"] | None: ...
+
 global___HttpUri = HttpUri

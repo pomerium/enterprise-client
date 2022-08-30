@@ -3,40 +3,49 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.address_pb2
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class DnsResolverOptions(google.protobuf.message.Message):
     """[#protodoc-title: Resolver]
 
     Configuration of DNS resolver option flags which control the behavior of the DNS resolver.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     USE_TCP_FOR_DNS_LOOKUPS_FIELD_NUMBER: builtins.int
     NO_DEFAULT_SEARCH_DOMAIN_FIELD_NUMBER: builtins.int
-    use_tcp_for_dns_lookups: builtins.bool = ...
+    use_tcp_for_dns_lookups: builtins.bool
     """Use TCP for all DNS queries instead of the default protocol UDP."""
-
-    no_default_search_domain: builtins.bool = ...
+    no_default_search_domain: builtins.bool
     """Do not use the default search domains; only query hostnames as-is or as aliases."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        use_tcp_for_dns_lookups : builtins.bool = ...,
-        no_default_search_domain : builtins.bool = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"no_default_search_domain",b"no_default_search_domain",u"use_tcp_for_dns_lookups",b"use_tcp_for_dns_lookups"]) -> None: ...
+        use_tcp_for_dns_lookups: builtins.bool = ...,
+        no_default_search_domain: builtins.bool = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["no_default_search_domain", b"no_default_search_domain", "use_tcp_for_dns_lookups", b"use_tcp_for_dns_lookups"]) -> None: ...
+
 global___DnsResolverOptions = DnsResolverOptions
 
 class DnsResolutionConfig(google.protobuf.message.Message):
     """DNS resolution configuration which includes the underlying dns resolver addresses and options."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     RESOLVERS_FIELD_NUMBER: builtins.int
     DNS_RESOLVER_OPTIONS_FIELD_NUMBER: builtins.int
     @property
@@ -45,16 +54,16 @@ class DnsResolutionConfig(google.protobuf.message.Message):
         via the underlying DNS resolvers. Otherwise, the default system resolvers
         (e.g., /etc/resolv.conf) will be used.
         """
-        pass
     @property
     def dns_resolver_options(self) -> global___DnsResolverOptions:
         """Configuration of DNS resolver option flags which control the behavior of the DNS resolver."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        resolvers : typing.Optional[typing.Iterable[envoy.config.core.v3.address_pb2.Address]] = ...,
-        dns_resolver_options : typing.Optional[global___DnsResolverOptions] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"dns_resolver_options",b"dns_resolver_options"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"dns_resolver_options",b"dns_resolver_options",u"resolvers",b"resolvers"]) -> None: ...
+        resolvers: collections.abc.Iterable[envoy.config.core.v3.address_pb2.Address] | None = ...,
+        dns_resolver_options: global___DnsResolverOptions | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["dns_resolver_options", b"dns_resolver_options"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["dns_resolver_options", b"dns_resolver_options", "resolvers", b"resolvers"]) -> None: ...
+
 global___DnsResolutionConfig = DnsResolutionConfig

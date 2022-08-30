@@ -3,6 +3,7 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.base_pb2
 import envoy.config.core.v3.extension_pb2
 import envoy.config.core.v3.proxy_protocol_pb2
@@ -20,11 +21,16 @@ import google.protobuf.internal.containers
 import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
 import google.protobuf.wrappers_pb2
+import sys
 import typing
-import typing_extensions
 import xds.type.matcher.v3.matcher_pb2
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class VirtualHost(google.protobuf.message.Message):
     """[#protodoc-title: HTTP route components]
@@ -36,57 +42,56 @@ class VirtualHost(google.protobuf.message.Message):
     host header. This allows a single listener to service multiple top level domain path trees. Once
     a virtual host is selected based on the domain, the routes are processed in order to see which
     upstream cluster to route to or whether to perform a redirect.
-    [#next-free-field: 22]
+    [#next-free-field: 23]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    class TlsRequirementType(_TlsRequirementType, metaclass=_TlsRequirementTypeEnumTypeWrapper):
-        pass
-    class _TlsRequirementType:
-        V = typing.NewType('V', builtins.int)
-    class _TlsRequirementTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_TlsRequirementType.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        NONE = VirtualHost.TlsRequirementType.V(0)
-        """No TLS requirement for the virtual host."""
 
-        EXTERNAL_ONLY = VirtualHost.TlsRequirementType.V(1)
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    class _TlsRequirementType:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _TlsRequirementTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[VirtualHost._TlsRequirementType.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        NONE: VirtualHost._TlsRequirementType.ValueType  # 0
+        """No TLS requirement for the virtual host."""
+        EXTERNAL_ONLY: VirtualHost._TlsRequirementType.ValueType  # 1
         """External requests must use TLS. If a request is external and it is not
         using TLS, a 301 redirect will be sent telling the client to use HTTPS.
         """
-
-        ALL = VirtualHost.TlsRequirementType.V(2)
+        ALL: VirtualHost._TlsRequirementType.ValueType  # 2
         """All requests must use TLS. If a request is not using TLS, a 301 redirect
         will be sent telling the client to use HTTPS.
         """
 
-
-    NONE = VirtualHost.TlsRequirementType.V(0)
+    class TlsRequirementType(_TlsRequirementType, metaclass=_TlsRequirementTypeEnumTypeWrapper): ...
+    NONE: VirtualHost.TlsRequirementType.ValueType  # 0
     """No TLS requirement for the virtual host."""
-
-    EXTERNAL_ONLY = VirtualHost.TlsRequirementType.V(1)
+    EXTERNAL_ONLY: VirtualHost.TlsRequirementType.ValueType  # 1
     """External requests must use TLS. If a request is external and it is not
     using TLS, a 301 redirect will be sent telling the client to use HTTPS.
     """
-
-    ALL = VirtualHost.TlsRequirementType.V(2)
+    ALL: VirtualHost.TlsRequirementType.ValueType  # 2
     """All requests must use TLS. If a request is not using TLS, a 301 redirect
     will be sent telling the client to use HTTPS.
     """
 
-
     class TypedPerFilterConfigEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
+        key: builtins.str
         @property
         def value(self) -> google.protobuf.any_pb2.Any: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            value : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+            key: builtins.str = ...,
+            value: google.protobuf.any_pb2.Any | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     NAME_FIELD_NUMBER: builtins.int
     DOMAINS_FIELD_NUMBER: builtins.int
@@ -107,13 +112,13 @@ class VirtualHost(google.protobuf.message.Message):
     RETRY_POLICY_TYPED_CONFIG_FIELD_NUMBER: builtins.int
     HEDGE_POLICY_FIELD_NUMBER: builtins.int
     PER_REQUEST_BUFFER_LIMIT_BYTES_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    REQUEST_MIRROR_POLICIES_FIELD_NUMBER: builtins.int
+    name: builtins.str
     """The logical name of the virtual host. This is used when emitting certain
     statistics but is not relevant for routing.
     """
-
     @property
-    def domains(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def domains(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """A list of domains (host/authority header) that will be matched to this
         virtual host. Wildcard hosts are supported in the suffix or prefix form.
 
@@ -133,38 +138,32 @@ class VirtualHost(google.protobuf.message.Message):
 
         Domains cannot contain control characters. This is validated by the well_known_regex HTTP_HEADER_VALUE.
         """
-        pass
     @property
     def routes(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Route]:
         """The list of routes that will be matched, in order, for incoming requests.
         The first route that matches will be used.
-        Only one of this and `matcher` can be specified.
+        Only one of this and ``matcher`` can be specified.
         """
-        pass
     @property
     def matcher(self) -> xds.type.matcher.v3.matcher_pb2.Matcher:
         """[#next-major-version: This should be included in a oneof with routes wrapped in a message.]
-        The match tree to use when resolving route actions for incoming requests. Only one of this and `routes`
+        The match tree to use when resolving route actions for incoming requests. Only one of this and ``routes``
         can be specified.
         """
-        pass
-    require_tls: global___VirtualHost.TlsRequirementType.V = ...
+    require_tls: global___VirtualHost.TlsRequirementType.ValueType
     """Specifies the type of TLS enforcement the virtual host expects. If this option is not
     specified, there is no TLS requirement for the virtual host.
     """
-
     @property
     def virtual_clusters(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___VirtualCluster]:
         """A list of virtual clusters defined for this virtual host. Virtual clusters
         are used for additional statistics gathering.
         """
-        pass
     @property
     def rate_limits(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RateLimit]:
         """Specifies a set of rate limit configurations that will be applied to the
         virtual host.
         """
-        pass
     @property
     def request_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
         """Specifies a list of HTTP headers that should be added to each request
@@ -174,13 +173,11 @@ class VirtualHost(google.protobuf.message.Message):
         details on header value syntax, see the documentation on :ref:`custom request headers
         <config_http_conn_man_headers_custom_request_headers>`.
         """
-        pass
     @property
-    def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Specifies a list of HTTP headers that should be removed from each request
         handled by this virtual host.
         """
-        pass
     @property
     def response_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
         """Specifies a list of HTTP headers that should be added to each response
@@ -190,30 +187,30 @@ class VirtualHost(google.protobuf.message.Message):
         details on header value syntax, see the documentation on :ref:`custom request headers
         <config_http_conn_man_headers_custom_request_headers>`.
         """
-        pass
     @property
-    def response_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def response_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Specifies a list of HTTP headers that should be removed from each response
         handled by this virtual host.
         """
-        pass
     @property
     def cors(self) -> global___CorsPolicy:
         """Indicates that the virtual host has a CORS policy."""
-        pass
     @property
-    def typed_per_filter_config(self) -> google.protobuf.internal.containers.MessageMap[typing.Text, google.protobuf.any_pb2.Any]:
-        """The per_filter_config field can be used to provide virtual host-specific
-        configurations for filters. The key should match the filter name, such as
-        *envoy.filters.http.buffer* for the HTTP buffer filter. Use of this field is filter
-        specific; see the :ref:`HTTP filter documentation <config_http_filters>`
-        for if and how it is utilized.
+    def typed_per_filter_config(self) -> google.protobuf.internal.containers.MessageMap[builtins.str, google.protobuf.any_pb2.Any]:
+        """The per_filter_config field can be used to provide virtual host-specific configurations for filters.
+        The key should match the :ref:`filter config name
+        <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.HttpFilter.name>`.
+        The canonical filter name (e.g., ``envoy.filters.http.buffer`` for the HTTP buffer filter) can also
+        be used for the backwards compatibility. If there is no entry referred by the filter config name, the
+        entry referred by the canonical filter name will be provided to the filters as fallback.
+
+        Use of this field is filter specific;
+        see the :ref:`HTTP filter documentation <config_http_filters>` for if and how it is utilized.
         [#comment: An entry's value may be wrapped in a
         :ref:`FilterConfig<envoy_v3_api_msg_config.route.v3.FilterConfig>`
         message to specify additional options.]
         """
-        pass
-    include_request_attempt_count: builtins.bool = ...
+    include_request_attempt_count: builtins.bool
     """Decides whether the :ref:`x-envoy-attempt-count
     <config_http_filters_router_x-envoy-attempt-count>` header should be included
     in the upstream request. Setting this option will cause it to override any existing header
@@ -225,8 +222,7 @@ class VirtualHost(google.protobuf.message.Message):
 
     [#next-major-version: rename to include_attempt_count_in_request.]
     """
-
-    include_attempt_count_in_response: builtins.bool = ...
+    include_attempt_count_in_response: builtins.bool
     """Decides whether the :ref:`x-envoy-attempt-count
     <config_http_filters_router_x-envoy-attempt-count>` header should be included
     in the downstream response. Setting this option will cause the router to override any existing header
@@ -236,14 +232,12 @@ class VirtualHost(google.protobuf.message.Message):
     :ref:`suppress_envoy_headers
     <envoy_v3_api_field_extensions.filters.http.router.v3.Router.suppress_envoy_headers>` flag.
     """
-
     @property
     def retry_policy(self) -> global___RetryPolicy:
         """Indicates the retry policy for all routes in this virtual host. Note that setting a
         route level entry will take precedence over this config and it'll be treated
         independently (e.g.: values are not inherited).
         """
-        pass
     @property
     def retry_policy_typed_config(self) -> google.protobuf.any_pb2.Any:
         """[#not-implemented-hide:]
@@ -252,59 +246,69 @@ class VirtualHost(google.protobuf.message.Message):
         inherited). :ref:`Retry policy <envoy_v3_api_field_config.route.v3.VirtualHost.retry_policy>` should not be
         set if this field is used.
         """
-        pass
     @property
     def hedge_policy(self) -> global___HedgePolicy:
         """Indicates the hedge policy for all routes in this virtual host. Note that setting a
         route level entry will take precedence over this config and it'll be treated
         independently (e.g.: values are not inherited).
         """
-        pass
     @property
     def per_request_buffer_limit_bytes(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The maximum bytes which will be buffered for retries and shadowing.
         If set and a route-specific limit is not set, the bytes actually buffered will be the minimum
         value of this and the listener per_connection_buffer_limit_bytes.
         """
-        pass
-    def __init__(self,
+    @property
+    def request_mirror_policies(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RouteAction.RequestMirrorPolicy]:
+        """Specify a set of default request mirroring policies for every route under this virtual host.
+        It takes precedence over the route config mirror policy entirely.
+        That is, policies are not merged, the most specific non-empty one becomes the mirror policies.
+        """
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        domains : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        routes : typing.Optional[typing.Iterable[global___Route]] = ...,
-        matcher : typing.Optional[xds.type.matcher.v3.matcher_pb2.Matcher] = ...,
-        require_tls : global___VirtualHost.TlsRequirementType.V = ...,
-        virtual_clusters : typing.Optional[typing.Iterable[global___VirtualCluster]] = ...,
-        rate_limits : typing.Optional[typing.Iterable[global___RateLimit]] = ...,
-        request_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-        request_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        response_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-        response_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        cors : typing.Optional[global___CorsPolicy] = ...,
-        typed_per_filter_config : typing.Optional[typing.Mapping[typing.Text, google.protobuf.any_pb2.Any]] = ...,
-        include_request_attempt_count : builtins.bool = ...,
-        include_attempt_count_in_response : builtins.bool = ...,
-        retry_policy : typing.Optional[global___RetryPolicy] = ...,
-        retry_policy_typed_config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-        hedge_policy : typing.Optional[global___HedgePolicy] = ...,
-        per_request_buffer_limit_bytes : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"cors",b"cors",u"hedge_policy",b"hedge_policy",u"matcher",b"matcher",u"per_request_buffer_limit_bytes",b"per_request_buffer_limit_bytes",u"retry_policy",b"retry_policy",u"retry_policy_typed_config",b"retry_policy_typed_config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"cors",b"cors",u"domains",b"domains",u"hedge_policy",b"hedge_policy",u"include_attempt_count_in_response",b"include_attempt_count_in_response",u"include_request_attempt_count",b"include_request_attempt_count",u"matcher",b"matcher",u"name",b"name",u"per_request_buffer_limit_bytes",b"per_request_buffer_limit_bytes",u"rate_limits",b"rate_limits",u"request_headers_to_add",b"request_headers_to_add",u"request_headers_to_remove",b"request_headers_to_remove",u"require_tls",b"require_tls",u"response_headers_to_add",b"response_headers_to_add",u"response_headers_to_remove",b"response_headers_to_remove",u"retry_policy",b"retry_policy",u"retry_policy_typed_config",b"retry_policy_typed_config",u"routes",b"routes",u"typed_per_filter_config",b"typed_per_filter_config",u"virtual_clusters",b"virtual_clusters"]) -> None: ...
+        name: builtins.str = ...,
+        domains: collections.abc.Iterable[builtins.str] | None = ...,
+        routes: collections.abc.Iterable[global___Route] | None = ...,
+        matcher: xds.type.matcher.v3.matcher_pb2.Matcher | None = ...,
+        require_tls: global___VirtualHost.TlsRequirementType.ValueType = ...,
+        virtual_clusters: collections.abc.Iterable[global___VirtualCluster] | None = ...,
+        rate_limits: collections.abc.Iterable[global___RateLimit] | None = ...,
+        request_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+        request_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+        response_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+        response_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+        cors: global___CorsPolicy | None = ...,
+        typed_per_filter_config: collections.abc.Mapping[builtins.str, google.protobuf.any_pb2.Any] | None = ...,
+        include_request_attempt_count: builtins.bool = ...,
+        include_attempt_count_in_response: builtins.bool = ...,
+        retry_policy: global___RetryPolicy | None = ...,
+        retry_policy_typed_config: google.protobuf.any_pb2.Any | None = ...,
+        hedge_policy: global___HedgePolicy | None = ...,
+        per_request_buffer_limit_bytes: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        request_mirror_policies: collections.abc.Iterable[global___RouteAction.RequestMirrorPolicy] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["cors", b"cors", "hedge_policy", b"hedge_policy", "matcher", b"matcher", "per_request_buffer_limit_bytes", b"per_request_buffer_limit_bytes", "retry_policy", b"retry_policy", "retry_policy_typed_config", b"retry_policy_typed_config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["cors", b"cors", "domains", b"domains", "hedge_policy", b"hedge_policy", "include_attempt_count_in_response", b"include_attempt_count_in_response", "include_request_attempt_count", b"include_request_attempt_count", "matcher", b"matcher", "name", b"name", "per_request_buffer_limit_bytes", b"per_request_buffer_limit_bytes", "rate_limits", b"rate_limits", "request_headers_to_add", b"request_headers_to_add", "request_headers_to_remove", b"request_headers_to_remove", "request_mirror_policies", b"request_mirror_policies", "require_tls", b"require_tls", "response_headers_to_add", b"response_headers_to_add", "response_headers_to_remove", b"response_headers_to_remove", "retry_policy", b"retry_policy", "retry_policy_typed_config", b"retry_policy_typed_config", "routes", b"routes", "typed_per_filter_config", b"typed_per_filter_config", "virtual_clusters", b"virtual_clusters"]) -> None: ...
+
 global___VirtualHost = VirtualHost
 
 class FilterAction(google.protobuf.message.Message):
     """A filter-defined action type."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     ACTION_FIELD_NUMBER: builtins.int
     @property
     def action(self) -> google.protobuf.any_pb2.Any: ...
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        action : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"action",b"action"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"action",b"action"]) -> None: ...
+        action: google.protobuf.any_pb2.Any | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["action", b"action"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["action", b"action"]) -> None: ...
+
 global___FilterAction = FilterAction
 
 class Route(google.protobuf.message.Message):
@@ -315,23 +319,27 @@ class Route(google.protobuf.message.Message):
 
       Envoy supports routing on HTTP method via :ref:`header matching
       <envoy_v3_api_msg_config.route.v3.HeaderMatcher>`.
-    [#next-free-field: 19]
+    [#next-free-field: 20]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class TypedPerFilterConfigEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
+        key: builtins.str
         @property
         def value(self) -> google.protobuf.any_pb2.Any: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            value : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+            key: builtins.str = ...,
+            value: google.protobuf.any_pb2.Any | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     NAME_FIELD_NUMBER: builtins.int
     MATCH_FIELD_NUMBER: builtins.int
@@ -349,25 +357,21 @@ class Route(google.protobuf.message.Message):
     RESPONSE_HEADERS_TO_REMOVE_FIELD_NUMBER: builtins.int
     TRACING_FIELD_NUMBER: builtins.int
     PER_REQUEST_BUFFER_LIMIT_BYTES_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    STAT_PREFIX_FIELD_NUMBER: builtins.int
+    name: builtins.str
     """Name for the route."""
-
     @property
     def match(self) -> global___RouteMatch:
         """Route matching parameters."""
-        pass
     @property
     def route(self) -> global___RouteAction:
         """Route request to some upstream cluster."""
-        pass
     @property
     def redirect(self) -> global___RedirectAction:
         """Return a redirect."""
-        pass
     @property
     def direct_response(self) -> global___DirectResponseAction:
         """Return an arbitrary HTTP response directly, without proxying."""
-        pass
     @property
     def filter_action(self) -> global___FilterAction:
         """[#not-implemented-hide:]
@@ -375,7 +379,6 @@ class Route(google.protobuf.message.Message):
         [#comment: TODO(samflattery): Remove cleanup in route_fuzz_test.cc when
         implemented]
         """
-        pass
     @property
     def non_forwarding_action(self) -> global___NonForwardingAction:
         """[#not-implemented-hide:]
@@ -384,32 +387,32 @@ class Route(google.protobuf.message.Message):
         xDS clients like the gRPC server. It could also be used in the future
         in Envoy for a filter that directly generates responses for requests.
         """
-        pass
     @property
     def metadata(self) -> envoy.config.core.v3.base_pb2.Metadata:
         """The Metadata field can be used to provide additional information
         about the route. It can be used for configuration, stats, and logging.
         The metadata should go under the filter namespace that will need it.
         For instance, if the metadata is intended for the Router filter,
-        the filter name should be specified as *envoy.filters.http.router*.
+        the filter name should be specified as ``envoy.filters.http.router``.
         """
-        pass
     @property
     def decorator(self) -> global___Decorator:
         """Decorator for the matched route."""
-        pass
     @property
-    def typed_per_filter_config(self) -> google.protobuf.internal.containers.MessageMap[typing.Text, google.protobuf.any_pb2.Any]:
-        """The typed_per_filter_config field can be used to provide route-specific
-        configurations for filters. The key should match the filter name, such as
-        *envoy.filters.http.buffer* for the HTTP buffer filter. Use of this field is filter
-        specific; see the :ref:`HTTP filter documentation <config_http_filters>` for
-        if and how it is utilized.
+    def typed_per_filter_config(self) -> google.protobuf.internal.containers.MessageMap[builtins.str, google.protobuf.any_pb2.Any]:
+        """The per_filter_config field can be used to provide route-specific configurations for filters.
+        The key should match the :ref:`filter config name
+        <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.HttpFilter.name>`.
+        The canonical filter name (e.g., ``envoy.filters.http.buffer`` for the HTTP buffer filter) can also
+        be used for the backwards compatibility. If there is no entry referred by the filter config name, the
+        entry referred by the canonical filter name will be provided to the filters as fallback.
+
+        Use of this field is filter specific;
+        see the :ref:`HTTP filter documentation <config_http_filters>` for if and how it is utilized.
         [#comment: An entry's value may be wrapped in a
         :ref:`FilterConfig<envoy_v3_api_msg_config.route.v3.FilterConfig>`
         message to specify additional options.]
         """
-        pass
     @property
     def request_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
         """Specifies a set of headers that will be added to requests matching this
@@ -419,13 +422,11 @@ class Route(google.protobuf.message.Message):
         header value syntax, see the documentation on :ref:`custom request headers
         <config_http_conn_man_headers_custom_request_headers>`.
         """
-        pass
     @property
-    def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Specifies a list of HTTP headers that should be removed from each request
         matching this route.
         """
-        pass
     @property
     def response_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
         """Specifies a set of headers that will be added to responses to requests
@@ -435,48 +436,62 @@ class Route(google.protobuf.message.Message):
         details on header value syntax, see the documentation on
         :ref:`custom request headers <config_http_conn_man_headers_custom_request_headers>`.
         """
-        pass
     @property
-    def response_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def response_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Specifies a list of HTTP headers that should be removed from each response
         to requests matching this route.
         """
-        pass
     @property
     def tracing(self) -> global___Tracing:
         """Presence of the object defines whether the connection manager's tracing configuration
         is overridden by this route specific instance.
         """
-        pass
     @property
     def per_request_buffer_limit_bytes(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The maximum bytes which will be buffered for retries and shadowing.
         If set, the bytes actually buffered will be the minimum value of this and the
         listener per_connection_buffer_limit_bytes.
         """
-        pass
-    def __init__(self,
+    stat_prefix: builtins.str
+    """The human readable prefix to use when emitting statistics for this endpoint.
+    The statistics are rooted at vhost.<virtual host name>.route.<stat_prefix>.
+    This should be set for highly critical
+    endpoints that one wishes to get “per-route” statistics on.
+    If not set, endpoint statistics are not generated.
+
+    The emitted statistics are the same as those documented for :ref:`virtual clusters <config_http_filters_router_vcluster_stats>`.
+
+    .. warning::
+
+       We do not recommend setting up a stat prefix for
+       every application endpoint. This is both not easily maintainable and
+       statistics use a non-trivial amount of memory(approximately 1KiB per route).
+    """
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        match : typing.Optional[global___RouteMatch] = ...,
-        route : typing.Optional[global___RouteAction] = ...,
-        redirect : typing.Optional[global___RedirectAction] = ...,
-        direct_response : typing.Optional[global___DirectResponseAction] = ...,
-        filter_action : typing.Optional[global___FilterAction] = ...,
-        non_forwarding_action : typing.Optional[global___NonForwardingAction] = ...,
-        metadata : typing.Optional[envoy.config.core.v3.base_pb2.Metadata] = ...,
-        decorator : typing.Optional[global___Decorator] = ...,
-        typed_per_filter_config : typing.Optional[typing.Mapping[typing.Text, google.protobuf.any_pb2.Any]] = ...,
-        request_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-        request_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        response_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-        response_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        tracing : typing.Optional[global___Tracing] = ...,
-        per_request_buffer_limit_bytes : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"action",b"action",u"decorator",b"decorator",u"direct_response",b"direct_response",u"filter_action",b"filter_action",u"match",b"match",u"metadata",b"metadata",u"non_forwarding_action",b"non_forwarding_action",u"per_request_buffer_limit_bytes",b"per_request_buffer_limit_bytes",u"redirect",b"redirect",u"route",b"route",u"tracing",b"tracing"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"action",b"action",u"decorator",b"decorator",u"direct_response",b"direct_response",u"filter_action",b"filter_action",u"match",b"match",u"metadata",b"metadata",u"name",b"name",u"non_forwarding_action",b"non_forwarding_action",u"per_request_buffer_limit_bytes",b"per_request_buffer_limit_bytes",u"redirect",b"redirect",u"request_headers_to_add",b"request_headers_to_add",u"request_headers_to_remove",b"request_headers_to_remove",u"response_headers_to_add",b"response_headers_to_add",u"response_headers_to_remove",b"response_headers_to_remove",u"route",b"route",u"tracing",b"tracing",u"typed_per_filter_config",b"typed_per_filter_config"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"action",b"action"]) -> typing.Optional[typing_extensions.Literal["route","redirect","direct_response","filter_action","non_forwarding_action"]]: ...
+        name: builtins.str = ...,
+        match: global___RouteMatch | None = ...,
+        route: global___RouteAction | None = ...,
+        redirect: global___RedirectAction | None = ...,
+        direct_response: global___DirectResponseAction | None = ...,
+        filter_action: global___FilterAction | None = ...,
+        non_forwarding_action: global___NonForwardingAction | None = ...,
+        metadata: envoy.config.core.v3.base_pb2.Metadata | None = ...,
+        decorator: global___Decorator | None = ...,
+        typed_per_filter_config: collections.abc.Mapping[builtins.str, google.protobuf.any_pb2.Any] | None = ...,
+        request_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+        request_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+        response_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+        response_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+        tracing: global___Tracing | None = ...,
+        per_request_buffer_limit_bytes: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        stat_prefix: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["action", b"action", "decorator", b"decorator", "direct_response", b"direct_response", "filter_action", b"filter_action", "match", b"match", "metadata", b"metadata", "non_forwarding_action", b"non_forwarding_action", "per_request_buffer_limit_bytes", b"per_request_buffer_limit_bytes", "redirect", b"redirect", "route", b"route", "tracing", b"tracing"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["action", b"action", "decorator", b"decorator", "direct_response", b"direct_response", "filter_action", b"filter_action", "match", b"match", "metadata", b"metadata", "name", b"name", "non_forwarding_action", b"non_forwarding_action", "per_request_buffer_limit_bytes", b"per_request_buffer_limit_bytes", "redirect", b"redirect", "request_headers_to_add", b"request_headers_to_add", "request_headers_to_remove", b"request_headers_to_remove", "response_headers_to_add", b"response_headers_to_add", "response_headers_to_remove", b"response_headers_to_remove", "route", b"route", "stat_prefix", b"stat_prefix", "tracing", b"tracing", "typed_per_filter_config", b"typed_per_filter_config"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["action", b"action"]) -> typing_extensions.Literal["route", "redirect", "direct_response", "filter_action", "non_forwarding_action"] | None: ...
+
 global___Route = Route
 
 class WeightedCluster(google.protobuf.message.Message):
@@ -487,24 +502,30 @@ class WeightedCluster(google.protobuf.message.Message):
     traffic to be forwarded to each cluster. The router selects an upstream cluster based on the
     weights.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class ClusterWeight(google.protobuf.message.Message):
         """[#next-free-field: 13]"""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         class TypedPerFilterConfigEntry(google.protobuf.message.Message):
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             KEY_FIELD_NUMBER: builtins.int
             VALUE_FIELD_NUMBER: builtins.int
-            key: typing.Text = ...
+            key: builtins.str
             @property
             def value(self) -> google.protobuf.any_pb2.Any: ...
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                key : typing.Text = ...,
-                value : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+                key: builtins.str = ...,
+                value: google.protobuf.any_pb2.Any | None = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
         NAME_FIELD_NUMBER: builtins.int
         CLUSTER_HEADER_FIELD_NUMBER: builtins.int
@@ -516,15 +537,14 @@ class WeightedCluster(google.protobuf.message.Message):
         RESPONSE_HEADERS_TO_REMOVE_FIELD_NUMBER: builtins.int
         TYPED_PER_FILTER_CONFIG_FIELD_NUMBER: builtins.int
         HOST_REWRITE_LITERAL_FIELD_NUMBER: builtins.int
-        name: typing.Text = ...
-        """Only one of *name* and *cluster_header* may be specified.
+        name: builtins.str
+        """Only one of ``name`` and ``cluster_header`` may be specified.
         [#next-major-version: Need to add back the validation rule: (validate.rules).string = {min_len: 1}]
         Name of the upstream cluster. The cluster must exist in the
         :ref:`cluster manager configuration <config_cluster_manager>`.
         """
-
-        cluster_header: typing.Text = ...
-        """Only one of *name* and *cluster_header* may be specified.
+        cluster_header: builtins.str
+        """Only one of ``name`` and ``cluster_header`` may be specified.
         [#next-major-version: Need to add back the validation rule: (validate.rules).string = {min_len: 1 }]
         Envoy will determine the cluster to route to by reading the value of the
         HTTP header named by cluster_header from the request headers. If the
@@ -533,31 +553,28 @@ class WeightedCluster(google.protobuf.message.Message):
 
         .. attention::
 
-          Internally, Envoy always uses the HTTP/2 *:authority* header to represent the HTTP/1
-          *Host* header. Thus, if attempting to match on *Host*, match on *:authority* instead.
+          Internally, Envoy always uses the HTTP/2 ``:authority`` header to represent the HTTP/1
+          ``Host`` header. Thus, if attempting to match on ``Host``, match on ``:authority`` instead.
 
         .. note::
 
           If the header appears multiple times only the first value is used.
         """
-
         @property
         def weight(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """An integer between 0 and :ref:`total_weight
             <envoy_v3_api_field_config.route.v3.WeightedCluster.total_weight>`. When a request matches the route,
             the choice of an upstream cluster is determined by its weight. The sum of weights across all
-            entries in the clusters array must add up to the total_weight, which defaults to 100.
+            entries in the clusters array must add up to the total_weight, if total_weight is greater than 0.
             """
-            pass
         @property
         def metadata_match(self) -> envoy.config.core.v3.base_pb2.Metadata:
             """Optional endpoint metadata match criteria used by the subset load balancer. Only endpoints in
             the upstream cluster with metadata matching what is set in this field will be considered for
             load balancing. Note that this will be merged with what's provided in
             :ref:`RouteAction.metadata_match <envoy_v3_api_field_config.route.v3.RouteAction.metadata_match>`, with
-            values here taking precedence. The filter name should be specified as *envoy.lb*.
+            values here taking precedence. The filter name should be specified as ``envoy.lb``.
             """
-            pass
         @property
         def request_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
             """Specifies a list of headers to be added to requests when this cluster is selected
@@ -568,13 +585,11 @@ class WeightedCluster(google.protobuf.message.Message):
             header value syntax, see the documentation on :ref:`custom request headers
             <config_http_conn_man_headers_custom_request_headers>`.
             """
-            pass
         @property
-        def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+        def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
             """Specifies a list of HTTP headers that should be removed from each request when
             this cluster is selected through the enclosing :ref:`envoy_v3_api_msg_config.route.v3.RouteAction`.
             """
-            pass
         @property
         def response_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
             """Specifies a list of headers to be added to responses when this cluster is selected
@@ -585,91 +600,135 @@ class WeightedCluster(google.protobuf.message.Message):
             header value syntax, see the documentation on :ref:`custom request headers
             <config_http_conn_man_headers_custom_request_headers>`.
             """
-            pass
         @property
-        def response_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+        def response_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
             """Specifies a list of headers to be removed from responses when this cluster is selected
             through the enclosing :ref:`envoy_v3_api_msg_config.route.v3.RouteAction`.
             """
-            pass
         @property
-        def typed_per_filter_config(self) -> google.protobuf.internal.containers.MessageMap[typing.Text, google.protobuf.any_pb2.Any]:
-            """The per_filter_config field can be used to provide weighted cluster-specific
-            configurations for filters. The key should match the filter name, such as
-            *envoy.filters.http.buffer* for the HTTP buffer filter. Use of this field is filter
-            specific; see the :ref:`HTTP filter documentation <config_http_filters>`
-            for if and how it is utilized.
+        def typed_per_filter_config(self) -> google.protobuf.internal.containers.MessageMap[builtins.str, google.protobuf.any_pb2.Any]:
+            """The per_filter_config field can be used to provide weighted cluster-specific configurations
+            for filters.
+            The key should match the :ref:`filter config name
+            <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.HttpFilter.name>`.
+            The canonical filter name (e.g., ``envoy.filters.http.buffer`` for the HTTP buffer filter) can also
+            be used for the backwards compatibility. If there is no entry referred by the filter config name, the
+            entry referred by the canonical filter name will be provided to the filters as fallback.
+
+            Use of this field is filter specific;
+            see the :ref:`HTTP filter documentation <config_http_filters>` for if and how it is utilized.
             [#comment: An entry's value may be wrapped in a
             :ref:`FilterConfig<envoy_v3_api_msg_config.route.v3.FilterConfig>`
             message to specify additional options.]
             """
-            pass
-        host_rewrite_literal: typing.Text = ...
+        host_rewrite_literal: builtins.str
         """Indicates that during forwarding, the host header will be swapped with
         this value.
         """
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            name : typing.Text = ...,
-            cluster_header : typing.Text = ...,
-            weight : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            metadata_match : typing.Optional[envoy.config.core.v3.base_pb2.Metadata] = ...,
-            request_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-            request_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-            response_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-            response_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-            typed_per_filter_config : typing.Optional[typing.Mapping[typing.Text, google.protobuf.any_pb2.Any]] = ...,
-            host_rewrite_literal : typing.Text = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"host_rewrite_literal",b"host_rewrite_literal",u"host_rewrite_specifier",b"host_rewrite_specifier",u"metadata_match",b"metadata_match",u"weight",b"weight"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"cluster_header",b"cluster_header",u"host_rewrite_literal",b"host_rewrite_literal",u"host_rewrite_specifier",b"host_rewrite_specifier",u"metadata_match",b"metadata_match",u"name",b"name",u"request_headers_to_add",b"request_headers_to_add",u"request_headers_to_remove",b"request_headers_to_remove",u"response_headers_to_add",b"response_headers_to_add",u"response_headers_to_remove",b"response_headers_to_remove",u"typed_per_filter_config",b"typed_per_filter_config",u"weight",b"weight"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"host_rewrite_specifier",b"host_rewrite_specifier"]) -> typing.Optional[typing_extensions.Literal["host_rewrite_literal"]]: ...
+            name: builtins.str = ...,
+            cluster_header: builtins.str = ...,
+            weight: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            metadata_match: envoy.config.core.v3.base_pb2.Metadata | None = ...,
+            request_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+            request_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+            response_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+            response_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+            typed_per_filter_config: collections.abc.Mapping[builtins.str, google.protobuf.any_pb2.Any] | None = ...,
+            host_rewrite_literal: builtins.str = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["host_rewrite_literal", b"host_rewrite_literal", "host_rewrite_specifier", b"host_rewrite_specifier", "metadata_match", b"metadata_match", "weight", b"weight"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["cluster_header", b"cluster_header", "host_rewrite_literal", b"host_rewrite_literal", "host_rewrite_specifier", b"host_rewrite_specifier", "metadata_match", b"metadata_match", "name", b"name", "request_headers_to_add", b"request_headers_to_add", "request_headers_to_remove", b"request_headers_to_remove", "response_headers_to_add", b"response_headers_to_add", "response_headers_to_remove", b"response_headers_to_remove", "typed_per_filter_config", b"typed_per_filter_config", "weight", b"weight"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["host_rewrite_specifier", b"host_rewrite_specifier"]) -> typing_extensions.Literal["host_rewrite_literal"] | None: ...
 
     CLUSTERS_FIELD_NUMBER: builtins.int
     TOTAL_WEIGHT_FIELD_NUMBER: builtins.int
     RUNTIME_KEY_PREFIX_FIELD_NUMBER: builtins.int
+    HEADER_NAME_FIELD_NUMBER: builtins.int
     @property
     def clusters(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___WeightedCluster.ClusterWeight]:
         """Specifies one or more upstream clusters associated with the route."""
-        pass
     @property
     def total_weight(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Specifies the total weight across all clusters. The sum of all cluster weights must equal this
-        value, which must be greater than 0. Defaults to 100.
+        value, if this is greater than 0.
         """
-        pass
-    runtime_key_prefix: typing.Text = ...
+    runtime_key_prefix: builtins.str
     """Specifies the runtime key prefix that should be used to construct the
-    runtime keys associated with each cluster. When the *runtime_key_prefix* is
+    runtime keys associated with each cluster. When the ``runtime_key_prefix`` is
     specified, the router will look for weights associated with each upstream
-    cluster under the key *runtime_key_prefix* + "." + *cluster[i].name* where
-    *cluster[i]* denotes an entry in the clusters array field. If the runtime
+    cluster under the key ``runtime_key_prefix`` + ``.`` + ``cluster[i].name`` where
+    ``cluster[i]`` denotes an entry in the clusters array field. If the runtime
     key for the cluster does not exist, the value specified in the
     configuration file will be used as the default weight. See the :ref:`runtime documentation
     <operations_runtime>` for how key names map to the underlying implementation.
     """
-
-    def __init__(self,
+    header_name: builtins.str
+    """Specifies the header name that is used to look up the random value passed in the request header.
+    This is used to ensure consistent cluster picking across multiple proxy levels for weighted traffic.
+    If header is not present or invalid, Envoy will fall back to use the internally generated random value.
+    This header is expected to be single-valued header as we only want to have one selected value throughout
+    the process for the consistency. And the value is a unsigned number between 0 and UINT64_MAX.
+    """
+    def __init__(
+        self,
         *,
-        clusters : typing.Optional[typing.Iterable[global___WeightedCluster.ClusterWeight]] = ...,
-        total_weight : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        runtime_key_prefix : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"total_weight",b"total_weight"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"clusters",b"clusters",u"runtime_key_prefix",b"runtime_key_prefix",u"total_weight",b"total_weight"]) -> None: ...
+        clusters: collections.abc.Iterable[global___WeightedCluster.ClusterWeight] | None = ...,
+        total_weight: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        runtime_key_prefix: builtins.str = ...,
+        header_name: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["header_name", b"header_name", "random_value_specifier", b"random_value_specifier", "total_weight", b"total_weight"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["clusters", b"clusters", "header_name", b"header_name", "random_value_specifier", b"random_value_specifier", "runtime_key_prefix", b"runtime_key_prefix", "total_weight", b"total_weight"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["random_value_specifier", b"random_value_specifier"]) -> typing_extensions.Literal["header_name"] | None: ...
+
 global___WeightedCluster = WeightedCluster
 
+class ClusterSpecifierPlugin(google.protobuf.message.Message):
+    """Configuration for a cluster specifier plugin."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    EXTENSION_FIELD_NUMBER: builtins.int
+    IS_OPTIONAL_FIELD_NUMBER: builtins.int
+    @property
+    def extension(self) -> envoy.config.core.v3.extension_pb2.TypedExtensionConfig:
+        """The name of the plugin and its opaque configuration."""
+    is_optional: builtins.bool
+    """If is_optional is not set or is set to false and the plugin defined by this message is not a
+    supported type, the containing resource is NACKed. If is_optional is set to true, the resource
+    would not be NACKed for this reason. In this case, routes referencing this plugin's name would
+    not be treated as an illegal configuration, but would result in a failure if the route is
+    selected.
+    """
+    def __init__(
+        self,
+        *,
+        extension: envoy.config.core.v3.extension_pb2.TypedExtensionConfig | None = ...,
+        is_optional: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["extension", b"extension"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["extension", b"extension", "is_optional", b"is_optional"]) -> None: ...
+
+global___ClusterSpecifierPlugin = ClusterSpecifierPlugin
+
 class RouteMatch(google.protobuf.message.Message):
-    """[#next-free-field: 14]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    """[#next-free-field: 16]"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class GrpcRouteMatchOptions(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-        def __init__(self,
-            ) -> None: ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        def __init__(
+            self,
+        ) -> None: ...
 
     class TlsContextMatchOptions(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         PRESENTED_FIELD_NUMBER: builtins.int
         VALIDATED_FIELD_NUMBER: builtins.int
         @property
@@ -677,31 +736,35 @@ class RouteMatch(google.protobuf.message.Message):
             """If specified, the route will match against whether or not a certificate is presented.
             If not specified, certificate presentation status (true or false) will not be considered when route matching.
             """
-            pass
         @property
         def validated(self) -> google.protobuf.wrappers_pb2.BoolValue:
             """If specified, the route will match against whether or not a certificate is validated.
             If not specified, certificate validation status (true or false) will not be considered when route matching.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            presented : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-            validated : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"presented",b"presented",u"validated",b"validated"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"presented",b"presented",u"validated",b"validated"]) -> None: ...
+            presented: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+            validated: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["presented", b"presented", "validated", b"validated"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["presented", b"presented", "validated", b"validated"]) -> None: ...
 
     class ConnectMatcher(google.protobuf.message.Message):
         """An extensible message for matching CONNECT requests."""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-        def __init__(self,
-            ) -> None: ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        def __init__(
+            self,
+        ) -> None: ...
 
     PREFIX_FIELD_NUMBER: builtins.int
     PATH_FIELD_NUMBER: builtins.int
     SAFE_REGEX_FIELD_NUMBER: builtins.int
     CONNECT_MATCHER_FIELD_NUMBER: builtins.int
+    PATH_SEPARATED_PREFIX_FIELD_NUMBER: builtins.int
+    PATH_MATCH_POLICY_FIELD_NUMBER: builtins.int
     CASE_SENSITIVE_FIELD_NUMBER: builtins.int
     RUNTIME_FRACTION_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
@@ -709,22 +772,20 @@ class RouteMatch(google.protobuf.message.Message):
     GRPC_FIELD_NUMBER: builtins.int
     TLS_CONTEXT_FIELD_NUMBER: builtins.int
     DYNAMIC_METADATA_FIELD_NUMBER: builtins.int
-    prefix: typing.Text = ...
+    prefix: builtins.str
     """If specified, the route is a prefix rule meaning that the prefix must
-    match the beginning of the *:path* header.
+    match the beginning of the ``:path`` header.
     """
-
-    path: typing.Text = ...
+    path: builtins.str
     """If specified, the route is an exact path rule meaning that the path must
-    exactly match the *:path* header once the query string is removed.
+    exactly match the ``:path`` header once the query string is removed.
     """
-
     @property
     def safe_regex(self) -> envoy.type.matcher.v3.regex_pb2.RegexMatcher:
         """If specified, the route is a regular expression rule meaning that the
-        regex must match the *:path* header once the query string is removed. The entire path
+        regex must match the ``:path`` header once the query string is removed. The entire path
         (without the query string) must match the regex. The rule will not match if only a
-        subsequence of the *:path* header matches the regex.
+        subsequence of the ``:path`` header matches the regex.
 
         [#next-major-version: In the v3 API we should redo how path specification works such
         that we utilize StringMatcher, and additionally have consistent options around whether we
@@ -734,7 +795,6 @@ class RouteMatch(google.protobuf.message.Message):
         on :path, etc. The issue with that is it is unclear how to generically deal with query string
         stripping. This needs more thought.]
         """
-        pass
     @property
     def connect_matcher(self) -> global___RouteMatch.ConnectMatcher:
         """If this is used as the matcher, the matcher will only match CONNECT requests.
@@ -747,13 +807,27 @@ class RouteMatch(google.protobuf.message.Message):
         Note that CONNECT support is currently considered alpha in Envoy.
         [#comment: TODO(htuch): Replace the above comment with an alpha tag.]
         """
-        pass
+    path_separated_prefix: builtins.str
+    """If specified, the route is a path-separated prefix rule meaning that the
+    ``:path`` header (without the query string) must either exactly match the
+    ``path_separated_prefix`` or have it as a prefix, followed by ``/``
+
+    For example, ``/api/dev`` would match
+    ``/api/dev``, ``/api/dev/``, ``/api/dev/v1``, and ``/api/dev?param=true``
+    but would not match ``/api/developer``
+
+    Expect the value to not contain ``?`` or ``#`` and not to end in ``/``
+    """
+    @property
+    def path_match_policy(self) -> envoy.config.core.v3.extension_pb2.TypedExtensionConfig:
+        """[#not-implemented-hide:]
+        [#comment: TODO(silverstar195): Hook into extension once added]
+        """
     @property
     def case_sensitive(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Indicates that prefix/path matching should be case sensitive. The default
         is true. Ignored for safe_regex matching.
         """
-        pass
     @property
     def runtime_fraction(self) -> envoy.config.core.v3.base_pb2.RuntimeFractionalPercent:
         """Indicates that the route should additionally match on a runtime key. Every time the route
@@ -773,7 +847,6 @@ class RouteMatch(google.protobuf.message.Message):
            instance, a runtime key lookup returning the value "42" would parse as a FractionalPercent
            whose numerator is 42 and denominator is HUNDRED. This preserves legacy semantics.
         """
-        pass
     @property
     def headers(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HeaderMatcher]:
         """Specifies a set of headers that the route should match on. The router will
@@ -782,13 +855,12 @@ class RouteMatch(google.protobuf.message.Message):
         the request with the same values (or based on presence if the value field
         is not in the config).
         """
-        pass
     @property
     def query_parameters(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___QueryParameterMatcher]:
         """Specifies a set of URL query parameters on which the route should
-        match. The router will check the query string from the *path* header
+        match. The router will check the query string from the ``path`` header
         against all the specified query parameters. If the number of specified
-        query parameters is nonzero, they all must match the *path* header's
+        query parameters is nonzero, they all must match the ``path`` header's
         query string for a match to occur.
 
         .. note::
@@ -799,14 +871,12 @@ class RouteMatch(google.protobuf.message.Message):
            url encoded, but the message fields are not. For example, if a query
            parameter is "foo%20bar", the message field will be "foo bar".
         """
-        pass
     @property
     def grpc(self) -> global___RouteMatch.GrpcRouteMatchOptions:
         """If specified, only gRPC requests will be matched. The router will check
         that the content-type header has a application/grpc or one of the various
         application/grpc+ values.
         """
-        pass
     @property
     def tls_context(self) -> global___RouteMatch.TlsContextMatchOptions:
         """If specified, the client tls context will be matched against the defined
@@ -814,7 +884,6 @@ class RouteMatch(google.protobuf.message.Message):
 
         [#next-major-version: unify with RBAC]
         """
-        pass
     @property
     def dynamic_metadata(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.type.matcher.v3.metadata_pb2.MetadataMatcher]:
         """Specifies a set of dynamic metadata matchers on which the route should match.
@@ -822,29 +891,34 @@ class RouteMatch(google.protobuf.message.Message):
         If the number of specified dynamic metadata matchers is nonzero, they all must match the
         dynamic metadata for a match to occur.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        prefix : typing.Text = ...,
-        path : typing.Text = ...,
-        safe_regex : typing.Optional[envoy.type.matcher.v3.regex_pb2.RegexMatcher] = ...,
-        connect_matcher : typing.Optional[global___RouteMatch.ConnectMatcher] = ...,
-        case_sensitive : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        runtime_fraction : typing.Optional[envoy.config.core.v3.base_pb2.RuntimeFractionalPercent] = ...,
-        headers : typing.Optional[typing.Iterable[global___HeaderMatcher]] = ...,
-        query_parameters : typing.Optional[typing.Iterable[global___QueryParameterMatcher]] = ...,
-        grpc : typing.Optional[global___RouteMatch.GrpcRouteMatchOptions] = ...,
-        tls_context : typing.Optional[global___RouteMatch.TlsContextMatchOptions] = ...,
-        dynamic_metadata : typing.Optional[typing.Iterable[envoy.type.matcher.v3.metadata_pb2.MetadataMatcher]] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"case_sensitive",b"case_sensitive",u"connect_matcher",b"connect_matcher",u"grpc",b"grpc",u"path",b"path",u"path_specifier",b"path_specifier",u"prefix",b"prefix",u"runtime_fraction",b"runtime_fraction",u"safe_regex",b"safe_regex",u"tls_context",b"tls_context"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"case_sensitive",b"case_sensitive",u"connect_matcher",b"connect_matcher",u"dynamic_metadata",b"dynamic_metadata",u"grpc",b"grpc",u"headers",b"headers",u"path",b"path",u"path_specifier",b"path_specifier",u"prefix",b"prefix",u"query_parameters",b"query_parameters",u"runtime_fraction",b"runtime_fraction",u"safe_regex",b"safe_regex",u"tls_context",b"tls_context"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"path_specifier",b"path_specifier"]) -> typing.Optional[typing_extensions.Literal["prefix","path","safe_regex","connect_matcher"]]: ...
+        prefix: builtins.str = ...,
+        path: builtins.str = ...,
+        safe_regex: envoy.type.matcher.v3.regex_pb2.RegexMatcher | None = ...,
+        connect_matcher: global___RouteMatch.ConnectMatcher | None = ...,
+        path_separated_prefix: builtins.str = ...,
+        path_match_policy: envoy.config.core.v3.extension_pb2.TypedExtensionConfig | None = ...,
+        case_sensitive: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        runtime_fraction: envoy.config.core.v3.base_pb2.RuntimeFractionalPercent | None = ...,
+        headers: collections.abc.Iterable[global___HeaderMatcher] | None = ...,
+        query_parameters: collections.abc.Iterable[global___QueryParameterMatcher] | None = ...,
+        grpc: global___RouteMatch.GrpcRouteMatchOptions | None = ...,
+        tls_context: global___RouteMatch.TlsContextMatchOptions | None = ...,
+        dynamic_metadata: collections.abc.Iterable[envoy.type.matcher.v3.metadata_pb2.MetadataMatcher] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["case_sensitive", b"case_sensitive", "connect_matcher", b"connect_matcher", "grpc", b"grpc", "path", b"path", "path_match_policy", b"path_match_policy", "path_separated_prefix", b"path_separated_prefix", "path_specifier", b"path_specifier", "prefix", b"prefix", "runtime_fraction", b"runtime_fraction", "safe_regex", b"safe_regex", "tls_context", b"tls_context"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["case_sensitive", b"case_sensitive", "connect_matcher", b"connect_matcher", "dynamic_metadata", b"dynamic_metadata", "grpc", b"grpc", "headers", b"headers", "path", b"path", "path_match_policy", b"path_match_policy", "path_separated_prefix", b"path_separated_prefix", "path_specifier", b"path_specifier", "prefix", b"prefix", "query_parameters", b"query_parameters", "runtime_fraction", b"runtime_fraction", "safe_regex", b"safe_regex", "tls_context", b"tls_context"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["path_specifier", b"path_specifier"]) -> typing_extensions.Literal["prefix", "path", "safe_regex", "connect_matcher", "path_separated_prefix", "path_match_policy"] | None: ...
+
 global___RouteMatch = RouteMatch
 
 class CorsPolicy(google.protobuf.message.Message):
-    """[#next-free-field: 12]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    """[#next-free-field: 13]"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     ALLOW_ORIGIN_STRING_MATCH_FIELD_NUMBER: builtins.int
     ALLOW_METHODS_FIELD_NUMBER: builtins.int
     ALLOW_HEADERS_FIELD_NUMBER: builtins.int
@@ -853,28 +927,23 @@ class CorsPolicy(google.protobuf.message.Message):
     ALLOW_CREDENTIALS_FIELD_NUMBER: builtins.int
     FILTER_ENABLED_FIELD_NUMBER: builtins.int
     SHADOW_ENABLED_FIELD_NUMBER: builtins.int
+    ALLOW_PRIVATE_NETWORK_ACCESS_FIELD_NUMBER: builtins.int
     @property
     def allow_origin_string_match(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.type.matcher.v3.string_pb2.StringMatcher]:
         """Specifies string patterns that match allowed origins. An origin is allowed if any of the
         string matchers match.
         """
-        pass
-    allow_methods: typing.Text = ...
-    """Specifies the content for the *access-control-allow-methods* header."""
-
-    allow_headers: typing.Text = ...
-    """Specifies the content for the *access-control-allow-headers* header."""
-
-    expose_headers: typing.Text = ...
-    """Specifies the content for the *access-control-expose-headers* header."""
-
-    max_age: typing.Text = ...
-    """Specifies the content for the *access-control-max-age* header."""
-
+    allow_methods: builtins.str
+    """Specifies the content for the ``access-control-allow-methods`` header."""
+    allow_headers: builtins.str
+    """Specifies the content for the ``access-control-allow-headers`` header."""
+    expose_headers: builtins.str
+    """Specifies the content for the ``access-control-expose-headers`` header."""
+    max_age: builtins.str
+    """Specifies the content for the ``access-control-max-age`` header."""
     @property
     def allow_credentials(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Specifies whether the resource allows credentials."""
-        pass
     @property
     def filter_enabled(self) -> envoy.config.core.v3.base_pb2.RuntimeFractionalPercent:
         """Specifies the % of requests for which the CORS filter is enabled.
@@ -885,7 +954,6 @@ class CorsPolicy(google.protobuf.message.Message):
         If :ref:`runtime_key <envoy_v3_api_field_config.core.v3.RuntimeFractionalPercent.runtime_key>` is
         specified, Envoy will lookup the runtime key to get the percentage of requests to filter.
         """
-        pass
     @property
     def shadow_enabled(self) -> envoy.config.core.v3.base_pb2.RuntimeFractionalPercent:
         """Specifies the % of requests for which the CORS policies will be evaluated and tracked, but not
@@ -896,62 +964,76 @@ class CorsPolicy(google.protobuf.message.Message):
 
         If :ref:`runtime_key <envoy_v3_api_field_config.core.v3.RuntimeFractionalPercent.runtime_key>` is specified,
         Envoy will lookup the runtime key to get the percentage of requests for which it will evaluate
-        and track the request's *Origin* to determine if it's valid but will not enforce any policies.
+        and track the request's ``Origin`` to determine if it's valid but will not enforce any policies.
         """
-        pass
-    def __init__(self,
+    @property
+    def allow_private_network_access(self) -> google.protobuf.wrappers_pb2.BoolValue:
+        """Specify whether allow requests whose target server's IP address is more private than that from
+        which the request initiator was fetched.
+
+        More details refer to https://developer.chrome.com/blog/private-network-access-preflight.
+        """
+    def __init__(
+        self,
         *,
-        allow_origin_string_match : typing.Optional[typing.Iterable[envoy.type.matcher.v3.string_pb2.StringMatcher]] = ...,
-        allow_methods : typing.Text = ...,
-        allow_headers : typing.Text = ...,
-        expose_headers : typing.Text = ...,
-        max_age : typing.Text = ...,
-        allow_credentials : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        filter_enabled : typing.Optional[envoy.config.core.v3.base_pb2.RuntimeFractionalPercent] = ...,
-        shadow_enabled : typing.Optional[envoy.config.core.v3.base_pb2.RuntimeFractionalPercent] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"allow_credentials",b"allow_credentials",u"enabled_specifier",b"enabled_specifier",u"filter_enabled",b"filter_enabled",u"shadow_enabled",b"shadow_enabled"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"allow_credentials",b"allow_credentials",u"allow_headers",b"allow_headers",u"allow_methods",b"allow_methods",u"allow_origin_string_match",b"allow_origin_string_match",u"enabled_specifier",b"enabled_specifier",u"expose_headers",b"expose_headers",u"filter_enabled",b"filter_enabled",u"max_age",b"max_age",u"shadow_enabled",b"shadow_enabled"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"enabled_specifier",b"enabled_specifier"]) -> typing.Optional[typing_extensions.Literal["filter_enabled"]]: ...
+        allow_origin_string_match: collections.abc.Iterable[envoy.type.matcher.v3.string_pb2.StringMatcher] | None = ...,
+        allow_methods: builtins.str = ...,
+        allow_headers: builtins.str = ...,
+        expose_headers: builtins.str = ...,
+        max_age: builtins.str = ...,
+        allow_credentials: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        filter_enabled: envoy.config.core.v3.base_pb2.RuntimeFractionalPercent | None = ...,
+        shadow_enabled: envoy.config.core.v3.base_pb2.RuntimeFractionalPercent | None = ...,
+        allow_private_network_access: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["allow_credentials", b"allow_credentials", "allow_private_network_access", b"allow_private_network_access", "enabled_specifier", b"enabled_specifier", "filter_enabled", b"filter_enabled", "shadow_enabled", b"shadow_enabled"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["allow_credentials", b"allow_credentials", "allow_headers", b"allow_headers", "allow_methods", b"allow_methods", "allow_origin_string_match", b"allow_origin_string_match", "allow_private_network_access", b"allow_private_network_access", "enabled_specifier", b"enabled_specifier", "expose_headers", b"expose_headers", "filter_enabled", b"filter_enabled", "max_age", b"max_age", "shadow_enabled", b"shadow_enabled"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["enabled_specifier", b"enabled_specifier"]) -> typing_extensions.Literal["filter_enabled"] | None: ...
+
 global___CorsPolicy = CorsPolicy
 
 class RouteAction(google.protobuf.message.Message):
-    """[#next-free-field: 39]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    class ClusterNotFoundResponseCode(_ClusterNotFoundResponseCode, metaclass=_ClusterNotFoundResponseCodeEnumTypeWrapper):
-        pass
+    """[#next-free-field: 42]"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class _ClusterNotFoundResponseCode:
-        V = typing.NewType('V', builtins.int)
-    class _ClusterNotFoundResponseCodeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_ClusterNotFoundResponseCode.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        SERVICE_UNAVAILABLE = RouteAction.ClusterNotFoundResponseCode.V(0)
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _ClusterNotFoundResponseCodeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[RouteAction._ClusterNotFoundResponseCode.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        SERVICE_UNAVAILABLE: RouteAction._ClusterNotFoundResponseCode.ValueType  # 0
         """HTTP status code - 503 Service Unavailable."""
-
-        NOT_FOUND = RouteAction.ClusterNotFoundResponseCode.V(1)
+        NOT_FOUND: RouteAction._ClusterNotFoundResponseCode.ValueType  # 1
         """HTTP status code - 404 Not Found."""
+        INTERNAL_SERVER_ERROR: RouteAction._ClusterNotFoundResponseCode.ValueType  # 2
+        """HTTP status code - 500 Internal Server Error."""
 
-
-    SERVICE_UNAVAILABLE = RouteAction.ClusterNotFoundResponseCode.V(0)
+    class ClusterNotFoundResponseCode(_ClusterNotFoundResponseCode, metaclass=_ClusterNotFoundResponseCodeEnumTypeWrapper): ...
+    SERVICE_UNAVAILABLE: RouteAction.ClusterNotFoundResponseCode.ValueType  # 0
     """HTTP status code - 503 Service Unavailable."""
-
-    NOT_FOUND = RouteAction.ClusterNotFoundResponseCode.V(1)
+    NOT_FOUND: RouteAction.ClusterNotFoundResponseCode.ValueType  # 1
     """HTTP status code - 404 Not Found."""
+    INTERNAL_SERVER_ERROR: RouteAction.ClusterNotFoundResponseCode.ValueType  # 2
+    """HTTP status code - 500 Internal Server Error."""
 
+    class _InternalRedirectAction:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _InternalRedirectActionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[RouteAction._InternalRedirectAction.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        PASS_THROUGH_INTERNAL_REDIRECT: RouteAction._InternalRedirectAction.ValueType  # 0
+        HANDLE_INTERNAL_REDIRECT: RouteAction._InternalRedirectAction.ValueType  # 1
 
     class InternalRedirectAction(_InternalRedirectAction, metaclass=_InternalRedirectActionEnumTypeWrapper):
         """Configures :ref:`internal redirect <arch_overview_internal_redirects>` behavior.
         [#next-major-version: remove this definition - it's defined in the InternalRedirectPolicy message.]
         """
-        pass
-    class _InternalRedirectAction:
-        V = typing.NewType('V', builtins.int)
-    class _InternalRedirectActionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_InternalRedirectAction.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        PASS_THROUGH_INTERNAL_REDIRECT = RouteAction.InternalRedirectAction.V(0)
-        HANDLE_INTERNAL_REDIRECT = RouteAction.InternalRedirectAction.V(1)
 
-    PASS_THROUGH_INTERNAL_REDIRECT = RouteAction.InternalRedirectAction.V(0)
-    HANDLE_INTERNAL_REDIRECT = RouteAction.InternalRedirectAction.V(1)
+    PASS_THROUGH_INTERNAL_REDIRECT: RouteAction.InternalRedirectAction.ValueType  # 0
+    HANDLE_INTERNAL_REDIRECT: RouteAction.InternalRedirectAction.ValueType  # 1
 
     class RequestMirrorPolicy(google.protobuf.message.Message):
         """The router is capable of shadowing traffic from one cluster to another. The current
@@ -959,75 +1041,98 @@ class RouteAction(google.protobuf.message.Message):
         respond before returning the response from the primary cluster. All normal statistics are
         collected for the shadow cluster making this feature useful for testing.
 
-        During shadowing, the host/authority header is altered such that *-shadow* is appended. This is
-        useful for logging. For example, *cluster1* becomes *cluster1-shadow*.
+        During shadowing, the host/authority header is altered such that ``-shadow`` is appended. This is
+        useful for logging. For example, ``cluster1`` becomes ``cluster1-shadow``.
 
         .. note::
 
           Shadowing will not be triggered if the primary cluster does not exist.
-        """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-        CLUSTER_FIELD_NUMBER: builtins.int
-        RUNTIME_FRACTION_FIELD_NUMBER: builtins.int
-        TRACE_SAMPLED_FIELD_NUMBER: builtins.int
-        cluster: typing.Text = ...
-        """Specifies the cluster that requests will be mirrored to. The cluster must
-        exist in the cluster manager configuration.
+        [#next-free-field: 6]
         """
 
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        CLUSTER_FIELD_NUMBER: builtins.int
+        CLUSTER_HEADER_FIELD_NUMBER: builtins.int
+        RUNTIME_FRACTION_FIELD_NUMBER: builtins.int
+        TRACE_SAMPLED_FIELD_NUMBER: builtins.int
+        cluster: builtins.str
+        """Only one of ``cluster`` and ``cluster_header`` can be specified.
+        [#next-major-version: Need to add back the validation rule: (validate.rules).string = {min_len: 1}]
+        Specifies the cluster that requests will be mirrored to. The cluster must
+        exist in the cluster manager configuration.
+        """
+        cluster_header: builtins.str
+        """Only one of ``cluster`` and ``cluster_header`` can be specified.
+        Envoy will determine the cluster to route to by reading the value of the
+        HTTP header named by cluster_header from the request headers. Only the first value in header is used,
+        and no shadow request will happen if the value is not found in headers. Envoy will not wait for
+        the shadow cluster to respond before returning the response from the primary cluster.
+
+        .. attention::
+
+          Internally, Envoy always uses the HTTP/2 ``:authority`` header to represent the HTTP/1
+          ``Host`` header. Thus, if attempting to match on ``Host``, match on ``:authority`` instead.
+
+        .. note::
+
+          If the header appears multiple times only the first value is used.
+        """
         @property
         def runtime_fraction(self) -> envoy.config.core.v3.base_pb2.RuntimeFractionalPercent:
             """If not specified, all requests to the target cluster will be mirrored.
 
-            If specified, this field takes precedence over the `runtime_key` field and requests must also
+            If specified, this field takes precedence over the ``runtime_key`` field and requests must also
             fall under the percentage of matches indicated by this field.
 
             For some fraction N/D, a random number in the range [0,D) is selected. If the
             number is <= the value of the numerator N, or if the key is not present, the default
             value, the request will be mirrored.
             """
-            pass
         @property
         def trace_sampled(self) -> google.protobuf.wrappers_pb2.BoolValue:
             """Determines if the trace span should be sampled. Defaults to true."""
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            cluster : typing.Text = ...,
-            runtime_fraction : typing.Optional[envoy.config.core.v3.base_pb2.RuntimeFractionalPercent] = ...,
-            trace_sampled : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"runtime_fraction",b"runtime_fraction",u"trace_sampled",b"trace_sampled"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"cluster",b"cluster",u"runtime_fraction",b"runtime_fraction",u"trace_sampled",b"trace_sampled"]) -> None: ...
+            cluster: builtins.str = ...,
+            cluster_header: builtins.str = ...,
+            runtime_fraction: envoy.config.core.v3.base_pb2.RuntimeFractionalPercent | None = ...,
+            trace_sampled: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["runtime_fraction", b"runtime_fraction", "trace_sampled", b"trace_sampled"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["cluster", b"cluster", "cluster_header", b"cluster_header", "runtime_fraction", b"runtime_fraction", "trace_sampled", b"trace_sampled"]) -> None: ...
 
     class HashPolicy(google.protobuf.message.Message):
         """Specifies the route's hashing policy if the upstream cluster uses a hashing :ref:`load balancer
         <arch_overview_load_balancing_types>`.
         [#next-free-field: 7]
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         class Header(google.protobuf.message.Message):
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             HEADER_NAME_FIELD_NUMBER: builtins.int
             REGEX_REWRITE_FIELD_NUMBER: builtins.int
-            header_name: typing.Text = ...
+            header_name: builtins.str
             """The name of the request header that will be used to obtain the hash
             key. If the request header is not present, no hash will be produced.
             """
-
             @property
             def regex_rewrite(self) -> envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute:
                 """If specified, the request header value will be rewritten and used
                 to produce the hash key.
                 """
-                pass
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                header_name : typing.Text = ...,
-                regex_rewrite : typing.Optional[envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute] = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"regex_rewrite",b"regex_rewrite"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"header_name",b"header_name",u"regex_rewrite",b"regex_rewrite"]) -> None: ...
+                header_name: builtins.str = ...,
+                regex_rewrite: envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute | None = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["regex_rewrite", b"regex_rewrite"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["header_name", b"header_name", "regex_rewrite", b"regex_rewrite"]) -> None: ...
 
         class Cookie(google.protobuf.message.Message):
             """Envoy supports two types of cookie affinity:
@@ -1045,78 +1150,81 @@ class RouteAction(google.protobuf.message.Message):
                streams on the same connection will independently receive the same
                cookie, even if they arrive at the Envoy simultaneously.
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             NAME_FIELD_NUMBER: builtins.int
             TTL_FIELD_NUMBER: builtins.int
             PATH_FIELD_NUMBER: builtins.int
-            name: typing.Text = ...
+            name: builtins.str
             """The name of the cookie that will be used to obtain the hash key. If the
             cookie is not present and ttl below is not set, no hash will be
             produced.
             """
-
             @property
             def ttl(self) -> google.protobuf.duration_pb2.Duration:
                 """If specified, a cookie with the TTL will be generated if the cookie is
                 not present. If the TTL is present and zero, the generated cookie will
                 be a session cookie.
                 """
-                pass
-            path: typing.Text = ...
+            path: builtins.str
             """The name of the path for the cookie. If no path is specified here, no path
             will be set for the cookie.
             """
-
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                name : typing.Text = ...,
-                ttl : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-                path : typing.Text = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"ttl",b"ttl"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"name",b"name",u"path",b"path",u"ttl",b"ttl"]) -> None: ...
+                name: builtins.str = ...,
+                ttl: google.protobuf.duration_pb2.Duration | None = ...,
+                path: builtins.str = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["ttl", b"ttl"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "path", b"path", "ttl", b"ttl"]) -> None: ...
 
         class ConnectionProperties(google.protobuf.message.Message):
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-            SOURCE_IP_FIELD_NUMBER: builtins.int
-            source_ip: builtins.bool = ...
-            """Hash on source IP address."""
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-            def __init__(self,
+            SOURCE_IP_FIELD_NUMBER: builtins.int
+            source_ip: builtins.bool
+            """Hash on source IP address."""
+            def __init__(
+                self,
                 *,
-                source_ip : builtins.bool = ...,
-                ) -> None: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"source_ip",b"source_ip"]) -> None: ...
+                source_ip: builtins.bool = ...,
+            ) -> None: ...
+            def ClearField(self, field_name: typing_extensions.Literal["source_ip", b"source_ip"]) -> None: ...
 
         class QueryParameter(google.protobuf.message.Message):
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             NAME_FIELD_NUMBER: builtins.int
-            name: typing.Text = ...
+            name: builtins.str
             """The name of the URL query parameter that will be used to obtain the hash
             key. If the parameter is not present, no hash will be produced. Query
             parameter names are case-sensitive.
             """
-
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                name : typing.Text = ...,
-                ) -> None: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"name",b"name"]) -> None: ...
+                name: builtins.str = ...,
+            ) -> None: ...
+            def ClearField(self, field_name: typing_extensions.Literal["name", b"name"]) -> None: ...
 
         class FilterState(google.protobuf.message.Message):
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             KEY_FIELD_NUMBER: builtins.int
-            key: typing.Text = ...
+            key: builtins.str
             """The name of the Object in the per-request filterState, which is an
             Envoy::Hashable object. If there is no data associated with the key,
             or the stored object is not Envoy::Hashable, no hash will be produced.
             """
-
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                key : typing.Text = ...,
-                ) -> None: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key"]) -> None: ...
+                key: builtins.str = ...,
+            ) -> None: ...
+            def ClearField(self, field_name: typing_extensions.Literal["key", b"key"]) -> None: ...
 
         HEADER_FIELD_NUMBER: builtins.int
         COOKIE_FIELD_NUMBER: builtins.int
@@ -1127,24 +1235,19 @@ class RouteAction(google.protobuf.message.Message):
         @property
         def header(self) -> global___RouteAction.HashPolicy.Header:
             """Header hash policy."""
-            pass
         @property
         def cookie(self) -> global___RouteAction.HashPolicy.Cookie:
             """Cookie hash policy."""
-            pass
         @property
         def connection_properties(self) -> global___RouteAction.HashPolicy.ConnectionProperties:
             """Connection properties hash policy."""
-            pass
         @property
         def query_parameter(self) -> global___RouteAction.HashPolicy.QueryParameter:
             """Query parameter hash policy."""
-            pass
         @property
         def filter_state(self) -> global___RouteAction.HashPolicy.FilterState:
             """Filter state hash policy."""
-            pass
-        terminal: builtins.bool = ...
+        terminal: builtins.bool
         """The flag that short-circuits the hash computing. This field provides a
         'fallback' style of configuration: "if a terminal policy doesn't work,
         fallback to rest of the policy list", it saves time when the terminal
@@ -1165,19 +1268,19 @@ class RouteAction(google.protobuf.message.Message):
         The generateHash process ends if policy "header A" generates a hash, as
         it's a terminal policy.
         """
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            header : typing.Optional[global___RouteAction.HashPolicy.Header] = ...,
-            cookie : typing.Optional[global___RouteAction.HashPolicy.Cookie] = ...,
-            connection_properties : typing.Optional[global___RouteAction.HashPolicy.ConnectionProperties] = ...,
-            query_parameter : typing.Optional[global___RouteAction.HashPolicy.QueryParameter] = ...,
-            filter_state : typing.Optional[global___RouteAction.HashPolicy.FilterState] = ...,
-            terminal : builtins.bool = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"connection_properties",b"connection_properties",u"cookie",b"cookie",u"filter_state",b"filter_state",u"header",b"header",u"policy_specifier",b"policy_specifier",u"query_parameter",b"query_parameter"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"connection_properties",b"connection_properties",u"cookie",b"cookie",u"filter_state",b"filter_state",u"header",b"header",u"policy_specifier",b"policy_specifier",u"query_parameter",b"query_parameter",u"terminal",b"terminal"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"policy_specifier",b"policy_specifier"]) -> typing.Optional[typing_extensions.Literal["header","cookie","connection_properties","query_parameter","filter_state"]]: ...
+            header: global___RouteAction.HashPolicy.Header | None = ...,
+            cookie: global___RouteAction.HashPolicy.Cookie | None = ...,
+            connection_properties: global___RouteAction.HashPolicy.ConnectionProperties | None = ...,
+            query_parameter: global___RouteAction.HashPolicy.QueryParameter | None = ...,
+            filter_state: global___RouteAction.HashPolicy.FilterState | None = ...,
+            terminal: builtins.bool = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["connection_properties", b"connection_properties", "cookie", b"cookie", "filter_state", b"filter_state", "header", b"header", "policy_specifier", b"policy_specifier", "query_parameter", b"query_parameter"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["connection_properties", b"connection_properties", "cookie", b"cookie", "filter_state", b"filter_state", "header", b"header", "policy_specifier", b"policy_specifier", "query_parameter", b"query_parameter", "terminal", b"terminal"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["policy_specifier", b"policy_specifier"]) -> typing_extensions.Literal["header", "cookie", "connection_properties", "query_parameter", "filter_state"] | None: ...
 
     class UpgradeConfig(google.protobuf.message.Message):
         """Allows enabling and disabling upgrades on a per-route basis.
@@ -1187,42 +1290,43 @@ class RouteAction(google.protobuf.message.Message):
         <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.HttpConnectionManager.upgrade_configs>`
         but does not affect any custom filter chain specified there.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         class ConnectConfig(google.protobuf.message.Message):
             """Configuration for sending data upstream as a raw data payload. This is used for
             CONNECT or POST requests, when forwarding request payload as raw TCP.
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             PROXY_PROTOCOL_CONFIG_FIELD_NUMBER: builtins.int
             ALLOW_POST_FIELD_NUMBER: builtins.int
             @property
             def proxy_protocol_config(self) -> envoy.config.core.v3.proxy_protocol_pb2.ProxyProtocolConfig:
                 """If present, the proxy protocol header will be prepended to the CONNECT payload sent upstream."""
-                pass
-            allow_post: builtins.bool = ...
+            allow_post: builtins.bool
             """If set, the route will also allow forwarding POST payload as raw TCP."""
-
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                proxy_protocol_config : typing.Optional[envoy.config.core.v3.proxy_protocol_pb2.ProxyProtocolConfig] = ...,
-                allow_post : builtins.bool = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"proxy_protocol_config",b"proxy_protocol_config"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"allow_post",b"allow_post",u"proxy_protocol_config",b"proxy_protocol_config"]) -> None: ...
+                proxy_protocol_config: envoy.config.core.v3.proxy_protocol_pb2.ProxyProtocolConfig | None = ...,
+                allow_post: builtins.bool = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["proxy_protocol_config", b"proxy_protocol_config"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["allow_post", b"allow_post", "proxy_protocol_config", b"proxy_protocol_config"]) -> None: ...
 
         UPGRADE_TYPE_FIELD_NUMBER: builtins.int
         ENABLED_FIELD_NUMBER: builtins.int
         CONNECT_CONFIG_FIELD_NUMBER: builtins.int
-        upgrade_type: typing.Text = ...
+        upgrade_type: builtins.str
         """The case-insensitive name of this upgrade, e.g. "websocket".
         For each upgrade type present in upgrade_configs, requests with
         Upgrade: [upgrade_type] will be proxied upstream.
         """
-
         @property
         def enabled(self) -> google.protobuf.wrappers_pb2.BoolValue:
             """Determines if upgrades are available on this route. Defaults to true."""
-            pass
         @property
         def connect_config(self) -> global___RouteAction.UpgradeConfig.ConnectConfig:
             """Configuration for sending data upstream as a raw data payload. This is used for
@@ -1230,18 +1334,19 @@ class RouteAction(google.protobuf.message.Message):
             Note that CONNECT support is currently considered alpha in Envoy.
             [#comment: TODO(htuch): Replace the above comment with an alpha tag.]
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            upgrade_type : typing.Text = ...,
-            enabled : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-            connect_config : typing.Optional[global___RouteAction.UpgradeConfig.ConnectConfig] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"connect_config",b"connect_config",u"enabled",b"enabled"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"connect_config",b"connect_config",u"enabled",b"enabled",u"upgrade_type",b"upgrade_type"]) -> None: ...
+            upgrade_type: builtins.str = ...,
+            enabled: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+            connect_config: global___RouteAction.UpgradeConfig.ConnectConfig | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["connect_config", b"connect_config", "enabled", b"enabled"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["connect_config", b"connect_config", "enabled", b"enabled", "upgrade_type", b"upgrade_type"]) -> None: ...
 
     class MaxStreamDuration(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         MAX_STREAM_DURATION_FIELD_NUMBER: builtins.int
         GRPC_TIMEOUT_HEADER_MAX_FIELD_NUMBER: builtins.int
         GRPC_TIMEOUT_HEADER_OFFSET_FIELD_NUMBER: builtins.int
@@ -1256,42 +1361,42 @@ class RouteAction(google.protobuf.message.Message):
             HttpConnectionManager max_stream_duration timeout will be disabled for
             this route.
             """
-            pass
         @property
         def grpc_timeout_header_max(self) -> google.protobuf.duration_pb2.Duration:
             """If present, and the request contains a `grpc-timeout header
             <https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md>`_, use that value as the
-            *max_stream_duration*, but limit the applied timeout to the maximum value specified here.
-            If set to 0, the `grpc-timeout` header is used without modification.
+            ``max_stream_duration``, but limit the applied timeout to the maximum value specified here.
+            If set to 0, the ``grpc-timeout`` header is used without modification.
             """
-            pass
         @property
         def grpc_timeout_header_offset(self) -> google.protobuf.duration_pb2.Duration:
-            """If present, Envoy will adjust the timeout provided by the `grpc-timeout` header by
+            """If present, Envoy will adjust the timeout provided by the ``grpc-timeout`` header by
             subtracting the provided duration from the header. This is useful for allowing Envoy to set
             its global timeout to be less than that of the deadline imposed by the calling client, which
             makes it more likely that Envoy will handle the timeout instead of having the call canceled
             by the client. If, after applying the offset, the resulting timeout is zero or negative,
             the stream will timeout immediately.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            max_stream_duration : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-            grpc_timeout_header_max : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-            grpc_timeout_header_offset : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"grpc_timeout_header_max",b"grpc_timeout_header_max",u"grpc_timeout_header_offset",b"grpc_timeout_header_offset",u"max_stream_duration",b"max_stream_duration"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"grpc_timeout_header_max",b"grpc_timeout_header_max",u"grpc_timeout_header_offset",b"grpc_timeout_header_offset",u"max_stream_duration",b"max_stream_duration"]) -> None: ...
+            max_stream_duration: google.protobuf.duration_pb2.Duration | None = ...,
+            grpc_timeout_header_max: google.protobuf.duration_pb2.Duration | None = ...,
+            grpc_timeout_header_offset: google.protobuf.duration_pb2.Duration | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["grpc_timeout_header_max", b"grpc_timeout_header_max", "grpc_timeout_header_offset", b"grpc_timeout_header_offset", "max_stream_duration", b"max_stream_duration"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["grpc_timeout_header_max", b"grpc_timeout_header_max", "grpc_timeout_header_offset", b"grpc_timeout_header_offset", "max_stream_duration", b"max_stream_duration"]) -> None: ...
 
     CLUSTER_FIELD_NUMBER: builtins.int
     CLUSTER_HEADER_FIELD_NUMBER: builtins.int
     WEIGHTED_CLUSTERS_FIELD_NUMBER: builtins.int
     CLUSTER_SPECIFIER_PLUGIN_FIELD_NUMBER: builtins.int
+    INLINE_CLUSTER_SPECIFIER_PLUGIN_FIELD_NUMBER: builtins.int
     CLUSTER_NOT_FOUND_RESPONSE_CODE_FIELD_NUMBER: builtins.int
     METADATA_MATCH_FIELD_NUMBER: builtins.int
     PREFIX_REWRITE_FIELD_NUMBER: builtins.int
     REGEX_REWRITE_FIELD_NUMBER: builtins.int
+    PATH_REWRITE_POLICY_FIELD_NUMBER: builtins.int
     HOST_REWRITE_LITERAL_FIELD_NUMBER: builtins.int
     AUTO_HOST_REWRITE_FIELD_NUMBER: builtins.int
     HOST_REWRITE_HEADER_FIELD_NUMBER: builtins.int
@@ -1299,6 +1404,7 @@ class RouteAction(google.protobuf.message.Message):
     APPEND_X_FORWARDED_HOST_FIELD_NUMBER: builtins.int
     TIMEOUT_FIELD_NUMBER: builtins.int
     IDLE_TIMEOUT_FIELD_NUMBER: builtins.int
+    EARLY_DATA_POLICY_FIELD_NUMBER: builtins.int
     RETRY_POLICY_FIELD_NUMBER: builtins.int
     RETRY_POLICY_TYPED_CONFIG_FIELD_NUMBER: builtins.int
     REQUEST_MIRROR_POLICIES_FIELD_NUMBER: builtins.int
@@ -1315,12 +1421,11 @@ class RouteAction(google.protobuf.message.Message):
     MAX_INTERNAL_REDIRECTS_FIELD_NUMBER: builtins.int
     HEDGE_POLICY_FIELD_NUMBER: builtins.int
     MAX_STREAM_DURATION_FIELD_NUMBER: builtins.int
-    cluster: typing.Text = ...
+    cluster: builtins.str
     """Indicates the upstream cluster to which the request should be routed
     to.
     """
-
-    cluster_header: typing.Text = ...
+    cluster_header: builtins.str
     """Envoy will determine the cluster to route to by reading the value of the
     HTTP header named by cluster_header from the request headers. If the
     header is not found or the referenced cluster does not exist, Envoy will
@@ -1328,14 +1433,13 @@ class RouteAction(google.protobuf.message.Message):
 
     .. attention::
 
-      Internally, Envoy always uses the HTTP/2 *:authority* header to represent the HTTP/1
-      *Host* header. Thus, if attempting to match on *Host*, match on *:authority* instead.
+      Internally, Envoy always uses the HTTP/2 ``:authority`` header to represent the HTTP/1
+      ``Host`` header. Thus, if attempting to match on ``Host``, match on ``:authority`` instead.
 
     .. note::
 
       If the header appears multiple times only the first value is used.
     """
-
     @property
     def weighted_clusters(self) -> global___WeightedCluster:
         """Multiple upstream clusters can be specified for a given route. The
@@ -1344,47 +1448,46 @@ class RouteAction(google.protobuf.message.Message):
         :ref:`traffic splitting <config_http_conn_man_route_table_traffic_splitting_split>`
         for additional documentation.
         """
-        pass
-    cluster_specifier_plugin: typing.Text = ...
-    """[#not-implemented-hide:]
-    Name of the cluster specifier plugin to use to determine the cluster for
-    requests on this route. The plugin name must be defined in the associated
-    :ref:`envoy_v3_api_field_config.route.v3.RouteConfiguration.cluster_specifier_plugins`
-    in the
-    :ref:`envoy_v3_api_field_config.core.v3.TypedExtensionConfig.name` field.
+    cluster_specifier_plugin: builtins.str
+    """Name of the cluster specifier plugin to use to determine the cluster for requests on this route.
+    The cluster specifier plugin name must be defined in the associated
+    :ref:`cluster specifier plugins <envoy_v3_api_field_config.route.v3.RouteConfiguration.cluster_specifier_plugins>`
+    in the :ref:`name <envoy_v3_api_field_config.core.v3.TypedExtensionConfig.name>` field.
     """
-
-    cluster_not_found_response_code: global___RouteAction.ClusterNotFoundResponseCode.V = ...
+    @property
+    def inline_cluster_specifier_plugin(self) -> global___ClusterSpecifierPlugin:
+        """Custom cluster specifier plugin configuration to use to determine the cluster for requests
+        on this route.
+        """
+    cluster_not_found_response_code: global___RouteAction.ClusterNotFoundResponseCode.ValueType
     """The HTTP status code to use when configured cluster is not found.
     The default response code is 503 Service Unavailable.
     """
-
     @property
     def metadata_match(self) -> envoy.config.core.v3.base_pb2.Metadata:
         """Optional endpoint metadata match criteria used by the subset load balancer. Only endpoints
         in the upstream cluster with metadata matching what's set in this field will be considered
         for load balancing. If using :ref:`weighted_clusters
         <envoy_v3_api_field_config.route.v3.RouteAction.weighted_clusters>`, metadata will be merged, with values
-        provided there taking precedence. The filter name should be specified as *envoy.lb*.
+        provided there taking precedence. The filter name should be specified as ``envoy.lb``.
         """
-        pass
-    prefix_rewrite: typing.Text = ...
+    prefix_rewrite: builtins.str
     """Indicates that during forwarding, the matched prefix (or path) should be
     swapped with this value. This option allows application URLs to be rooted
     at a different path from those exposed at the reverse proxy layer. The router filter will
     place the original path before rewrite into the :ref:`x-envoy-original-path
     <config_http_filters_router_x-envoy-original-path>` header.
 
-    Only one of *prefix_rewrite* or
-    :ref:`regex_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.regex_rewrite>`
-    may be specified.
+    Only one of :ref:`regex_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.regex_rewrite>` or
+    [#comment:TODO(silverstar194) add the following once implemented: :ref:`path_rewrite_policy <envoy_v3_api_field_config.route.v3.RouteAction.path_rewrite_policy>`]
+    :ref:`prefix_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.prefix_rewrite>` may be specified.
 
     .. attention::
 
       Pay careful attention to the use of trailing slashes in the
       :ref:`route's match <envoy_v3_api_field_config.route.v3.Route.match>` prefix value.
       Stripping a prefix from a path requires multiple Routes to handle all cases. For example,
-      rewriting */prefix* to */* and */prefix/etc* to */etc* cannot be done in a single
+      rewriting ``/prefix`` to ``/`` and ``/prefix/etc`` to ``/etc`` cannot be done in a single
       :ref:`Route <envoy_v3_api_msg_config.route.v3.Route>`, as shown by the below config entries:
 
       .. code-block:: yaml
@@ -1398,10 +1501,9 @@ class RouteAction(google.protobuf.message.Message):
           route:
             prefix_rewrite: "/"
 
-      Having above entries in the config, requests to */prefix* will be stripped to */*, while
-      requests to */prefix/etc* will be stripped to */etc*.
+      Having above entries in the config, requests to ``/prefix`` will be stripped to ``/``, while
+      requests to ``/prefix/etc`` will be stripped to ``/etc``.
     """
-
     @property
     def regex_rewrite(self) -> envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute:
         """Indicates that during forwarding, portions of the path that match the
@@ -1413,48 +1515,52 @@ class RouteAction(google.protobuf.message.Message):
         before the rewrite into the :ref:`x-envoy-original-path
         <config_http_filters_router_x-envoy-original-path>` header.
 
-        Only one of :ref:`prefix_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.prefix_rewrite>`
-        or *regex_rewrite* may be specified.
+        Only one of :ref:`regex_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.regex_rewrite>`
+        or :ref:`prefix_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.prefix_rewrite>`
+        [#comment:TODO(silverstar194) add the following once implemented: :ref:`path_rewrite_policy <envoy_v3_api_field_config.route.v3.RouteAction.path_rewrite_policy>`]
+        may be specified.
 
         Examples using Google's `RE2 <https://github.com/google/re2>`_ engine:
 
         * The path pattern ``^/service/([^/]+)(/.*)$`` paired with a substitution
-          string of ``\2/instance/\1`` would transform ``/service/foo/v1/api``
+          string of ``\\2/instance/\\1`` would transform ``/service/foo/v1/api``
           into ``/v1/api/instance/foo``.
 
         * The pattern ``one`` paired with a substitution string of ``two`` would
           transform ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/two/zzz``.
 
         * The pattern ``^(.*?)one(.*)$`` paired with a substitution string of
-          ``\1two\2`` would replace only the first occurrence of ``one``,
+          ``\\1two\\2`` would replace only the first occurrence of ``one``,
           transforming path ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/one/zzz``.
 
         * The pattern ``(?i)/xxx/`` paired with a substitution string of ``/yyy/``
           would do a case-insensitive match and transform path ``/aaa/XxX/bbb`` to
           ``/aaa/yyy/bbb``.
         """
-        pass
-    host_rewrite_literal: typing.Text = ...
+    @property
+    def path_rewrite_policy(self) -> envoy.config.core.v3.extension_pb2.TypedExtensionConfig:
+        """[#not-implemented-hide:]
+        [#comment: TODO(silverstar195): Hook into extension once added]
+        """
+    host_rewrite_literal: builtins.str
     """Indicates that during forwarding, the host header will be swapped with
     this value. Using this option will append the
     :ref:`config_http_conn_man_headers_x-forwarded-host` header if
     :ref:`append_x_forwarded_host <envoy_v3_api_field_config.route.v3.RouteAction.append_x_forwarded_host>`
     is set.
     """
-
     @property
     def auto_host_rewrite(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Indicates that during forwarding, the host header will be swapped with
         the hostname of the upstream host chosen by the cluster manager. This
         option is applicable only when the destination cluster for a route is of
-        type *strict_dns* or *logical_dns*. Setting this to true with other cluster types
+        type ``strict_dns`` or ``logical_dns``. Setting this to true with other cluster types
         has no effect. Using this option will append the
         :ref:`config_http_conn_man_headers_x-forwarded-host` header if
         :ref:`append_x_forwarded_host <envoy_v3_api_field_config.route.v3.RouteAction.append_x_forwarded_host>`
         is set.
         """
-        pass
-    host_rewrite_header: typing.Text = ...
+    host_rewrite_header: builtins.str
     """Indicates that during forwarding, the host header will be swapped with the content of given
     downstream or :ref:`custom <config_http_conn_man_headers_custom_request_headers>` header.
     If header value is empty, host header is left intact. Using this option will append the
@@ -1471,7 +1577,6 @@ class RouteAction(google.protobuf.message.Message):
 
       If the header appears multiple times only the first value is used.
     """
-
     @property
     def host_rewrite_path_regex(self) -> envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute:
         """Indicates that during forwarding, the host header will be swapped with
@@ -1490,12 +1595,11 @@ class RouteAction(google.protobuf.message.Message):
               pattern:
                 google_re2: {}
                 regex: "^/(.+)/.+$"
-              substitution: \1
+              substitution: \\1
 
-        Would rewrite the host header to `envoyproxy.io` given the path `/envoyproxy.io/some/path`.
+        Would rewrite the host header to ``envoyproxy.io`` given the path ``/envoyproxy.io/some/path``.
         """
-        pass
-    append_x_forwarded_host: builtins.bool = ...
+    append_x_forwarded_host: builtins.bool
     """If set, then a host rewrite action (one of
     :ref:`host_rewrite_literal <envoy_v3_api_field_config.route.v3.RouteAction.host_rewrite_literal>`,
     :ref:`auto_host_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.auto_host_rewrite>`,
@@ -1504,7 +1608,6 @@ class RouteAction(google.protobuf.message.Message):
     causes the original value of the host header, if any, to be appended to the
     :ref:`config_http_conn_man_headers_x-forwarded-host` HTTP header.
     """
-
     @property
     def timeout(self) -> google.protobuf.duration_pb2.Duration:
         """Specifies the upstream timeout for the route. If not specified, the default is 15s. This
@@ -1519,7 +1622,6 @@ class RouteAction(google.protobuf.message.Message):
           :ref:`config_http_filters_router_x-envoy-upstream-rq-per-try-timeout-ms`, and the
           :ref:`retry overview <arch_overview_http_routing_retry>`.
         """
-        pass
     @property
     def idle_timeout(self) -> google.protobuf.duration_pb2.Duration:
         """Specifies the idle timeout for the route. If not specified, there is no per-route idle timeout,
@@ -1545,14 +1647,18 @@ class RouteAction(google.protobuf.message.Message):
         is configured, this timeout is scaled according to the value for
         :ref:`HTTP_DOWNSTREAM_STREAM_IDLE <envoy_v3_api_enum_value_config.overload.v3.ScaleTimersOverloadActionConfig.TimerType.HTTP_DOWNSTREAM_STREAM_IDLE>`.
         """
-        pass
+    @property
+    def early_data_policy(self) -> envoy.config.core.v3.extension_pb2.TypedExtensionConfig:
+        """Specifies how to send request over TLS early data.
+        If absent, allows `safe HTTP requests <https://www.rfc-editor.org/rfc/rfc7231#section-4.2.1>`_ to be sent on early data.
+        [#extension-category: envoy.route.early_data_policy]
+        """
     @property
     def retry_policy(self) -> global___RetryPolicy:
         """Indicates that the route has a retry policy. Note that if this is set,
         it'll take precedence over the virtual host level retry policy entirely
         (e.g.: policies are not merged, most internal one becomes the enforced policy).
         """
-        pass
     @property
     def retry_policy_typed_config(self) -> google.protobuf.any_pb2.Any:
         """[#not-implemented-hide:]
@@ -1561,20 +1667,19 @@ class RouteAction(google.protobuf.message.Message):
         most internal one becomes the enforced policy). :ref:`Retry policy <envoy_v3_api_field_config.route.v3.VirtualHost.retry_policy>`
         should not be set if this field is used.
         """
-        pass
     @property
     def request_mirror_policies(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RouteAction.RequestMirrorPolicy]:
-        """Indicates that the route has request mirroring policies."""
-        pass
-    priority: envoy.config.core.v3.base_pb2.RoutingPriority.V = ...
+        """Specify a set of route request mirroring policies.
+        It takes precedence over the virtual host and route config mirror policy entirely.
+        That is, policies are not merged, the most specific non-empty one becomes the mirror policies.
+        """
+    priority: envoy.config.core.v3.base_pb2.RoutingPriority.ValueType
     """Optionally specifies the :ref:`routing priority <arch_overview_http_routing_priority>`."""
-
     @property
     def rate_limits(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RateLimit]:
         """Specifies a set of rate limit configurations that could be applied to the
         route.
         """
-        pass
     @property
     def include_vh_rate_limits(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Specifies if the rate limit filter should include the virtual host rate
@@ -1584,7 +1689,6 @@ class RouteAction(google.protobuf.message.Message):
 
         This field is deprecated. Please use :ref:`vh_rate_limits <envoy_v3_api_field_extensions.filters.http.ratelimit.v3.RateLimitPerRoute.vh_rate_limits>`
         """
-        pass
     @property
     def hash_policy(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RouteAction.HashPolicy]:
         """Specifies a list of hash policies to use for ring hash load balancing. Each
@@ -1600,11 +1704,9 @@ class RouteAction(google.protobuf.message.Message):
         there is already a hash generated, the hash is returned immediately,
         ignoring the rest of the hash policy list.
         """
-        pass
     @property
     def cors(self) -> global___CorsPolicy:
         """Indicates that the route has a CORS policy."""
-        pass
     @property
     def max_grpc_timeout(self) -> google.protobuf.duration_pb2.Duration:
         """Deprecated by :ref:`grpc_timeout_header_max <envoy_v3_api_field_config.route.v3.RouteAction.MaxStreamDuration.grpc_timeout_header_max>`
@@ -1613,7 +1715,7 @@ class RouteAction(google.protobuf.message.Message):
         or its default value (infinity) instead of
         :ref:`timeout <envoy_v3_api_field_config.route.v3.RouteAction.timeout>`, but limit the applied timeout
         to the maximum value specified here. If configured as 0, the maximum allowed timeout for
-        gRPC requests is infinity. If not configured at all, the `grpc-timeout` header is not used
+        gRPC requests is infinity. If not configured at all, the ``grpc-timeout`` header is not used
         and gRPC requests time out like any other requests using
         :ref:`timeout <envoy_v3_api_field_config.route.v3.RouteAction.timeout>` or its default.
         This can be used to prevent unexpected upstream request timeouts due to potentially long
@@ -1628,11 +1730,10 @@ class RouteAction(google.protobuf.message.Message):
            :ref:`config_http_filters_router_x-envoy-upstream-rq-per-try-timeout-ms`, and the
            :ref:`retry overview <arch_overview_http_routing_retry>`.
         """
-        pass
     @property
     def grpc_timeout_offset(self) -> google.protobuf.duration_pb2.Duration:
         """Deprecated by :ref:`grpc_timeout_header_offset <envoy_v3_api_field_config.route.v3.RouteAction.MaxStreamDuration.grpc_timeout_header_offset>`.
-        If present, Envoy will adjust the timeout provided by the `grpc-timeout` header by subtracting
+        If present, Envoy will adjust the timeout provided by the ``grpc-timeout`` header by subtracting
         the provided duration from the header. This is useful in allowing Envoy to set its global
         timeout to be less than that of the deadline imposed by the calling client, which makes it more
         likely that Envoy will handle the timeout instead of having the call canceled by the client.
@@ -1640,7 +1741,6 @@ class RouteAction(google.protobuf.message.Message):
         ensures that the offset will only ever decrease the timeout and never set it to 0 (meaning
         infinity).
         """
-        pass
     @property
     def upgrade_configs(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RouteAction.UpgradeConfig]: ...
     @property
@@ -1650,8 +1750,7 @@ class RouteAction(google.protobuf.message.Message):
         by :ref:`redirect_response_codes
         <envoy_v3_api_field_config.route.v3.InternalRedirectPolicy.redirect_response_codes>`.
         """
-        pass
-    internal_redirect_action: global___RouteAction.InternalRedirectAction.V = ...
+    internal_redirect_action: global___RouteAction.InternalRedirectAction.ValueType
     @property
     def max_internal_redirects(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """An internal redirect is handled, iff the number of previous internal redirects that a
@@ -1669,111 +1768,121 @@ class RouteAction(google.protobuf.message.Message):
 
         If not specified, at most one redirect will be followed.
         """
-        pass
     @property
     def hedge_policy(self) -> global___HedgePolicy:
         """Indicates that the route has a hedge policy. Note that if this is set,
         it'll take precedence over the virtual host level hedge policy entirely
         (e.g.: policies are not merged, most internal one becomes the enforced policy).
         """
-        pass
     @property
     def max_stream_duration(self) -> global___RouteAction.MaxStreamDuration:
         """Specifies the maximum stream duration for this route."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        cluster : typing.Text = ...,
-        cluster_header : typing.Text = ...,
-        weighted_clusters : typing.Optional[global___WeightedCluster] = ...,
-        cluster_specifier_plugin : typing.Text = ...,
-        cluster_not_found_response_code : global___RouteAction.ClusterNotFoundResponseCode.V = ...,
-        metadata_match : typing.Optional[envoy.config.core.v3.base_pb2.Metadata] = ...,
-        prefix_rewrite : typing.Text = ...,
-        regex_rewrite : typing.Optional[envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute] = ...,
-        host_rewrite_literal : typing.Text = ...,
-        auto_host_rewrite : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        host_rewrite_header : typing.Text = ...,
-        host_rewrite_path_regex : typing.Optional[envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute] = ...,
-        append_x_forwarded_host : builtins.bool = ...,
-        timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        idle_timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        retry_policy : typing.Optional[global___RetryPolicy] = ...,
-        retry_policy_typed_config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-        request_mirror_policies : typing.Optional[typing.Iterable[global___RouteAction.RequestMirrorPolicy]] = ...,
-        priority : envoy.config.core.v3.base_pb2.RoutingPriority.V = ...,
-        rate_limits : typing.Optional[typing.Iterable[global___RateLimit]] = ...,
-        include_vh_rate_limits : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        hash_policy : typing.Optional[typing.Iterable[global___RouteAction.HashPolicy]] = ...,
-        cors : typing.Optional[global___CorsPolicy] = ...,
-        max_grpc_timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        grpc_timeout_offset : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        upgrade_configs : typing.Optional[typing.Iterable[global___RouteAction.UpgradeConfig]] = ...,
-        internal_redirect_policy : typing.Optional[global___InternalRedirectPolicy] = ...,
-        internal_redirect_action : global___RouteAction.InternalRedirectAction.V = ...,
-        max_internal_redirects : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        hedge_policy : typing.Optional[global___HedgePolicy] = ...,
-        max_stream_duration : typing.Optional[global___RouteAction.MaxStreamDuration] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"auto_host_rewrite",b"auto_host_rewrite",u"cluster",b"cluster",u"cluster_header",b"cluster_header",u"cluster_specifier",b"cluster_specifier",u"cluster_specifier_plugin",b"cluster_specifier_plugin",u"cors",b"cors",u"grpc_timeout_offset",b"grpc_timeout_offset",u"hedge_policy",b"hedge_policy",u"host_rewrite_header",b"host_rewrite_header",u"host_rewrite_literal",b"host_rewrite_literal",u"host_rewrite_path_regex",b"host_rewrite_path_regex",u"host_rewrite_specifier",b"host_rewrite_specifier",u"idle_timeout",b"idle_timeout",u"include_vh_rate_limits",b"include_vh_rate_limits",u"internal_redirect_policy",b"internal_redirect_policy",u"max_grpc_timeout",b"max_grpc_timeout",u"max_internal_redirects",b"max_internal_redirects",u"max_stream_duration",b"max_stream_duration",u"metadata_match",b"metadata_match",u"regex_rewrite",b"regex_rewrite",u"retry_policy",b"retry_policy",u"retry_policy_typed_config",b"retry_policy_typed_config",u"timeout",b"timeout",u"weighted_clusters",b"weighted_clusters"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"append_x_forwarded_host",b"append_x_forwarded_host",u"auto_host_rewrite",b"auto_host_rewrite",u"cluster",b"cluster",u"cluster_header",b"cluster_header",u"cluster_not_found_response_code",b"cluster_not_found_response_code",u"cluster_specifier",b"cluster_specifier",u"cluster_specifier_plugin",b"cluster_specifier_plugin",u"cors",b"cors",u"grpc_timeout_offset",b"grpc_timeout_offset",u"hash_policy",b"hash_policy",u"hedge_policy",b"hedge_policy",u"host_rewrite_header",b"host_rewrite_header",u"host_rewrite_literal",b"host_rewrite_literal",u"host_rewrite_path_regex",b"host_rewrite_path_regex",u"host_rewrite_specifier",b"host_rewrite_specifier",u"idle_timeout",b"idle_timeout",u"include_vh_rate_limits",b"include_vh_rate_limits",u"internal_redirect_action",b"internal_redirect_action",u"internal_redirect_policy",b"internal_redirect_policy",u"max_grpc_timeout",b"max_grpc_timeout",u"max_internal_redirects",b"max_internal_redirects",u"max_stream_duration",b"max_stream_duration",u"metadata_match",b"metadata_match",u"prefix_rewrite",b"prefix_rewrite",u"priority",b"priority",u"rate_limits",b"rate_limits",u"regex_rewrite",b"regex_rewrite",u"request_mirror_policies",b"request_mirror_policies",u"retry_policy",b"retry_policy",u"retry_policy_typed_config",b"retry_policy_typed_config",u"timeout",b"timeout",u"upgrade_configs",b"upgrade_configs",u"weighted_clusters",b"weighted_clusters"]) -> None: ...
+        cluster: builtins.str = ...,
+        cluster_header: builtins.str = ...,
+        weighted_clusters: global___WeightedCluster | None = ...,
+        cluster_specifier_plugin: builtins.str = ...,
+        inline_cluster_specifier_plugin: global___ClusterSpecifierPlugin | None = ...,
+        cluster_not_found_response_code: global___RouteAction.ClusterNotFoundResponseCode.ValueType = ...,
+        metadata_match: envoy.config.core.v3.base_pb2.Metadata | None = ...,
+        prefix_rewrite: builtins.str = ...,
+        regex_rewrite: envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute | None = ...,
+        path_rewrite_policy: envoy.config.core.v3.extension_pb2.TypedExtensionConfig | None = ...,
+        host_rewrite_literal: builtins.str = ...,
+        auto_host_rewrite: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        host_rewrite_header: builtins.str = ...,
+        host_rewrite_path_regex: envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute | None = ...,
+        append_x_forwarded_host: builtins.bool = ...,
+        timeout: google.protobuf.duration_pb2.Duration | None = ...,
+        idle_timeout: google.protobuf.duration_pb2.Duration | None = ...,
+        early_data_policy: envoy.config.core.v3.extension_pb2.TypedExtensionConfig | None = ...,
+        retry_policy: global___RetryPolicy | None = ...,
+        retry_policy_typed_config: google.protobuf.any_pb2.Any | None = ...,
+        request_mirror_policies: collections.abc.Iterable[global___RouteAction.RequestMirrorPolicy] | None = ...,
+        priority: envoy.config.core.v3.base_pb2.RoutingPriority.ValueType = ...,
+        rate_limits: collections.abc.Iterable[global___RateLimit] | None = ...,
+        include_vh_rate_limits: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        hash_policy: collections.abc.Iterable[global___RouteAction.HashPolicy] | None = ...,
+        cors: global___CorsPolicy | None = ...,
+        max_grpc_timeout: google.protobuf.duration_pb2.Duration | None = ...,
+        grpc_timeout_offset: google.protobuf.duration_pb2.Duration | None = ...,
+        upgrade_configs: collections.abc.Iterable[global___RouteAction.UpgradeConfig] | None = ...,
+        internal_redirect_policy: global___InternalRedirectPolicy | None = ...,
+        internal_redirect_action: global___RouteAction.InternalRedirectAction.ValueType = ...,
+        max_internal_redirects: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        hedge_policy: global___HedgePolicy | None = ...,
+        max_stream_duration: global___RouteAction.MaxStreamDuration | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["auto_host_rewrite", b"auto_host_rewrite", "cluster", b"cluster", "cluster_header", b"cluster_header", "cluster_specifier", b"cluster_specifier", "cluster_specifier_plugin", b"cluster_specifier_plugin", "cors", b"cors", "early_data_policy", b"early_data_policy", "grpc_timeout_offset", b"grpc_timeout_offset", "hedge_policy", b"hedge_policy", "host_rewrite_header", b"host_rewrite_header", "host_rewrite_literal", b"host_rewrite_literal", "host_rewrite_path_regex", b"host_rewrite_path_regex", "host_rewrite_specifier", b"host_rewrite_specifier", "idle_timeout", b"idle_timeout", "include_vh_rate_limits", b"include_vh_rate_limits", "inline_cluster_specifier_plugin", b"inline_cluster_specifier_plugin", "internal_redirect_policy", b"internal_redirect_policy", "max_grpc_timeout", b"max_grpc_timeout", "max_internal_redirects", b"max_internal_redirects", "max_stream_duration", b"max_stream_duration", "metadata_match", b"metadata_match", "path_rewrite_policy", b"path_rewrite_policy", "regex_rewrite", b"regex_rewrite", "retry_policy", b"retry_policy", "retry_policy_typed_config", b"retry_policy_typed_config", "timeout", b"timeout", "weighted_clusters", b"weighted_clusters"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["append_x_forwarded_host", b"append_x_forwarded_host", "auto_host_rewrite", b"auto_host_rewrite", "cluster", b"cluster", "cluster_header", b"cluster_header", "cluster_not_found_response_code", b"cluster_not_found_response_code", "cluster_specifier", b"cluster_specifier", "cluster_specifier_plugin", b"cluster_specifier_plugin", "cors", b"cors", "early_data_policy", b"early_data_policy", "grpc_timeout_offset", b"grpc_timeout_offset", "hash_policy", b"hash_policy", "hedge_policy", b"hedge_policy", "host_rewrite_header", b"host_rewrite_header", "host_rewrite_literal", b"host_rewrite_literal", "host_rewrite_path_regex", b"host_rewrite_path_regex", "host_rewrite_specifier", b"host_rewrite_specifier", "idle_timeout", b"idle_timeout", "include_vh_rate_limits", b"include_vh_rate_limits", "inline_cluster_specifier_plugin", b"inline_cluster_specifier_plugin", "internal_redirect_action", b"internal_redirect_action", "internal_redirect_policy", b"internal_redirect_policy", "max_grpc_timeout", b"max_grpc_timeout", "max_internal_redirects", b"max_internal_redirects", "max_stream_duration", b"max_stream_duration", "metadata_match", b"metadata_match", "path_rewrite_policy", b"path_rewrite_policy", "prefix_rewrite", b"prefix_rewrite", "priority", b"priority", "rate_limits", b"rate_limits", "regex_rewrite", b"regex_rewrite", "request_mirror_policies", b"request_mirror_policies", "retry_policy", b"retry_policy", "retry_policy_typed_config", b"retry_policy_typed_config", "timeout", b"timeout", "upgrade_configs", b"upgrade_configs", "weighted_clusters", b"weighted_clusters"]) -> None: ...
     @typing.overload
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"cluster_specifier",b"cluster_specifier"]) -> typing.Optional[typing_extensions.Literal["cluster","cluster_header","weighted_clusters","cluster_specifier_plugin"]]: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["cluster_specifier", b"cluster_specifier"]) -> typing_extensions.Literal["cluster", "cluster_header", "weighted_clusters", "cluster_specifier_plugin", "inline_cluster_specifier_plugin"] | None: ...
     @typing.overload
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"host_rewrite_specifier",b"host_rewrite_specifier"]) -> typing.Optional[typing_extensions.Literal["host_rewrite_literal","auto_host_rewrite","host_rewrite_header","host_rewrite_path_regex"]]: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["host_rewrite_specifier", b"host_rewrite_specifier"]) -> typing_extensions.Literal["host_rewrite_literal", "auto_host_rewrite", "host_rewrite_header", "host_rewrite_path_regex"] | None: ...
+
 global___RouteAction = RouteAction
 
 class RetryPolicy(google.protobuf.message.Message):
     """HTTP retry :ref:`architecture overview <arch_overview_http_routing_retry>`.
     [#next-free-field: 14]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    class ResetHeaderFormat(_ResetHeaderFormat, metaclass=_ResetHeaderFormatEnumTypeWrapper):
-        pass
-    class _ResetHeaderFormat:
-        V = typing.NewType('V', builtins.int)
-    class _ResetHeaderFormatEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_ResetHeaderFormat.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        SECONDS = RetryPolicy.ResetHeaderFormat.V(0)
-        UNIX_TIMESTAMP = RetryPolicy.ResetHeaderFormat.V(1)
 
-    SECONDS = RetryPolicy.ResetHeaderFormat.V(0)
-    UNIX_TIMESTAMP = RetryPolicy.ResetHeaderFormat.V(1)
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    class _ResetHeaderFormat:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _ResetHeaderFormatEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[RetryPolicy._ResetHeaderFormat.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        SECONDS: RetryPolicy._ResetHeaderFormat.ValueType  # 0
+        UNIX_TIMESTAMP: RetryPolicy._ResetHeaderFormat.ValueType  # 1
+
+    class ResetHeaderFormat(_ResetHeaderFormat, metaclass=_ResetHeaderFormatEnumTypeWrapper): ...
+    SECONDS: RetryPolicy.ResetHeaderFormat.ValueType  # 0
+    UNIX_TIMESTAMP: RetryPolicy.ResetHeaderFormat.ValueType  # 1
 
     class RetryPriority(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         NAME_FIELD_NUMBER: builtins.int
         TYPED_CONFIG_FIELD_NUMBER: builtins.int
-        name: typing.Text = ...
+        name: builtins.str
         @property
         def typed_config(self) -> google.protobuf.any_pb2.Any: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            name : typing.Text = ...,
-            typed_config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"config_type",b"config_type",u"typed_config",b"typed_config"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"config_type",b"config_type",u"name",b"name",u"typed_config",b"typed_config"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"config_type",b"config_type"]) -> typing.Optional[typing_extensions.Literal["typed_config"]]: ...
+            name: builtins.str = ...,
+            typed_config: google.protobuf.any_pb2.Any | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["config_type", b"config_type", "typed_config", b"typed_config"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["config_type", b"config_type", "name", b"name", "typed_config", b"typed_config"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["config_type", b"config_type"]) -> typing_extensions.Literal["typed_config"] | None: ...
 
     class RetryHostPredicate(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         NAME_FIELD_NUMBER: builtins.int
         TYPED_CONFIG_FIELD_NUMBER: builtins.int
-        name: typing.Text = ...
+        name: builtins.str
         @property
         def typed_config(self) -> google.protobuf.any_pb2.Any: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            name : typing.Text = ...,
-            typed_config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"config_type",b"config_type",u"typed_config",b"typed_config"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"config_type",b"config_type",u"name",b"name",u"typed_config",b"typed_config"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"config_type",b"config_type"]) -> typing.Optional[typing_extensions.Literal["typed_config"]]: ...
+            name: builtins.str = ...,
+            typed_config: google.protobuf.any_pb2.Any | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["config_type", b"config_type", "typed_config", b"typed_config"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["config_type", b"config_type", "name", b"name", "typed_config", b"typed_config"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["config_type", b"config_type"]) -> typing_extensions.Literal["typed_config"] | None: ...
 
     class RetryBackOff(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         BASE_INTERVAL_FIELD_NUMBER: builtins.int
         MAX_INTERVAL_FIELD_NUMBER: builtins.int
         @property
@@ -1783,44 +1892,43 @@ class RetryPolicy(google.protobuf.message.Message):
             See :ref:`config_http_filters_router_x-envoy-max-retries` for a discussion of Envoy's
             back-off algorithm.
             """
-            pass
         @property
         def max_interval(self) -> google.protobuf.duration_pb2.Duration:
             """Specifies the maximum interval between retries. This parameter is optional, but must be
-            greater than or equal to the `base_interval` if set. The default is 10 times the
-            `base_interval`. See :ref:`config_http_filters_router_x-envoy-max-retries` for a discussion
+            greater than or equal to the ``base_interval`` if set. The default is 10 times the
+            ``base_interval``. See :ref:`config_http_filters_router_x-envoy-max-retries` for a discussion
             of Envoy's back-off algorithm.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            base_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-            max_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"base_interval",b"base_interval",u"max_interval",b"max_interval"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"base_interval",b"base_interval",u"max_interval",b"max_interval"]) -> None: ...
+            base_interval: google.protobuf.duration_pb2.Duration | None = ...,
+            max_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["base_interval", b"base_interval", "max_interval", b"max_interval"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["base_interval", b"base_interval", "max_interval", b"max_interval"]) -> None: ...
 
     class ResetHeader(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         NAME_FIELD_NUMBER: builtins.int
         FORMAT_FIELD_NUMBER: builtins.int
-        name: typing.Text = ...
+        name: builtins.str
         """The name of the reset header.
 
         .. note::
 
           If the header appears multiple times only the first value is used.
         """
-
-        format: global___RetryPolicy.ResetHeaderFormat.V = ...
+        format: global___RetryPolicy.ResetHeaderFormat.ValueType
         """The format of the reset header."""
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            name : typing.Text = ...,
-            format : global___RetryPolicy.ResetHeaderFormat.V = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"format",b"format",u"name",b"name"]) -> None: ...
+            name: builtins.str = ...,
+            format: global___RetryPolicy.ResetHeaderFormat.ValueType = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["format", b"format", "name", b"name"]) -> None: ...
 
     class RateLimitedRetryBackOff(google.protobuf.message.Message):
         """A retry back-off strategy that applies when the upstream server rate limits
@@ -1867,7 +1975,9 @@ class RetryPolicy(google.protobuf.message.Message):
           to be retried. You will still need to configure the right retry policy to match
           the responses from the upstream server.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         RESET_HEADERS_FIELD_NUMBER: builtins.int
         MAX_INTERVAL_FIELD_NUMBER: builtins.int
         @property
@@ -1877,21 +1987,20 @@ class RetryPolicy(google.protobuf.message.Message):
             insensitive. The first header to be parsed successfully is used. If no headers
             match the default exponential back-off is used instead.
             """
-            pass
         @property
         def max_interval(self) -> google.protobuf.duration_pb2.Duration:
             """Specifies the maximum back off interval that Envoy will allow. If a reset
             header contains an interval longer than this then it will be discarded and
             the next header will be tried. Defaults to 300 seconds.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            reset_headers : typing.Optional[typing.Iterable[global___RetryPolicy.ResetHeader]] = ...,
-            max_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"max_interval",b"max_interval"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"max_interval",b"max_interval",u"reset_headers",b"reset_headers"]) -> None: ...
+            reset_headers: collections.abc.Iterable[global___RetryPolicy.ResetHeader] | None = ...,
+            max_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["max_interval", b"max_interval"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["max_interval", b"max_interval", "reset_headers", b"reset_headers"]) -> None: ...
 
     RETRY_ON_FIELD_NUMBER: builtins.int
     NUM_RETRIES_FIELD_NUMBER: builtins.int
@@ -1906,19 +2015,17 @@ class RetryPolicy(google.protobuf.message.Message):
     RATE_LIMITED_RETRY_BACK_OFF_FIELD_NUMBER: builtins.int
     RETRIABLE_HEADERS_FIELD_NUMBER: builtins.int
     RETRIABLE_REQUEST_HEADERS_FIELD_NUMBER: builtins.int
-    retry_on: typing.Text = ...
+    retry_on: builtins.str
     """Specifies the conditions under which retry takes place. These are the same
     conditions documented for :ref:`config_http_filters_router_x-envoy-retry-on` and
     :ref:`config_http_filters_router_x-envoy-retry-grpc-on`.
     """
-
     @property
     def num_retries(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Specifies the allowed number of retries. This parameter is optional and
         defaults to 1. These are the same conditions documented for
         :ref:`config_http_filters_router_x-envoy-max-retries`.
         """
-        pass
     @property
     def per_try_timeout(self) -> google.protobuf.duration_pb2.Duration:
         """Specifies a non-zero upstream timeout per retry attempt (including the initial attempt). This
@@ -1933,7 +2040,6 @@ class RetryPolicy(google.protobuf.message.Message):
           retry policy, a request that times out will not be retried as the total timeout budget
           would have been exhausted.
         """
-        pass
     @property
     def per_try_idle_timeout(self) -> google.protobuf.duration_pb2.Duration:
         """Specifies an upstream idle timeout per retry attempt (including the initial attempt). This
@@ -1956,14 +2062,12 @@ class RetryPolicy(google.protobuf.message.Message):
         This ensures that response data continues to make progress without using one of the HTTP
         connection manager idle timeouts.
         """
-        pass
     @property
     def retry_priority(self) -> global___RetryPolicy.RetryPriority:
         """Specifies an implementation of a RetryPriority which is used to determine the
         distribution of load across priorities used for retries. Refer to
         :ref:`retry plugin configuration <arch_overview_http_retry_plugins>` for more details.
         """
-        pass
     @property
     def retry_host_predicate(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RetryPolicy.RetryHostPredicate]:
         """Specifies a collection of RetryHostPredicates that will be consulted when selecting a host
@@ -1971,33 +2075,28 @@ class RetryPolicy(google.protobuf.message.Message):
         Refer to :ref:`retry plugin configuration <arch_overview_http_retry_plugins>` for more
         details.
         """
-        pass
     @property
     def retry_options_predicates(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.extension_pb2.TypedExtensionConfig]:
         """Retry options predicates that will be applied prior to retrying a request. These predicates
         allow customizing request behavior between retries.
         [#comment: add [#extension-category: envoy.retry_options_predicates] when there are built-in extensions]
         """
-        pass
-    host_selection_retry_max_attempts: builtins.int = ...
+    host_selection_retry_max_attempts: builtins.int
     """The maximum number of times host selection will be reattempted before giving up, at which
     point the host that was last selected will be routed to. If unspecified, this will default to
     retrying once.
     """
-
     @property
     def retriable_status_codes(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.int]:
         """HTTP status codes that should trigger a retry in addition to those specified by retry_on."""
-        pass
     @property
     def retry_back_off(self) -> global___RetryPolicy.RetryBackOff:
         """Specifies parameters that control exponential retry back off. This parameter is optional, in which case the
         default base interval is 25 milliseconds or, if set, the current value of the
-        `upstream.base_retry_backoff_ms` runtime parameter. The default maximum interval is 10 times
+        ``upstream.base_retry_backoff_ms`` runtime parameter. The default maximum interval is 10 times
         the base interval. The documentation for :ref:`config_http_filters_router_x-envoy-max-retries`
         describes Envoy's back-off algorithm.
         """
-        pass
     @property
     def rate_limited_retry_back_off(self) -> global___RetryPolicy.RateLimitedRetryBackOff:
         """Specifies parameters that control a retry back-off strategy that is used
@@ -2005,44 +2104,45 @@ class RetryPolicy(google.protobuf.message.Message):
         return a response header like ``Retry-After`` or ``X-RateLimit-Reset`` to
         provide feedback to the client on how long to wait before retrying. If
         configured, this back-off strategy will be used instead of the
-        default exponential back off strategy (configured using `retry_back_off`)
+        default exponential back off strategy (configured using ``retry_back_off``)
         whenever a response includes the matching headers.
         """
-        pass
     @property
     def retriable_headers(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HeaderMatcher]:
         """HTTP response headers that trigger a retry if present in the response. A retry will be
         triggered if any of the header matches match the upstream response headers.
         The field is only consulted if 'retriable-headers' retry policy is active.
         """
-        pass
     @property
     def retriable_request_headers(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HeaderMatcher]:
         """HTTP headers which must be present in the request for retries to be attempted."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        retry_on : typing.Text = ...,
-        num_retries : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        per_try_timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        per_try_idle_timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        retry_priority : typing.Optional[global___RetryPolicy.RetryPriority] = ...,
-        retry_host_predicate : typing.Optional[typing.Iterable[global___RetryPolicy.RetryHostPredicate]] = ...,
-        retry_options_predicates : typing.Optional[typing.Iterable[envoy.config.core.v3.extension_pb2.TypedExtensionConfig]] = ...,
-        host_selection_retry_max_attempts : builtins.int = ...,
-        retriable_status_codes : typing.Optional[typing.Iterable[builtins.int]] = ...,
-        retry_back_off : typing.Optional[global___RetryPolicy.RetryBackOff] = ...,
-        rate_limited_retry_back_off : typing.Optional[global___RetryPolicy.RateLimitedRetryBackOff] = ...,
-        retriable_headers : typing.Optional[typing.Iterable[global___HeaderMatcher]] = ...,
-        retriable_request_headers : typing.Optional[typing.Iterable[global___HeaderMatcher]] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"num_retries",b"num_retries",u"per_try_idle_timeout",b"per_try_idle_timeout",u"per_try_timeout",b"per_try_timeout",u"rate_limited_retry_back_off",b"rate_limited_retry_back_off",u"retry_back_off",b"retry_back_off",u"retry_priority",b"retry_priority"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"host_selection_retry_max_attempts",b"host_selection_retry_max_attempts",u"num_retries",b"num_retries",u"per_try_idle_timeout",b"per_try_idle_timeout",u"per_try_timeout",b"per_try_timeout",u"rate_limited_retry_back_off",b"rate_limited_retry_back_off",u"retriable_headers",b"retriable_headers",u"retriable_request_headers",b"retriable_request_headers",u"retriable_status_codes",b"retriable_status_codes",u"retry_back_off",b"retry_back_off",u"retry_host_predicate",b"retry_host_predicate",u"retry_on",b"retry_on",u"retry_options_predicates",b"retry_options_predicates",u"retry_priority",b"retry_priority"]) -> None: ...
+        retry_on: builtins.str = ...,
+        num_retries: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        per_try_timeout: google.protobuf.duration_pb2.Duration | None = ...,
+        per_try_idle_timeout: google.protobuf.duration_pb2.Duration | None = ...,
+        retry_priority: global___RetryPolicy.RetryPriority | None = ...,
+        retry_host_predicate: collections.abc.Iterable[global___RetryPolicy.RetryHostPredicate] | None = ...,
+        retry_options_predicates: collections.abc.Iterable[envoy.config.core.v3.extension_pb2.TypedExtensionConfig] | None = ...,
+        host_selection_retry_max_attempts: builtins.int = ...,
+        retriable_status_codes: collections.abc.Iterable[builtins.int] | None = ...,
+        retry_back_off: global___RetryPolicy.RetryBackOff | None = ...,
+        rate_limited_retry_back_off: global___RetryPolicy.RateLimitedRetryBackOff | None = ...,
+        retriable_headers: collections.abc.Iterable[global___HeaderMatcher] | None = ...,
+        retriable_request_headers: collections.abc.Iterable[global___HeaderMatcher] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["num_retries", b"num_retries", "per_try_idle_timeout", b"per_try_idle_timeout", "per_try_timeout", b"per_try_timeout", "rate_limited_retry_back_off", b"rate_limited_retry_back_off", "retry_back_off", b"retry_back_off", "retry_priority", b"retry_priority"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["host_selection_retry_max_attempts", b"host_selection_retry_max_attempts", "num_retries", b"num_retries", "per_try_idle_timeout", b"per_try_idle_timeout", "per_try_timeout", b"per_try_timeout", "rate_limited_retry_back_off", b"rate_limited_retry_back_off", "retriable_headers", b"retriable_headers", "retriable_request_headers", b"retriable_request_headers", "retriable_status_codes", b"retriable_status_codes", "retry_back_off", b"retry_back_off", "retry_host_predicate", b"retry_host_predicate", "retry_on", b"retry_on", "retry_options_predicates", b"retry_options_predicates", "retry_priority", b"retry_priority"]) -> None: ...
+
 global___RetryPolicy = RetryPolicy
 
 class HedgePolicy(google.protobuf.message.Message):
     """HTTP request hedging :ref:`architecture overview <arch_overview_http_routing_hedging>`."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     INITIAL_REQUESTS_FIELD_NUMBER: builtins.int
     ADDITIONAL_REQUEST_CHANCE_FIELD_NUMBER: builtins.int
     HEDGE_ON_PER_TRY_TIMEOUT_FIELD_NUMBER: builtins.int
@@ -2053,7 +2153,6 @@ class HedgePolicy(google.protobuf.message.Message):
         Defaults to 1.
         [#not-implemented-hide:]
         """
-        pass
     @property
     def additional_request_chance(self) -> envoy.type.v3.percent_pb2.FractionalPercent:
         """Specifies a probability that an additional upstream request should be sent
@@ -2061,8 +2160,7 @@ class HedgePolicy(google.protobuf.message.Message):
         Defaults to 0.
         [#not-implemented-hide:]
         """
-        pass
-    hedge_on_per_try_timeout: builtins.bool = ...
+    hedge_on_per_try_timeout: builtins.bool
     """Indicates that a hedged request should be sent when the per-try timeout is hit.
     This means that a retry will be issued without resetting the original request, leaving multiple upstream requests in flight.
     The first request to complete successfully will be the one returned to the caller.
@@ -2077,57 +2175,51 @@ class HedgePolicy(google.protobuf.message.Message):
 
     Defaults to false.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        initial_requests : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        additional_request_chance : typing.Optional[envoy.type.v3.percent_pb2.FractionalPercent] = ...,
-        hedge_on_per_try_timeout : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"additional_request_chance",b"additional_request_chance",u"initial_requests",b"initial_requests"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"additional_request_chance",b"additional_request_chance",u"hedge_on_per_try_timeout",b"hedge_on_per_try_timeout",u"initial_requests",b"initial_requests"]) -> None: ...
+        initial_requests: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        additional_request_chance: envoy.type.v3.percent_pb2.FractionalPercent | None = ...,
+        hedge_on_per_try_timeout: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["additional_request_chance", b"additional_request_chance", "initial_requests", b"initial_requests"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["additional_request_chance", b"additional_request_chance", "hedge_on_per_try_timeout", b"hedge_on_per_try_timeout", "initial_requests", b"initial_requests"]) -> None: ...
+
 global___HedgePolicy = HedgePolicy
 
 class RedirectAction(google.protobuf.message.Message):
     """[#next-free-field: 10]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    class RedirectResponseCode(_RedirectResponseCode, metaclass=_RedirectResponseCodeEnumTypeWrapper):
-        pass
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class _RedirectResponseCode:
-        V = typing.NewType('V', builtins.int)
-    class _RedirectResponseCodeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_RedirectResponseCode.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        MOVED_PERMANENTLY = RedirectAction.RedirectResponseCode.V(0)
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _RedirectResponseCodeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[RedirectAction._RedirectResponseCode.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        MOVED_PERMANENTLY: RedirectAction._RedirectResponseCode.ValueType  # 0
         """Moved Permanently HTTP Status Code - 301."""
-
-        FOUND = RedirectAction.RedirectResponseCode.V(1)
+        FOUND: RedirectAction._RedirectResponseCode.ValueType  # 1
         """Found HTTP Status Code - 302."""
-
-        SEE_OTHER = RedirectAction.RedirectResponseCode.V(2)
+        SEE_OTHER: RedirectAction._RedirectResponseCode.ValueType  # 2
         """See Other HTTP Status Code - 303."""
-
-        TEMPORARY_REDIRECT = RedirectAction.RedirectResponseCode.V(3)
+        TEMPORARY_REDIRECT: RedirectAction._RedirectResponseCode.ValueType  # 3
         """Temporary Redirect HTTP Status Code - 307."""
-
-        PERMANENT_REDIRECT = RedirectAction.RedirectResponseCode.V(4)
+        PERMANENT_REDIRECT: RedirectAction._RedirectResponseCode.ValueType  # 4
         """Permanent Redirect HTTP Status Code - 308."""
 
-
-    MOVED_PERMANENTLY = RedirectAction.RedirectResponseCode.V(0)
+    class RedirectResponseCode(_RedirectResponseCode, metaclass=_RedirectResponseCodeEnumTypeWrapper): ...
+    MOVED_PERMANENTLY: RedirectAction.RedirectResponseCode.ValueType  # 0
     """Moved Permanently HTTP Status Code - 301."""
-
-    FOUND = RedirectAction.RedirectResponseCode.V(1)
+    FOUND: RedirectAction.RedirectResponseCode.ValueType  # 1
     """Found HTTP Status Code - 302."""
-
-    SEE_OTHER = RedirectAction.RedirectResponseCode.V(2)
+    SEE_OTHER: RedirectAction.RedirectResponseCode.ValueType  # 2
     """See Other HTTP Status Code - 303."""
-
-    TEMPORARY_REDIRECT = RedirectAction.RedirectResponseCode.V(3)
+    TEMPORARY_REDIRECT: RedirectAction.RedirectResponseCode.ValueType  # 3
     """Temporary Redirect HTTP Status Code - 307."""
-
-    PERMANENT_REDIRECT = RedirectAction.RedirectResponseCode.V(4)
+    PERMANENT_REDIRECT: RedirectAction.RedirectResponseCode.ValueType  # 4
     """Permanent Redirect HTTP Status Code - 308."""
-
 
     HTTPS_REDIRECT_FIELD_NUMBER: builtins.int
     SCHEME_REDIRECT_FIELD_NUMBER: builtins.int
@@ -2138,19 +2230,15 @@ class RedirectAction(google.protobuf.message.Message):
     REGEX_REWRITE_FIELD_NUMBER: builtins.int
     RESPONSE_CODE_FIELD_NUMBER: builtins.int
     STRIP_QUERY_FIELD_NUMBER: builtins.int
-    https_redirect: builtins.bool = ...
+    https_redirect: builtins.bool
     """The scheme portion of the URL will be swapped with "https"."""
-
-    scheme_redirect: typing.Text = ...
+    scheme_redirect: builtins.str
     """The scheme portion of the URL will be swapped with this value."""
-
-    host_redirect: typing.Text = ...
+    host_redirect: builtins.str
     """The host portion of the URL will be swapped with this value."""
-
-    port_redirect: builtins.int = ...
+    port_redirect: builtins.int
     """The port value of the URL will be swapped with this value."""
-
-    path_redirect: typing.Text = ...
+    path_redirect: builtins.str
     """The path portion of the URL will be swapped with this value.
     Please note that query string in path_redirect will override the
     request's query string and will not be stripped.
@@ -2168,8 +2256,7 @@ class RedirectAction(google.protobuf.message.Message):
     2. if request uri is "/old-path-2?bar=1", users will be redirected to "/new-path-2"
     3. if request uri is "/old-path-3?bar=1", users will be redirected to "/new-path-3?foo=1"
     """
-
-    prefix_rewrite: typing.Text = ...
+    prefix_rewrite: builtins.str
     """Indicates that during redirection, the matched prefix (or path)
     should be swapped with this value. This option allows redirect URLs be dynamically created
     based on the request.
@@ -2179,7 +2266,6 @@ class RedirectAction(google.protobuf.message.Message):
       Pay attention to the use of trailing slashes as mentioned in
       :ref:`RouteAction's prefix_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.prefix_rewrite>`.
     """
-
     @property
     def regex_rewrite(self) -> envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute:
         """Indicates that during redirect, portions of the path that match the
@@ -2192,58 +2278,57 @@ class RedirectAction(google.protobuf.message.Message):
         Examples using Google's `RE2 <https://github.com/google/re2>`_ engine:
 
         * The path pattern ``^/service/([^/]+)(/.*)$`` paired with a substitution
-          string of ``\2/instance/\1`` would transform ``/service/foo/v1/api``
+          string of ``\\2/instance/\\1`` would transform ``/service/foo/v1/api``
           into ``/v1/api/instance/foo``.
 
         * The pattern ``one`` paired with a substitution string of ``two`` would
           transform ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/two/zzz``.
 
         * The pattern ``^(.*?)one(.*)$`` paired with a substitution string of
-          ``\1two\2`` would replace only the first occurrence of ``one``,
+          ``\\1two\\2`` would replace only the first occurrence of ``one``,
           transforming path ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/one/zzz``.
 
         * The pattern ``(?i)/xxx/`` paired with a substitution string of ``/yyy/``
           would do a case-insensitive match and transform path ``/aaa/XxX/bbb`` to
           ``/aaa/yyy/bbb``.
         """
-        pass
-    response_code: global___RedirectAction.RedirectResponseCode.V = ...
+    response_code: global___RedirectAction.RedirectResponseCode.ValueType
     """The HTTP status code to use in the redirect response. The default response
     code is MOVED_PERMANENTLY (301).
     """
-
-    strip_query: builtins.bool = ...
+    strip_query: builtins.bool
     """Indicates that during redirection, the query portion of the URL will
     be removed. Default value is false.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        https_redirect : builtins.bool = ...,
-        scheme_redirect : typing.Text = ...,
-        host_redirect : typing.Text = ...,
-        port_redirect : builtins.int = ...,
-        path_redirect : typing.Text = ...,
-        prefix_rewrite : typing.Text = ...,
-        regex_rewrite : typing.Optional[envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute] = ...,
-        response_code : global___RedirectAction.RedirectResponseCode.V = ...,
-        strip_query : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"https_redirect",b"https_redirect",u"path_redirect",b"path_redirect",u"path_rewrite_specifier",b"path_rewrite_specifier",u"prefix_rewrite",b"prefix_rewrite",u"regex_rewrite",b"regex_rewrite",u"scheme_redirect",b"scheme_redirect",u"scheme_rewrite_specifier",b"scheme_rewrite_specifier"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"host_redirect",b"host_redirect",u"https_redirect",b"https_redirect",u"path_redirect",b"path_redirect",u"path_rewrite_specifier",b"path_rewrite_specifier",u"port_redirect",b"port_redirect",u"prefix_rewrite",b"prefix_rewrite",u"regex_rewrite",b"regex_rewrite",u"response_code",b"response_code",u"scheme_redirect",b"scheme_redirect",u"scheme_rewrite_specifier",b"scheme_rewrite_specifier",u"strip_query",b"strip_query"]) -> None: ...
+        https_redirect: builtins.bool = ...,
+        scheme_redirect: builtins.str = ...,
+        host_redirect: builtins.str = ...,
+        port_redirect: builtins.int = ...,
+        path_redirect: builtins.str = ...,
+        prefix_rewrite: builtins.str = ...,
+        regex_rewrite: envoy.type.matcher.v3.regex_pb2.RegexMatchAndSubstitute | None = ...,
+        response_code: global___RedirectAction.RedirectResponseCode.ValueType = ...,
+        strip_query: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["https_redirect", b"https_redirect", "path_redirect", b"path_redirect", "path_rewrite_specifier", b"path_rewrite_specifier", "prefix_rewrite", b"prefix_rewrite", "regex_rewrite", b"regex_rewrite", "scheme_redirect", b"scheme_redirect", "scheme_rewrite_specifier", b"scheme_rewrite_specifier"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["host_redirect", b"host_redirect", "https_redirect", b"https_redirect", "path_redirect", b"path_redirect", "path_rewrite_specifier", b"path_rewrite_specifier", "port_redirect", b"port_redirect", "prefix_rewrite", b"prefix_rewrite", "regex_rewrite", b"regex_rewrite", "response_code", b"response_code", "scheme_redirect", b"scheme_redirect", "scheme_rewrite_specifier", b"scheme_rewrite_specifier", "strip_query", b"strip_query"]) -> None: ...
     @typing.overload
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"path_rewrite_specifier",b"path_rewrite_specifier"]) -> typing.Optional[typing_extensions.Literal["path_redirect","prefix_rewrite","regex_rewrite"]]: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["path_rewrite_specifier", b"path_rewrite_specifier"]) -> typing_extensions.Literal["path_redirect", "prefix_rewrite", "regex_rewrite"] | None: ...
     @typing.overload
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"scheme_rewrite_specifier",b"scheme_rewrite_specifier"]) -> typing.Optional[typing_extensions.Literal["https_redirect","scheme_redirect"]]: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["scheme_rewrite_specifier", b"scheme_rewrite_specifier"]) -> typing_extensions.Literal["https_redirect", "scheme_redirect"] | None: ...
+
 global___RedirectAction = RedirectAction
 
 class DirectResponseAction(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     STATUS_FIELD_NUMBER: builtins.int
     BODY_FIELD_NUMBER: builtins.int
-    status: builtins.int = ...
+    status: builtins.int
     """Specifies the HTTP response status to be returned."""
-
     @property
     def body(self) -> envoy.config.core.v3.base_pb2.DataSource:
         """Specifies the content of the response body. If this setting is omitted,
@@ -2251,32 +2336,38 @@ class DirectResponseAction(google.protobuf.message.Message):
 
         .. note::
 
-          Headers can be specified using *response_headers_to_add* in the enclosing
+          Headers can be specified using ``response_headers_to_add`` in the enclosing
           :ref:`envoy_v3_api_msg_config.route.v3.Route`, :ref:`envoy_v3_api_msg_config.route.v3.RouteConfiguration` or
           :ref:`envoy_v3_api_msg_config.route.v3.VirtualHost`.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        status : builtins.int = ...,
-        body : typing.Optional[envoy.config.core.v3.base_pb2.DataSource] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"body",b"body"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"body",b"body",u"status",b"status"]) -> None: ...
+        status: builtins.int = ...,
+        body: envoy.config.core.v3.base_pb2.DataSource | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["body", b"body"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["body", b"body", "status", b"status"]) -> None: ...
+
 global___DirectResponseAction = DirectResponseAction
 
 class NonForwardingAction(google.protobuf.message.Message):
     """[#not-implemented-hide:]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    def __init__(self,
-        ) -> None: ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    def __init__(
+        self,
+    ) -> None: ...
+
 global___NonForwardingAction = NonForwardingAction
 
 class Decorator(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     OPERATION_FIELD_NUMBER: builtins.int
     PROPAGATE_FIELD_NUMBER: builtins.int
-    operation: typing.Text = ...
+    operation: builtins.str
     """The operation name associated with the request matched to this route. If tracing is
     enabled, this information will be used as the span name reported for this request.
 
@@ -2286,22 +2377,23 @@ class Decorator(google.protobuf.message.Message):
       by the :ref:`x-envoy-decorator-operation
       <config_http_filters_router_x-envoy-decorator-operation>` header.
     """
-
     @property
     def propagate(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Whether the decorated details should be propagated to the other party. The default is true."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        operation : typing.Text = ...,
-        propagate : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"propagate",b"propagate"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"operation",b"operation",u"propagate",b"propagate"]) -> None: ...
+        operation: builtins.str = ...,
+        propagate: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["propagate", b"propagate"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["operation", b"operation", "propagate", b"propagate"]) -> None: ...
+
 global___Decorator = Decorator
 
 class Tracing(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     CLIENT_SAMPLING_FIELD_NUMBER: builtins.int
     RANDOM_SAMPLING_FIELD_NUMBER: builtins.int
     OVERALL_SAMPLING_FIELD_NUMBER: builtins.int
@@ -2315,7 +2407,6 @@ class Tracing(google.protobuf.message.Message):
         <config_http_conn_man_runtime>`.
         Default: 100%
         """
-        pass
     @property
     def random_sampling(self) -> envoy.type.v3.percent_pb2.FractionalPercent:
         """Target percentage of requests managed by this HTTP connection manager that will be randomly
@@ -2324,7 +2415,6 @@ class Tracing(google.protobuf.message.Message):
         :ref:`HTTP Connection Manager <config_http_conn_man_runtime>`.
         Default: 100%
         """
-        pass
     @property
     def overall_sampling(self) -> envoy.type.v3.percent_pb2.FractionalPercent:
         """Target percentage of requests managed by this HTTP connection manager that will be traced
@@ -2336,7 +2426,6 @@ class Tracing(google.protobuf.message.Message):
         :ref:`HTTP Connection Manager <config_http_conn_man_runtime>`.
         Default: 100%
         """
-        pass
     @property
     def custom_tags(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.type.tracing.v3.custom_tag_pb2.CustomTag]:
         """A list of custom tags with unique tag name to create tags for the active span.
@@ -2346,16 +2435,17 @@ class Tracing(google.protobuf.message.Message):
         each in the HTTP connection manager and the route level, the one configured here takes
         priority.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        client_sampling : typing.Optional[envoy.type.v3.percent_pb2.FractionalPercent] = ...,
-        random_sampling : typing.Optional[envoy.type.v3.percent_pb2.FractionalPercent] = ...,
-        overall_sampling : typing.Optional[envoy.type.v3.percent_pb2.FractionalPercent] = ...,
-        custom_tags : typing.Optional[typing.Iterable[envoy.type.tracing.v3.custom_tag_pb2.CustomTag]] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"client_sampling",b"client_sampling",u"overall_sampling",b"overall_sampling",u"random_sampling",b"random_sampling"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"client_sampling",b"client_sampling",u"custom_tags",b"custom_tags",u"overall_sampling",b"overall_sampling",u"random_sampling",b"random_sampling"]) -> None: ...
+        client_sampling: envoy.type.v3.percent_pb2.FractionalPercent | None = ...,
+        random_sampling: envoy.type.v3.percent_pb2.FractionalPercent | None = ...,
+        overall_sampling: envoy.type.v3.percent_pb2.FractionalPercent | None = ...,
+        custom_tags: collections.abc.Iterable[envoy.type.tracing.v3.custom_tag_pb2.CustomTag] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["client_sampling", b"client_sampling", "overall_sampling", b"overall_sampling", "random_sampling", b"random_sampling"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["client_sampling", b"client_sampling", "custom_tags", b"custom_tags", "overall_sampling", b"overall_sampling", "random_sampling", b"random_sampling"]) -> None: ...
+
 global___Tracing = Tracing
 
 class VirtualCluster(google.protobuf.message.Message):
@@ -2377,38 +2467,44 @@ class VirtualCluster(google.protobuf.message.Message):
        every application endpoint. This is both not easily maintainable and as well the matching and
        statistics output are not free.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     HEADERS_FIELD_NUMBER: builtins.int
     NAME_FIELD_NUMBER: builtins.int
     @property
     def headers(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HeaderMatcher]:
         """Specifies a list of header matchers to use for matching requests. Each specified header must
-        match. The pseudo-headers `:path` and `:method` can be used to match the request path and
+        match. The pseudo-headers ``:path`` and ``:method`` can be used to match the request path and
         method, respectively.
         """
-        pass
-    name: typing.Text = ...
+    name: builtins.str
     """Specifies the name of the virtual cluster. The virtual cluster name as well
     as the virtual host name are used when emitting statistics. The statistics are emitted by the
     router filter and are documented :ref:`here <config_http_filters_router_stats>`.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        headers : typing.Optional[typing.Iterable[global___HeaderMatcher]] = ...,
-        name : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"headers",b"headers",u"name",b"name"]) -> None: ...
+        headers: collections.abc.Iterable[global___HeaderMatcher] | None = ...,
+        name: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["headers", b"headers", "name", b"name"]) -> None: ...
+
 global___VirtualCluster = VirtualCluster
 
 class RateLimit(google.protobuf.message.Message):
     """Global rate limiting :ref:`architecture overview <arch_overview_global_rate_limit>`.
     Also applies to Local rate limiting :ref:`using descriptors <config_http_filters_local_rate_limit_descriptors>`.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class Action(google.protobuf.message.Message):
-        """[#next-free-field: 10]"""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        """[#next-free-field: 11]"""
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         class SourceCluster(google.protobuf.message.Message):
             """The following descriptor entry is appended to the descriptor:
 
@@ -2418,9 +2514,12 @@ class RateLimit(google.protobuf.message.Message):
 
             <local service cluster> is derived from the :option:`--service-cluster` option.
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-            def __init__(self,
-                ) -> None: ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+            def __init__(
+                self,
+            ) -> None: ...
 
         class DestinationCluster(google.protobuf.message.Message):
             """The following descriptor entry is appended to the descriptor:
@@ -2440,44 +2539,47 @@ class RateLimit(google.protobuf.message.Message):
             * :ref:`cluster_header <envoy_v3_api_field_config.route.v3.RouteAction.cluster_header>` indicates which
               header in the request contains the target cluster.
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-            def __init__(self,
-                ) -> None: ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+            def __init__(
+                self,
+            ) -> None: ...
 
         class RequestHeaders(google.protobuf.message.Message):
             """The following descriptor entry is appended when a header contains a key that matches the
-            *header_name*:
+            ``header_name``:
 
             .. code-block:: cpp
 
               ("<descriptor_key>", "<header_value_queried_from_header>")
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             HEADER_NAME_FIELD_NUMBER: builtins.int
             DESCRIPTOR_KEY_FIELD_NUMBER: builtins.int
             SKIP_IF_ABSENT_FIELD_NUMBER: builtins.int
-            header_name: typing.Text = ...
+            header_name: builtins.str
             """The header name to be queried from the request headers. The header’s
             value is used to populate the value of the descriptor entry for the
             descriptor_key.
             """
-
-            descriptor_key: typing.Text = ...
+            descriptor_key: builtins.str
             """The key to use in the descriptor entry."""
-
-            skip_if_absent: builtins.bool = ...
+            skip_if_absent: builtins.bool
             """If set to true, Envoy skips the descriptor while calling rate limiting service
             when header is not present in the request. By default it skips calling the
             rate limiting service if this header is not present in the request.
             """
-
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                header_name : typing.Text = ...,
-                descriptor_key : typing.Text = ...,
-                skip_if_absent : builtins.bool = ...,
-                ) -> None: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"descriptor_key",b"descriptor_key",u"header_name",b"header_name",u"skip_if_absent",b"skip_if_absent"]) -> None: ...
+                header_name: builtins.str = ...,
+                descriptor_key: builtins.str = ...,
+                skip_if_absent: builtins.bool = ...,
+            ) -> None: ...
+            def ClearField(self, field_name: typing_extensions.Literal["descriptor_key", b"descriptor_key", "header_name", b"header_name", "skip_if_absent", b"skip_if_absent"]) -> None: ...
 
         class RemoteAddress(google.protobuf.message.Message):
             """The following descriptor entry is appended to the descriptor and is populated using the
@@ -2487,9 +2589,50 @@ class RateLimit(google.protobuf.message.Message):
 
               ("remote_address", "<trusted address from x-forwarded-for>")
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-            def __init__(self,
-                ) -> None: ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+            def __init__(
+                self,
+            ) -> None: ...
+
+        class MaskedRemoteAddress(google.protobuf.message.Message):
+            """The following descriptor entry is appended to the descriptor and is populated using the
+            masked address from :ref:`x-forwarded-for <config_http_conn_man_headers_x-forwarded-for>`:
+
+            .. code-block:: cpp
+
+              ("masked_remote_address", "<masked address from x-forwarded-for>")
+            """
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+            V4_PREFIX_MASK_LEN_FIELD_NUMBER: builtins.int
+            V6_PREFIX_MASK_LEN_FIELD_NUMBER: builtins.int
+            @property
+            def v4_prefix_mask_len(self) -> google.protobuf.wrappers_pb2.UInt32Value:
+                """Length of prefix mask len for IPv4 (e.g. 0, 32).
+                Defaults to 32 when unset.
+                For example, trusted address from x-forwarded-for is ``192.168.1.1``,
+                the descriptor entry is ("masked_remote_address", "192.168.1.1/32");
+                if mask len is 24, the descriptor entry is ("masked_remote_address", "192.168.1.0/24").
+                """
+            @property
+            def v6_prefix_mask_len(self) -> google.protobuf.wrappers_pb2.UInt32Value:
+                """Length of prefix mask len for IPv6 (e.g. 0, 128).
+                Defaults to 128 when unset.
+                For example, trusted address from x-forwarded-for is ``2001:abcd:ef01:2345:6789:abcd:ef01:234``,
+                the descriptor entry is ("masked_remote_address", "2001:abcd:ef01:2345:6789:abcd:ef01:234/128");
+                if mask len is 64, the descriptor entry is ("masked_remote_address", "2001:abcd:ef01:2345::/64").
+                """
+            def __init__(
+                self,
+                *,
+                v4_prefix_mask_len: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+                v6_prefix_mask_len: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["v4_prefix_mask_len", b"v4_prefix_mask_len", "v6_prefix_mask_len", b"v6_prefix_mask_len"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["v4_prefix_mask_len", b"v4_prefix_mask_len", "v6_prefix_mask_len", b"v6_prefix_mask_len"]) -> None: ...
 
         class GenericKey(google.protobuf.message.Message):
             """The following descriptor entry is appended to the descriptor:
@@ -2498,23 +2641,24 @@ class RateLimit(google.protobuf.message.Message):
 
               ("generic_key", "<descriptor_value>")
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             DESCRIPTOR_VALUE_FIELD_NUMBER: builtins.int
             DESCRIPTOR_KEY_FIELD_NUMBER: builtins.int
-            descriptor_value: typing.Text = ...
+            descriptor_value: builtins.str
             """The value to use in the descriptor entry."""
-
-            descriptor_key: typing.Text = ...
+            descriptor_key: builtins.str
             """An optional key to use in the descriptor entry. If not set it defaults
             to 'generic_key' as the descriptor key.
             """
-
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                descriptor_value : typing.Text = ...,
-                descriptor_key : typing.Text = ...,
-                ) -> None: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"descriptor_key",b"descriptor_key",u"descriptor_value",b"descriptor_value"]) -> None: ...
+                descriptor_value: builtins.str = ...,
+                descriptor_key: builtins.str = ...,
+            ) -> None: ...
+            def ClearField(self, field_name: typing_extensions.Literal["descriptor_key", b"descriptor_key", "descriptor_value", b"descriptor_value"]) -> None: ...
 
         class HeaderValueMatch(google.protobuf.message.Message):
             """The following descriptor entry is appended to the descriptor:
@@ -2523,13 +2667,17 @@ class RateLimit(google.protobuf.message.Message):
 
               ("header_match", "<descriptor_value>")
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+            DESCRIPTOR_KEY_FIELD_NUMBER: builtins.int
             DESCRIPTOR_VALUE_FIELD_NUMBER: builtins.int
             EXPECT_MATCH_FIELD_NUMBER: builtins.int
             HEADERS_FIELD_NUMBER: builtins.int
-            descriptor_value: typing.Text = ...
+            descriptor_key: builtins.str
+            """The key to use in the descriptor entry. Defaults to ``header_match``."""
+            descriptor_value: builtins.str
             """The value to use in the descriptor entry."""
-
             @property
             def expect_match(self) -> google.protobuf.wrappers_pb2.BoolValue:
                 """If set to true, the action will append a descriptor entry when the
@@ -2537,7 +2685,6 @@ class RateLimit(google.protobuf.message.Message):
                 descriptor entry when the request does not match the headers. The
                 default value is true.
                 """
-                pass
             @property
             def headers(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HeaderMatcher]:
                 """Specifies a set of headers that the rate limit action should match
@@ -2546,15 +2693,16 @@ class RateLimit(google.protobuf.message.Message):
                 headers in the config are present in the request with the same values
                 (or based on presence if the value field is not in the config).
                 """
-                pass
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                descriptor_value : typing.Text = ...,
-                expect_match : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-                headers : typing.Optional[typing.Iterable[global___HeaderMatcher]] = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"expect_match",b"expect_match"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"descriptor_value",b"descriptor_value",u"expect_match",b"expect_match",u"headers",b"headers"]) -> None: ...
+                descriptor_key: builtins.str = ...,
+                descriptor_value: builtins.str = ...,
+                expect_match: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+                headers: collections.abc.Iterable[global___HeaderMatcher] | None = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["expect_match", b"expect_match"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["descriptor_key", b"descriptor_key", "descriptor_value", b"descriptor_value", "expect_match", b"expect_match", "headers", b"headers"]) -> None: ...
 
         class DynamicMetaData(google.protobuf.message.Message):
             """The following descriptor entry is appended when the
@@ -2567,32 +2715,32 @@ class RateLimit(google.protobuf.message.Message):
             .. attention::
               This action has been deprecated in favor of the :ref:`metadata <envoy_v3_api_msg_config.route.v3.RateLimit.Action.MetaData>` action
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             DESCRIPTOR_KEY_FIELD_NUMBER: builtins.int
             METADATA_KEY_FIELD_NUMBER: builtins.int
             DEFAULT_VALUE_FIELD_NUMBER: builtins.int
-            descriptor_key: typing.Text = ...
+            descriptor_key: builtins.str
             """The key to use in the descriptor entry."""
-
             @property
             def metadata_key(self) -> envoy.type.metadata.v3.metadata_pb2.MetadataKey:
                 """Metadata struct that defines the key and path to retrieve the string value. A match will
                 only happen if the value in the dynamic metadata is of type string.
                 """
-                pass
-            default_value: typing.Text = ...
-            """An optional value to use if *metadata_key* is empty. If not set and
+            default_value: builtins.str
+            """An optional value to use if ``metadata_key`` is empty. If not set and
             no value is present under the metadata_key then no descriptor is generated.
             """
-
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                descriptor_key : typing.Text = ...,
-                metadata_key : typing.Optional[envoy.type.metadata.v3.metadata_pb2.MetadataKey] = ...,
-                default_value : typing.Text = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"metadata_key",b"metadata_key"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"descriptor_key",b"descriptor_key",u"metadata_key",b"metadata_key"]) -> None: ...
+                descriptor_key: builtins.str = ...,
+                metadata_key: envoy.type.metadata.v3.metadata_pb2.MetadataKey | None = ...,
+                default_value: builtins.str = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["metadata_key", b"metadata_key"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "descriptor_key", b"descriptor_key", "metadata_key", b"metadata_key"]) -> None: ...
 
         class MetaData(google.protobuf.message.Message):
             """The following descriptor entry is appended when the metadata contains a key value:
@@ -2601,57 +2749,53 @@ class RateLimit(google.protobuf.message.Message):
 
               ("<descriptor_key>", "<value_queried_from_metadata>")
             """
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-            class Source(_Source, metaclass=_SourceEnumTypeWrapper):
-                pass
-            class _Source:
-                V = typing.NewType('V', builtins.int)
-            class _SourceEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_Source.V], builtins.type):
-                DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-                DYNAMIC = RateLimit.Action.MetaData.Source.V(0)
-                """Query :ref:`dynamic metadata <well_known_dynamic_metadata>`"""
 
-                ROUTE_ENTRY = RateLimit.Action.MetaData.Source.V(1)
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+            class _Source:
+                ValueType = typing.NewType("ValueType", builtins.int)
+                V: typing_extensions.TypeAlias = ValueType
+
+            class _SourceEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[RateLimit.Action.MetaData._Source.ValueType], builtins.type):  # noqa: F821
+                DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+                DYNAMIC: RateLimit.Action.MetaData._Source.ValueType  # 0
+                """Query :ref:`dynamic metadata <well_known_dynamic_metadata>`"""
+                ROUTE_ENTRY: RateLimit.Action.MetaData._Source.ValueType  # 1
                 """Query :ref:`route entry metadata <envoy_v3_api_field_config.route.v3.Route.metadata>`"""
 
-
-            DYNAMIC = RateLimit.Action.MetaData.Source.V(0)
+            class Source(_Source, metaclass=_SourceEnumTypeWrapper): ...
+            DYNAMIC: RateLimit.Action.MetaData.Source.ValueType  # 0
             """Query :ref:`dynamic metadata <well_known_dynamic_metadata>`"""
-
-            ROUTE_ENTRY = RateLimit.Action.MetaData.Source.V(1)
+            ROUTE_ENTRY: RateLimit.Action.MetaData.Source.ValueType  # 1
             """Query :ref:`route entry metadata <envoy_v3_api_field_config.route.v3.Route.metadata>`"""
-
 
             DESCRIPTOR_KEY_FIELD_NUMBER: builtins.int
             METADATA_KEY_FIELD_NUMBER: builtins.int
             DEFAULT_VALUE_FIELD_NUMBER: builtins.int
             SOURCE_FIELD_NUMBER: builtins.int
-            descriptor_key: typing.Text = ...
+            descriptor_key: builtins.str
             """The key to use in the descriptor entry."""
-
             @property
             def metadata_key(self) -> envoy.type.metadata.v3.metadata_pb2.MetadataKey:
                 """Metadata struct that defines the key and path to retrieve the string value. A match will
                 only happen if the value in the metadata is of type string.
                 """
-                pass
-            default_value: typing.Text = ...
-            """An optional value to use if *metadata_key* is empty. If not set and
+            default_value: builtins.str
+            """An optional value to use if ``metadata_key`` is empty. If not set and
             no value is present under the metadata_key then no descriptor is generated.
             """
-
-            source: global___RateLimit.Action.MetaData.Source.V = ...
+            source: global___RateLimit.Action.MetaData.Source.ValueType
             """Source of metadata"""
-
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                descriptor_key : typing.Text = ...,
-                metadata_key : typing.Optional[envoy.type.metadata.v3.metadata_pb2.MetadataKey] = ...,
-                default_value : typing.Text = ...,
-                source : global___RateLimit.Action.MetaData.Source.V = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"metadata_key",b"metadata_key"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"descriptor_key",b"descriptor_key",u"metadata_key",b"metadata_key",u"source",b"source"]) -> None: ...
+                descriptor_key: builtins.str = ...,
+                metadata_key: envoy.type.metadata.v3.metadata_pb2.MetadataKey | None = ...,
+                default_value: builtins.str = ...,
+                source: global___RateLimit.Action.MetaData.Source.ValueType = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["metadata_key", b"metadata_key"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "descriptor_key", b"descriptor_key", "metadata_key", b"metadata_key", "source", b"source"]) -> None: ...
 
         SOURCE_CLUSTER_FIELD_NUMBER: builtins.int
         DESTINATION_CLUSTER_FIELD_NUMBER: builtins.int
@@ -2662,30 +2806,25 @@ class RateLimit(google.protobuf.message.Message):
         DYNAMIC_METADATA_FIELD_NUMBER: builtins.int
         METADATA_FIELD_NUMBER: builtins.int
         EXTENSION_FIELD_NUMBER: builtins.int
+        MASKED_REMOTE_ADDRESS_FIELD_NUMBER: builtins.int
         @property
         def source_cluster(self) -> global___RateLimit.Action.SourceCluster:
             """Rate limit on source cluster."""
-            pass
         @property
         def destination_cluster(self) -> global___RateLimit.Action.DestinationCluster:
             """Rate limit on destination cluster."""
-            pass
         @property
         def request_headers(self) -> global___RateLimit.Action.RequestHeaders:
             """Rate limit on request headers."""
-            pass
         @property
         def remote_address(self) -> global___RateLimit.Action.RemoteAddress:
             """Rate limit on remote address."""
-            pass
         @property
         def generic_key(self) -> global___RateLimit.Action.GenericKey:
             """Rate limit on a generic key."""
-            pass
         @property
         def header_value_match(self) -> global___RateLimit.Action.HeaderValueMatch:
             """Rate limit on the existence of request headers."""
-            pass
         @property
         def dynamic_metadata(self) -> global___RateLimit.Action.DynamicMetaData:
             """Rate limit on dynamic metadata.
@@ -2693,38 +2832,49 @@ class RateLimit(google.protobuf.message.Message):
             .. attention::
               This field has been deprecated in favor of the :ref:`metadata <envoy_v3_api_field_config.route.v3.RateLimit.Action.metadata>` field
             """
-            pass
         @property
         def metadata(self) -> global___RateLimit.Action.MetaData:
             """Rate limit on metadata."""
-            pass
         @property
         def extension(self) -> envoy.config.core.v3.extension_pb2.TypedExtensionConfig:
             """Rate limit descriptor extension. See the rate limit descriptor extensions documentation.
+
+            :ref:`HTTP matching input functions <arch_overview_matching_api>` are
+            permitted as descriptor extensions. The input functions are only
+            looked up if there is no rate limit descriptor extension matching
+            the type URL.
+
             [#extension-category: envoy.rate_limit_descriptors]
             """
-            pass
-        def __init__(self,
+        @property
+        def masked_remote_address(self) -> global___RateLimit.Action.MaskedRemoteAddress:
+            """Rate limit on masked remote address."""
+        def __init__(
+            self,
             *,
-            source_cluster : typing.Optional[global___RateLimit.Action.SourceCluster] = ...,
-            destination_cluster : typing.Optional[global___RateLimit.Action.DestinationCluster] = ...,
-            request_headers : typing.Optional[global___RateLimit.Action.RequestHeaders] = ...,
-            remote_address : typing.Optional[global___RateLimit.Action.RemoteAddress] = ...,
-            generic_key : typing.Optional[global___RateLimit.Action.GenericKey] = ...,
-            header_value_match : typing.Optional[global___RateLimit.Action.HeaderValueMatch] = ...,
-            dynamic_metadata : typing.Optional[global___RateLimit.Action.DynamicMetaData] = ...,
-            metadata : typing.Optional[global___RateLimit.Action.MetaData] = ...,
-            extension : typing.Optional[envoy.config.core.v3.extension_pb2.TypedExtensionConfig] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"action_specifier",b"action_specifier",u"destination_cluster",b"destination_cluster",u"dynamic_metadata",b"dynamic_metadata",u"extension",b"extension",u"generic_key",b"generic_key",u"header_value_match",b"header_value_match",u"metadata",b"metadata",u"remote_address",b"remote_address",u"request_headers",b"request_headers",u"source_cluster",b"source_cluster"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"action_specifier",b"action_specifier",u"destination_cluster",b"destination_cluster",u"dynamic_metadata",b"dynamic_metadata",u"extension",b"extension",u"generic_key",b"generic_key",u"header_value_match",b"header_value_match",u"metadata",b"metadata",u"remote_address",b"remote_address",u"request_headers",b"request_headers",u"source_cluster",b"source_cluster"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"action_specifier",b"action_specifier"]) -> typing.Optional[typing_extensions.Literal["source_cluster","destination_cluster","request_headers","remote_address","generic_key","header_value_match","dynamic_metadata","metadata","extension"]]: ...
+            source_cluster: global___RateLimit.Action.SourceCluster | None = ...,
+            destination_cluster: global___RateLimit.Action.DestinationCluster | None = ...,
+            request_headers: global___RateLimit.Action.RequestHeaders | None = ...,
+            remote_address: global___RateLimit.Action.RemoteAddress | None = ...,
+            generic_key: global___RateLimit.Action.GenericKey | None = ...,
+            header_value_match: global___RateLimit.Action.HeaderValueMatch | None = ...,
+            dynamic_metadata: global___RateLimit.Action.DynamicMetaData | None = ...,
+            metadata: global___RateLimit.Action.MetaData | None = ...,
+            extension: envoy.config.core.v3.extension_pb2.TypedExtensionConfig | None = ...,
+            masked_remote_address: global___RateLimit.Action.MaskedRemoteAddress | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["action_specifier", b"action_specifier", "destination_cluster", b"destination_cluster", "dynamic_metadata", b"dynamic_metadata", "extension", b"extension", "generic_key", b"generic_key", "header_value_match", b"header_value_match", "masked_remote_address", b"masked_remote_address", "metadata", b"metadata", "remote_address", b"remote_address", "request_headers", b"request_headers", "source_cluster", b"source_cluster"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["action_specifier", b"action_specifier", "destination_cluster", b"destination_cluster", "dynamic_metadata", b"dynamic_metadata", "extension", b"extension", "generic_key", b"generic_key", "header_value_match", b"header_value_match", "masked_remote_address", b"masked_remote_address", "metadata", b"metadata", "remote_address", b"remote_address", "request_headers", b"request_headers", "source_cluster", b"source_cluster"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["action_specifier", b"action_specifier"]) -> typing_extensions.Literal["source_cluster", "destination_cluster", "request_headers", "remote_address", "generic_key", "header_value_match", "dynamic_metadata", "metadata", "extension", "masked_remote_address"] | None: ...
 
     class Override(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         class DynamicMetadata(google.protobuf.message.Message):
             """Fetches the override from the dynamic metadata."""
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             METADATA_KEY_FIELD_NUMBER: builtins.int
             @property
             def metadata_key(self) -> envoy.type.metadata.v3.metadata_pb2.MetadataKey:
@@ -2733,26 +2883,26 @@ class RateLimit(google.protobuf.message.Message):
                 and a "unit" property with a value parseable to :ref:`RateLimitUnit
                 enum <envoy_v3_api_enum_type.v3.RateLimitUnit>`
                 """
-                pass
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                metadata_key : typing.Optional[envoy.type.metadata.v3.metadata_pb2.MetadataKey] = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"metadata_key",b"metadata_key"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"metadata_key",b"metadata_key"]) -> None: ...
+                metadata_key: envoy.type.metadata.v3.metadata_pb2.MetadataKey | None = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["metadata_key", b"metadata_key"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["metadata_key", b"metadata_key"]) -> None: ...
 
         DYNAMIC_METADATA_FIELD_NUMBER: builtins.int
         @property
         def dynamic_metadata(self) -> global___RateLimit.Override.DynamicMetadata:
             """Limit override from dynamic metadata."""
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            dynamic_metadata : typing.Optional[global___RateLimit.Override.DynamicMetadata] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"dynamic_metadata",b"dynamic_metadata",u"override_specifier",b"override_specifier"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"dynamic_metadata",b"dynamic_metadata",u"override_specifier",b"override_specifier"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"override_specifier",b"override_specifier"]) -> typing.Optional[typing_extensions.Literal["dynamic_metadata"]]: ...
+            dynamic_metadata: global___RateLimit.Override.DynamicMetadata | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["dynamic_metadata", b"dynamic_metadata", "override_specifier", b"override_specifier"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["dynamic_metadata", b"dynamic_metadata", "override_specifier", b"override_specifier"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["override_specifier", b"override_specifier"]) -> typing_extensions.Literal["dynamic_metadata"] | None: ...
 
     STAGE_FIELD_NUMBER: builtins.int
     DISABLE_KEY_FIELD_NUMBER: builtins.int
@@ -2768,10 +2918,8 @@ class RateLimit(google.protobuf.message.Message):
 
           The filter supports a range of 0 - 10 inclusively for stage numbers.
         """
-        pass
-    disable_key: typing.Text = ...
+    disable_key: builtins.str
     """The key to be set in runtime to disable this rate limit configuration."""
-
     @property
     def actions(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RateLimit.Action]:
         """A list of actions that are to be applied for this rate limit configuration.
@@ -2781,7 +2929,6 @@ class RateLimit(google.protobuf.message.Message):
         configuration. See :ref:`composing actions
         <config_http_filters_rate_limit_composing_actions>` for additional documentation.
         """
-        pass
     @property
     def limit(self) -> global___RateLimit.Override:
         """An optional limit override to be appended to the descriptor produced by this
@@ -2789,27 +2936,28 @@ class RateLimit(google.protobuf.message.Message):
         from metadata, no override is provided. See :ref:`rate limit override
         <config_http_filters_rate_limit_rate_limit_override>` for more information.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        stage : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        disable_key : typing.Text = ...,
-        actions : typing.Optional[typing.Iterable[global___RateLimit.Action]] = ...,
-        limit : typing.Optional[global___RateLimit.Override] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"limit",b"limit",u"stage",b"stage"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"actions",b"actions",u"disable_key",b"disable_key",u"limit",b"limit",u"stage",b"stage"]) -> None: ...
+        stage: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        disable_key: builtins.str = ...,
+        actions: collections.abc.Iterable[global___RateLimit.Action] | None = ...,
+        limit: global___RateLimit.Override | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["limit", b"limit", "stage", b"stage"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["actions", b"actions", "disable_key", b"disable_key", "limit", b"limit", "stage", b"stage"]) -> None: ...
+
 global___RateLimit = RateLimit
 
 class HeaderMatcher(google.protobuf.message.Message):
     """.. attention::
 
-      Internally, Envoy always uses the HTTP/2 *:authority* header to represent the HTTP/1 *Host*
-      header. Thus, if attempting to match on *Host*, match on *:authority* instead.
+      Internally, Envoy always uses the HTTP/2 ``:authority`` header to represent the HTTP/1 ``Host``
+      header. Thus, if attempting to match on ``Host``, match on ``:authority`` instead.
 
     .. attention::
 
-      To route on HTTP method, use the special HTTP/2 *:method* header. This works for both
+      To route on HTTP method, use the special HTTP/2 ``:method`` header. This works for both
       HTTP/1 and HTTP/2 as Envoy normalizes headers. E.g.,
 
       .. code-block:: json
@@ -2826,9 +2974,11 @@ class HeaderMatcher(google.protobuf.message.Message):
       value.
 
      [#next-major-version: HeaderMatcher should be refactored to use StringMatcher.]
-    [#next-free-field: 14]
+    [#next-free-field: 15]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     NAME_FIELD_NUMBER: builtins.int
     EXACT_MATCH_FIELD_NUMBER: builtins.int
     SAFE_REGEX_MATCH_FIELD_NUMBER: builtins.int
@@ -2839,14 +2989,13 @@ class HeaderMatcher(google.protobuf.message.Message):
     CONTAINS_MATCH_FIELD_NUMBER: builtins.int
     STRING_MATCH_FIELD_NUMBER: builtins.int
     INVERT_MATCH_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    TREAT_MISSING_HEADER_AS_EMPTY_FIELD_NUMBER: builtins.int
+    name: builtins.str
     """Specifies the name of the header in the request."""
-
-    exact_match: typing.Text = ...
+    exact_match: builtins.str
     """If specified, header match will be performed based on the value of the header.
     This field is deprecated. Please use :ref:`string_match <envoy_v3_api_field_config.route.v3.HeaderMatcher.string_match>`.
     """
-
     @property
     def safe_regex_match(self) -> envoy.type.matcher.v3.regex_pb2.RegexMatcher:
         """If specified, this regex string is a regular expression rule which implies the entire request
@@ -2854,7 +3003,6 @@ class HeaderMatcher(google.protobuf.message.Message):
         request header value matches the regex.
         This field is deprecated. Please use :ref:`string_match <envoy_v3_api_field_config.route.v3.HeaderMatcher.string_match>`.
         """
-        pass
     @property
     def range_match(self) -> envoy.type.v3.range_pb2.Int64Range:
         """If specified, header match will be performed based on range.
@@ -2866,36 +3014,32 @@ class HeaderMatcher(google.protobuf.message.Message):
 
         Examples:
 
-        * For range [-10,0), route will match for header value -1, but not for 0, "somestring", 10.9,
-          "-1somestring"
+        * For range [-10,0), route will match for header value -1, but not for 0, ``somestring``, 10.9,
+          ``-1somestring``
         """
-        pass
-    present_match: builtins.bool = ...
+    present_match: builtins.bool
     """If specified as true, header match will be performed based on whether the header is in the
     request. If specified as false, header match will be performed based on whether the header is absent.
     """
-
-    prefix_match: typing.Text = ...
+    prefix_match: builtins.str
     """If specified, header match will be performed based on the prefix of the header value.
     Note: empty prefix is not allowed, please use present_match instead.
     This field is deprecated. Please use :ref:`string_match <envoy_v3_api_field_config.route.v3.HeaderMatcher.string_match>`.
 
     Examples:
 
-    * The prefix *abcd* matches the value *abcdxyz*, but not for *abcxyz*.
+    * The prefix ``abcd`` matches the value ``abcdxyz``, but not for ``abcxyz``.
     """
-
-    suffix_match: typing.Text = ...
+    suffix_match: builtins.str
     """If specified, header match will be performed based on the suffix of the header value.
     Note: empty suffix is not allowed, please use present_match instead.
     This field is deprecated. Please use :ref:`string_match <envoy_v3_api_field_config.route.v3.HeaderMatcher.string_match>`.
 
     Examples:
 
-    * The suffix *abcd* matches the value *xyzabcd*, but not for *xyzbcd*.
+    * The suffix ``abcd`` matches the value ``xyzabcd``, but not for ``xyzbcd``.
     """
-
-    contains_match: typing.Text = ...
+    contains_match: builtins.str
     """If specified, header match will be performed based on whether the header value contains
     the given value or not.
     Note: empty contains match is not allowed, please use present_match instead.
@@ -2903,38 +3047,66 @@ class HeaderMatcher(google.protobuf.message.Message):
 
     Examples:
 
-    * The value *abcd* matches the value *xyzabcdpqr*, but not for *xyzbcdpqr*.
+    * The value ``abcd`` matches the value ``xyzabcdpqr``, but not for ``xyzbcdpqr``.
     """
-
     @property
     def string_match(self) -> envoy.type.matcher.v3.string_pb2.StringMatcher:
         """If specified, header match will be performed based on the string match of the header value."""
-        pass
-    invert_match: builtins.bool = ...
+    invert_match: builtins.bool
     """If specified, the match result will be inverted before checking. Defaults to false.
 
     Examples:
 
-    * The regex ``\d{3}`` does not match the value *1234*, so it will match when inverted.
+    * The regex ``\\d{3}`` does not match the value ``1234``, so it will match when inverted.
     * The range [-10,0) will match the value -1, so it will not match when inverted.
     """
+    treat_missing_header_as_empty: builtins.bool
+    """If specified, for any header match rule, if the header match rule specified header
+    does not exist, this header value will be treated as empty. Defaults to false.
 
-    def __init__(self,
+    Examples:
+
+    * The header match rule specified header "header1" to range match of [0, 10],
+      :ref:`invert_match <envoy_v3_api_field_config.route.v3.HeaderMatcher.invert_match>`
+      is set to true and :ref:`treat_missing_header_as_empty <envoy_v3_api_field_config.route.v3.HeaderMatcher.treat_missing_header_as_empty>`
+      is set to true; The "header1" header is not present. The match rule will
+      treat the "header1" as an empty header. The empty header does not match the range,
+      so it will match when inverted.
+    * The header match rule specified header "header2" to range match of [0, 10],
+      :ref:`invert_match <envoy_v3_api_field_config.route.v3.HeaderMatcher.invert_match>`
+      is set to true and :ref:`treat_missing_header_as_empty <envoy_v3_api_field_config.route.v3.HeaderMatcher.treat_missing_header_as_empty>`
+      is set to false; The "header2" header is not present and the header
+      matcher rule for "header2" will be ignored so it will not match.
+    * The header match rule specified header "header3" to a string regex match
+      ``^$`` which means an empty string, and
+      :ref:`treat_missing_header_as_empty <envoy_v3_api_field_config.route.v3.HeaderMatcher.treat_missing_header_as_empty>`
+      is set to true; The "header3" header is not present.
+      The match rule will treat the "header3" header as an empty header so it will match.
+    * The header match rule specified header "header4" to a string regex match
+      ``^$`` which means an empty string, and
+      :ref:`treat_missing_header_as_empty <envoy_v3_api_field_config.route.v3.HeaderMatcher.treat_missing_header_as_empty>`
+      is set to false; The "header4" header is not present.
+      The match rule for "header4" will be ignored so it will not match.
+    """
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        exact_match : typing.Text = ...,
-        safe_regex_match : typing.Optional[envoy.type.matcher.v3.regex_pb2.RegexMatcher] = ...,
-        range_match : typing.Optional[envoy.type.v3.range_pb2.Int64Range] = ...,
-        present_match : builtins.bool = ...,
-        prefix_match : typing.Text = ...,
-        suffix_match : typing.Text = ...,
-        contains_match : typing.Text = ...,
-        string_match : typing.Optional[envoy.type.matcher.v3.string_pb2.StringMatcher] = ...,
-        invert_match : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"contains_match",b"contains_match",u"exact_match",b"exact_match",u"header_match_specifier",b"header_match_specifier",u"prefix_match",b"prefix_match",u"present_match",b"present_match",u"range_match",b"range_match",u"safe_regex_match",b"safe_regex_match",u"string_match",b"string_match",u"suffix_match",b"suffix_match"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"contains_match",b"contains_match",u"exact_match",b"exact_match",u"header_match_specifier",b"header_match_specifier",u"invert_match",b"invert_match",u"name",b"name",u"prefix_match",b"prefix_match",u"present_match",b"present_match",u"range_match",b"range_match",u"safe_regex_match",b"safe_regex_match",u"string_match",b"string_match",u"suffix_match",b"suffix_match"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"header_match_specifier",b"header_match_specifier"]) -> typing.Optional[typing_extensions.Literal["exact_match","safe_regex_match","range_match","present_match","prefix_match","suffix_match","contains_match","string_match"]]: ...
+        name: builtins.str = ...,
+        exact_match: builtins.str = ...,
+        safe_regex_match: envoy.type.matcher.v3.regex_pb2.RegexMatcher | None = ...,
+        range_match: envoy.type.v3.range_pb2.Int64Range | None = ...,
+        present_match: builtins.bool = ...,
+        prefix_match: builtins.str = ...,
+        suffix_match: builtins.str = ...,
+        contains_match: builtins.str = ...,
+        string_match: envoy.type.matcher.v3.string_pb2.StringMatcher | None = ...,
+        invert_match: builtins.bool = ...,
+        treat_missing_header_as_empty: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["contains_match", b"contains_match", "exact_match", b"exact_match", "header_match_specifier", b"header_match_specifier", "prefix_match", b"prefix_match", "present_match", b"present_match", "range_match", b"range_match", "safe_regex_match", b"safe_regex_match", "string_match", b"string_match", "suffix_match", b"suffix_match"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["contains_match", b"contains_match", "exact_match", b"exact_match", "header_match_specifier", b"header_match_specifier", "invert_match", b"invert_match", "name", b"name", "prefix_match", b"prefix_match", "present_match", b"present_match", "range_match", b"range_match", "safe_regex_match", b"safe_regex_match", "string_match", b"string_match", "suffix_match", b"suffix_match", "treat_missing_header_as_empty", b"treat_missing_header_as_empty"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["header_match_specifier", b"header_match_specifier"]) -> typing_extensions.Literal["exact_match", "safe_regex_match", "range_match", "present_match", "prefix_match", "suffix_match", "contains_match", "string_match"] | None: ...
+
 global___HeaderMatcher = HeaderMatcher
 
 class QueryParameterMatcher(google.protobuf.message.Message):
@@ -2942,36 +3114,39 @@ class QueryParameterMatcher(google.protobuf.message.Message):
     as an ampersand-separated list of keys and/or key=value elements.
     [#next-free-field: 7]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     NAME_FIELD_NUMBER: builtins.int
     STRING_MATCH_FIELD_NUMBER: builtins.int
     PRESENT_MATCH_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    name: builtins.str
     """Specifies the name of a key that must be present in the requested
-    *path*'s query string.
+    ``path``'s query string.
     """
-
     @property
     def string_match(self) -> envoy.type.matcher.v3.string_pb2.StringMatcher:
         """Specifies whether a query parameter value should match against a string."""
-        pass
-    present_match: builtins.bool = ...
+    present_match: builtins.bool
     """Specifies whether a query parameter should be present."""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        string_match : typing.Optional[envoy.type.matcher.v3.string_pb2.StringMatcher] = ...,
-        present_match : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"present_match",b"present_match",u"query_parameter_match_specifier",b"query_parameter_match_specifier",u"string_match",b"string_match"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"name",b"name",u"present_match",b"present_match",u"query_parameter_match_specifier",b"query_parameter_match_specifier",u"string_match",b"string_match"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"query_parameter_match_specifier",b"query_parameter_match_specifier"]) -> typing.Optional[typing_extensions.Literal["string_match","present_match"]]: ...
+        name: builtins.str = ...,
+        string_match: envoy.type.matcher.v3.string_pb2.StringMatcher | None = ...,
+        present_match: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["present_match", b"present_match", "query_parameter_match_specifier", b"query_parameter_match_specifier", "string_match", b"string_match"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "present_match", b"present_match", "query_parameter_match_specifier", b"query_parameter_match_specifier", "string_match", b"string_match"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["query_parameter_match_specifier", b"query_parameter_match_specifier"]) -> typing_extensions.Literal["string_match", "present_match"] | None: ...
+
 global___QueryParameterMatcher = QueryParameterMatcher
 
 class InternalRedirectPolicy(google.protobuf.message.Message):
     """HTTP Internal Redirect :ref:`architecture overview <arch_overview_internal_redirects>`."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     MAX_INTERNAL_REDIRECTS_FIELD_NUMBER: builtins.int
     REDIRECT_RESPONSE_CODES_FIELD_NUMBER: builtins.int
     PREDICATES_FIELD_NUMBER: builtins.int
@@ -2987,14 +3162,12 @@ class InternalRedirectPolicy(google.protobuf.message.Message):
 
         If not specified, at most one redirect will be followed.
         """
-        pass
     @property
     def redirect_response_codes(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.int]:
         """Defines what upstream response codes are allowed to trigger internal redirect. If unspecified,
         only 302 will be treated as internal redirect.
         Only 301, 302, 303, 307 and 308 are valid values. Any other codes will be ignored.
         """
-        pass
     @property
     def predicates(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.extension_pb2.TypedExtensionConfig]:
         """Specifies a list of predicates that are queried when an upstream response is deemed
@@ -3002,21 +3175,21 @@ class InternalRedirectPolicy(google.protobuf.message.Message):
         the redirect, causing the response to be proxied to downstream.
         [#extension-category: envoy.internal_redirect_predicates]
         """
-        pass
-    allow_cross_scheme_redirect: builtins.bool = ...
+    allow_cross_scheme_redirect: builtins.bool
     """Allow internal redirect to follow a target URI with a different scheme than the value of
     x-forwarded-proto. The default is false.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        max_internal_redirects : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        redirect_response_codes : typing.Optional[typing.Iterable[builtins.int]] = ...,
-        predicates : typing.Optional[typing.Iterable[envoy.config.core.v3.extension_pb2.TypedExtensionConfig]] = ...,
-        allow_cross_scheme_redirect : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"max_internal_redirects",b"max_internal_redirects"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"allow_cross_scheme_redirect",b"allow_cross_scheme_redirect",u"max_internal_redirects",b"max_internal_redirects",u"predicates",b"predicates",u"redirect_response_codes",b"redirect_response_codes"]) -> None: ...
+        max_internal_redirects: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        redirect_response_codes: collections.abc.Iterable[builtins.int] | None = ...,
+        predicates: collections.abc.Iterable[envoy.config.core.v3.extension_pb2.TypedExtensionConfig] | None = ...,
+        allow_cross_scheme_redirect: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["max_internal_redirects", b"max_internal_redirects"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["allow_cross_scheme_redirect", b"allow_cross_scheme_redirect", "max_internal_redirects", b"max_internal_redirects", "predicates", b"predicates", "redirect_response_codes", b"redirect_response_codes"]) -> None: ...
+
 global___InternalRedirectPolicy = InternalRedirectPolicy
 
 class FilterConfig(google.protobuf.message.Message):
@@ -3028,24 +3201,26 @@ class FilterConfig(google.protobuf.message.Message):
     to add additional flags to the filter.
     [#not-implemented-hide:]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     CONFIG_FIELD_NUMBER: builtins.int
     IS_OPTIONAL_FIELD_NUMBER: builtins.int
     @property
     def config(self) -> google.protobuf.any_pb2.Any:
         """The filter config."""
-        pass
-    is_optional: builtins.bool = ...
+    is_optional: builtins.bool
     """If true, the filter is optional, meaning that if the client does
     not support the specified filter, it may ignore the map entry rather
     than rejecting the config.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-        is_optional : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"config",b"config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"config",b"config",u"is_optional",b"is_optional"]) -> None: ...
+        config: google.protobuf.any_pb2.Any | None = ...,
+        is_optional: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["config", b"config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["config", b"config", "is_optional", b"is_optional"]) -> None: ...
+
 global___FilterConfig = FilterConfig

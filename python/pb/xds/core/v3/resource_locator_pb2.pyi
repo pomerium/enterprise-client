@@ -3,15 +3,21 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
+import sys
 import typing
-import typing_extensions
 import xds.core.v3.context_params_pb2
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class ResourceLocator(google.protobuf.message.Message):
     """xDS resource locators identify a xDS resource name and instruct the
@@ -31,20 +37,23 @@ class ResourceLocator(google.protobuf.message.Message):
 
       file:///{id}{#directive,*}
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    class Scheme(_Scheme, metaclass=_SchemeEnumTypeWrapper):
-        pass
-    class _Scheme:
-        V = typing.NewType('V', builtins.int)
-    class _SchemeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_Scheme.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        XDSTP = ResourceLocator.Scheme.V(0)
-        HTTP = ResourceLocator.Scheme.V(1)
-        FILE = ResourceLocator.Scheme.V(2)
 
-    XDSTP = ResourceLocator.Scheme.V(0)
-    HTTP = ResourceLocator.Scheme.V(1)
-    FILE = ResourceLocator.Scheme.V(2)
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    class _Scheme:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _SchemeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[ResourceLocator._Scheme.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        XDSTP: ResourceLocator._Scheme.ValueType  # 0
+        HTTP: ResourceLocator._Scheme.ValueType  # 1
+        FILE: ResourceLocator._Scheme.ValueType  # 2
+
+    class Scheme(_Scheme, metaclass=_SchemeEnumTypeWrapper): ...
+    XDSTP: ResourceLocator.Scheme.ValueType  # 0
+    HTTP: ResourceLocator.Scheme.ValueType  # 1
+    FILE: ResourceLocator.Scheme.ValueType  # 2
 
     class Directive(google.protobuf.message.Message):
         """Directives provide information to data-plane load balancers on how xDS
@@ -69,7 +78,9 @@ class ResourceLocator(google.protobuf.message.Message):
         https://tools.ietf.org/html/rfc3986#page-49 for further details on URI ABNF
         and reserved characters.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         ALT_FIELD_NUMBER: builtins.int
         ENTRY_FIELD_NUMBER: builtins.int
         @property
@@ -83,23 +94,22 @@ class ResourceLocator(google.protobuf.message.Message):
             resource, it will fallback to `bar`. Alternative resources do not need
             to have equivalent content, but they should be functional substitutes.
             """
-            pass
-        entry: typing.Text = ...
+        entry: builtins.str
         """List collections support inlining of resources via the entry field in
         Resource. These inlined Resource objects may have an optional name
         field specified. When specified, the entry directive allows
         ResourceLocator to directly reference these inlined resources, e.g.
         xdstp://.../foo#entry=bar.
         """
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            alt : typing.Optional[global___ResourceLocator] = ...,
-            entry : typing.Text = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"alt",b"alt",u"directive",b"directive",u"entry",b"entry"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"alt",b"alt",u"directive",b"directive",u"entry",b"entry"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"directive",b"directive"]) -> typing.Optional[typing_extensions.Literal["alt","entry"]]: ...
+            alt: global___ResourceLocator | None = ...,
+            entry: builtins.str = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["alt", b"alt", "directive", b"directive", "entry", b"entry"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["alt", b"alt", "directive", b"directive", "entry", b"entry"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["directive", b"directive"]) -> typing_extensions.Literal["alt", "entry"] | None: ...
 
     SCHEME_FIELD_NUMBER: builtins.int
     ID_FIELD_NUMBER: builtins.int
@@ -107,27 +117,23 @@ class ResourceLocator(google.protobuf.message.Message):
     RESOURCE_TYPE_FIELD_NUMBER: builtins.int
     EXACT_CONTEXT_FIELD_NUMBER: builtins.int
     DIRECTIVES_FIELD_NUMBER: builtins.int
-    scheme: global___ResourceLocator.Scheme.V = ...
+    scheme: global___ResourceLocator.Scheme.ValueType
     """URI scheme."""
-
-    id: typing.Text = ...
+    id: builtins.str
     """Opaque identifier for the resource. Any '/' will not be escaped during URI
     encoding and will form part of the URI path. This may end
     with ‘*’ for glob collection references.
     """
-
-    authority: typing.Text = ...
+    authority: builtins.str
     """Logical authority for resource (not necessarily transport network address).
     Authorities are opaque in the xDS API, data-plane load balancers will map
     them to concrete network transports such as an xDS management server, e.g.
     via envoy.config.core.v3.ConfigSource.
     """
-
-    resource_type: typing.Text = ...
+    resource_type: builtins.str
     """Fully qualified resource type (as in type URL without types.googleapis.com/
     prefix).
     """
-
     @property
     def exact_context(self) -> xds.core.v3.context_params_pb2.ContextParams:
         """Additional parameters that can be used to select resource variants.
@@ -135,7 +141,6 @@ class ResourceLocator(google.protobuf.message.Message):
         there must be no additional context parameters set on the matched
         resource.
         """
-        pass
     @property
     def directives(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ResourceLocator.Directive]:
         """A list of directives that appear in the xDS resource locator #fragment.
@@ -143,17 +148,18 @@ class ResourceLocator(google.protobuf.message.Message):
         When encoding to URI form, directives are percent encoded with comma
         separation.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        scheme : global___ResourceLocator.Scheme.V = ...,
-        id : typing.Text = ...,
-        authority : typing.Text = ...,
-        resource_type : typing.Text = ...,
-        exact_context : typing.Optional[xds.core.v3.context_params_pb2.ContextParams] = ...,
-        directives : typing.Optional[typing.Iterable[global___ResourceLocator.Directive]] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"context_param_specifier",b"context_param_specifier",u"exact_context",b"exact_context"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"authority",b"authority",u"context_param_specifier",b"context_param_specifier",u"directives",b"directives",u"exact_context",b"exact_context",u"id",b"id",u"resource_type",b"resource_type",u"scheme",b"scheme"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"context_param_specifier",b"context_param_specifier"]) -> typing.Optional[typing_extensions.Literal["exact_context"]]: ...
+        scheme: global___ResourceLocator.Scheme.ValueType = ...,
+        id: builtins.str = ...,
+        authority: builtins.str = ...,
+        resource_type: builtins.str = ...,
+        exact_context: xds.core.v3.context_params_pb2.ContextParams | None = ...,
+        directives: collections.abc.Iterable[global___ResourceLocator.Directive] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["context_param_specifier", b"context_param_specifier", "exact_context", b"exact_context"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["authority", b"authority", "context_param_specifier", b"context_param_specifier", "directives", b"directives", "exact_context", b"exact_context", "id", b"id", "resource_type", b"resource_type", "scheme", b"scheme"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["context_param_specifier", b"context_param_specifier"]) -> typing_extensions.Literal["exact_context"] | None: ...
+
 global___ResourceLocator = ResourceLocator

@@ -6,21 +6,26 @@ import builtins
 import google.protobuf.any_pb2
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class TypedExtensionConfig(google.protobuf.message.Message):
     """Message type for extension configuration."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     NAME_FIELD_NUMBER: builtins.int
     TYPED_CONFIG_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    name: builtins.str
     """The name of an extension. This is not used to select the extension, instead
     it serves the role of an opaque identifier.
     """
-
     @property
     def typed_config(self) -> google.protobuf.any_pb2.Any:
         """The typed config for the extension. The type URL will be used to identify
@@ -30,12 +35,13 @@ class TypedExtensionConfig(google.protobuf.message.Message):
         :ref:`extension configuration overview
         <config_overview_extension_configuration>` for further details.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        typed_config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"typed_config",b"typed_config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"name",b"name",u"typed_config",b"typed_config"]) -> None: ...
+        name: builtins.str = ...,
+        typed_config: google.protobuf.any_pb2.Any | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["typed_config", b"typed_config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "typed_config", b"typed_config"]) -> None: ...
+
 global___TypedExtensionConfig = TypedExtensionConfig

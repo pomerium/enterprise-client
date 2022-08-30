@@ -6,43 +6,46 @@ import builtins
 import google.protobuf.descriptor
 import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
+import sys
 import typing
-import typing_extensions
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class ProxyProtocolConfig(google.protobuf.message.Message):
-    """[#protodoc-title: Proxy Protocol]
+    """[#protodoc-title: Proxy Protocol]"""
 
-    """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    class Version(_Version, metaclass=_VersionEnumTypeWrapper):
-        pass
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class _Version:
-        V = typing.NewType('V', builtins.int)
-    class _VersionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_Version.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        V1 = ProxyProtocolConfig.Version.V(0)
-        """PROXY protocol version 1. Human readable format."""
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
 
-        V2 = ProxyProtocolConfig.Version.V(1)
+    class _VersionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[ProxyProtocolConfig._Version.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        V1: ProxyProtocolConfig._Version.ValueType  # 0
+        """PROXY protocol version 1. Human readable format."""
+        V2: ProxyProtocolConfig._Version.ValueType  # 1
         """PROXY protocol version 2. Binary format."""
 
-
-    V1 = ProxyProtocolConfig.Version.V(0)
+    class Version(_Version, metaclass=_VersionEnumTypeWrapper): ...
+    V1: ProxyProtocolConfig.Version.ValueType  # 0
     """PROXY protocol version 1. Human readable format."""
-
-    V2 = ProxyProtocolConfig.Version.V(1)
+    V2: ProxyProtocolConfig.Version.ValueType  # 1
     """PROXY protocol version 2. Binary format."""
 
-
     VERSION_FIELD_NUMBER: builtins.int
-    version: global___ProxyProtocolConfig.Version.V = ...
+    version: global___ProxyProtocolConfig.Version.ValueType
     """The PROXY protocol version to use. See https://www.haproxy.org/download/2.1/doc/proxy-protocol.txt for details"""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        version : global___ProxyProtocolConfig.Version.V = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"version",b"version"]) -> None: ...
+        version: global___ProxyProtocolConfig.Version.ValueType = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["version", b"version"]) -> None: ...
+
 global___ProxyProtocolConfig = ProxyProtocolConfig

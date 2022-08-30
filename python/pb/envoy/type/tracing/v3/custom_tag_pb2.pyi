@@ -6,10 +6,14 @@ import builtins
 import envoy.type.metadata.v3.metadata_pb2
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class CustomTag(google.protobuf.message.Message):
     """[#protodoc-title: Custom Tag]
@@ -17,61 +21,67 @@ class CustomTag(google.protobuf.message.Message):
     Describes custom tags for the active span.
     [#next-free-field: 6]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class Literal(google.protobuf.message.Message):
         """Literal type custom tag with static value for the tag value."""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-        VALUE_FIELD_NUMBER: builtins.int
-        value: typing.Text = ...
-        """Static literal value to populate the tag value."""
 
-        def __init__(self,
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        VALUE_FIELD_NUMBER: builtins.int
+        value: builtins.str
+        """Static literal value to populate the tag value."""
+        def __init__(
+            self,
             *,
-            value : typing.Text = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> None: ...
+            value: builtins.str = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["value", b"value"]) -> None: ...
 
     class Environment(google.protobuf.message.Message):
         """Environment type custom tag with environment name and default value."""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         NAME_FIELD_NUMBER: builtins.int
         DEFAULT_VALUE_FIELD_NUMBER: builtins.int
-        name: typing.Text = ...
+        name: builtins.str
         """Environment variable name to obtain the value to populate the tag value."""
-
-        default_value: typing.Text = ...
+        default_value: builtins.str
         """When the environment variable is not found,
         the tag value will be populated with this default value if specified,
         otherwise no tag will be populated.
         """
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            name : typing.Text = ...,
-            default_value : typing.Text = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"name",b"name"]) -> None: ...
+            name: builtins.str = ...,
+            default_value: builtins.str = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "name", b"name"]) -> None: ...
 
     class Header(google.protobuf.message.Message):
         """Header type custom tag with header name and default value."""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         NAME_FIELD_NUMBER: builtins.int
         DEFAULT_VALUE_FIELD_NUMBER: builtins.int
-        name: typing.Text = ...
+        name: builtins.str
         """Header name to obtain the value to populate the tag value."""
-
-        default_value: typing.Text = ...
+        default_value: builtins.str
         """When the header does not exist,
         the tag value will be populated with this default value if specified,
         otherwise no tag will be populated.
         """
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            name : typing.Text = ...,
-            default_value : typing.Text = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"name",b"name"]) -> None: ...
+            name: builtins.str = ...,
+            default_value: builtins.str = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "name", b"name"]) -> None: ...
 
     class Metadata(google.protobuf.message.Message):
         """Metadata type custom tag using
@@ -80,66 +90,63 @@ class CustomTag(google.protobuf.message.Message):
         `the canonical JSON <https://developers.google.com/protocol-buffers/docs/proto3#json>`_
         representation of it.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KIND_FIELD_NUMBER: builtins.int
         METADATA_KEY_FIELD_NUMBER: builtins.int
         DEFAULT_VALUE_FIELD_NUMBER: builtins.int
         @property
         def kind(self) -> envoy.type.metadata.v3.metadata_pb2.MetadataKind:
             """Specify what kind of metadata to obtain tag value from."""
-            pass
         @property
         def metadata_key(self) -> envoy.type.metadata.v3.metadata_pb2.MetadataKey:
             """Metadata key to define the path to retrieve the tag value."""
-            pass
-        default_value: typing.Text = ...
+        default_value: builtins.str
         """When no valid metadata is found,
         the tag value would be populated with this default value if specified,
         otherwise no tag would be populated.
         """
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            kind : typing.Optional[envoy.type.metadata.v3.metadata_pb2.MetadataKind] = ...,
-            metadata_key : typing.Optional[envoy.type.metadata.v3.metadata_pb2.MetadataKey] = ...,
-            default_value : typing.Text = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"kind",b"kind",u"metadata_key",b"metadata_key"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"default_value",b"default_value",u"kind",b"kind",u"metadata_key",b"metadata_key"]) -> None: ...
+            kind: envoy.type.metadata.v3.metadata_pb2.MetadataKind | None = ...,
+            metadata_key: envoy.type.metadata.v3.metadata_pb2.MetadataKey | None = ...,
+            default_value: builtins.str = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["kind", b"kind", "metadata_key", b"metadata_key"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["default_value", b"default_value", "kind", b"kind", "metadata_key", b"metadata_key"]) -> None: ...
 
     TAG_FIELD_NUMBER: builtins.int
     LITERAL_FIELD_NUMBER: builtins.int
     ENVIRONMENT_FIELD_NUMBER: builtins.int
     REQUEST_HEADER_FIELD_NUMBER: builtins.int
     METADATA_FIELD_NUMBER: builtins.int
-    tag: typing.Text = ...
+    tag: builtins.str
     """Used to populate the tag name."""
-
     @property
     def literal(self) -> global___CustomTag.Literal:
         """A literal custom tag."""
-        pass
     @property
     def environment(self) -> global___CustomTag.Environment:
         """An environment custom tag."""
-        pass
     @property
     def request_header(self) -> global___CustomTag.Header:
         """A request header custom tag."""
-        pass
     @property
     def metadata(self) -> global___CustomTag.Metadata:
         """A custom tag to obtain tag value from the metadata."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        tag : typing.Text = ...,
-        literal : typing.Optional[global___CustomTag.Literal] = ...,
-        environment : typing.Optional[global___CustomTag.Environment] = ...,
-        request_header : typing.Optional[global___CustomTag.Header] = ...,
-        metadata : typing.Optional[global___CustomTag.Metadata] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"environment",b"environment",u"literal",b"literal",u"metadata",b"metadata",u"request_header",b"request_header",u"type",b"type"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"environment",b"environment",u"literal",b"literal",u"metadata",b"metadata",u"request_header",b"request_header",u"tag",b"tag",u"type",b"type"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"type",b"type"]) -> typing.Optional[typing_extensions.Literal["literal","environment","request_header","metadata"]]: ...
+        tag: builtins.str = ...,
+        literal: global___CustomTag.Literal | None = ...,
+        environment: global___CustomTag.Environment | None = ...,
+        request_header: global___CustomTag.Header | None = ...,
+        metadata: global___CustomTag.Metadata | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["environment", b"environment", "literal", b"literal", "metadata", b"metadata", "request_header", b"request_header", "type", b"type"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["environment", b"environment", "literal", b"literal", "metadata", b"metadata", "request_header", b"request_header", "tag", b"tag", "type", b"type"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["type", b"type"]) -> typing_extensions.Literal["literal", "environment", "request_header", "metadata"] | None: ...
+
 global___CustomTag = CustomTag

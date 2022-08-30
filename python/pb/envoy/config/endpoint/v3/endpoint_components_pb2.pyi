@@ -3,6 +3,7 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.address_pb2
 import envoy.config.core.v3.base_pb2
 import envoy.config.core.v3.config_source_pb2
@@ -11,23 +12,31 @@ import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
 import google.protobuf.wrappers_pb2
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class Endpoint(google.protobuf.message.Message):
     """[#protodoc-title: Endpoints]
 
     Upstream host identifier.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class HealthCheckConfig(google.protobuf.message.Message):
         """The optional health check configuration."""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         PORT_VALUE_FIELD_NUMBER: builtins.int
         HOSTNAME_FIELD_NUMBER: builtins.int
-        port_value: builtins.int = ...
+        port_value: builtins.int
         """Optional alternative health check port value.
 
         By default the health check address port of an upstream host is the same
@@ -35,21 +44,20 @@ class Endpoint(google.protobuf.message.Message):
         check port. Setting this with a non-zero value allows an upstream host
         to have different health check address port.
         """
-
-        hostname: typing.Text = ...
+        hostname: builtins.str
         """By default, the host header for L7 health checks is controlled by cluster level configuration
         (see: :ref:`host <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.host>` and
         :ref:`authority <envoy_v3_api_field_config.core.v3.HealthCheck.GrpcHealthCheck.authority>`). Setting this
         to a non-empty value allows overriding the cluster level configuration for a specific
         endpoint.
         """
-
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            port_value : builtins.int = ...,
-            hostname : typing.Text = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"hostname",b"hostname",u"port_value",b"port_value"]) -> None: ...
+            port_value: builtins.int = ...,
+            hostname: builtins.str = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["hostname", b"hostname", "port_value", b"port_value"]) -> None: ...
 
     ADDRESS_FIELD_NUMBER: builtins.int
     HEALTH_CHECK_CONFIG_FIELD_NUMBER: builtins.int
@@ -66,7 +74,6 @@ class Endpoint(google.protobuf.message.Message):
           in the Address). For LOGICAL or STRICT DNS, it is expected to be hostname,
           and will be resolved via DNS.
         """
-        pass
     @property
     def health_check_config(self) -> global___Endpoint.HealthCheckConfig:
         """The optional health check configuration is used as configuration for the
@@ -77,29 +84,31 @@ class Endpoint(google.protobuf.message.Message):
           This takes into effect only for upstream clusters with
           :ref:`active health checking <arch_overview_health_checking>` enabled.
         """
-        pass
-    hostname: typing.Text = ...
+    hostname: builtins.str
     """The hostname associated with this endpoint. This hostname is not used for routing or address
     resolution. If provided, it will be associated with the endpoint, and can be used for features
     that require a hostname, like
     :ref:`auto_host_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.auto_host_rewrite>`.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        address : typing.Optional[envoy.config.core.v3.address_pb2.Address] = ...,
-        health_check_config : typing.Optional[global___Endpoint.HealthCheckConfig] = ...,
-        hostname : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"address",b"address",u"health_check_config",b"health_check_config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"address",b"address",u"health_check_config",b"health_check_config",u"hostname",b"hostname"]) -> None: ...
+        address: envoy.config.core.v3.address_pb2.Address | None = ...,
+        health_check_config: global___Endpoint.HealthCheckConfig | None = ...,
+        hostname: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["address", b"address", "health_check_config", b"health_check_config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["address", b"address", "health_check_config", b"health_check_config", "hostname", b"hostname"]) -> None: ...
+
 global___Endpoint = Endpoint
 
 class LbEndpoint(google.protobuf.message.Message):
     """An Endpoint that Envoy can route traffic to.
     [#next-free-field: 6]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     ENDPOINT_FIELD_NUMBER: builtins.int
     ENDPOINT_NAME_FIELD_NUMBER: builtins.int
     HEALTH_STATUS_FIELD_NUMBER: builtins.int
@@ -107,23 +116,20 @@ class LbEndpoint(google.protobuf.message.Message):
     LOAD_BALANCING_WEIGHT_FIELD_NUMBER: builtins.int
     @property
     def endpoint(self) -> global___Endpoint: ...
-    endpoint_name: typing.Text = ...
+    endpoint_name: builtins.str
     """[#not-implemented-hide:]"""
-
-    health_status: envoy.config.core.v3.health_check_pb2.HealthStatus.V = ...
+    health_status: envoy.config.core.v3.health_check_pb2.HealthStatus.ValueType
     """Optional health status when known and supplied by EDS server."""
-
     @property
     def metadata(self) -> envoy.config.core.v3.base_pb2.Metadata:
         """The endpoint metadata specifies values that may be used by the load
         balancer to select endpoints in a cluster for a given request. The filter
-        name should be specified as *envoy.lb*. An example boolean key-value pair
-        is *canary*, providing the optional canary status of the upstream host.
+        name should be specified as ``envoy.lb``. An example boolean key-value pair
+        is ``canary``, providing the optional canary status of the upstream host.
         This may be matched against in a route's
         :ref:`RouteAction <envoy_v3_api_msg_config.route.v3.RouteAction>` metadata_match field
         to subset the endpoints considered in cluster load balancing.
         """
-        pass
     @property
     def load_balancing_weight(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The optional load balancing weight of the upstream host; at least 1.
@@ -132,70 +138,77 @@ class LbEndpoint(google.protobuf.message.Message):
         of the weights of all endpoints in the endpoint's locality to produce a
         percentage of traffic for the endpoint. This percentage is then further
         weighted by the endpoint's locality's load balancing weight from
-        LocalityLbEndpoints. If unspecified, each host is presumed to have equal
-        weight in a locality. The sum of the weights of all endpoints in the
-        endpoint's locality must not exceed uint32_t maximal value (4294967295).
+        LocalityLbEndpoints. If unspecified, will be treated as 1. The sum
+        of the weights of all endpoints in the endpoint's locality must not
+        exceed uint32_t maximal value (4294967295).
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        endpoint : typing.Optional[global___Endpoint] = ...,
-        endpoint_name : typing.Text = ...,
-        health_status : envoy.config.core.v3.health_check_pb2.HealthStatus.V = ...,
-        metadata : typing.Optional[envoy.config.core.v3.base_pb2.Metadata] = ...,
-        load_balancing_weight : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"endpoint",b"endpoint",u"endpoint_name",b"endpoint_name",u"host_identifier",b"host_identifier",u"load_balancing_weight",b"load_balancing_weight",u"metadata",b"metadata"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"endpoint",b"endpoint",u"endpoint_name",b"endpoint_name",u"health_status",b"health_status",u"host_identifier",b"host_identifier",u"load_balancing_weight",b"load_balancing_weight",u"metadata",b"metadata"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"host_identifier",b"host_identifier"]) -> typing.Optional[typing_extensions.Literal["endpoint","endpoint_name"]]: ...
+        endpoint: global___Endpoint | None = ...,
+        endpoint_name: builtins.str = ...,
+        health_status: envoy.config.core.v3.health_check_pb2.HealthStatus.ValueType = ...,
+        metadata: envoy.config.core.v3.base_pb2.Metadata | None = ...,
+        load_balancing_weight: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["endpoint", b"endpoint", "endpoint_name", b"endpoint_name", "host_identifier", b"host_identifier", "load_balancing_weight", b"load_balancing_weight", "metadata", b"metadata"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["endpoint", b"endpoint", "endpoint_name", b"endpoint_name", "health_status", b"health_status", "host_identifier", b"host_identifier", "load_balancing_weight", b"load_balancing_weight", "metadata", b"metadata"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["host_identifier", b"host_identifier"]) -> typing_extensions.Literal["endpoint", "endpoint_name"] | None: ...
+
 global___LbEndpoint = LbEndpoint
 
 class LedsClusterLocalityConfig(google.protobuf.message.Message):
     """[#not-implemented-hide:]
     A configuration for a LEDS collection.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     LEDS_CONFIG_FIELD_NUMBER: builtins.int
     LEDS_COLLECTION_NAME_FIELD_NUMBER: builtins.int
     @property
     def leds_config(self) -> envoy.config.core.v3.config_source_pb2.ConfigSource:
         """Configuration for the source of LEDS updates for a Locality."""
-        pass
-    leds_collection_name: typing.Text = ...
+    leds_collection_name: builtins.str
     """The xDS transport protocol glob collection resource name.
     The service is only supported in delta xDS (incremental) mode.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        leds_config : typing.Optional[envoy.config.core.v3.config_source_pb2.ConfigSource] = ...,
-        leds_collection_name : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"leds_config",b"leds_config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"leds_collection_name",b"leds_collection_name",u"leds_config",b"leds_config"]) -> None: ...
+        leds_config: envoy.config.core.v3.config_source_pb2.ConfigSource | None = ...,
+        leds_collection_name: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["leds_config", b"leds_config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["leds_collection_name", b"leds_collection_name", "leds_config", b"leds_config"]) -> None: ...
+
 global___LedsClusterLocalityConfig = LedsClusterLocalityConfig
 
 class LocalityLbEndpoints(google.protobuf.message.Message):
     """A group of endpoints belonging to a Locality.
-    One can have multiple LocalityLbEndpoints for a locality, but this is
-    generally only done if the different groups need to have different load
-    balancing weights or different priorities.
+    One can have multiple LocalityLbEndpoints for a locality, but only if
+    they have different priorities.
     [#next-free-field: 9]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class LbEndpointList(google.protobuf.message.Message):
         """[#not-implemented-hide:]
         A list of endpoints of a specific locality.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         LB_ENDPOINTS_FIELD_NUMBER: builtins.int
         @property
         def lb_endpoints(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___LbEndpoint]: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            lb_endpoints : typing.Optional[typing.Iterable[global___LbEndpoint]] = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"lb_endpoints",b"lb_endpoints"]) -> None: ...
+            lb_endpoints: collections.abc.Iterable[global___LbEndpoint] | None = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["lb_endpoints", b"lb_endpoints"]) -> None: ...
 
     LOCALITY_FIELD_NUMBER: builtins.int
     LB_ENDPOINTS_FIELD_NUMBER: builtins.int
@@ -207,25 +220,21 @@ class LocalityLbEndpoints(google.protobuf.message.Message):
     @property
     def locality(self) -> envoy.config.core.v3.base_pb2.Locality:
         """Identifies location of where the upstream hosts run."""
-        pass
     @property
     def lb_endpoints(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___LbEndpoint]:
         """The group of endpoints belonging to the locality specified.
         [#comment:TODO(adisuissa): Once LEDS is implemented this field needs to be
-        deprecated and replaced by *load_balancer_endpoints*.]
+        deprecated and replaced by ``load_balancer_endpoints``.]
         """
-        pass
     @property
     def load_balancer_endpoints(self) -> global___LocalityLbEndpoints.LbEndpointList:
         """The group of endpoints belonging to the locality.
-        [#comment:TODO(adisuissa): Once LEDS is implemented the *lb_endpoints* field
+        [#comment:TODO(adisuissa): Once LEDS is implemented the ``lb_endpoints`` field
         needs to be deprecated.]
         """
-        pass
     @property
     def leds_cluster_locality_config(self) -> global___LedsClusterLocalityConfig:
         """LEDS Configuration for the current locality."""
-        pass
     @property
     def load_balancing_weight(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Optional: Per priority/region/zone/sub_zone weight; at least 1. The load
@@ -240,8 +249,7 @@ class LocalityLbEndpoints(google.protobuf.message.Message):
         specified when locality weighted load balancing is enabled, the locality is
         assigned no load.
         """
-        pass
-    priority: builtins.int = ...
+    priority: builtins.int
     """Optional: the priority for this LocalityLbEndpoints. If unspecified this will
     default to the highest priority (0).
 
@@ -252,7 +260,6 @@ class LocalityLbEndpoints(google.protobuf.message.Message):
 
     Priorities should range from 0 (highest) to N (lowest) without skipping.
     """
-
     @property
     def proximity(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Optional: Per locality proximity value which indicates how close this
@@ -262,18 +269,19 @@ class LocalityLbEndpoints(google.protobuf.message.Message):
         to determine where to route the requests.
         [#not-implemented-hide:]
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        locality : typing.Optional[envoy.config.core.v3.base_pb2.Locality] = ...,
-        lb_endpoints : typing.Optional[typing.Iterable[global___LbEndpoint]] = ...,
-        load_balancer_endpoints : typing.Optional[global___LocalityLbEndpoints.LbEndpointList] = ...,
-        leds_cluster_locality_config : typing.Optional[global___LedsClusterLocalityConfig] = ...,
-        load_balancing_weight : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        priority : builtins.int = ...,
-        proximity : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"lb_config",b"lb_config",u"leds_cluster_locality_config",b"leds_cluster_locality_config",u"load_balancer_endpoints",b"load_balancer_endpoints",u"load_balancing_weight",b"load_balancing_weight",u"locality",b"locality",u"proximity",b"proximity"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"lb_config",b"lb_config",u"lb_endpoints",b"lb_endpoints",u"leds_cluster_locality_config",b"leds_cluster_locality_config",u"load_balancer_endpoints",b"load_balancer_endpoints",u"load_balancing_weight",b"load_balancing_weight",u"locality",b"locality",u"priority",b"priority",u"proximity",b"proximity"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"lb_config",b"lb_config"]) -> typing.Optional[typing_extensions.Literal["load_balancer_endpoints","leds_cluster_locality_config"]]: ...
+        locality: envoy.config.core.v3.base_pb2.Locality | None = ...,
+        lb_endpoints: collections.abc.Iterable[global___LbEndpoint] | None = ...,
+        load_balancer_endpoints: global___LocalityLbEndpoints.LbEndpointList | None = ...,
+        leds_cluster_locality_config: global___LedsClusterLocalityConfig | None = ...,
+        load_balancing_weight: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        priority: builtins.int = ...,
+        proximity: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["lb_config", b"lb_config", "leds_cluster_locality_config", b"leds_cluster_locality_config", "load_balancer_endpoints", b"load_balancer_endpoints", "load_balancing_weight", b"load_balancing_weight", "locality", b"locality", "proximity", b"proximity"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["lb_config", b"lb_config", "lb_endpoints", b"lb_endpoints", "leds_cluster_locality_config", b"leds_cluster_locality_config", "load_balancer_endpoints", b"load_balancer_endpoints", "load_balancing_weight", b"load_balancing_weight", "locality", b"locality", "priority", b"priority", "proximity", b"proximity"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["lb_config", b"lb_config"]) -> typing_extensions.Literal["load_balancer_endpoints", "leds_cluster_locality_config"] | None: ...
+
 global___LocalityLbEndpoints = LocalityLbEndpoints

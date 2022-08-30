@@ -3,16 +3,21 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.base_pb2
 import envoy.type.v3.percent_pb2
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
 import google.protobuf.wrappers_pb2
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class CircuitBreakers(google.protobuf.message.Message):
     """[#protodoc-title: Circuit breakers]
@@ -20,15 +25,20 @@ class CircuitBreakers(google.protobuf.message.Message):
     :ref:`Circuit breaking<arch_overview_circuit_break>` settings can be
     specified individually for each defined priority.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class Thresholds(google.protobuf.message.Message):
         """A Thresholds defines CircuitBreaker settings for a
         :ref:`RoutingPriority<envoy_v3_api_enum_config.core.v3.RoutingPriority>`.
         [#next-free-field: 9]
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         class RetryBudget(google.protobuf.message.Message):
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             BUDGET_PERCENT_FIELD_NUMBER: builtins.int
             MIN_RETRY_CONCURRENCY_FIELD_NUMBER: builtins.int
             @property
@@ -39,7 +49,6 @@ class CircuitBreakers(google.protobuf.message.Message):
 
                 This parameter is optional. Defaults to 20%.
                 """
-                pass
             @property
             def min_retry_concurrency(self) -> google.protobuf.wrappers_pb2.UInt32Value:
                 """Specifies the minimum retry concurrency allowed for the retry budget. The limit on the
@@ -47,14 +56,14 @@ class CircuitBreakers(google.protobuf.message.Message):
 
                 This parameter is optional. Defaults to 3.
                 """
-                pass
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                budget_percent : typing.Optional[envoy.type.v3.percent_pb2.Percent] = ...,
-                min_retry_concurrency : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"budget_percent",b"budget_percent",u"min_retry_concurrency",b"min_retry_concurrency"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"budget_percent",b"budget_percent",u"min_retry_concurrency",b"min_retry_concurrency"]) -> None: ...
+                budget_percent: envoy.type.v3.percent_pb2.Percent | None = ...,
+                min_retry_concurrency: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["budget_percent", b"budget_percent", "min_retry_concurrency", b"min_retry_concurrency"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["budget_percent", b"budget_percent", "min_retry_concurrency", b"min_retry_concurrency"]) -> None: ...
 
         PRIORITY_FIELD_NUMBER: builtins.int
         MAX_CONNECTIONS_FIELD_NUMBER: builtins.int
@@ -64,37 +73,32 @@ class CircuitBreakers(google.protobuf.message.Message):
         RETRY_BUDGET_FIELD_NUMBER: builtins.int
         TRACK_REMAINING_FIELD_NUMBER: builtins.int
         MAX_CONNECTION_POOLS_FIELD_NUMBER: builtins.int
-        priority: envoy.config.core.v3.base_pb2.RoutingPriority.V = ...
+        priority: envoy.config.core.v3.base_pb2.RoutingPriority.ValueType
         """The :ref:`RoutingPriority<envoy_v3_api_enum_config.core.v3.RoutingPriority>`
         the specified CircuitBreaker settings apply to.
         """
-
         @property
         def max_connections(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """The maximum number of connections that Envoy will make to the upstream
             cluster. If not specified, the default is 1024.
             """
-            pass
         @property
         def max_pending_requests(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """The maximum number of pending requests that Envoy will allow to the
             upstream cluster. If not specified, the default is 1024.
             This limit is applied as a connection limit for non-HTTP traffic.
             """
-            pass
         @property
         def max_requests(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """The maximum number of parallel requests that Envoy will make to the
             upstream cluster. If not specified, the default is 1024.
             This limit does not apply to non-HTTP traffic.
             """
-            pass
         @property
         def max_retries(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """The maximum number of parallel retries that Envoy will allow to the
             upstream cluster. If not specified, the default is 3.
             """
-            pass
         @property
         def retry_budget(self) -> global___CircuitBreakers.Thresholds.RetryBudget:
             """Specifies a limit on concurrent retries in relation to the number of active requests. This
@@ -105,8 +109,7 @@ class CircuitBreakers(google.protobuf.message.Message):
                If this field is set, the retry budget will override any configured retry circuit
                breaker.
             """
-            pass
-        track_remaining: builtins.bool = ...
+        track_remaining: builtins.bool
         """If track_remaining is true, then stats will be published that expose
         the number of resources remaining until the circuit breakers open. If
         not specified, the default is false.
@@ -116,7 +119,6 @@ class CircuitBreakers(google.protobuf.message.Message):
            If a retry budget is used in lieu of the max_retries circuit breaker,
            the remaining retry resources remaining will not be tracked.
         """
-
         @property
         def max_connection_pools(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """The maximum number of connection pools per cluster that Envoy will concurrently support at
@@ -125,22 +127,23 @@ class CircuitBreakers(google.protobuf.message.Message):
             :ref:`Circuit Breaking <arch_overview_circuit_break_cluster_maximum_connection_pools>` for
             more details.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            priority : envoy.config.core.v3.base_pb2.RoutingPriority.V = ...,
-            max_connections : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            max_pending_requests : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            max_requests : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            max_retries : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            retry_budget : typing.Optional[global___CircuitBreakers.Thresholds.RetryBudget] = ...,
-            track_remaining : builtins.bool = ...,
-            max_connection_pools : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"max_connection_pools",b"max_connection_pools",u"max_connections",b"max_connections",u"max_pending_requests",b"max_pending_requests",u"max_requests",b"max_requests",u"max_retries",b"max_retries",u"retry_budget",b"retry_budget"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"max_connection_pools",b"max_connection_pools",u"max_connections",b"max_connections",u"max_pending_requests",b"max_pending_requests",u"max_requests",b"max_requests",u"max_retries",b"max_retries",u"priority",b"priority",u"retry_budget",b"retry_budget",u"track_remaining",b"track_remaining"]) -> None: ...
+            priority: envoy.config.core.v3.base_pb2.RoutingPriority.ValueType = ...,
+            max_connections: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            max_pending_requests: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            max_requests: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            max_retries: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            retry_budget: global___CircuitBreakers.Thresholds.RetryBudget | None = ...,
+            track_remaining: builtins.bool = ...,
+            max_connection_pools: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["max_connection_pools", b"max_connection_pools", "max_connections", b"max_connections", "max_pending_requests", b"max_pending_requests", "max_requests", b"max_requests", "max_retries", b"max_retries", "retry_budget", b"retry_budget"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["max_connection_pools", b"max_connection_pools", "max_connections", b"max_connections", "max_pending_requests", b"max_pending_requests", "max_requests", b"max_requests", "max_retries", b"max_retries", "priority", b"priority", "retry_budget", b"retry_budget", "track_remaining", b"track_remaining"]) -> None: ...
 
     THRESHOLDS_FIELD_NUMBER: builtins.int
+    PER_HOST_THRESHOLDS_FIELD_NUMBER: builtins.int
     @property
     def thresholds(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___CircuitBreakers.Thresholds]:
         """If multiple :ref:`Thresholds<envoy_v3_api_msg_config.cluster.v3.CircuitBreakers.Thresholds>`
@@ -149,10 +152,26 @@ class CircuitBreakers(google.protobuf.message.Message):
         :ref:`RoutingPriority<envoy_v3_api_enum_config.core.v3.RoutingPriority>`, the default values
         are used.
         """
-        pass
-    def __init__(self,
+    @property
+    def per_host_thresholds(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___CircuitBreakers.Thresholds]:
+        """Optional per-host limits which apply to each individual host in a cluster.
+
+        .. note::
+         currently only the :ref:`max_connections
+         <envoy_v3_api_field_config.cluster.v3.CircuitBreakers.Thresholds.max_connections>` field is supported for per-host limits.
+
+        If multiple per-host :ref:`Thresholds<envoy_v3_api_msg_config.cluster.v3.CircuitBreakers.Thresholds>`
+        are defined with the same :ref:`RoutingPriority<envoy_v3_api_enum_config.core.v3.RoutingPriority>`,
+        the first one in the list is used. If no per-host Thresholds are defined for a given
+        :ref:`RoutingPriority<envoy_v3_api_enum_config.core.v3.RoutingPriority>`,
+        the cluster will not have per-host limits.
+        """
+    def __init__(
+        self,
         *,
-        thresholds : typing.Optional[typing.Iterable[global___CircuitBreakers.Thresholds]] = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"thresholds",b"thresholds"]) -> None: ...
+        thresholds: collections.abc.Iterable[global___CircuitBreakers.Thresholds] | None = ...,
+        per_host_thresholds: collections.abc.Iterable[global___CircuitBreakers.Thresholds] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["per_host_thresholds", b"per_host_thresholds", "thresholds", b"thresholds"]) -> None: ...
+
 global___CircuitBreakers = CircuitBreakers

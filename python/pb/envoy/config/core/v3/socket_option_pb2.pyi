@@ -6,44 +6,66 @@ import builtins
 import google.protobuf.descriptor
 import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
+import sys
 import typing
-import typing_extensions
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class SocketOption(google.protobuf.message.Message):
     """[#protodoc-title: Socket Option ]
 
     Generic socket option message. This would be used to set socket options that
     might not exist in upstream kernels or precompiled Envoy binaries.
+
+    For example:
+
+    .. code-block:: json
+
+     {
+       "description": "support tcp keep alive",
+       "state": 0,
+       "level": 1,
+       "name": 9,
+       "int_value": 1,
+     }
+
+    1 means SOL_SOCKET and 9 means SO_KEEPALIVE on Linux.
+    With the above configuration, `TCP Keep-Alives <https://www.freesoft.org/CIE/RFC/1122/114.htm>`_
+    can be enabled in socket with Linux, which can be used in
+    :ref:`listener's<envoy_v3_api_field_config.listener.v3.Listener.socket_options>` or
+    :ref:`admin's <envoy_v3_api_field_config.bootstrap.v3.Admin.socket_options>` socket_options etc.
+
+    It should be noted that the name or level may have different values on different platforms.
     [#next-free-field: 7]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    class SocketState(_SocketState, metaclass=_SocketStateEnumTypeWrapper):
-        pass
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class _SocketState:
-        V = typing.NewType('V', builtins.int)
-    class _SocketStateEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SocketState.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        STATE_PREBIND = SocketOption.SocketState.V(0)
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _SocketStateEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SocketOption._SocketState.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        STATE_PREBIND: SocketOption._SocketState.ValueType  # 0
         """Socket options are applied after socket creation but before binding the socket to a port"""
-
-        STATE_BOUND = SocketOption.SocketState.V(1)
+        STATE_BOUND: SocketOption._SocketState.ValueType  # 1
         """Socket options are applied after binding the socket to a port but before calling listen()"""
-
-        STATE_LISTENING = SocketOption.SocketState.V(2)
+        STATE_LISTENING: SocketOption._SocketState.ValueType  # 2
         """Socket options are applied after calling listen()"""
 
-
-    STATE_PREBIND = SocketOption.SocketState.V(0)
+    class SocketState(_SocketState, metaclass=_SocketStateEnumTypeWrapper): ...
+    STATE_PREBIND: SocketOption.SocketState.ValueType  # 0
     """Socket options are applied after socket creation but before binding the socket to a port"""
-
-    STATE_BOUND = SocketOption.SocketState.V(1)
+    STATE_BOUND: SocketOption.SocketState.ValueType  # 1
     """Socket options are applied after binding the socket to a port but before calling listen()"""
-
-    STATE_LISTENING = SocketOption.SocketState.V(2)
+    STATE_LISTENING: SocketOption.SocketState.ValueType  # 2
     """Socket options are applied after calling listen()"""
-
 
     DESCRIPTION_FIELD_NUMBER: builtins.int
     LEVEL_FIELD_NUMBER: builtins.int
@@ -51,38 +73,34 @@ class SocketOption(google.protobuf.message.Message):
     INT_VALUE_FIELD_NUMBER: builtins.int
     BUF_VALUE_FIELD_NUMBER: builtins.int
     STATE_FIELD_NUMBER: builtins.int
-    description: typing.Text = ...
+    description: builtins.str
     """An optional name to give this socket option for debugging, etc.
     Uniqueness is not required and no special meaning is assumed.
     """
-
-    level: builtins.int = ...
+    level: builtins.int
     """Corresponding to the level value passed to setsockopt, such as IPPROTO_TCP"""
-
-    name: builtins.int = ...
+    name: builtins.int
     """The numeric name as passed to setsockopt"""
-
-    int_value: builtins.int = ...
+    int_value: builtins.int
     """Because many sockopts take an int value."""
-
-    buf_value: builtins.bytes = ...
+    buf_value: builtins.bytes
     """Otherwise it's a byte buffer."""
-
-    state: global___SocketOption.SocketState.V = ...
+    state: global___SocketOption.SocketState.ValueType
     """The state in which the option will be applied. When used in BindConfig
     STATE_PREBIND is currently the only valid value.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        description : typing.Text = ...,
-        level : builtins.int = ...,
-        name : builtins.int = ...,
-        int_value : builtins.int = ...,
-        buf_value : builtins.bytes = ...,
-        state : global___SocketOption.SocketState.V = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"buf_value",b"buf_value",u"int_value",b"int_value",u"value",b"value"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"buf_value",b"buf_value",u"description",b"description",u"int_value",b"int_value",u"level",b"level",u"name",b"name",u"state",b"state",u"value",b"value"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"value",b"value"]) -> typing.Optional[typing_extensions.Literal["int_value","buf_value"]]: ...
+        description: builtins.str = ...,
+        level: builtins.int = ...,
+        name: builtins.int = ...,
+        int_value: builtins.int = ...,
+        buf_value: builtins.bytes = ...,
+        state: global___SocketOption.SocketState.ValueType = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["buf_value", b"buf_value", "int_value", b"int_value", "value", b"value"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["buf_value", b"buf_value", "description", b"description", "int_value", b"int_value", "level", b"level", "name", b"name", "state", b"state", "value", b"value"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["value", b"value"]) -> typing_extensions.Literal["int_value", "buf_value"] | None: ...
+
 global___SocketOption = SocketOption

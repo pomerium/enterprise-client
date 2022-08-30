@@ -6,10 +6,82 @@ import builtins
 import google.protobuf.descriptor
 import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
+import sys
 import typing
-import typing_extensions
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
+
+class _StatusCode:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _StatusCodeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_StatusCode.ValueType], builtins.type):  # noqa: F821
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    Empty: _StatusCode.ValueType  # 0
+    """Empty - This code not part of the HTTP status code specification, but it is needed for proto
+    `enum` type.
+    """
+    Continue: _StatusCode.ValueType  # 100
+    OK: _StatusCode.ValueType  # 200
+    Created: _StatusCode.ValueType  # 201
+    Accepted: _StatusCode.ValueType  # 202
+    NonAuthoritativeInformation: _StatusCode.ValueType  # 203
+    NoContent: _StatusCode.ValueType  # 204
+    ResetContent: _StatusCode.ValueType  # 205
+    PartialContent: _StatusCode.ValueType  # 206
+    MultiStatus: _StatusCode.ValueType  # 207
+    AlreadyReported: _StatusCode.ValueType  # 208
+    IMUsed: _StatusCode.ValueType  # 226
+    MultipleChoices: _StatusCode.ValueType  # 300
+    MovedPermanently: _StatusCode.ValueType  # 301
+    Found: _StatusCode.ValueType  # 302
+    SeeOther: _StatusCode.ValueType  # 303
+    NotModified: _StatusCode.ValueType  # 304
+    UseProxy: _StatusCode.ValueType  # 305
+    TemporaryRedirect: _StatusCode.ValueType  # 307
+    PermanentRedirect: _StatusCode.ValueType  # 308
+    BadRequest: _StatusCode.ValueType  # 400
+    Unauthorized: _StatusCode.ValueType  # 401
+    PaymentRequired: _StatusCode.ValueType  # 402
+    Forbidden: _StatusCode.ValueType  # 403
+    NotFound: _StatusCode.ValueType  # 404
+    MethodNotAllowed: _StatusCode.ValueType  # 405
+    NotAcceptable: _StatusCode.ValueType  # 406
+    ProxyAuthenticationRequired: _StatusCode.ValueType  # 407
+    RequestTimeout: _StatusCode.ValueType  # 408
+    Conflict: _StatusCode.ValueType  # 409
+    Gone: _StatusCode.ValueType  # 410
+    LengthRequired: _StatusCode.ValueType  # 411
+    PreconditionFailed: _StatusCode.ValueType  # 412
+    PayloadTooLarge: _StatusCode.ValueType  # 413
+    URITooLong: _StatusCode.ValueType  # 414
+    UnsupportedMediaType: _StatusCode.ValueType  # 415
+    RangeNotSatisfiable: _StatusCode.ValueType  # 416
+    ExpectationFailed: _StatusCode.ValueType  # 417
+    MisdirectedRequest: _StatusCode.ValueType  # 421
+    UnprocessableEntity: _StatusCode.ValueType  # 422
+    Locked: _StatusCode.ValueType  # 423
+    FailedDependency: _StatusCode.ValueType  # 424
+    UpgradeRequired: _StatusCode.ValueType  # 426
+    PreconditionRequired: _StatusCode.ValueType  # 428
+    TooManyRequests: _StatusCode.ValueType  # 429
+    RequestHeaderFieldsTooLarge: _StatusCode.ValueType  # 431
+    InternalServerError: _StatusCode.ValueType  # 500
+    NotImplemented: _StatusCode.ValueType  # 501
+    BadGateway: _StatusCode.ValueType  # 502
+    ServiceUnavailable: _StatusCode.ValueType  # 503
+    GatewayTimeout: _StatusCode.ValueType  # 504
+    HTTPVersionNotSupported: _StatusCode.ValueType  # 505
+    VariantAlsoNegotiates: _StatusCode.ValueType  # 506
+    InsufficientStorage: _StatusCode.ValueType  # 507
+    LoopDetected: _StatusCode.ValueType  # 508
+    NotExtended: _StatusCode.ValueType  # 510
+    NetworkAuthenticationRequired: _StatusCode.ValueType  # 511
 
 class StatusCode(_StatusCode, metaclass=_StatusCodeEnumTypeWrapper):
     """[#protodoc-title: HTTP status codes]
@@ -17,147 +89,82 @@ class StatusCode(_StatusCode, metaclass=_StatusCodeEnumTypeWrapper):
     HTTP response codes supported in Envoy.
     For more details: https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
     """
-    pass
-class _StatusCode:
-    V = typing.NewType('V', builtins.int)
-class _StatusCodeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_StatusCode.V], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-    Empty = StatusCode.V(0)
-    """Empty - This code not part of the HTTP status code specification, but it is needed for proto
-    `enum` type.
-    """
 
-    Continue = StatusCode.V(100)
-    OK = StatusCode.V(200)
-    Created = StatusCode.V(201)
-    Accepted = StatusCode.V(202)
-    NonAuthoritativeInformation = StatusCode.V(203)
-    NoContent = StatusCode.V(204)
-    ResetContent = StatusCode.V(205)
-    PartialContent = StatusCode.V(206)
-    MultiStatus = StatusCode.V(207)
-    AlreadyReported = StatusCode.V(208)
-    IMUsed = StatusCode.V(226)
-    MultipleChoices = StatusCode.V(300)
-    MovedPermanently = StatusCode.V(301)
-    Found = StatusCode.V(302)
-    SeeOther = StatusCode.V(303)
-    NotModified = StatusCode.V(304)
-    UseProxy = StatusCode.V(305)
-    TemporaryRedirect = StatusCode.V(307)
-    PermanentRedirect = StatusCode.V(308)
-    BadRequest = StatusCode.V(400)
-    Unauthorized = StatusCode.V(401)
-    PaymentRequired = StatusCode.V(402)
-    Forbidden = StatusCode.V(403)
-    NotFound = StatusCode.V(404)
-    MethodNotAllowed = StatusCode.V(405)
-    NotAcceptable = StatusCode.V(406)
-    ProxyAuthenticationRequired = StatusCode.V(407)
-    RequestTimeout = StatusCode.V(408)
-    Conflict = StatusCode.V(409)
-    Gone = StatusCode.V(410)
-    LengthRequired = StatusCode.V(411)
-    PreconditionFailed = StatusCode.V(412)
-    PayloadTooLarge = StatusCode.V(413)
-    URITooLong = StatusCode.V(414)
-    UnsupportedMediaType = StatusCode.V(415)
-    RangeNotSatisfiable = StatusCode.V(416)
-    ExpectationFailed = StatusCode.V(417)
-    MisdirectedRequest = StatusCode.V(421)
-    UnprocessableEntity = StatusCode.V(422)
-    Locked = StatusCode.V(423)
-    FailedDependency = StatusCode.V(424)
-    UpgradeRequired = StatusCode.V(426)
-    PreconditionRequired = StatusCode.V(428)
-    TooManyRequests = StatusCode.V(429)
-    RequestHeaderFieldsTooLarge = StatusCode.V(431)
-    InternalServerError = StatusCode.V(500)
-    NotImplemented = StatusCode.V(501)
-    BadGateway = StatusCode.V(502)
-    ServiceUnavailable = StatusCode.V(503)
-    GatewayTimeout = StatusCode.V(504)
-    HTTPVersionNotSupported = StatusCode.V(505)
-    VariantAlsoNegotiates = StatusCode.V(506)
-    InsufficientStorage = StatusCode.V(507)
-    LoopDetected = StatusCode.V(508)
-    NotExtended = StatusCode.V(510)
-    NetworkAuthenticationRequired = StatusCode.V(511)
-
-Empty = StatusCode.V(0)
+Empty: StatusCode.ValueType  # 0
 """Empty - This code not part of the HTTP status code specification, but it is needed for proto
 `enum` type.
 """
-
-Continue = StatusCode.V(100)
-OK = StatusCode.V(200)
-Created = StatusCode.V(201)
-Accepted = StatusCode.V(202)
-NonAuthoritativeInformation = StatusCode.V(203)
-NoContent = StatusCode.V(204)
-ResetContent = StatusCode.V(205)
-PartialContent = StatusCode.V(206)
-MultiStatus = StatusCode.V(207)
-AlreadyReported = StatusCode.V(208)
-IMUsed = StatusCode.V(226)
-MultipleChoices = StatusCode.V(300)
-MovedPermanently = StatusCode.V(301)
-Found = StatusCode.V(302)
-SeeOther = StatusCode.V(303)
-NotModified = StatusCode.V(304)
-UseProxy = StatusCode.V(305)
-TemporaryRedirect = StatusCode.V(307)
-PermanentRedirect = StatusCode.V(308)
-BadRequest = StatusCode.V(400)
-Unauthorized = StatusCode.V(401)
-PaymentRequired = StatusCode.V(402)
-Forbidden = StatusCode.V(403)
-NotFound = StatusCode.V(404)
-MethodNotAllowed = StatusCode.V(405)
-NotAcceptable = StatusCode.V(406)
-ProxyAuthenticationRequired = StatusCode.V(407)
-RequestTimeout = StatusCode.V(408)
-Conflict = StatusCode.V(409)
-Gone = StatusCode.V(410)
-LengthRequired = StatusCode.V(411)
-PreconditionFailed = StatusCode.V(412)
-PayloadTooLarge = StatusCode.V(413)
-URITooLong = StatusCode.V(414)
-UnsupportedMediaType = StatusCode.V(415)
-RangeNotSatisfiable = StatusCode.V(416)
-ExpectationFailed = StatusCode.V(417)
-MisdirectedRequest = StatusCode.V(421)
-UnprocessableEntity = StatusCode.V(422)
-Locked = StatusCode.V(423)
-FailedDependency = StatusCode.V(424)
-UpgradeRequired = StatusCode.V(426)
-PreconditionRequired = StatusCode.V(428)
-TooManyRequests = StatusCode.V(429)
-RequestHeaderFieldsTooLarge = StatusCode.V(431)
-InternalServerError = StatusCode.V(500)
-NotImplemented = StatusCode.V(501)
-BadGateway = StatusCode.V(502)
-ServiceUnavailable = StatusCode.V(503)
-GatewayTimeout = StatusCode.V(504)
-HTTPVersionNotSupported = StatusCode.V(505)
-VariantAlsoNegotiates = StatusCode.V(506)
-InsufficientStorage = StatusCode.V(507)
-LoopDetected = StatusCode.V(508)
-NotExtended = StatusCode.V(510)
-NetworkAuthenticationRequired = StatusCode.V(511)
+Continue: StatusCode.ValueType  # 100
+OK: StatusCode.ValueType  # 200
+Created: StatusCode.ValueType  # 201
+Accepted: StatusCode.ValueType  # 202
+NonAuthoritativeInformation: StatusCode.ValueType  # 203
+NoContent: StatusCode.ValueType  # 204
+ResetContent: StatusCode.ValueType  # 205
+PartialContent: StatusCode.ValueType  # 206
+MultiStatus: StatusCode.ValueType  # 207
+AlreadyReported: StatusCode.ValueType  # 208
+IMUsed: StatusCode.ValueType  # 226
+MultipleChoices: StatusCode.ValueType  # 300
+MovedPermanently: StatusCode.ValueType  # 301
+Found: StatusCode.ValueType  # 302
+SeeOther: StatusCode.ValueType  # 303
+NotModified: StatusCode.ValueType  # 304
+UseProxy: StatusCode.ValueType  # 305
+TemporaryRedirect: StatusCode.ValueType  # 307
+PermanentRedirect: StatusCode.ValueType  # 308
+BadRequest: StatusCode.ValueType  # 400
+Unauthorized: StatusCode.ValueType  # 401
+PaymentRequired: StatusCode.ValueType  # 402
+Forbidden: StatusCode.ValueType  # 403
+NotFound: StatusCode.ValueType  # 404
+MethodNotAllowed: StatusCode.ValueType  # 405
+NotAcceptable: StatusCode.ValueType  # 406
+ProxyAuthenticationRequired: StatusCode.ValueType  # 407
+RequestTimeout: StatusCode.ValueType  # 408
+Conflict: StatusCode.ValueType  # 409
+Gone: StatusCode.ValueType  # 410
+LengthRequired: StatusCode.ValueType  # 411
+PreconditionFailed: StatusCode.ValueType  # 412
+PayloadTooLarge: StatusCode.ValueType  # 413
+URITooLong: StatusCode.ValueType  # 414
+UnsupportedMediaType: StatusCode.ValueType  # 415
+RangeNotSatisfiable: StatusCode.ValueType  # 416
+ExpectationFailed: StatusCode.ValueType  # 417
+MisdirectedRequest: StatusCode.ValueType  # 421
+UnprocessableEntity: StatusCode.ValueType  # 422
+Locked: StatusCode.ValueType  # 423
+FailedDependency: StatusCode.ValueType  # 424
+UpgradeRequired: StatusCode.ValueType  # 426
+PreconditionRequired: StatusCode.ValueType  # 428
+TooManyRequests: StatusCode.ValueType  # 429
+RequestHeaderFieldsTooLarge: StatusCode.ValueType  # 431
+InternalServerError: StatusCode.ValueType  # 500
+NotImplemented: StatusCode.ValueType  # 501
+BadGateway: StatusCode.ValueType  # 502
+ServiceUnavailable: StatusCode.ValueType  # 503
+GatewayTimeout: StatusCode.ValueType  # 504
+HTTPVersionNotSupported: StatusCode.ValueType  # 505
+VariantAlsoNegotiates: StatusCode.ValueType  # 506
+InsufficientStorage: StatusCode.ValueType  # 507
+LoopDetected: StatusCode.ValueType  # 508
+NotExtended: StatusCode.ValueType  # 510
+NetworkAuthenticationRequired: StatusCode.ValueType  # 511
 global___StatusCode = StatusCode
-
 
 class HttpStatus(google.protobuf.message.Message):
     """HTTP status."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    CODE_FIELD_NUMBER: builtins.int
-    code: global___StatusCode.V = ...
-    """Supplies HTTP response code."""
 
-    def __init__(self,
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    CODE_FIELD_NUMBER: builtins.int
+    code: global___StatusCode.ValueType
+    """Supplies HTTP response code."""
+    def __init__(
+        self,
         *,
-        code : global___StatusCode.V = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"code",b"code"]) -> None: ...
+        code: global___StatusCode.ValueType = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["code", b"code"]) -> None: ...
+
 global___HttpStatus = HttpStatus

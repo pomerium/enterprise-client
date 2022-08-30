@@ -3,27 +3,33 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.base_pb2
 import envoy.config.core.v3.config_source_pb2
-import envoy.config.core.v3.extension_pb2
 import envoy.config.route.v3.route_components_pb2
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
 import google.protobuf.wrappers_pb2
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class RouteConfiguration(google.protobuf.message.Message):
     """[#protodoc-title: HTTP route configuration]
     * Routing :ref:`architecture overview <arch_overview_http_routing>`
     * HTTP :ref:`router filter <config_http_filters_router>`
 
-    [#next-free-field: 13]
+    [#next-free-field: 16]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     NAME_FIELD_NUMBER: builtins.int
     VIRTUAL_HOSTS_FIELD_NUMBER: builtins.int
     VHDS_FIELD_NUMBER: builtins.int
@@ -36,35 +42,34 @@ class RouteConfiguration(google.protobuf.message.Message):
     VALIDATE_CLUSTERS_FIELD_NUMBER: builtins.int
     MAX_DIRECT_RESPONSE_BODY_SIZE_BYTES_FIELD_NUMBER: builtins.int
     CLUSTER_SPECIFIER_PLUGINS_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    REQUEST_MIRROR_POLICIES_FIELD_NUMBER: builtins.int
+    IGNORE_PORT_IN_HOST_MATCHING_FIELD_NUMBER: builtins.int
+    IGNORE_PATH_PARAMETERS_IN_PATH_MATCHING_FIELD_NUMBER: builtins.int
+    name: builtins.str
     """The name of the route configuration. For example, it might match
     :ref:`route_config_name
     <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.Rds.route_config_name>` in
     :ref:`envoy_v3_api_msg_extensions.filters.network.http_connection_manager.v3.Rds`.
     """
-
     @property
     def virtual_hosts(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.route.v3.route_components_pb2.VirtualHost]:
         """An array of virtual hosts that make up the route table."""
-        pass
     @property
     def vhds(self) -> global___Vhds:
         """An array of virtual hosts will be dynamically loaded via the VHDS API.
-        Both *virtual_hosts* and *vhds* fields will be used when present. *virtual_hosts* can be used
-        for a base routing table or for infrequently changing virtual hosts. *vhds* is used for
+        Both ``virtual_hosts`` and ``vhds`` fields will be used when present. ``virtual_hosts`` can be used
+        for a base routing table or for infrequently changing virtual hosts. ``vhds`` is used for
         on-demand discovery of virtual hosts. The contents of these two fields will be merged to
-        generate a routing table for a given RouteConfiguration, with *vhds* derived configuration
+        generate a routing table for a given RouteConfiguration, with ``vhds`` derived configuration
         taking precedence.
         """
-        pass
     @property
-    def internal_only_headers(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def internal_only_headers(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Optionally specifies a list of HTTP headers that the connection manager
         will consider to be internal only. If they are found on external requests they will be cleaned
         prior to filter invocation. See :ref:`config_http_conn_man_headers_x-envoy-internal` for more
         information.
         """
-        pass
     @property
     def response_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
         """Specifies a list of HTTP headers that should be added to each response that
@@ -74,13 +79,11 @@ class RouteConfiguration(google.protobuf.message.Message):
         header value syntax, see the documentation on :ref:`custom request headers
         <config_http_conn_man_headers_custom_request_headers>`.
         """
-        pass
     @property
-    def response_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def response_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Specifies a list of HTTP headers that should be removed from each response
         that the connection manager encodes.
         """
-        pass
     @property
     def request_headers_to_add(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.core.v3.base_pb2.HeaderValueOption]:
         """Specifies a list of HTTP headers that should be added to each request
@@ -90,14 +93,12 @@ class RouteConfiguration(google.protobuf.message.Message):
         header value syntax, see the documentation on :ref:`custom request headers
         <config_http_conn_man_headers_custom_request_headers>`.
         """
-        pass
     @property
-    def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
+    def request_headers_to_remove(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Specifies a list of HTTP headers that should be removed from each request
         routed by the HTTP connection manager.
         """
-        pass
-    most_specific_header_mutations_wins: builtins.bool = ...
+    most_specific_header_mutations_wins: builtins.bool
     """By default, headers that should be added/removed are evaluated from most to least specific:
 
     * route level
@@ -106,10 +107,7 @@ class RouteConfiguration(google.protobuf.message.Message):
 
     To allow setting overrides at the route or virtual host level, this order can be reversed
     by setting this option to true. Defaults to false.
-
-    [#next-major-version: In the v3 API, this will default to true.]
     """
-
     @property
     def validate_clusters(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """An optional boolean that specifies whether the clusters that the route
@@ -126,7 +124,6 @@ class RouteConfiguration(google.protobuf.message.Message):
         option. Users may wish to override the default behavior in certain cases (for example when
         using CDS with a static route table).
         """
-        pass
     @property
     def max_direct_response_body_size_bytes(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The maximum bytes of the response :ref:`direct response body
@@ -140,61 +137,66 @@ class RouteConfiguration(google.protobuf.message.Message):
           this to be larger than the default 4KB, since the allocated memory for direct response body
           is not subject to data plane buffering controls.
         """
-        pass
     @property
-    def cluster_specifier_plugins(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ClusterSpecifierPlugin]:
-        """[#not-implemented-hide:]
-        A list of plugins and their configurations which may be used by a
-        :ref:`envoy_v3_api_field_config.route.v3.RouteAction.cluster_specifier_plugin`
-        within the route. All *extension.name* fields in this list must be unique.
+    def cluster_specifier_plugins(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.route.v3.route_components_pb2.ClusterSpecifierPlugin]:
+        """A list of plugins and their configurations which may be used by a
+        :ref:`cluster specifier plugin name <envoy_v3_api_field_config.route.v3.RouteAction.cluster_specifier_plugin>`
+        within the route. All ``extension.name`` fields in this list must be unique.
         """
-        pass
-    def __init__(self,
+    @property
+    def request_mirror_policies(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.route.v3.route_components_pb2.RouteAction.RequestMirrorPolicy]:
+        """Specify a set of default request mirroring policies which apply to all routes under its virtual hosts.
+        Note that policies are not merged, the most specific non-empty one becomes the mirror policies.
+        """
+    ignore_port_in_host_matching: builtins.bool
+    """By default, port in :authority header (if any) is used in host matching.
+    With this option enabled, Envoy will ignore the port number in the :authority header (if any) when picking VirtualHost.
+    NOTE: this option will not strip the port number (if any) contained in route config
+    :ref:`envoy_v3_api_msg_config.route.v3.VirtualHost`.domains field.
+    """
+    ignore_path_parameters_in_path_matching: builtins.bool
+    """Ignore path-parameters in path-matching.
+    Before RFC3986, URI were like(RFC1808): <scheme>://<net_loc>/<path>;<params>?<query>#<fragment>
+    Envoy by default takes ":path" as "<path>;<params>".
+    For users who want to only match path on the "<path>" portion, this option should be true.
+    """
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        virtual_hosts : typing.Optional[typing.Iterable[envoy.config.route.v3.route_components_pb2.VirtualHost]] = ...,
-        vhds : typing.Optional[global___Vhds] = ...,
-        internal_only_headers : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        response_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-        response_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        request_headers_to_add : typing.Optional[typing.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption]] = ...,
-        request_headers_to_remove : typing.Optional[typing.Iterable[typing.Text]] = ...,
-        most_specific_header_mutations_wins : builtins.bool = ...,
-        validate_clusters : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        max_direct_response_body_size_bytes : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        cluster_specifier_plugins : typing.Optional[typing.Iterable[global___ClusterSpecifierPlugin]] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"max_direct_response_body_size_bytes",b"max_direct_response_body_size_bytes",u"validate_clusters",b"validate_clusters",u"vhds",b"vhds"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"cluster_specifier_plugins",b"cluster_specifier_plugins",u"internal_only_headers",b"internal_only_headers",u"max_direct_response_body_size_bytes",b"max_direct_response_body_size_bytes",u"most_specific_header_mutations_wins",b"most_specific_header_mutations_wins",u"name",b"name",u"request_headers_to_add",b"request_headers_to_add",u"request_headers_to_remove",b"request_headers_to_remove",u"response_headers_to_add",b"response_headers_to_add",u"response_headers_to_remove",b"response_headers_to_remove",u"validate_clusters",b"validate_clusters",u"vhds",b"vhds",u"virtual_hosts",b"virtual_hosts"]) -> None: ...
+        name: builtins.str = ...,
+        virtual_hosts: collections.abc.Iterable[envoy.config.route.v3.route_components_pb2.VirtualHost] | None = ...,
+        vhds: global___Vhds | None = ...,
+        internal_only_headers: collections.abc.Iterable[builtins.str] | None = ...,
+        response_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+        response_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+        request_headers_to_add: collections.abc.Iterable[envoy.config.core.v3.base_pb2.HeaderValueOption] | None = ...,
+        request_headers_to_remove: collections.abc.Iterable[builtins.str] | None = ...,
+        most_specific_header_mutations_wins: builtins.bool = ...,
+        validate_clusters: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        max_direct_response_body_size_bytes: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        cluster_specifier_plugins: collections.abc.Iterable[envoy.config.route.v3.route_components_pb2.ClusterSpecifierPlugin] | None = ...,
+        request_mirror_policies: collections.abc.Iterable[envoy.config.route.v3.route_components_pb2.RouteAction.RequestMirrorPolicy] | None = ...,
+        ignore_port_in_host_matching: builtins.bool = ...,
+        ignore_path_parameters_in_path_matching: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["max_direct_response_body_size_bytes", b"max_direct_response_body_size_bytes", "validate_clusters", b"validate_clusters", "vhds", b"vhds"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["cluster_specifier_plugins", b"cluster_specifier_plugins", "ignore_path_parameters_in_path_matching", b"ignore_path_parameters_in_path_matching", "ignore_port_in_host_matching", b"ignore_port_in_host_matching", "internal_only_headers", b"internal_only_headers", "max_direct_response_body_size_bytes", b"max_direct_response_body_size_bytes", "most_specific_header_mutations_wins", b"most_specific_header_mutations_wins", "name", b"name", "request_headers_to_add", b"request_headers_to_add", "request_headers_to_remove", b"request_headers_to_remove", "request_mirror_policies", b"request_mirror_policies", "response_headers_to_add", b"response_headers_to_add", "response_headers_to_remove", b"response_headers_to_remove", "validate_clusters", b"validate_clusters", "vhds", b"vhds", "virtual_hosts", b"virtual_hosts"]) -> None: ...
+
 global___RouteConfiguration = RouteConfiguration
 
-class ClusterSpecifierPlugin(google.protobuf.message.Message):
-    """Configuration for a cluster specifier plugin."""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    EXTENSION_FIELD_NUMBER: builtins.int
-    @property
-    def extension(self) -> envoy.config.core.v3.extension_pb2.TypedExtensionConfig:
-        """The name of the plugin and its opaque configuration."""
-        pass
-    def __init__(self,
-        *,
-        extension : typing.Optional[envoy.config.core.v3.extension_pb2.TypedExtensionConfig] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"extension",b"extension"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"extension",b"extension"]) -> None: ...
-global___ClusterSpecifierPlugin = ClusterSpecifierPlugin
-
 class Vhds(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     CONFIG_SOURCE_FIELD_NUMBER: builtins.int
     @property
     def config_source(self) -> envoy.config.core.v3.config_source_pb2.ConfigSource:
         """Configuration source specifier for VHDS."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        config_source : typing.Optional[envoy.config.core.v3.config_source_pb2.ConfigSource] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"config_source",b"config_source"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"config_source",b"config_source"]) -> None: ...
+        config_source: envoy.config.core.v3.config_source_pb2.ConfigSource | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["config_source", b"config_source"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["config_source", b"config_source"]) -> None: ...
+
 global___Vhds = Vhds

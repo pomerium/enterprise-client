@@ -5,9 +5,14 @@ isort:skip_file
 import builtins
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class Int64Range(google.protobuf.message.Message):
     """[#protodoc-title: Range]
@@ -15,61 +20,67 @@ class Int64Range(google.protobuf.message.Message):
     Specifies the int64 start and end of the range using half-open interval semantics [start,
     end).
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     START_FIELD_NUMBER: builtins.int
     END_FIELD_NUMBER: builtins.int
-    start: builtins.int = ...
+    start: builtins.int
     """start of the range (inclusive)"""
-
-    end: builtins.int = ...
+    end: builtins.int
     """end of the range (exclusive)"""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        start : builtins.int = ...,
-        end : builtins.int = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"end",b"end",u"start",b"start"]) -> None: ...
+        start: builtins.int = ...,
+        end: builtins.int = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["end", b"end", "start", b"start"]) -> None: ...
+
 global___Int64Range = Int64Range
 
 class Int32Range(google.protobuf.message.Message):
     """Specifies the int32 start and end of the range using half-open interval semantics [start,
     end).
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     START_FIELD_NUMBER: builtins.int
     END_FIELD_NUMBER: builtins.int
-    start: builtins.int = ...
+    start: builtins.int
     """start of the range (inclusive)"""
-
-    end: builtins.int = ...
+    end: builtins.int
     """end of the range (exclusive)"""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        start : builtins.int = ...,
-        end : builtins.int = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"end",b"end",u"start",b"start"]) -> None: ...
+        start: builtins.int = ...,
+        end: builtins.int = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["end", b"end", "start", b"start"]) -> None: ...
+
 global___Int32Range = Int32Range
 
 class DoubleRange(google.protobuf.message.Message):
     """Specifies the double start and end of the range using half-open interval semantics [start,
     end).
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     START_FIELD_NUMBER: builtins.int
     END_FIELD_NUMBER: builtins.int
-    start: builtins.float = ...
+    start: builtins.float
     """start of the range (inclusive)"""
-
-    end: builtins.float = ...
+    end: builtins.float
     """end of the range (exclusive)"""
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        start : builtins.float = ...,
-        end : builtins.float = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"end",b"end",u"start",b"start"]) -> None: ...
+        start: builtins.float = ...,
+        end: builtins.float = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["end", b"end", "start", b"start"]) -> None: ...
+
 global___DoubleRange = DoubleRange

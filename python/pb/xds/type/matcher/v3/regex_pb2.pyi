@@ -5,17 +5,23 @@ isort:skip_file
 import builtins
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class RegexMatcher(google.protobuf.message.Message):
     """[#protodoc-title: Regex matcher]
 
     A regex matcher designed for safety when used with untrusted input.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class GoogleRE2(google.protobuf.message.Message):
         """Google's `RE2 <https://github.com/google/re2>`_ regex engine. The regex
         string must adhere to the documented `syntax
@@ -36,27 +42,30 @@ class RegexMatcher(google.protobuf.message.Message):
         counter `re2.exceeded_warn_level`, which is incremented each time the
         program size exceeds the warn level threshold.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-        def __init__(self,
-            ) -> None: ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        def __init__(
+            self,
+        ) -> None: ...
 
     GOOGLE_RE2_FIELD_NUMBER: builtins.int
     REGEX_FIELD_NUMBER: builtins.int
     @property
     def google_re2(self) -> global___RegexMatcher.GoogleRE2:
         """Google's RE2 regex engine."""
-        pass
-    regex: typing.Text = ...
+    regex: builtins.str
     """The regex match string. The string must be supported by the configured
     engine.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        google_re2 : typing.Optional[global___RegexMatcher.GoogleRE2] = ...,
-        regex : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"engine_type",b"engine_type",u"google_re2",b"google_re2"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"engine_type",b"engine_type",u"google_re2",b"google_re2",u"regex",b"regex"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"engine_type",b"engine_type"]) -> typing.Optional[typing_extensions.Literal["google_re2"]]: ...
+        google_re2: global___RegexMatcher.GoogleRE2 | None = ...,
+        regex: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["engine_type", b"engine_type", "google_re2", b"google_re2"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["engine_type", b"engine_type", "google_re2", b"google_re2", "regex", b"regex"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["engine_type", b"engine_type"]) -> typing_extensions.Literal["google_re2"] | None: ...
+
 global___RegexMatcher = RegexMatcher

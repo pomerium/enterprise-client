@@ -7,19 +7,25 @@ import google.protobuf.descriptor
 import google.protobuf.duration_pb2
 import google.protobuf.message
 import google.protobuf.wrappers_pb2
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class OutlierDetection(google.protobuf.message.Message):
     """[#protodoc-title: Outlier detection]
 
     See the :ref:`architecture overview <arch_overview_outlier_detection>` for
     more information on outlier detection.
-    [#next-free-field: 22]
+    [#next-free-field: 23]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     CONSECUTIVE_5XX_FIELD_NUMBER: builtins.int
     INTERVAL_FIELD_NUMBER: builtins.int
     BASE_EJECTION_TIME_FIELD_NUMBER: builtins.int
@@ -41,20 +47,19 @@ class OutlierDetection(google.protobuf.message.Message):
     FAILURE_PERCENTAGE_MINIMUM_HOSTS_FIELD_NUMBER: builtins.int
     FAILURE_PERCENTAGE_REQUEST_VOLUME_FIELD_NUMBER: builtins.int
     MAX_EJECTION_TIME_FIELD_NUMBER: builtins.int
+    MAX_EJECTION_TIME_JITTER_FIELD_NUMBER: builtins.int
     @property
     def consecutive_5xx(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The number of consecutive 5xx responses or local origin errors that are mapped
         to 5xx error codes before a consecutive 5xx ejection
         occurs. Defaults to 5.
         """
-        pass
     @property
     def interval(self) -> google.protobuf.duration_pb2.Duration:
         """The time interval between ejection analysis sweeps. This can result in
         both new ejections as well as hosts being returned to service. Defaults
         to 10000ms or 10s.
         """
-        pass
     @property
     def base_ejection_time(self) -> google.protobuf.duration_pb2.Duration:
         """The base time that a host is ejected for. The real time is equal to the
@@ -62,27 +67,23 @@ class OutlierDetection(google.protobuf.message.Message):
         capped by :ref:`max_ejection_time<envoy_v3_api_field_config.cluster.v3.OutlierDetection.max_ejection_time>`.
         Defaults to 30000ms or 30s.
         """
-        pass
     @property
     def max_ejection_percent(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The maximum % of an upstream cluster that can be ejected due to outlier
         detection. Defaults to 10% but will eject at least one host regardless of the value.
         """
-        pass
     @property
     def enforcing_consecutive_5xx(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The % chance that a host will be actually ejected when an outlier status
         is detected through consecutive 5xx. This setting can be used to disable
         ejection or to ramp it up slowly. Defaults to 100.
         """
-        pass
     @property
     def enforcing_success_rate(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The % chance that a host will be actually ejected when an outlier status
         is detected through success rate statistics. This setting can be used to
         disable ejection or to ramp it up slowly. Defaults to 100.
         """
-        pass
     @property
     def success_rate_minimum_hosts(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The number of hosts in a cluster that must have enough request volume to
@@ -90,7 +91,6 @@ class OutlierDetection(google.protobuf.message.Message):
         setting, outlier detection via success rate statistics is not performed
         for any host in the cluster. Defaults to 5.
         """
-        pass
     @property
     def success_rate_request_volume(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The minimum number of total requests that must be collected in one
@@ -99,7 +99,6 @@ class OutlierDetection(google.protobuf.message.Message):
         setting, outlier detection via success rate statistics is not performed
         for that host. Defaults to 100.
         """
-        pass
     @property
     def success_rate_stdev_factor(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """This factor is used to determine the ejection threshold for success rate
@@ -110,21 +109,18 @@ class OutlierDetection(google.protobuf.message.Message):
         double. That is, if the desired factor is 1.9, the runtime value should
         be 1900. Defaults to 1900.
         """
-        pass
     @property
     def consecutive_gateway_failure(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The number of consecutive gateway failures (502, 503, 504 status codes)
         before a consecutive gateway failure ejection occurs. Defaults to 5.
         """
-        pass
     @property
     def enforcing_consecutive_gateway_failure(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The % chance that a host will be actually ejected when an outlier status
         is detected through consecutive gateway failures. This setting can be
         used to disable ejection or to ramp it up slowly. Defaults to 0.
         """
-        pass
-    split_external_local_origin_errors: builtins.bool = ...
+    split_external_local_origin_errors: builtins.bool
     """Determines whether to distinguish local origin failures from external errors. If set to true
     the following configuration parameters are taken into account:
     :ref:`consecutive_local_origin_failure<envoy_v3_api_field_config.cluster.v3.OutlierDetection.consecutive_local_origin_failure>`,
@@ -133,7 +129,6 @@ class OutlierDetection(google.protobuf.message.Message):
     :ref:`enforcing_local_origin_success_rate<envoy_v3_api_field_config.cluster.v3.OutlierDetection.enforcing_local_origin_success_rate>`.
     Defaults to false.
     """
-
     @property
     def consecutive_local_origin_failure(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The number of consecutive locally originated failures before ejection
@@ -141,7 +136,6 @@ class OutlierDetection(google.protobuf.message.Message):
         :ref:`split_external_local_origin_errors<envoy_v3_api_field_config.cluster.v3.OutlierDetection.split_external_local_origin_errors>`
         is set to true.
         """
-        pass
     @property
     def enforcing_consecutive_local_origin_failure(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The % chance that a host will be actually ejected when an outlier status
@@ -151,7 +145,6 @@ class OutlierDetection(google.protobuf.message.Message):
         :ref:`split_external_local_origin_errors<envoy_v3_api_field_config.cluster.v3.OutlierDetection.split_external_local_origin_errors>`
         is set to true.
         """
-        pass
     @property
     def enforcing_local_origin_success_rate(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The % chance that a host will be actually ejected when an outlier status
@@ -161,14 +154,12 @@ class OutlierDetection(google.protobuf.message.Message):
         :ref:`split_external_local_origin_errors<envoy_v3_api_field_config.cluster.v3.OutlierDetection.split_external_local_origin_errors>`
         is set to true.
         """
-        pass
     @property
     def failure_percentage_threshold(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The failure percentage to use when determining failure percentage-based outlier detection. If
         the failure percentage of a given host is greater than or equal to this value, it will be
         ejected. Defaults to 85.
         """
-        pass
     @property
     def enforcing_failure_percentage(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The % chance that a host will be actually ejected when an outlier status is detected through
@@ -178,21 +169,18 @@ class OutlierDetection(google.protobuf.message.Message):
         [#next-major-version: setting this without setting failure_percentage_threshold should be
         invalid in v4.]
         """
-        pass
     @property
     def enforcing_failure_percentage_local_origin(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The % chance that a host will be actually ejected when an outlier status is detected through
         local-origin failure percentage statistics. This setting can be used to disable ejection or to
         ramp it up slowly. Defaults to 0.
         """
-        pass
     @property
     def failure_percentage_minimum_hosts(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The minimum number of hosts in a cluster in order to perform failure percentage-based ejection.
         If the total number of hosts in the cluster is less than this value, failure percentage-based
         ejection will not be performed. Defaults to 5.
         """
-        pass
     @property
     def failure_percentage_request_volume(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The minimum number of total requests that must be collected in one interval (as defined by the
@@ -200,38 +188,46 @@ class OutlierDetection(google.protobuf.message.Message):
         volume is lower than this setting, failure percentage-based ejection will not be performed for
         this host. Defaults to 50.
         """
-        pass
     @property
     def max_ejection_time(self) -> google.protobuf.duration_pb2.Duration:
         """The maximum time that a host is ejected for. See :ref:`base_ejection_time<envoy_v3_api_field_config.cluster.v3.OutlierDetection.base_ejection_time>`
         for more information. If not specified, the default value (300000ms or 300s) or
         :ref:`base_ejection_time<envoy_v3_api_field_config.cluster.v3.OutlierDetection.base_ejection_time>` value is applied, whatever is larger.
         """
-        pass
-    def __init__(self,
+    @property
+    def max_ejection_time_jitter(self) -> google.protobuf.duration_pb2.Duration:
+        """The maximum amount of jitter to add to the ejection time, in order to prevent
+        a 'thundering herd' effect where all proxies try to reconnect to host at the same time.
+        See :ref:`max_ejection_time_jitter<envoy_v3_api_field_config.cluster.v3.OutlierDetection.base_ejection_time>`
+        Defaults to 0s.
+        """
+    def __init__(
+        self,
         *,
-        consecutive_5xx : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        base_ejection_time : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        max_ejection_percent : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        enforcing_consecutive_5xx : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        enforcing_success_rate : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        success_rate_minimum_hosts : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        success_rate_request_volume : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        success_rate_stdev_factor : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        consecutive_gateway_failure : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        enforcing_consecutive_gateway_failure : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        split_external_local_origin_errors : builtins.bool = ...,
-        consecutive_local_origin_failure : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        enforcing_consecutive_local_origin_failure : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        enforcing_local_origin_success_rate : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        failure_percentage_threshold : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        enforcing_failure_percentage : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        enforcing_failure_percentage_local_origin : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        failure_percentage_minimum_hosts : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        failure_percentage_request_volume : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        max_ejection_time : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"base_ejection_time",b"base_ejection_time",u"consecutive_5xx",b"consecutive_5xx",u"consecutive_gateway_failure",b"consecutive_gateway_failure",u"consecutive_local_origin_failure",b"consecutive_local_origin_failure",u"enforcing_consecutive_5xx",b"enforcing_consecutive_5xx",u"enforcing_consecutive_gateway_failure",b"enforcing_consecutive_gateway_failure",u"enforcing_consecutive_local_origin_failure",b"enforcing_consecutive_local_origin_failure",u"enforcing_failure_percentage",b"enforcing_failure_percentage",u"enforcing_failure_percentage_local_origin",b"enforcing_failure_percentage_local_origin",u"enforcing_local_origin_success_rate",b"enforcing_local_origin_success_rate",u"enforcing_success_rate",b"enforcing_success_rate",u"failure_percentage_minimum_hosts",b"failure_percentage_minimum_hosts",u"failure_percentage_request_volume",b"failure_percentage_request_volume",u"failure_percentage_threshold",b"failure_percentage_threshold",u"interval",b"interval",u"max_ejection_percent",b"max_ejection_percent",u"max_ejection_time",b"max_ejection_time",u"success_rate_minimum_hosts",b"success_rate_minimum_hosts",u"success_rate_request_volume",b"success_rate_request_volume",u"success_rate_stdev_factor",b"success_rate_stdev_factor"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"base_ejection_time",b"base_ejection_time",u"consecutive_5xx",b"consecutive_5xx",u"consecutive_gateway_failure",b"consecutive_gateway_failure",u"consecutive_local_origin_failure",b"consecutive_local_origin_failure",u"enforcing_consecutive_5xx",b"enforcing_consecutive_5xx",u"enforcing_consecutive_gateway_failure",b"enforcing_consecutive_gateway_failure",u"enforcing_consecutive_local_origin_failure",b"enforcing_consecutive_local_origin_failure",u"enforcing_failure_percentage",b"enforcing_failure_percentage",u"enforcing_failure_percentage_local_origin",b"enforcing_failure_percentage_local_origin",u"enforcing_local_origin_success_rate",b"enforcing_local_origin_success_rate",u"enforcing_success_rate",b"enforcing_success_rate",u"failure_percentage_minimum_hosts",b"failure_percentage_minimum_hosts",u"failure_percentage_request_volume",b"failure_percentage_request_volume",u"failure_percentage_threshold",b"failure_percentage_threshold",u"interval",b"interval",u"max_ejection_percent",b"max_ejection_percent",u"max_ejection_time",b"max_ejection_time",u"split_external_local_origin_errors",b"split_external_local_origin_errors",u"success_rate_minimum_hosts",b"success_rate_minimum_hosts",u"success_rate_request_volume",b"success_rate_request_volume",u"success_rate_stdev_factor",b"success_rate_stdev_factor"]) -> None: ...
+        consecutive_5xx: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        interval: google.protobuf.duration_pb2.Duration | None = ...,
+        base_ejection_time: google.protobuf.duration_pb2.Duration | None = ...,
+        max_ejection_percent: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        enforcing_consecutive_5xx: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        enforcing_success_rate: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        success_rate_minimum_hosts: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        success_rate_request_volume: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        success_rate_stdev_factor: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        consecutive_gateway_failure: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        enforcing_consecutive_gateway_failure: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        split_external_local_origin_errors: builtins.bool = ...,
+        consecutive_local_origin_failure: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        enforcing_consecutive_local_origin_failure: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        enforcing_local_origin_success_rate: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        failure_percentage_threshold: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        enforcing_failure_percentage: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        enforcing_failure_percentage_local_origin: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        failure_percentage_minimum_hosts: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        failure_percentage_request_volume: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        max_ejection_time: google.protobuf.duration_pb2.Duration | None = ...,
+        max_ejection_time_jitter: google.protobuf.duration_pb2.Duration | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["base_ejection_time", b"base_ejection_time", "consecutive_5xx", b"consecutive_5xx", "consecutive_gateway_failure", b"consecutive_gateway_failure", "consecutive_local_origin_failure", b"consecutive_local_origin_failure", "enforcing_consecutive_5xx", b"enforcing_consecutive_5xx", "enforcing_consecutive_gateway_failure", b"enforcing_consecutive_gateway_failure", "enforcing_consecutive_local_origin_failure", b"enforcing_consecutive_local_origin_failure", "enforcing_failure_percentage", b"enforcing_failure_percentage", "enforcing_failure_percentage_local_origin", b"enforcing_failure_percentage_local_origin", "enforcing_local_origin_success_rate", b"enforcing_local_origin_success_rate", "enforcing_success_rate", b"enforcing_success_rate", "failure_percentage_minimum_hosts", b"failure_percentage_minimum_hosts", "failure_percentage_request_volume", b"failure_percentage_request_volume", "failure_percentage_threshold", b"failure_percentage_threshold", "interval", b"interval", "max_ejection_percent", b"max_ejection_percent", "max_ejection_time", b"max_ejection_time", "max_ejection_time_jitter", b"max_ejection_time_jitter", "success_rate_minimum_hosts", b"success_rate_minimum_hosts", "success_rate_request_volume", b"success_rate_request_volume", "success_rate_stdev_factor", b"success_rate_stdev_factor"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["base_ejection_time", b"base_ejection_time", "consecutive_5xx", b"consecutive_5xx", "consecutive_gateway_failure", b"consecutive_gateway_failure", "consecutive_local_origin_failure", b"consecutive_local_origin_failure", "enforcing_consecutive_5xx", b"enforcing_consecutive_5xx", "enforcing_consecutive_gateway_failure", b"enforcing_consecutive_gateway_failure", "enforcing_consecutive_local_origin_failure", b"enforcing_consecutive_local_origin_failure", "enforcing_failure_percentage", b"enforcing_failure_percentage", "enforcing_failure_percentage_local_origin", b"enforcing_failure_percentage_local_origin", "enforcing_local_origin_success_rate", b"enforcing_local_origin_success_rate", "enforcing_success_rate", b"enforcing_success_rate", "failure_percentage_minimum_hosts", b"failure_percentage_minimum_hosts", "failure_percentage_request_volume", b"failure_percentage_request_volume", "failure_percentage_threshold", b"failure_percentage_threshold", "interval", b"interval", "max_ejection_percent", b"max_ejection_percent", "max_ejection_time", b"max_ejection_time", "max_ejection_time_jitter", b"max_ejection_time_jitter", "split_external_local_origin_errors", b"split_external_local_origin_errors", "success_rate_minimum_hosts", b"success_rate_minimum_hosts", "success_rate_request_volume", b"success_rate_request_volume", "success_rate_stdev_factor", b"success_rate_stdev_factor"]) -> None: ...
+
 global___OutlierDetection = OutlierDetection

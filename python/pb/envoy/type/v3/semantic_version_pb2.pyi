@@ -5,9 +5,14 @@ isort:skip_file
 import builtins
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class SemanticVersion(google.protobuf.message.Message):
     """[#protodoc-title: Semantic Version]
@@ -16,18 +21,22 @@ class SemanticVersion(google.protobuf.message.Message):
     expected behaviors and APIs, the patch version field is used only
     for security fixes and can be generally ignored.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     MAJOR_NUMBER_FIELD_NUMBER: builtins.int
     MINOR_NUMBER_FIELD_NUMBER: builtins.int
     PATCH_FIELD_NUMBER: builtins.int
-    major_number: builtins.int = ...
-    minor_number: builtins.int = ...
-    patch: builtins.int = ...
-    def __init__(self,
+    major_number: builtins.int
+    minor_number: builtins.int
+    patch: builtins.int
+    def __init__(
+        self,
         *,
-        major_number : builtins.int = ...,
-        minor_number : builtins.int = ...,
-        patch : builtins.int = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"major_number",b"major_number",u"minor_number",b"minor_number",u"patch",b"patch"]) -> None: ...
+        major_number: builtins.int = ...,
+        minor_number: builtins.int = ...,
+        patch: builtins.int = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["major_number", b"major_number", "minor_number", b"minor_number", "patch", b"patch"]) -> None: ...
+
 global___SemanticVersion = SemanticVersion

@@ -3,6 +3,7 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.core.v3.extension_pb2
 import envoy.type.v3.percent_pb2
 import google.protobuf.descriptor
@@ -11,19 +12,28 @@ import google.protobuf.internal.containers
 import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
 import google.protobuf.wrappers_pb2
+import sys
 import typing
-import typing_extensions
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class TcpProtocolOptions(google.protobuf.message.Message):
     """[#protodoc-title: Protocol options]
 
     [#not-implemented-hide:]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    def __init__(self,
-        ) -> None: ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    def __init__(
+        self,
+    ) -> None: ...
+
 global___TcpProtocolOptions = TcpProtocolOptions
 
 class QuicKeepAliveSettings(google.protobuf.message.Message):
@@ -31,7 +41,9 @@ class QuicKeepAliveSettings(google.protobuf.message.Message):
     Note that QUIC keep-alive probing packets work differently from HTTP/2 keep-alive PINGs in a sense that the probing packet
     itself doesn't timeout waiting for a probing response. Quic has a shorter idle timeout than TCP, so it doesn't rely on such probing to discover dead connections. If the peer fails to respond, the connection will idle timeout eventually. Thus, they are configured differently from :ref:`connection_keepalive <envoy_v3_api_field_config.core.v3.Http2ProtocolOptions.connection_keepalive>`.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     MAX_INTERVAL_FIELD_NUMBER: builtins.int
     INITIAL_INTERVAL_FIELD_NUMBER: builtins.int
     @property
@@ -43,7 +55,6 @@ class QuicKeepAliveSettings(google.protobuf.message.Message):
         If zero, disable keepalive probing.
         If absent, use the QUICHE default interval to probe.
         """
-        pass
     @property
     def initial_interval(self) -> google.protobuf.duration_pb2.Duration:
         """The interval to send the first few keep-alive probing packets to prevent connection from hitting the idle timeout. Subsequent probes will be sent, each one with an interval exponentially longer than previous one, till it reaches :ref:`max_interval <envoy_v3_api_field_config.core.v3.QuicKeepAliveSettings.max_interval>`. And the probes afterwards will always use :ref:`max_interval <envoy_v3_api_field_config.core.v3.QuicKeepAliveSettings.max_interval>`.
@@ -52,21 +63,24 @@ class QuicKeepAliveSettings(google.protobuf.message.Message):
 
         If absent or zero, disable keepalive probing for a server connection. For a client connection, if :ref:`max_interval <envoy_v3_api_field_config.core.v3.QuicKeepAliveSettings.max_interval>`  is also zero, do not keepalive, otherwise use max_interval or QUICHE default to probe all the time.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        max_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        initial_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"initial_interval",b"initial_interval",u"max_interval",b"max_interval"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"initial_interval",b"initial_interval",u"max_interval",b"max_interval"]) -> None: ...
+        max_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        initial_interval: google.protobuf.duration_pb2.Duration | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["initial_interval", b"initial_interval", "max_interval", b"max_interval"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["initial_interval", b"initial_interval", "max_interval", b"max_interval"]) -> None: ...
+
 global___QuicKeepAliveSettings = QuicKeepAliveSettings
 
 class QuicProtocolOptions(google.protobuf.message.Message):
     """QUIC protocol options which apply to both downstream and upstream connections.
     [#next-free-field: 6]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     MAX_CONCURRENT_STREAMS_FIELD_NUMBER: builtins.int
     INITIAL_STREAM_WINDOW_SIZE_FIELD_NUMBER: builtins.int
     INITIAL_CONNECTION_WINDOW_SIZE_FIELD_NUMBER: builtins.int
@@ -77,7 +91,6 @@ class QuicProtocolOptions(google.protobuf.message.Message):
         """Maximum number of streams that the client can negotiate per connection. 100
         if not specified.
         """
-        pass
     @property
     def initial_stream_window_size(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """`Initial stream-level flow-control receive window
@@ -91,17 +104,15 @@ class QuicProtocolOptions(google.protobuf.message.Message):
         QUIC stream send and receive buffers. Once the buffer reaches this pointer, watermark callbacks will fire to
         stop the flow of data to the stream buffers.
         """
-        pass
     @property
     def initial_connection_window_size(self) -> google.protobuf.wrappers_pb2.UInt32Value:
-        """Similar to *initial_stream_window_size*, but for connection-level
+        """Similar to ``initial_stream_window_size``, but for connection-level
         flow-control. Valid values rage from 1 to 25165824 (24MB, maximum supported by QUICHE) and defaults to 65536 (2^16).
-        window. Currently, this has the same minimum/default as *initial_stream_window_size*.
+        window. Currently, this has the same minimum/default as ``initial_stream_window_size``.
 
         NOTE: 16384 (2^14) is the minimum window size supported in Google QUIC. We only support increasing the default
         window size now, so it's also the minimum.
         """
-        pass
     @property
     def num_timeouts_to_trigger_port_migration(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The number of timeouts that can occur before port migration is triggered for QUIC clients.
@@ -109,61 +120,61 @@ class QuicProtocolOptions(google.protobuf.message.Message):
         Timeout here refers to QUIC internal path degrading timeout mechanism, such as PTO.
         This has no effect on server sessions.
         """
-        pass
     @property
     def connection_keepalive(self) -> global___QuicKeepAliveSettings:
         """Probes the peer at the configured interval to solicit traffic, i.e. ACK or PATH_RESPONSE, from the peer to push back connection idle timeout.
         If absent, use the default keepalive behavior of which a client connection sends PINGs every 15s, and a server connection doesn't do anything.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        max_concurrent_streams : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        initial_stream_window_size : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        initial_connection_window_size : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        num_timeouts_to_trigger_port_migration : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        connection_keepalive : typing.Optional[global___QuicKeepAliveSettings] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"connection_keepalive",b"connection_keepalive",u"initial_connection_window_size",b"initial_connection_window_size",u"initial_stream_window_size",b"initial_stream_window_size",u"max_concurrent_streams",b"max_concurrent_streams",u"num_timeouts_to_trigger_port_migration",b"num_timeouts_to_trigger_port_migration"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"connection_keepalive",b"connection_keepalive",u"initial_connection_window_size",b"initial_connection_window_size",u"initial_stream_window_size",b"initial_stream_window_size",u"max_concurrent_streams",b"max_concurrent_streams",u"num_timeouts_to_trigger_port_migration",b"num_timeouts_to_trigger_port_migration"]) -> None: ...
+        max_concurrent_streams: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        initial_stream_window_size: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        initial_connection_window_size: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        num_timeouts_to_trigger_port_migration: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        connection_keepalive: global___QuicKeepAliveSettings | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["connection_keepalive", b"connection_keepalive", "initial_connection_window_size", b"initial_connection_window_size", "initial_stream_window_size", b"initial_stream_window_size", "max_concurrent_streams", b"max_concurrent_streams", "num_timeouts_to_trigger_port_migration", b"num_timeouts_to_trigger_port_migration"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["connection_keepalive", b"connection_keepalive", "initial_connection_window_size", b"initial_connection_window_size", "initial_stream_window_size", b"initial_stream_window_size", "max_concurrent_streams", b"max_concurrent_streams", "num_timeouts_to_trigger_port_migration", b"num_timeouts_to_trigger_port_migration"]) -> None: ...
+
 global___QuicProtocolOptions = QuicProtocolOptions
 
 class UpstreamHttpProtocolOptions(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     AUTO_SNI_FIELD_NUMBER: builtins.int
     AUTO_SAN_VALIDATION_FIELD_NUMBER: builtins.int
     OVERRIDE_AUTO_SNI_HEADER_FIELD_NUMBER: builtins.int
-    auto_sni: builtins.bool = ...
+    auto_sni: builtins.bool
     """Set transport socket `SNI <https://en.wikipedia.org/wiki/Server_Name_Indication>`_ for new
     upstream connections based on the downstream HTTP host/authority header or any other arbitrary
     header when :ref:`override_auto_sni_header <envoy_v3_api_field_config.core.v3.UpstreamHttpProtocolOptions.override_auto_sni_header>`
     is set, as seen by the :ref:`router filter <config_http_filters_router>`.
     """
-
-    auto_san_validation: builtins.bool = ...
+    auto_san_validation: builtins.bool
     """Automatic validate upstream presented certificate for new upstream connections based on the
     downstream HTTP host/authority header or any other arbitrary header when :ref:`override_auto_sni_header <envoy_v3_api_field_config.core.v3.UpstreamHttpProtocolOptions.override_auto_sni_header>`
     is set, as seen by the :ref:`router filter <config_http_filters_router>`.
-    This field is intended to be set with `auto_sni` field.
+    This field is intended to be set with ``auto_sni`` field.
     """
-
-    override_auto_sni_header: typing.Text = ...
+    override_auto_sni_header: builtins.str
     """An optional alternative to the host/authority header to be used for setting the SNI value.
     It should be a valid downstream HTTP header, as seen by the
     :ref:`router filter <config_http_filters_router>`.
     If unset, host/authority header will be used for populating the SNI. If the specified header
     is not found or the value is empty, host/authority header will be used instead.
-    This field is intended to be set with `auto_sni` and/or `auto_san_validation` fields.
+    This field is intended to be set with ``auto_sni`` and/or ``auto_san_validation`` fields.
     If none of these fields are set then setting this would be a no-op.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        auto_sni : builtins.bool = ...,
-        auto_san_validation : builtins.bool = ...,
-        override_auto_sni_header : typing.Text = ...,
-        ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"auto_san_validation",b"auto_san_validation",u"auto_sni",b"auto_sni",u"override_auto_sni_header",b"override_auto_sni_header"]) -> None: ...
+        auto_sni: builtins.bool = ...,
+        auto_san_validation: builtins.bool = ...,
+        override_auto_sni_header: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["auto_san_validation", b"auto_san_validation", "auto_sni", b"auto_sni", "override_auto_sni_header", b"override_auto_sni_header"]) -> None: ...
+
 global___UpstreamHttpProtocolOptions = UpstreamHttpProtocolOptions
 
 class AlternateProtocolsCacheOptions(google.protobuf.message.Message):
@@ -172,18 +183,48 @@ class AlternateProtocolsCacheOptions(google.protobuf.message.Message):
     HTTP Alternative Services and https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-04
     for the "HTTPS" DNS resource record.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    class AlternateProtocolsCacheEntry(google.protobuf.message.Message):
+        """Allows pre-populating the cache with HTTP/3 alternate protocols entries with a 7 day lifetime.
+        This will cause Envoy to attempt HTTP/3 to those upstreams, even if the upstreams have not
+        advertised HTTP/3 support. These entries will be overwritten by alt-svc
+        response headers or cached values.
+        As with regular cached entries, if the origin response would result in clearing an existing
+        alternate protocol cache entry, pre-populated entries will also be cleared.
+        Adding a cache entry with hostname=foo.com port=123 is the equivalent of getting
+        response headers
+        alt-svc: h3=:"123"; ma=86400" in a response to a request to foo.com:123
+        """
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        HOSTNAME_FIELD_NUMBER: builtins.int
+        PORT_FIELD_NUMBER: builtins.int
+        hostname: builtins.str
+        """The host name for the alternate protocol entry."""
+        port: builtins.int
+        """The port for the alternate protocol entry."""
+        def __init__(
+            self,
+            *,
+            hostname: builtins.str = ...,
+            port: builtins.int = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["hostname", b"hostname", "port", b"port"]) -> None: ...
+
     NAME_FIELD_NUMBER: builtins.int
     MAX_ENTRIES_FIELD_NUMBER: builtins.int
     KEY_VALUE_STORE_CONFIG_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
+    PREPOPULATED_ENTRIES_FIELD_NUMBER: builtins.int
+    name: builtins.str
     """The name of the cache. Multiple named caches allow independent alternate protocols cache
     configurations to operate within a single Envoy process using different configurations. All
     alternate protocols cache options with the same name *must* be equal in all fields when
     referenced from different configuration components. Configuration will fail to load if this is
     not the case.
     """
-
     @property
     def max_entries(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The maximum number of entries that the cache will hold. If not specified defaults to 1024.
@@ -194,28 +235,54 @@ class AlternateProtocolsCacheOptions(google.protobuf.message.Message):
           it is possible for the maximum entries in the cache to go slightly above the configured
           value depending on timing. This is similar to how other circuit breakers work.
         """
-        pass
     @property
     def key_value_store_config(self) -> envoy.config.core.v3.extension_pb2.TypedExtensionConfig:
         """Allows configuring a persistent
         :ref:`key value store <envoy_v3_api_msg_config.common.key_value.v3.KeyValueStoreConfig>` to flush
         alternate protocols entries to disk.
         This function is currently only supported if concurrency is 1
+        Cached entries will take precedence over pre-populated entries below.
         """
-        pass
-    def __init__(self,
+    @property
+    def prepopulated_entries(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___AlternateProtocolsCacheOptions.AlternateProtocolsCacheEntry]:
+        """Allows pre-populating the cache with entries, as described above."""
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        max_entries : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        key_value_store_config : typing.Optional[envoy.config.core.v3.extension_pb2.TypedExtensionConfig] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"key_value_store_config",b"key_value_store_config",u"max_entries",b"max_entries"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"key_value_store_config",b"key_value_store_config",u"max_entries",b"max_entries",u"name",b"name"]) -> None: ...
+        name: builtins.str = ...,
+        max_entries: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        key_value_store_config: envoy.config.core.v3.extension_pb2.TypedExtensionConfig | None = ...,
+        prepopulated_entries: collections.abc.Iterable[global___AlternateProtocolsCacheOptions.AlternateProtocolsCacheEntry] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["key_value_store_config", b"key_value_store_config", "max_entries", b"max_entries"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["key_value_store_config", b"key_value_store_config", "max_entries", b"max_entries", "name", b"name", "prepopulated_entries", b"prepopulated_entries"]) -> None: ...
+
 global___AlternateProtocolsCacheOptions = AlternateProtocolsCacheOptions
 
 class HttpProtocolOptions(google.protobuf.message.Message):
     """[#next-free-field: 7]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    class _HeadersWithUnderscoresAction:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _HeadersWithUnderscoresActionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[HttpProtocolOptions._HeadersWithUnderscoresAction.ValueType], builtins.type):  # noqa: F821
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        ALLOW: HttpProtocolOptions._HeadersWithUnderscoresAction.ValueType  # 0
+        """Allow headers with underscores. This is the default behavior."""
+        REJECT_REQUEST: HttpProtocolOptions._HeadersWithUnderscoresAction.ValueType  # 1
+        """Reject client request. HTTP/1 requests are rejected with the 400 status. HTTP/2 requests
+        end with the stream reset. The "httpN.requests_rejected_with_underscores_in_headers" counter
+        is incremented for each rejected request.
+        """
+        DROP_HEADER: HttpProtocolOptions._HeadersWithUnderscoresAction.ValueType  # 2
+        """Drop the client header with name containing underscores. The header is dropped before the filter chain is
+        invoked and as such filters will not see dropped headers. The
+        "httpN.dropped_headers_with_underscores" is incremented for each dropped header.
+        """
+
     class HeadersWithUnderscoresAction(_HeadersWithUnderscoresAction, metaclass=_HeadersWithUnderscoresActionEnumTypeWrapper):
         """Action to take when Envoy receives client request with header names containing underscore
         characters.
@@ -223,42 +290,19 @@ class HttpProtocolOptions(google.protobuf.message.Message):
         as a security measure due to systems that treat '_' and '-' as interchangeable. Envoy by default allows client request headers with underscore
         characters.
         """
-        pass
-    class _HeadersWithUnderscoresAction:
-        V = typing.NewType('V', builtins.int)
-    class _HeadersWithUnderscoresActionEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_HeadersWithUnderscoresAction.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        ALLOW = HttpProtocolOptions.HeadersWithUnderscoresAction.V(0)
-        """Allow headers with underscores. This is the default behavior."""
 
-        REJECT_REQUEST = HttpProtocolOptions.HeadersWithUnderscoresAction.V(1)
-        """Reject client request. HTTP/1 requests are rejected with the 400 status. HTTP/2 requests
-        end with the stream reset. The "httpN.requests_rejected_with_underscores_in_headers" counter
-        is incremented for each rejected request.
-        """
-
-        DROP_HEADER = HttpProtocolOptions.HeadersWithUnderscoresAction.V(2)
-        """Drop the client header with name containing underscores. The header is dropped before the filter chain is
-        invoked and as such filters will not see dropped headers. The
-        "httpN.dropped_headers_with_underscores" is incremented for each dropped header.
-        """
-
-
-    ALLOW = HttpProtocolOptions.HeadersWithUnderscoresAction.V(0)
+    ALLOW: HttpProtocolOptions.HeadersWithUnderscoresAction.ValueType  # 0
     """Allow headers with underscores. This is the default behavior."""
-
-    REJECT_REQUEST = HttpProtocolOptions.HeadersWithUnderscoresAction.V(1)
+    REJECT_REQUEST: HttpProtocolOptions.HeadersWithUnderscoresAction.ValueType  # 1
     """Reject client request. HTTP/1 requests are rejected with the 400 status. HTTP/2 requests
     end with the stream reset. The "httpN.requests_rejected_with_underscores_in_headers" counter
     is incremented for each rejected request.
     """
-
-    DROP_HEADER = HttpProtocolOptions.HeadersWithUnderscoresAction.V(2)
+    DROP_HEADER: HttpProtocolOptions.HeadersWithUnderscoresAction.ValueType  # 2
     """Drop the client header with name containing underscores. The header is dropped before the filter chain is
     invoked and as such filters will not see dropped headers. The
     "httpN.dropped_headers_with_underscores" is incremented for each dropped header.
     """
-
 
     IDLE_TIMEOUT_FIELD_NUMBER: builtins.int
     MAX_CONNECTION_DURATION_FIELD_NUMBER: builtins.int
@@ -285,7 +329,6 @@ class HttpProtocolOptions(google.protobuf.message.Message):
         is configured, this timeout is scaled for downstream connections according to the value for
         :ref:`HTTP_DOWNSTREAM_CONNECTION_IDLE <envoy_v3_api_enum_value_config.overload.v3.ScaleTimersOverloadActionConfig.TimerType.HTTP_DOWNSTREAM_CONNECTION_IDLE>`.
         """
-        pass
     @property
     def max_connection_duration(self) -> google.protobuf.duration_pb2.Duration:
         """The maximum duration of a connection. The duration is defined as a period since a connection
@@ -295,28 +338,24 @@ class HttpProtocolOptions(google.protobuf.message.Message):
         and the connection will be force-closed after the drain period. See :ref:`drain_timeout
         <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.HttpConnectionManager.drain_timeout>`.
         """
-        pass
     @property
     def max_headers_count(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """The maximum number of headers. If unconfigured, the default
         maximum number of request headers allowed is 100. Requests that exceed this limit will receive
         a 431 response for HTTP/1.x and cause a stream reset for HTTP/2.
         """
-        pass
     @property
     def max_stream_duration(self) -> google.protobuf.duration_pb2.Duration:
         """Total duration to keep alive an HTTP request/response stream. If the time limit is reached the stream will be
         reset independent of any other timeouts. If not specified, this value is not set.
         """
-        pass
-    headers_with_underscores_action: global___HttpProtocolOptions.HeadersWithUnderscoresAction.V = ...
+    headers_with_underscores_action: global___HttpProtocolOptions.HeadersWithUnderscoresAction.ValueType
     """Action to take when a client request with a header name containing underscore characters is received.
     If this setting is not specified, the value defaults to ALLOW.
     Note: upstream responses are not affected by this setting.
     Note: this only affects client headers. It does not affect headers added
     by Envoy filters and does not have any impact if added to cluster config.
     """
-
     @property
     def max_requests_per_connection(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Optional maximum requests for both upstream and downstream connections.
@@ -324,30 +363,37 @@ class HttpProtocolOptions(google.protobuf.message.Message):
         Setting this parameter to 1 will effectively disable keep alive.
         For HTTP/2 and HTTP/3, due to concurrent stream processing, the limit is approximate.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        idle_timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        max_connection_duration : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        max_headers_count : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        max_stream_duration : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        headers_with_underscores_action : global___HttpProtocolOptions.HeadersWithUnderscoresAction.V = ...,
-        max_requests_per_connection : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"idle_timeout",b"idle_timeout",u"max_connection_duration",b"max_connection_duration",u"max_headers_count",b"max_headers_count",u"max_requests_per_connection",b"max_requests_per_connection",u"max_stream_duration",b"max_stream_duration"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"headers_with_underscores_action",b"headers_with_underscores_action",u"idle_timeout",b"idle_timeout",u"max_connection_duration",b"max_connection_duration",u"max_headers_count",b"max_headers_count",u"max_requests_per_connection",b"max_requests_per_connection",u"max_stream_duration",b"max_stream_duration"]) -> None: ...
+        idle_timeout: google.protobuf.duration_pb2.Duration | None = ...,
+        max_connection_duration: google.protobuf.duration_pb2.Duration | None = ...,
+        max_headers_count: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        max_stream_duration: google.protobuf.duration_pb2.Duration | None = ...,
+        headers_with_underscores_action: global___HttpProtocolOptions.HeadersWithUnderscoresAction.ValueType = ...,
+        max_requests_per_connection: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["idle_timeout", b"idle_timeout", "max_connection_duration", b"max_connection_duration", "max_headers_count", b"max_headers_count", "max_requests_per_connection", b"max_requests_per_connection", "max_stream_duration", b"max_stream_duration"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["headers_with_underscores_action", b"headers_with_underscores_action", "idle_timeout", b"idle_timeout", "max_connection_duration", b"max_connection_duration", "max_headers_count", b"max_headers_count", "max_requests_per_connection", b"max_requests_per_connection", "max_stream_duration", b"max_stream_duration"]) -> None: ...
+
 global___HttpProtocolOptions = HttpProtocolOptions
 
 class Http1ProtocolOptions(google.protobuf.message.Message):
-    """[#next-free-field: 8]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    """[#next-free-field: 9]"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class HeaderKeyFormat(google.protobuf.message.Message):
         """[#next-free-field: 9]"""
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         class ProperCaseWords(google.protobuf.message.Message):
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-            def __init__(self,
-                ) -> None: ...
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+            def __init__(
+                self,
+            ) -> None: ...
 
         PROPER_CASE_WORDS_FIELD_NUMBER: builtins.int
         STATEFUL_FORMATTER_FIELD_NUMBER: builtins.int
@@ -359,22 +405,21 @@ class Http1ProtocolOptions(google.protobuf.message.Message):
             Note that while this results in most headers following conventional casing, certain headers
             are not covered. For example, the "TE" header will be formatted as "Te".
             """
-            pass
         @property
         def stateful_formatter(self) -> envoy.config.core.v3.extension_pb2.TypedExtensionConfig:
             """Configuration for stateful formatter extensions that allow using received headers to
             affect the output of encoding headers. E.g., preserving case during proxying.
             [#extension-category: envoy.http.stateful_header_formatters]
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            proper_case_words : typing.Optional[global___Http1ProtocolOptions.HeaderKeyFormat.ProperCaseWords] = ...,
-            stateful_formatter : typing.Optional[envoy.config.core.v3.extension_pb2.TypedExtensionConfig] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"header_format",b"header_format",u"proper_case_words",b"proper_case_words",u"stateful_formatter",b"stateful_formatter"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"header_format",b"header_format",u"proper_case_words",b"proper_case_words",u"stateful_formatter",b"stateful_formatter"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"header_format",b"header_format"]) -> typing.Optional[typing_extensions.Literal["proper_case_words","stateful_formatter"]]: ...
+            proper_case_words: global___Http1ProtocolOptions.HeaderKeyFormat.ProperCaseWords | None = ...,
+            stateful_formatter: envoy.config.core.v3.extension_pb2.TypedExtensionConfig | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["header_format", b"header_format", "proper_case_words", b"proper_case_words", "stateful_formatter", b"stateful_formatter"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["header_format", b"header_format", "proper_case_words", b"proper_case_words", "stateful_formatter", b"stateful_formatter"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["header_format", b"header_format"]) -> typing_extensions.Literal["proper_case_words", "stateful_formatter"] | None: ...
 
     ALLOW_ABSOLUTE_URL_FIELD_NUMBER: builtins.int
     ACCEPT_HTTP_10_FIELD_NUMBER: builtins.int
@@ -383,34 +428,31 @@ class Http1ProtocolOptions(google.protobuf.message.Message):
     ENABLE_TRAILERS_FIELD_NUMBER: builtins.int
     ALLOW_CHUNKED_LENGTH_FIELD_NUMBER: builtins.int
     OVERRIDE_STREAM_ERROR_ON_INVALID_HTTP_MESSAGE_FIELD_NUMBER: builtins.int
+    SEND_FULLY_QUALIFIED_URL_FIELD_NUMBER: builtins.int
     @property
     def allow_absolute_url(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Handle HTTP requests with absolute URLs in the requests. These requests
         are generally sent by clients to forward/explicit proxies. This allows clients to configure
         envoy as their HTTP proxy. In Unix, for example, this is typically done by setting the
-        *http_proxy* environment variable.
+        ``http_proxy`` environment variable.
         """
-        pass
-    accept_http_10: builtins.bool = ...
+    accept_http_10: builtins.bool
     """Handle incoming HTTP/1.0 and HTTP 0.9 requests.
     This is off by default, and not fully standards compliant. There is support for pre-HTTP/1.1
     style connect logic, dechunking, and handling lack of client host iff
-    *default_host_for_http_10* is configured.
+    ``default_host_for_http_10`` is configured.
     """
-
-    default_host_for_http_10: typing.Text = ...
-    """A default host for HTTP/1.0 requests. This is highly suggested if *accept_http_10* is true as
+    default_host_for_http_10: builtins.str
+    """A default host for HTTP/1.0 requests. This is highly suggested if ``accept_http_10`` is true as
     Envoy does not otherwise support HTTP/1.0 without a Host header.
-    This is a no-op if *accept_http_10* is not true.
+    This is a no-op if ``accept_http_10`` is not true.
     """
-
     @property
     def header_key_format(self) -> global___Http1ProtocolOptions.HeaderKeyFormat:
         """Describes how the keys for response headers should be formatted. By default, all header keys
         are lower cased.
         """
-        pass
-    enable_trailers: builtins.bool = ...
+    enable_trailers: builtins.bool
     """Enables trailers for HTTP/1. By default the HTTP/1 codec drops proxied trailers.
 
     .. attention::
@@ -421,9 +463,8 @@ class Http1ProtocolOptions(google.protobuf.message.Message):
       - Not a response to a HEAD request.
       - The content length header is not present.
     """
-
-    allow_chunked_length: builtins.bool = ...
-    """Allows Envoy to process requests/responses with both `Content-Length` and `Transfer-Encoding`
+    allow_chunked_length: builtins.bool
+    """Allows Envoy to process requests/responses with both ``Content-Length`` and ``Transfer-Encoding``
     headers set. By default such messages are rejected, but if option is enabled - Envoy will
     remove Content-Length header and process message.
     See `RFC7230, sec. 3.3.3 <https://tools.ietf.org/html/rfc7230#section-3.3.3>`_ for details.
@@ -431,8 +472,10 @@ class Http1ProtocolOptions(google.protobuf.message.Message):
     .. attention::
       Enabling this option might lead to request smuggling vulnerability, especially if traffic
       is proxied via multiple layers of proxies.
+    [#comment:TODO: This field is ignored when the
+    :ref:`header validation configuration <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.HttpConnectionManager.typed_header_validation_config>`
+    is present.]
     """
-
     @property
     def override_stream_error_on_invalid_http_message(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Allows invalid HTTP messaging. When this option is false, then Envoy will terminate
@@ -442,23 +485,33 @@ class Http1ProtocolOptions(google.protobuf.message.Message):
         If set, this overrides any HCM :ref:`stream_error_on_invalid_http_messaging
         <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.HttpConnectionManager.stream_error_on_invalid_http_message>`.
         """
-        pass
-    def __init__(self,
+    send_fully_qualified_url: builtins.bool
+    """Allows sending fully qualified URLs when proxying the first line of the
+    response. By default, Envoy will only send the path components in the first line.
+    If this is true, Envoy will create a fully qualified URI composing scheme
+    (inferred if not present), host (from the host/:authority header) and path
+    (from first line or :path header).
+    """
+    def __init__(
+        self,
         *,
-        allow_absolute_url : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        accept_http_10 : builtins.bool = ...,
-        default_host_for_http_10 : typing.Text = ...,
-        header_key_format : typing.Optional[global___Http1ProtocolOptions.HeaderKeyFormat] = ...,
-        enable_trailers : builtins.bool = ...,
-        allow_chunked_length : builtins.bool = ...,
-        override_stream_error_on_invalid_http_message : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"allow_absolute_url",b"allow_absolute_url",u"header_key_format",b"header_key_format",u"override_stream_error_on_invalid_http_message",b"override_stream_error_on_invalid_http_message"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"accept_http_10",b"accept_http_10",u"allow_absolute_url",b"allow_absolute_url",u"allow_chunked_length",b"allow_chunked_length",u"default_host_for_http_10",b"default_host_for_http_10",u"enable_trailers",b"enable_trailers",u"header_key_format",b"header_key_format",u"override_stream_error_on_invalid_http_message",b"override_stream_error_on_invalid_http_message"]) -> None: ...
+        allow_absolute_url: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        accept_http_10: builtins.bool = ...,
+        default_host_for_http_10: builtins.str = ...,
+        header_key_format: global___Http1ProtocolOptions.HeaderKeyFormat | None = ...,
+        enable_trailers: builtins.bool = ...,
+        allow_chunked_length: builtins.bool = ...,
+        override_stream_error_on_invalid_http_message: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        send_fully_qualified_url: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["allow_absolute_url", b"allow_absolute_url", "header_key_format", b"header_key_format", "override_stream_error_on_invalid_http_message", b"override_stream_error_on_invalid_http_message"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["accept_http_10", b"accept_http_10", "allow_absolute_url", b"allow_absolute_url", "allow_chunked_length", b"allow_chunked_length", "default_host_for_http_10", b"default_host_for_http_10", "enable_trailers", b"enable_trailers", "header_key_format", b"header_key_format", "override_stream_error_on_invalid_http_message", b"override_stream_error_on_invalid_http_message", "send_fully_qualified_url", b"send_fully_qualified_url"]) -> None: ...
+
 global___Http1ProtocolOptions = Http1ProtocolOptions
 
 class KeepaliveSettings(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     INTERVAL_FIELD_NUMBER: builtins.int
     TIMEOUT_FIELD_NUMBER: builtins.int
     INTERVAL_JITTER_FIELD_NUMBER: builtins.int
@@ -468,20 +521,19 @@ class KeepaliveSettings(google.protobuf.message.Message):
         """Send HTTP/2 PING frames at this period, in order to test that the connection is still alive.
         If this is zero, interval PINGs will not be sent.
         """
-        pass
     @property
     def timeout(self) -> google.protobuf.duration_pb2.Duration:
         """How long to wait for a response to a keepalive PING. If a response is not received within this
-        time period, the connection will be aborted.
+        time period, the connection will be aborted. Note that in order to prevent the influence of
+        Head-of-line (HOL) blocking the timeout period is extended when *any* frame is received on
+        the connection, under the assumption that if a frame is received the connection is healthy.
         """
-        pass
     @property
     def interval_jitter(self) -> envoy.type.v3.percent_pb2.Percent:
         """A random jitter amount as a percentage of interval that will be added to each interval.
         A value of zero means there will be no jitter.
         The default value is 15%.
         """
-        pass
     @property
     def connection_idle_interval(self) -> google.protobuf.duration_pb2.Duration:
         """If the connection has been idle for this duration, send a HTTP/2 ping ahead
@@ -492,43 +544,47 @@ class KeepaliveSettings(google.protobuf.message.Message):
 
         The same feature for HTTP/3 is given by inheritance from QUICHE which uses :ref:`connection idle_timeout <envoy_v3_api_field_config.listener.v3.QuicProtocolOptions.idle_timeout>` and the current PTO of the connection to decide whether to probe before sending a new request.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        timeout : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        interval_jitter : typing.Optional[envoy.type.v3.percent_pb2.Percent] = ...,
-        connection_idle_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"connection_idle_interval",b"connection_idle_interval",u"interval",b"interval",u"interval_jitter",b"interval_jitter",u"timeout",b"timeout"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"connection_idle_interval",b"connection_idle_interval",u"interval",b"interval",u"interval_jitter",b"interval_jitter",u"timeout",b"timeout"]) -> None: ...
+        interval: google.protobuf.duration_pb2.Duration | None = ...,
+        timeout: google.protobuf.duration_pb2.Duration | None = ...,
+        interval_jitter: envoy.type.v3.percent_pb2.Percent | None = ...,
+        connection_idle_interval: google.protobuf.duration_pb2.Duration | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["connection_idle_interval", b"connection_idle_interval", "interval", b"interval", "interval_jitter", b"interval_jitter", "timeout", b"timeout"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["connection_idle_interval", b"connection_idle_interval", "interval", b"interval", "interval_jitter", b"interval_jitter", "timeout", b"timeout"]) -> None: ...
+
 global___KeepaliveSettings = KeepaliveSettings
 
 class Http2ProtocolOptions(google.protobuf.message.Message):
     """[#next-free-field: 16]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class SettingsParameter(google.protobuf.message.Message):
         """Defines a parameter to be sent in the SETTINGS frame.
         See `RFC7540, sec. 6.5.1 <https://tools.ietf.org/html/rfc7540#section-6.5.1>`_ for details.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         IDENTIFIER_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
         @property
         def identifier(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """The 16 bit parameter identifier."""
-            pass
         @property
         def value(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """The 32 bit parameter value."""
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            identifier : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            value : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"identifier",b"identifier",u"value",b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"identifier",b"identifier",u"value",b"value"]) -> None: ...
+            identifier: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            value: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["identifier", b"identifier", "value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["identifier", b"identifier", "value", b"value"]) -> None: ...
 
     HPACK_TABLE_SIZE_FIELD_NUMBER: builtins.int
     MAX_CONCURRENT_STREAMS_FIELD_NUMBER: builtins.int
@@ -552,7 +608,6 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
         range from 0 to 4294967295 (2^32 - 1) and defaults to 4096. 0 effectively disables header
         compression.
         """
-        pass
     @property
     def max_concurrent_streams(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """`Maximum concurrent streams <https://httpwg.org/specs/rfc7540.html#rfc.section.5.1.2>`_
@@ -567,7 +622,6 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
         connection based on upstream settings. Config dumps will reflect the configured upper bound,
         not the per-connection negotiated limits.
         """
-        pass
     @property
     def initial_stream_window_size(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """`Initial stream-level flow-control window
@@ -582,17 +636,14 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
         HTTP/2 codec buffers. Once the buffer reaches this pointer, watermark callbacks will fire to
         stop the flow of data to the codec buffers.
         """
-        pass
     @property
     def initial_connection_window_size(self) -> google.protobuf.wrappers_pb2.UInt32Value:
-        """Similar to *initial_stream_window_size*, but for connection-level flow-control
-        window. Currently, this has the same minimum/maximum/default as *initial_stream_window_size*.
+        """Similar to ``initial_stream_window_size``, but for connection-level flow-control
+        window. Currently, this has the same minimum/maximum/default as ``initial_stream_window_size``.
         """
-        pass
-    allow_connect: builtins.bool = ...
+    allow_connect: builtins.bool
     """Allows proxying Websocket and other upgrades over H2 connect."""
-
-    allow_metadata: builtins.bool = ...
+    allow_metadata: builtins.bool
     """[#not-implemented-hide:] Hiding until envoy has full metadata support.
     Still under implementation. DO NOT USE.
 
@@ -600,7 +651,6 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
     docs](https://github.com/envoyproxy/envoy/blob/main/source/docs/h2_metadata.md) for more
     information.
     """
-
     @property
     def max_outbound_frames(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Limit the number of pending outbound downstream frames of all types (frames that are waiting to
@@ -608,7 +658,6 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
         terminated. The ``http2.outbound_flood`` stat tracks the number of terminated connections due
         to flood mitigation. The default limit is 10000.
         """
-        pass
     @property
     def max_outbound_control_frames(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Limit the number of pending outbound downstream frames of types PING, SETTINGS and RST_STREAM,
@@ -617,7 +666,6 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
         ``http2.outbound_control_flood`` stat tracks the number of terminated connections due to flood
         mitigation. The default limit is 1000.
         """
-        pass
     @property
     def max_consecutive_inbound_frames_with_empty_payload(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Limit the number of consecutive inbound frames of types HEADERS, CONTINUATION and DATA with an
@@ -627,41 +675,38 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
         Setting this to 0 will terminate connection upon receiving first frame with an empty payload
         and no end stream flag. The default limit is 1.
         """
-        pass
     @property
     def max_inbound_priority_frames_per_stream(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Limit the number of inbound PRIORITY frames allowed per each opened stream. If the number
         of PRIORITY frames received over the lifetime of connection exceeds the value calculated
         using this formula::
 
-          max_inbound_priority_frames_per_stream * (1 + opened_streams)
+          ``max_inbound_priority_frames_per_stream`` * (1 + ``opened_streams``)
 
-        the connection is terminated. For downstream connections the `opened_streams` is incremented when
+        the connection is terminated. For downstream connections the ``opened_streams`` is incremented when
         Envoy receives complete response headers from the upstream server. For upstream connection the
-        `opened_streams` is incremented when Envoy send the HEADERS frame for a new stream. The
+        ``opened_streams`` is incremented when Envoy send the HEADERS frame for a new stream. The
         ``http2.inbound_priority_frames_flood`` stat tracks
         the number of connections terminated due to flood mitigation. The default limit is 100.
         """
-        pass
     @property
     def max_inbound_window_update_frames_per_data_frame_sent(self) -> google.protobuf.wrappers_pb2.UInt32Value:
         """Limit the number of inbound WINDOW_UPDATE frames allowed per DATA frame sent. If the number
         of WINDOW_UPDATE frames received over the lifetime of connection exceeds the value calculated
         using this formula::
 
-          5 + 2 * (opened_streams +
-                   max_inbound_window_update_frames_per_data_frame_sent * outbound_data_frames)
+          5 + 2 * (``opened_streams`` +
+                   ``max_inbound_window_update_frames_per_data_frame_sent`` * ``outbound_data_frames``)
 
-        the connection is terminated. For downstream connections the `opened_streams` is incremented when
+        the connection is terminated. For downstream connections the ``opened_streams`` is incremented when
         Envoy receives complete response headers from the upstream server. For upstream connections the
-        `opened_streams` is incremented when Envoy sends the HEADERS frame for a new stream. The
+        ``opened_streams`` is incremented when Envoy sends the HEADERS frame for a new stream. The
         ``http2.inbound_priority_frames_flood`` stat tracks the number of connections terminated due to
         flood mitigation. The default max_inbound_window_update_frames_per_data_frame_sent value is 10.
         Setting this to 1 should be enough to support HTTP/2 implementations with basic flow control,
         but more complex implementations that try to estimate available bandwidth require at least 2.
         """
-        pass
-    stream_error_on_invalid_http_messaging: builtins.bool = ...
+    stream_error_on_invalid_http_messaging: builtins.bool
     """Allows invalid HTTP messaging and headers. When this option is disabled (default), then
     the whole HTTP/2 connection is terminated upon receiving invalid HEADERS frame. However,
     when this option is enabled, only the offending stream is terminated.
@@ -675,7 +720,6 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
 
     See `RFC7540, sec. 8.1 <https://tools.ietf.org/html/rfc7540#section-8.1>`_ for details.
     """
-
     @property
     def override_stream_error_on_invalid_http_message(self) -> google.protobuf.wrappers_pb2.BoolValue:
         """Allows invalid HTTP messaging and headers. When this option is disabled (default), then
@@ -687,7 +731,6 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
 
         See `RFC7540, sec. 8.1 <https://tools.ietf.org/html/rfc7540#section-8.1>`_ for details.
         """
-        pass
     @property
     def custom_settings_parameters(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Http2ProtocolOptions.SettingsParameter]:
         """[#not-implemented-hide:]
@@ -717,54 +760,60 @@ class Http2ProtocolOptions(google.protobuf.message.Message):
         <https://www.iana.org/assignments/http2-parameters/http2-parameters.xhtml#settings>`_ for
         standardized identifiers.
         """
-        pass
     @property
     def connection_keepalive(self) -> global___KeepaliveSettings:
         """Send HTTP/2 PING frames to verify that the connection is still healthy. If the remote peer
         does not respond within the configured timeout, the connection will be aborted.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        hpack_table_size : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        max_concurrent_streams : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        initial_stream_window_size : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        initial_connection_window_size : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        allow_connect : builtins.bool = ...,
-        allow_metadata : builtins.bool = ...,
-        max_outbound_frames : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        max_outbound_control_frames : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        max_consecutive_inbound_frames_with_empty_payload : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        max_inbound_priority_frames_per_stream : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        max_inbound_window_update_frames_per_data_frame_sent : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-        stream_error_on_invalid_http_messaging : builtins.bool = ...,
-        override_stream_error_on_invalid_http_message : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        custom_settings_parameters : typing.Optional[typing.Iterable[global___Http2ProtocolOptions.SettingsParameter]] = ...,
-        connection_keepalive : typing.Optional[global___KeepaliveSettings] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"connection_keepalive",b"connection_keepalive",u"hpack_table_size",b"hpack_table_size",u"initial_connection_window_size",b"initial_connection_window_size",u"initial_stream_window_size",b"initial_stream_window_size",u"max_concurrent_streams",b"max_concurrent_streams",u"max_consecutive_inbound_frames_with_empty_payload",b"max_consecutive_inbound_frames_with_empty_payload",u"max_inbound_priority_frames_per_stream",b"max_inbound_priority_frames_per_stream",u"max_inbound_window_update_frames_per_data_frame_sent",b"max_inbound_window_update_frames_per_data_frame_sent",u"max_outbound_control_frames",b"max_outbound_control_frames",u"max_outbound_frames",b"max_outbound_frames",u"override_stream_error_on_invalid_http_message",b"override_stream_error_on_invalid_http_message"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"allow_connect",b"allow_connect",u"allow_metadata",b"allow_metadata",u"connection_keepalive",b"connection_keepalive",u"custom_settings_parameters",b"custom_settings_parameters",u"hpack_table_size",b"hpack_table_size",u"initial_connection_window_size",b"initial_connection_window_size",u"initial_stream_window_size",b"initial_stream_window_size",u"max_concurrent_streams",b"max_concurrent_streams",u"max_consecutive_inbound_frames_with_empty_payload",b"max_consecutive_inbound_frames_with_empty_payload",u"max_inbound_priority_frames_per_stream",b"max_inbound_priority_frames_per_stream",u"max_inbound_window_update_frames_per_data_frame_sent",b"max_inbound_window_update_frames_per_data_frame_sent",u"max_outbound_control_frames",b"max_outbound_control_frames",u"max_outbound_frames",b"max_outbound_frames",u"override_stream_error_on_invalid_http_message",b"override_stream_error_on_invalid_http_message",u"stream_error_on_invalid_http_messaging",b"stream_error_on_invalid_http_messaging"]) -> None: ...
+        hpack_table_size: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        max_concurrent_streams: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        initial_stream_window_size: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        initial_connection_window_size: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        allow_connect: builtins.bool = ...,
+        allow_metadata: builtins.bool = ...,
+        max_outbound_frames: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        max_outbound_control_frames: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        max_consecutive_inbound_frames_with_empty_payload: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        max_inbound_priority_frames_per_stream: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        max_inbound_window_update_frames_per_data_frame_sent: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+        stream_error_on_invalid_http_messaging: builtins.bool = ...,
+        override_stream_error_on_invalid_http_message: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        custom_settings_parameters: collections.abc.Iterable[global___Http2ProtocolOptions.SettingsParameter] | None = ...,
+        connection_keepalive: global___KeepaliveSettings | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["connection_keepalive", b"connection_keepalive", "hpack_table_size", b"hpack_table_size", "initial_connection_window_size", b"initial_connection_window_size", "initial_stream_window_size", b"initial_stream_window_size", "max_concurrent_streams", b"max_concurrent_streams", "max_consecutive_inbound_frames_with_empty_payload", b"max_consecutive_inbound_frames_with_empty_payload", "max_inbound_priority_frames_per_stream", b"max_inbound_priority_frames_per_stream", "max_inbound_window_update_frames_per_data_frame_sent", b"max_inbound_window_update_frames_per_data_frame_sent", "max_outbound_control_frames", b"max_outbound_control_frames", "max_outbound_frames", b"max_outbound_frames", "override_stream_error_on_invalid_http_message", b"override_stream_error_on_invalid_http_message"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["allow_connect", b"allow_connect", "allow_metadata", b"allow_metadata", "connection_keepalive", b"connection_keepalive", "custom_settings_parameters", b"custom_settings_parameters", "hpack_table_size", b"hpack_table_size", "initial_connection_window_size", b"initial_connection_window_size", "initial_stream_window_size", b"initial_stream_window_size", "max_concurrent_streams", b"max_concurrent_streams", "max_consecutive_inbound_frames_with_empty_payload", b"max_consecutive_inbound_frames_with_empty_payload", "max_inbound_priority_frames_per_stream", b"max_inbound_priority_frames_per_stream", "max_inbound_window_update_frames_per_data_frame_sent", b"max_inbound_window_update_frames_per_data_frame_sent", "max_outbound_control_frames", b"max_outbound_control_frames", "max_outbound_frames", b"max_outbound_frames", "override_stream_error_on_invalid_http_message", b"override_stream_error_on_invalid_http_message", "stream_error_on_invalid_http_messaging", b"stream_error_on_invalid_http_messaging"]) -> None: ...
+
 global___Http2ProtocolOptions = Http2ProtocolOptions
 
 class GrpcProtocolOptions(google.protobuf.message.Message):
     """[#not-implemented-hide:]"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     HTTP2_PROTOCOL_OPTIONS_FIELD_NUMBER: builtins.int
     @property
     def http2_protocol_options(self) -> global___Http2ProtocolOptions: ...
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        http2_protocol_options : typing.Optional[global___Http2ProtocolOptions] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"http2_protocol_options",b"http2_protocol_options"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"http2_protocol_options",b"http2_protocol_options"]) -> None: ...
+        http2_protocol_options: global___Http2ProtocolOptions | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["http2_protocol_options", b"http2_protocol_options"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["http2_protocol_options", b"http2_protocol_options"]) -> None: ...
+
 global___GrpcProtocolOptions = GrpcProtocolOptions
 
 class Http3ProtocolOptions(google.protobuf.message.Message):
     """A message which allows using HTTP/3.
     [#next-free-field: 6]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     QUIC_PROTOCOL_OPTIONS_FIELD_NUMBER: builtins.int
     OVERRIDE_STREAM_ERROR_ON_INVALID_HTTP_MESSAGE_FIELD_NUMBER: builtins.int
     ALLOW_EXTENDED_CONNECT_FIELD_NUMBER: builtins.int
@@ -779,8 +828,7 @@ class Http3ProtocolOptions(google.protobuf.message.Message):
         If set, this overrides any HCM :ref:`stream_error_on_invalid_http_messaging
         <envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.HttpConnectionManager.stream_error_on_invalid_http_message>`.
         """
-        pass
-    allow_extended_connect: builtins.bool = ...
+    allow_extended_connect: builtins.bool
     """Allows proxying Websocket and other upgrades over HTTP/3 CONNECT using
     the header mechanisms from the `HTTP/2 extended connect RFC
     <https://datatracker.ietf.org/doc/html/rfc8441>`_
@@ -788,29 +836,33 @@ class Http3ProtocolOptions(google.protobuf.message.Message):
     <https://datatracker.ietf.org/doc/draft-ietf-httpbis-h3-websockets/>`_
     Note that HTTP/3 CONNECT is not yet an RFC.
     """
-
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        quic_protocol_options : typing.Optional[global___QuicProtocolOptions] = ...,
-        override_stream_error_on_invalid_http_message : typing.Optional[google.protobuf.wrappers_pb2.BoolValue] = ...,
-        allow_extended_connect : builtins.bool = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"override_stream_error_on_invalid_http_message",b"override_stream_error_on_invalid_http_message",u"quic_protocol_options",b"quic_protocol_options"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"allow_extended_connect",b"allow_extended_connect",u"override_stream_error_on_invalid_http_message",b"override_stream_error_on_invalid_http_message",u"quic_protocol_options",b"quic_protocol_options"]) -> None: ...
+        quic_protocol_options: global___QuicProtocolOptions | None = ...,
+        override_stream_error_on_invalid_http_message: google.protobuf.wrappers_pb2.BoolValue | None = ...,
+        allow_extended_connect: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["override_stream_error_on_invalid_http_message", b"override_stream_error_on_invalid_http_message", "quic_protocol_options", b"quic_protocol_options"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["allow_extended_connect", b"allow_extended_connect", "override_stream_error_on_invalid_http_message", b"override_stream_error_on_invalid_http_message", "quic_protocol_options", b"quic_protocol_options"]) -> None: ...
+
 global___Http3ProtocolOptions = Http3ProtocolOptions
 
 class SchemeHeaderTransformation(google.protobuf.message.Message):
     """A message to control transformations to the :scheme header"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    SCHEME_TO_OVERWRITE_FIELD_NUMBER: builtins.int
-    scheme_to_overwrite: typing.Text = ...
-    """Overwrite any Scheme header with the contents of this string."""
 
-    def __init__(self,
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    SCHEME_TO_OVERWRITE_FIELD_NUMBER: builtins.int
+    scheme_to_overwrite: builtins.str
+    """Overwrite any Scheme header with the contents of this string."""
+    def __init__(
+        self,
         *,
-        scheme_to_overwrite : typing.Text = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"scheme_to_overwrite",b"scheme_to_overwrite",u"transformation",b"transformation"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"scheme_to_overwrite",b"scheme_to_overwrite",u"transformation",b"transformation"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"transformation",b"transformation"]) -> typing.Optional[typing_extensions.Literal["scheme_to_overwrite"]]: ...
+        scheme_to_overwrite: builtins.str = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["scheme_to_overwrite", b"scheme_to_overwrite", "transformation", b"transformation"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["scheme_to_overwrite", b"scheme_to_overwrite", "transformation", b"transformation"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["transformation", b"transformation"]) -> typing_extensions.Literal["scheme_to_overwrite"] | None: ...
+
 global___SchemeHeaderTransformation = SchemeHeaderTransformation

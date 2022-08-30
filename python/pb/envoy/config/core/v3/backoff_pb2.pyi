@@ -6,17 +6,23 @@ import builtins
 import google.protobuf.descriptor
 import google.protobuf.duration_pb2
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class BackoffStrategy(google.protobuf.message.Message):
     """[#protodoc-title: Backoff Strategy]
 
     Configuration defining a jittered exponential back off strategy.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     BASE_INTERVAL_FIELD_NUMBER: builtins.int
     MAX_INTERVAL_FIELD_NUMBER: builtins.int
     @property
@@ -25,7 +31,6 @@ class BackoffStrategy(google.protobuf.message.Message):
         be greater than zero and less than or equal to :ref:`max_interval
         <envoy_v3_api_field_config.core.v3.BackoffStrategy.max_interval>`.
         """
-        pass
     @property
     def max_interval(self) -> google.protobuf.duration_pb2.Duration:
         """Specifies the maximum interval between retries. This parameter is optional,
@@ -34,12 +39,13 @@ class BackoffStrategy(google.protobuf.message.Message):
         is 10 times the :ref:`base_interval
         <envoy_v3_api_field_config.core.v3.BackoffStrategy.base_interval>`.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        base_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        max_interval : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"base_interval",b"base_interval",u"max_interval",b"max_interval"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"base_interval",b"base_interval",u"max_interval",b"max_interval"]) -> None: ...
+        base_interval: google.protobuf.duration_pb2.Duration | None = ...,
+        max_interval: google.protobuf.duration_pb2.Duration | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["base_interval", b"base_interval", "max_interval", b"max_interval"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["base_interval", b"base_interval", "max_interval", b"max_interval"]) -> None: ...
+
 global___BackoffStrategy = BackoffStrategy

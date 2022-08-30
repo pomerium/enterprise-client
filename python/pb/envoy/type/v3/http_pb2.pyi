@@ -5,35 +5,38 @@ isort:skip_file
 import builtins
 import google.protobuf.descriptor
 import google.protobuf.internal.enum_type_wrapper
+import sys
 import typing
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 10):
+    import typing as typing_extensions
+else:
+    import typing_extensions
 
-class CodecClientType(_CodecClientType, metaclass=_CodecClientTypeEnumTypeWrapper):
-    """[#protodoc-title: HTTP]
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
-    """
-    pass
 class _CodecClientType:
-    V = typing.NewType('V', builtins.int)
-class _CodecClientTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_CodecClientType.V], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-    HTTP1 = CodecClientType.V(0)
-    HTTP2 = CodecClientType.V(1)
-    HTTP3 = CodecClientType.V(2)
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _CodecClientTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_CodecClientType.ValueType], builtins.type):  # noqa: F821
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    HTTP1: _CodecClientType.ValueType  # 0
+    HTTP2: _CodecClientType.ValueType  # 1
+    HTTP3: _CodecClientType.ValueType  # 2
     """[#not-implemented-hide:] QUIC implementation is not production ready yet. Use this enum with
     caution to prevent accidental execution of QUIC code. I.e. `!= HTTP2` is no longer sufficient
     to distinguish HTTP1 and HTTP2 traffic.
     """
 
+class CodecClientType(_CodecClientType, metaclass=_CodecClientTypeEnumTypeWrapper):
+    """[#protodoc-title: HTTP]"""
 
-HTTP1 = CodecClientType.V(0)
-HTTP2 = CodecClientType.V(1)
-HTTP3 = CodecClientType.V(2)
+HTTP1: CodecClientType.ValueType  # 0
+HTTP2: CodecClientType.ValueType  # 1
+HTTP3: CodecClientType.ValueType  # 2
 """[#not-implemented-hide:] QUIC implementation is not production ready yet. Use this enum with
 caution to prevent accidental execution of QUIC code. I.e. `!= HTTP2` is no longer sufficient
 to distinguish HTTP1 and HTTP2 traffic.
 """
-
 global___CodecClientType = CodecClientType
-

@@ -6,36 +6,40 @@ import builtins
 import google.protobuf.any_pb2
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class Filter(google.protobuf.message.Message):
     """[#protodoc-title: Upstream filters]
     Upstream filters apply to the connections to the upstream cluster hosts.
-
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     NAME_FIELD_NUMBER: builtins.int
     TYPED_CONFIG_FIELD_NUMBER: builtins.int
-    name: typing.Text = ...
-    """The name of the filter to instantiate. The name must match a
-    supported upstream filter. Note that Envoy's :ref:`downstream network
-    filters <config_network_filters>` are not valid upstream filters.
-    """
-
+    name: builtins.str
+    """The name of the filter configuration."""
     @property
     def typed_config(self) -> google.protobuf.any_pb2.Any:
         """Filter specific configuration which depends on the filter being
         instantiated. See the supported filters for further documentation.
+        Note that Envoy's :ref:`downstream network
+        filters <config_network_filters>` are not valid upstream filters.
         """
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        name : typing.Text = ...,
-        typed_config : typing.Optional[google.protobuf.any_pb2.Any] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"typed_config",b"typed_config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"name",b"name",u"typed_config",b"typed_config"]) -> None: ...
+        name: builtins.str = ...,
+        typed_config: google.protobuf.any_pb2.Any | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["typed_config", b"typed_config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "typed_config", b"typed_config"]) -> None: ...
+
 global___Filter = Filter

@@ -3,6 +3,7 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.endpoint.v3.endpoint_components_pb2
 import envoy.type.v3.percent_pb2
 import google.protobuf.descriptor
@@ -10,10 +11,14 @@ import google.protobuf.duration_pb2
 import google.protobuf.internal.containers
 import google.protobuf.message
 import google.protobuf.wrappers_pb2
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class ClusterLoadAssignment(google.protobuf.message.Message):
     """[#protodoc-title: Endpoint configuration]
@@ -30,31 +35,36 @@ class ClusterLoadAssignment(google.protobuf.message.Message):
     then an endpoint within that locality will be chose based on its weight.
     [#next-free-field: 6]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class Policy(google.protobuf.message.Message):
         """Load balancing policy settings.
         [#next-free-field: 6]
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         class DropOverload(google.protobuf.message.Message):
             """[#not-implemented-hide:]"""
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
             CATEGORY_FIELD_NUMBER: builtins.int
             DROP_PERCENTAGE_FIELD_NUMBER: builtins.int
-            category: typing.Text = ...
+            category: builtins.str
             """Identifier for the policy specifying the drop."""
-
             @property
             def drop_percentage(self) -> envoy.type.v3.percent_pb2.FractionalPercent:
                 """Percentage of traffic that should be dropped for the category."""
-                pass
-            def __init__(self,
+            def __init__(
+                self,
                 *,
-                category : typing.Text = ...,
-                drop_percentage : typing.Optional[envoy.type.v3.percent_pb2.FractionalPercent] = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"drop_percentage",b"drop_percentage"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"category",b"category",u"drop_percentage",b"drop_percentage"]) -> None: ...
+                category: builtins.str = ...,
+                drop_percentage: envoy.type.v3.percent_pb2.FractionalPercent | None = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["drop_percentage", b"drop_percentage"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["category", b"category", "drop_percentage", b"drop_percentage"]) -> None: ...
 
         DROP_OVERLOADS_FIELD_NUMBER: builtins.int
         OVERPROVISIONING_FACTOR_FIELD_NUMBER: builtins.int
@@ -82,7 +92,6 @@ class ClusterLoadAssignment(google.protobuf.message.Message):
                actual_outgoing_load = 20% // remaining after applying all categories.
             [#not-implemented-hide:]
             """
-            pass
         @property
         def overprovisioning_factor(self) -> google.protobuf.wrappers_pb2.UInt32Value:
             """Priority levels and localities are considered overprovisioned with this
@@ -100,7 +109,6 @@ class ClusterLoadAssignment(google.protobuf.message.Message):
             Read more at :ref:`priority levels <arch_overview_load_balancing_priority_levels>` and
             :ref:`localities <arch_overview_load_balancing_locality_weighted_lb>`.
             """
-            pass
         @property
         def endpoint_stale_after(self) -> google.protobuf.duration_pb2.Duration:
             """The max time until which the endpoints from this assignment can be used.
@@ -108,63 +116,63 @@ class ClusterLoadAssignment(google.protobuf.message.Message):
             are considered stale and should be marked unhealthy.
             Defaults to 0 which means endpoints never go stale.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            drop_overloads : typing.Optional[typing.Iterable[global___ClusterLoadAssignment.Policy.DropOverload]] = ...,
-            overprovisioning_factor : typing.Optional[google.protobuf.wrappers_pb2.UInt32Value] = ...,
-            endpoint_stale_after : typing.Optional[google.protobuf.duration_pb2.Duration] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"endpoint_stale_after",b"endpoint_stale_after",u"overprovisioning_factor",b"overprovisioning_factor"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"drop_overloads",b"drop_overloads",u"endpoint_stale_after",b"endpoint_stale_after",u"overprovisioning_factor",b"overprovisioning_factor"]) -> None: ...
+            drop_overloads: collections.abc.Iterable[global___ClusterLoadAssignment.Policy.DropOverload] | None = ...,
+            overprovisioning_factor: google.protobuf.wrappers_pb2.UInt32Value | None = ...,
+            endpoint_stale_after: google.protobuf.duration_pb2.Duration | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["endpoint_stale_after", b"endpoint_stale_after", "overprovisioning_factor", b"overprovisioning_factor"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["drop_overloads", b"drop_overloads", "endpoint_stale_after", b"endpoint_stale_after", "overprovisioning_factor", b"overprovisioning_factor"]) -> None: ...
 
     class NamedEndpointsEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
+        key: builtins.str
         @property
         def value(self) -> envoy.config.endpoint.v3.endpoint_components_pb2.Endpoint: ...
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            key : typing.Text = ...,
-            value : typing.Optional[envoy.config.endpoint.v3.endpoint_components_pb2.Endpoint] = ...,
-            ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal[u"value",b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+            key: builtins.str = ...,
+            value: envoy.config.endpoint.v3.endpoint_components_pb2.Endpoint | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     CLUSTER_NAME_FIELD_NUMBER: builtins.int
     ENDPOINTS_FIELD_NUMBER: builtins.int
     NAMED_ENDPOINTS_FIELD_NUMBER: builtins.int
     POLICY_FIELD_NUMBER: builtins.int
-    cluster_name: typing.Text = ...
+    cluster_name: builtins.str
     """Name of the cluster. This will be the :ref:`service_name
     <envoy_v3_api_field_config.cluster.v3.Cluster.EdsClusterConfig.service_name>` value if specified
     in the cluster :ref:`EdsClusterConfig
     <envoy_v3_api_msg_config.cluster.v3.Cluster.EdsClusterConfig>`.
     """
-
     @property
     def endpoints(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[envoy.config.endpoint.v3.endpoint_components_pb2.LocalityLbEndpoints]:
         """List of endpoints to load balance to."""
-        pass
     @property
-    def named_endpoints(self) -> google.protobuf.internal.containers.MessageMap[typing.Text, envoy.config.endpoint.v3.endpoint_components_pb2.Endpoint]:
+    def named_endpoints(self) -> google.protobuf.internal.containers.MessageMap[builtins.str, envoy.config.endpoint.v3.endpoint_components_pb2.Endpoint]:
         """Map of named endpoints that can be referenced in LocalityLbEndpoints.
         [#not-implemented-hide:]
         """
-        pass
     @property
     def policy(self) -> global___ClusterLoadAssignment.Policy:
         """Load balancing policy settings."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        cluster_name : typing.Text = ...,
-        endpoints : typing.Optional[typing.Iterable[envoy.config.endpoint.v3.endpoint_components_pb2.LocalityLbEndpoints]] = ...,
-        named_endpoints : typing.Optional[typing.Mapping[typing.Text, envoy.config.endpoint.v3.endpoint_components_pb2.Endpoint]] = ...,
-        policy : typing.Optional[global___ClusterLoadAssignment.Policy] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"policy",b"policy"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"cluster_name",b"cluster_name",u"endpoints",b"endpoints",u"named_endpoints",b"named_endpoints",u"policy",b"policy"]) -> None: ...
+        cluster_name: builtins.str = ...,
+        endpoints: collections.abc.Iterable[envoy.config.endpoint.v3.endpoint_components_pb2.LocalityLbEndpoints] | None = ...,
+        named_endpoints: collections.abc.Mapping[builtins.str, envoy.config.endpoint.v3.endpoint_components_pb2.Endpoint] | None = ...,
+        policy: global___ClusterLoadAssignment.Policy | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["policy", b"policy"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["cluster_name", b"cluster_name", "endpoints", b"endpoints", "named_endpoints", b"named_endpoints", "policy", b"policy"]) -> None: ...
+
 global___ClusterLoadAssignment = ClusterLoadAssignment

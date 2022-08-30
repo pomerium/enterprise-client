@@ -6,26 +6,33 @@ import builtins
 import envoy.config.core.v3.grpc_service_pb2
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class EventServiceConfig(google.protobuf.message.Message):
     """[#not-implemented-hide:]
     Configuration of the event reporting service endpoint.
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     GRPC_SERVICE_FIELD_NUMBER: builtins.int
     @property
     def grpc_service(self) -> envoy.config.core.v3.grpc_service_pb2.GrpcService:
         """Specifies the gRPC service that hosts the event reporting service."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        grpc_service : typing.Optional[envoy.config.core.v3.grpc_service_pb2.GrpcService] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"config_source_specifier",b"config_source_specifier",u"grpc_service",b"grpc_service"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"config_source_specifier",b"config_source_specifier",u"grpc_service",b"grpc_service"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal[u"config_source_specifier",b"config_source_specifier"]) -> typing.Optional[typing_extensions.Literal["grpc_service"]]: ...
+        grpc_service: envoy.config.core.v3.grpc_service_pb2.GrpcService | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["config_source_specifier", b"config_source_specifier", "grpc_service", b"grpc_service"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["config_source_specifier", b"config_source_specifier", "grpc_service", b"grpc_service"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["config_source_specifier", b"config_source_specifier"]) -> typing_extensions.Literal["grpc_service"] | None: ...
+
 global___EventServiceConfig = EventServiceConfig

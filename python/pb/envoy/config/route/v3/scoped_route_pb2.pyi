@@ -3,14 +3,19 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import envoy.config.route.v3.route_pb2
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-import typing
-import typing_extensions
+import sys
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
+
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class ScopedRouteConfiguration(google.protobuf.message.Message):
     """[#protodoc-title: HTTP scoped routing configuration]
@@ -75,12 +80,14 @@ class ScopedRouteConfiguration(google.protobuf.message.Message):
         Host: foo.com
         X-Route-Selector: vip=172.10.10.20
 
-    would result in the routing table defined by the `route-config1`
+    would result in the routing table defined by the ``route-config1``
     RouteConfiguration being assigned to the HTTP request/stream.
 
     [#next-free-field: 6]
     """
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
     class Key(google.protobuf.message.Message):
         """Specifies a key which is matched against the output of the
         :ref:`scope_key_builder<envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.ScopedRoutes.scope_key_builder>`
@@ -88,20 +95,23 @@ class ScopedRouteConfiguration(google.protobuf.message.Message):
         request and is dependent on the order of the fragments contained in the
         Key.
         """
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-        class Fragment(google.protobuf.message.Message):
-            DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-            STRING_KEY_FIELD_NUMBER: builtins.int
-            string_key: typing.Text = ...
-            """A string to match against."""
 
-            def __init__(self,
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        class Fragment(google.protobuf.message.Message):
+            DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+            STRING_KEY_FIELD_NUMBER: builtins.int
+            string_key: builtins.str
+            """A string to match against."""
+            def __init__(
+                self,
                 *,
-                string_key : typing.Text = ...,
-                ) -> None: ...
-            def HasField(self, field_name: typing_extensions.Literal[u"string_key",b"string_key",u"type",b"type"]) -> builtins.bool: ...
-            def ClearField(self, field_name: typing_extensions.Literal[u"string_key",b"string_key",u"type",b"type"]) -> None: ...
-            def WhichOneof(self, oneof_group: typing_extensions.Literal[u"type",b"type"]) -> typing.Optional[typing_extensions.Literal["string_key"]]: ...
+                string_key: builtins.str = ...,
+            ) -> None: ...
+            def HasField(self, field_name: typing_extensions.Literal["string_key", b"string_key", "type", b"type"]) -> builtins.bool: ...
+            def ClearField(self, field_name: typing_extensions.Literal["string_key", b"string_key", "type", b"type"]) -> None: ...
+            def WhichOneof(self, oneof_group: typing_extensions.Literal["type", b"type"]) -> typing_extensions.Literal["string_key"] | None: ...
 
         FRAGMENTS_FIELD_NUMBER: builtins.int
         @property
@@ -110,46 +120,43 @@ class ScopedRouteConfiguration(google.protobuf.message.Message):
             fragments in the corresponding
             :ref:`scope_key_builder<envoy_v3_api_field_extensions.filters.network.http_connection_manager.v3.ScopedRoutes.scope_key_builder>`.
             """
-            pass
-        def __init__(self,
+        def __init__(
+            self,
             *,
-            fragments : typing.Optional[typing.Iterable[global___ScopedRouteConfiguration.Key.Fragment]] = ...,
-            ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal[u"fragments",b"fragments"]) -> None: ...
+            fragments: collections.abc.Iterable[global___ScopedRouteConfiguration.Key.Fragment] | None = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["fragments", b"fragments"]) -> None: ...
 
     ON_DEMAND_FIELD_NUMBER: builtins.int
     NAME_FIELD_NUMBER: builtins.int
     ROUTE_CONFIGURATION_NAME_FIELD_NUMBER: builtins.int
     ROUTE_CONFIGURATION_FIELD_NUMBER: builtins.int
     KEY_FIELD_NUMBER: builtins.int
-    on_demand: builtins.bool = ...
+    on_demand: builtins.bool
     """Whether the RouteConfiguration should be loaded on demand."""
-
-    name: typing.Text = ...
+    name: builtins.str
     """The name assigned to the routing scope."""
-
-    route_configuration_name: typing.Text = ...
+    route_configuration_name: builtins.str
     """The resource name to use for a :ref:`envoy_v3_api_msg_service.discovery.v3.DiscoveryRequest` to an
     RDS server to fetch the :ref:`envoy_v3_api_msg_config.route.v3.RouteConfiguration` associated
     with this scope.
     """
-
     @property
     def route_configuration(self) -> envoy.config.route.v3.route_pb2.RouteConfiguration:
         """The :ref:`envoy_v3_api_msg_config.route.v3.RouteConfiguration` associated with the scope."""
-        pass
     @property
     def key(self) -> global___ScopedRouteConfiguration.Key:
         """The key to match against."""
-        pass
-    def __init__(self,
+    def __init__(
+        self,
         *,
-        on_demand : builtins.bool = ...,
-        name : typing.Text = ...,
-        route_configuration_name : typing.Text = ...,
-        route_configuration : typing.Optional[envoy.config.route.v3.route_pb2.RouteConfiguration] = ...,
-        key : typing.Optional[global___ScopedRouteConfiguration.Key] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"key",b"key",u"route_configuration",b"route_configuration"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"key",b"key",u"name",b"name",u"on_demand",b"on_demand",u"route_configuration",b"route_configuration",u"route_configuration_name",b"route_configuration_name"]) -> None: ...
+        on_demand: builtins.bool = ...,
+        name: builtins.str = ...,
+        route_configuration_name: builtins.str = ...,
+        route_configuration: envoy.config.route.v3.route_pb2.RouteConfiguration | None = ...,
+        key: global___ScopedRouteConfiguration.Key | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["key", b"key", "route_configuration", b"route_configuration"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "name", b"name", "on_demand", b"on_demand", "route_configuration", b"route_configuration", "route_configuration_name", b"route_configuration_name"]) -> None: ...
+
 global___ScopedRouteConfiguration = ScopedRouteConfiguration
