@@ -656,6 +656,9 @@ routes
 | rego | [repeated string](#string) | custom rego definition in string format |
 | ppl | [ string](#string) | PPL definition in JSON format |
 | enforced | [ bool](#bool) | policy is automatically applied to all routes in namespace_id and child namespaces |
+| explanation | [ string](#string) | none |
+| remediation | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
 | routes | [map Policy.RoutesEntry](#policyroutesentry) | computed
 
 route id => name |
@@ -914,6 +917,8 @@ Route defines a proxy route's settings and policy associations
 | envoy_opts | [ envoy.config.cluster.v3.Cluster](#envoyconfigclusterv3cluster) | none |
 | redirect | [ envoy.config.route.v3.RedirectAction](#envoyconfigroutev3redirectaction) | none |
 | enable_google_cloud_serverless_authentication | [ bool](#bool) | none |
+| show_error_details | [ bool](#bool) | none |
+| originator_id | [ string](#string) | none |
 | policy_ids | [repeated string](#string) | policies applied to this route |
 | policy_names | [repeated string](#string) | computed properties (may be nil) |
 | namespace_name | [ string](#string) | computed |
@@ -1122,6 +1127,13 @@ Settings defines the global pomerium settings
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert_must_staple.autocert_must_staple | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert_dir.autocert_dir | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _skip_xff_append.skip_xff_append | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _primary_color.primary_color | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _secondary_color.secondary_color | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _darkmode_primary_color.darkmode_primary_color | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _darkmode_secondary_color.darkmode_secondary_color | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _logo_url.logo_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _favicon_url.favicon_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _error_message_first_paragraph.error_message_first_paragraph | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1425,6 +1437,7 @@ Namespace defines a namespace
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | name | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
 | route_count | [ int64](#int64) | computed |
 | policy_count | [ int64](#int64) | computed |
  <!-- end Fields -->

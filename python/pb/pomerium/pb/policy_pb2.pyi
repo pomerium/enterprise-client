@@ -72,6 +72,9 @@ class Policy(google.protobuf.message.Message):
     REGO_FIELD_NUMBER: builtins.int
     PPL_FIELD_NUMBER: builtins.int
     ENFORCED_FIELD_NUMBER: builtins.int
+    EXPLANATION_FIELD_NUMBER: builtins.int
+    REMEDIATION_FIELD_NUMBER: builtins.int
+    ORIGINATOR_ID_FIELD_NUMBER: builtins.int
     ROUTES_FIELD_NUMBER: builtins.int
     NAMESPACE_NAME_FIELD_NUMBER: builtins.int
     id: builtins.str
@@ -101,6 +104,9 @@ class Policy(google.protobuf.message.Message):
     """policy is automatically applied to all routes in namespace_id and child
     namespaces
     """
+    explanation: builtins.str
+    remediation: builtins.str
+    originator_id: builtins.str
     @property
     def routes(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """computed
@@ -125,11 +131,14 @@ class Policy(google.protobuf.message.Message):
         rego: collections.abc.Iterable[builtins.str] | None = ...,
         ppl: builtins.str = ...,
         enforced: builtins.bool = ...,
+        explanation: builtins.str = ...,
+        remediation: builtins.str = ...,
+        originator_id: builtins.str = ...,
         routes: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
         namespace_name: builtins.str = ...,
     ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["created_at", b"created_at", "deleted_at", b"deleted_at", "modified_at", b"modified_at"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["allowed_domains", b"allowed_domains", "allowed_groups", b"allowed_groups", "allowed_idp_claims", b"allowed_idp_claims", "allowed_users", b"allowed_users", "created_at", b"created_at", "deleted_at", b"deleted_at", "description", b"description", "enforced", b"enforced", "id", b"id", "modified_at", b"modified_at", "name", b"name", "namespace_id", b"namespace_id", "namespace_name", b"namespace_name", "ppl", b"ppl", "rego", b"rego", "routes", b"routes"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["allowed_domains", b"allowed_domains", "allowed_groups", b"allowed_groups", "allowed_idp_claims", b"allowed_idp_claims", "allowed_users", b"allowed_users", "created_at", b"created_at", "deleted_at", b"deleted_at", "description", b"description", "enforced", b"enforced", "explanation", b"explanation", "id", b"id", "modified_at", b"modified_at", "name", b"name", "namespace_id", b"namespace_id", "namespace_name", b"namespace_name", "originator_id", b"originator_id", "ppl", b"ppl", "rego", b"rego", "remediation", b"remediation", "routes", b"routes"]) -> None: ...
 
 global___Policy = Policy
 

@@ -28,6 +28,7 @@ class Namespace(google.protobuf.message.Message):
     MODIFIED_AT_FIELD_NUMBER: builtins.int
     DELETED_AT_FIELD_NUMBER: builtins.int
     NAME_FIELD_NUMBER: builtins.int
+    ORIGINATOR_ID_FIELD_NUMBER: builtins.int
     ROUTE_COUNT_FIELD_NUMBER: builtins.int
     POLICY_COUNT_FIELD_NUMBER: builtins.int
     id: builtins.str
@@ -39,6 +40,7 @@ class Namespace(google.protobuf.message.Message):
     @property
     def deleted_at(self) -> google.protobuf.timestamp_pb2.Timestamp: ...
     name: builtins.str
+    originator_id: builtins.str
     route_count: builtins.int
     """computed"""
     policy_count: builtins.int
@@ -52,11 +54,12 @@ class Namespace(google.protobuf.message.Message):
         modified_at: google.protobuf.timestamp_pb2.Timestamp | None = ...,
         deleted_at: google.protobuf.timestamp_pb2.Timestamp | None = ...,
         name: builtins.str = ...,
+        originator_id: builtins.str = ...,
         route_count: builtins.int = ...,
         policy_count: builtins.int = ...,
     ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["created_at", b"created_at", "deleted_at", b"deleted_at", "modified_at", b"modified_at"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["created_at", b"created_at", "deleted_at", b"deleted_at", "id", b"id", "modified_at", b"modified_at", "name", b"name", "parent_id", b"parent_id", "policy_count", b"policy_count", "route_count", b"route_count"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["created_at", b"created_at", "deleted_at", b"deleted_at", "id", b"id", "modified_at", b"modified_at", "name", b"name", "originator_id", b"originator_id", "parent_id", b"parent_id", "policy_count", b"policy_count", "route_count", b"route_count"]) -> None: ...
 
 global___Namespace = Namespace
 

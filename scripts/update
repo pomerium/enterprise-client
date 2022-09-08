@@ -4,11 +4,10 @@ set -euo pipefail
 _scripts_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 _root_dir="$(dirname "$_scripts_dir")"
 _deps_dir="$_root_dir/deps"
-_tag="v0.18.0"
 
 readonly _git_deps=(
-  'pomerium/pomerium|v0.18.0'
-  'pomerium/pomerium-console|v0.18.0'
+  "pomerium/pomerium|v0.19.1"
+  "pomerium/pomerium-console|v0.19.0"
   'envoyproxy/protoc-gen-validate|v0.6.1'
   'envoyproxy/data-plane-api|main'
   'cncf/xds|main'
