@@ -1,0 +1,129 @@
+#!/bin/bash
+set -euo pipefail
+
+_scripts_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+_root_dir="$(dirname "$_scripts_dir")"
+_deps_dir="$_root_dir/deps"
+
+readonly _git_deps=(
+  "pomerium/pomerium|v0.19.1"
+  "pomerium/pomerium-console|v0.19.0"
+  'envoyproxy/protoc-gen-validate|v0.6.1'
+  'envoyproxy/data-plane-api|main'
+  'cncf/xds|main'
+  'googleapis/googleapis|master'
+)
+
+function clone() {
+  local _name="$1"
+  local _tag="$2"
+  local _dst="$3"
+
+  echo "cloning $_name:$_tag to $_dst"
+  if [ ! -d "$_dst" ]; then
+    mkdir -p "$_dst"
+    git clone "git@github.com:$_name" "$_dst"
+  fi
+  (
+    cd "$_dst"
+    git fetch
+    git checkout "$_tag"
+  )
+}
+
+function clone_all() {
+  local _name _tag _dst
+  for _dep in "${_git_deps[@]}"; do
+    IFS=$'|' read -r _name _tag <<<"$_dep"
+    _dst="$_deps_dir/github.com/$_name"
+    clone "$_name" "$_tag" "$_dst"
+  done
+}
+
+function download() {
+  local _url="$1"
+  local _dst="$2"
+
+  echo "downloading $_url to $_dst"
+  curl \
+    --silent \
+    --compressed \
+    --fail \
+    --location \
+    --time-cond "$_dst" \
+    --output "$_dst" \
+    "$_url"
+}
+
+function download_all() {
+  if [ "$(uname -s)" == "Darwin" ]; then
+    download "https://github.com/protocolbuffers/protobuf/releases/download/v21.5/protoc-21.5-osx-universal_binary.zip" "$_deps_dir/protoc.zip"
+  else
+    download "https://github.com/protocolbuffers/protobuf/releases/download/v21.5/protoc-21.5-linux-x86_64.zip" "$_deps_dir/protoc.zip"
+  fi
+  (cd "$_deps_dir" && unzip -o protoc.zip bin/protoc)
+}
+
+function join_by() {
+  local IFS="$1"
+  shift
+  echo "$*"
+}
+
+clone_all
+download_all
+
+_imports=()
+while read -r _proto; do
+  if [[ "$_proto" == envoy/* ]]; then
+    _imports+=("M${_proto}=github.com/envoyproxy/go-control-plane/$(dirname "$_proto")")
+  elif [[ "$_proto" == xds/* || "$_proto" == udpa/* ]]; then
+    _imports+=("M${_proto}=github.com/cncf/xds/go/$(dirname "$_proto")")
+  fi
+done <"$_deps_dir/github.com/pomerium/pomerium-console/scripts/proto-dependencies.txt"
+_import_paths=$(join_by , "${_imports[@]}")
+
+_proto_files=(
+  activity_log.proto
+  audit_svc.proto
+  databroker_svc.proto
+  policy.proto
+  routes.proto
+  settings.proto
+  namespaces.proto
+  users.proto
+  key_chain.proto
+  console_config.proto
+  report.proto
+  devices.proto
+  external_data_sources.proto
+  events.proto
+  tsdb.proto
+)
+
+(
+  cd "$_root_dir"
+
+  echo "generating pomerium-console protobuf code"
+  protoc \
+    --plugin="protoc-gen-doc=$_scripts_dir/protoc-gen-doc" \
+    --plugin="protoc-gen-go=$_scripts_dir/protoc-gen-go" \
+    --plugin="protoc-gen-mypy=$_scripts_dir/protoc-gen-mypy" \
+    --plugin="protoc-gen-mypy_grpc=$_scripts_dir/protoc-gen-mypy_grpc" \
+    --plugin="protoc-gen-python_grpc=$_scripts_dir/protoc-gen-python_grpc" \
+    -I "$_deps_dir" \
+    -I "$_deps_dir/github.com/cncf/xds" \
+    -I "$_deps_dir/github.com/envoyproxy/data-plane-api" \
+    -I "$_deps_dir/github.com/envoyproxy/protoc-gen-validate" \
+    -I "$_deps_dir/github.com/googleapis/googleapis" \
+    -I "$_deps_dir/github.com/pomerium/pomerium/pkg/grpc" \
+    -I "$_deps_dir/github.com/pomerium/pomerium-console/pkg/pb" \
+    --doc_out=./ \
+    --doc_opt=.template.mustache,API.md \
+    --go_out="$_import_paths,plugins=grpc,paths=source_relative:go/pb" \
+    --mypy_out="python/pb/pomerium/pb" \
+    --mypy_grpc_out="python/pb/pomerium/pb" \
+    --python_grpc_out="python/pb/pomerium/pb" \
+    --python_out="python/pb/pomerium/pb" \
+    "${_proto_files[@]}"
+)
