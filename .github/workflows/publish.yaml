@@ -37,18 +37,3 @@ jobs:
           dst_repo_name: enterprise-client-python
           dst_branch: main
           clean: true
-
-  copy-python:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy generated Python
-        uses: andstor/copycat-action@v3
-        with:
-          personal_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
-          src_path: /python/pb/pomerium/pb/.
-          src_branch: main
-          dst_path: /src/pomerium/pb/.
-          dst_owner: pomerium
-          dst_repo_name: enterprise-client-python
-          dst_branch: main
-          clean: true
