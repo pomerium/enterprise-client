@@ -18,22 +18,3 @@ jobs:
           dst_repo_name: enterprise-client-go
           dst_branch: main
           clean: true
-
-  copy-python-deps:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        dep: [envoy, validate, xds]
-    steps:
-      - name: Copy generated Python
-        uses: andstor/copycat-action@v3
-        with:
-          personal_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
-          src_path: /python/pb/${{ matrix.dep }}/.
-          src_branch: main
-          dst_path: /src/${{ matrix.dep }}/.
-          dst_owner: pomerium
-          dst_repo_name: enterprise-client-python
-          dst_branch: main
-          clean: true
