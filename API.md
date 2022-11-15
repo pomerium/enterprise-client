@@ -203,6 +203,10 @@
   
     - [ListExternalDataSources](#listexternaldatasources)
   
+    - [ListExternalDataSourceRecordTypes](#listexternaldatasourcerecordtypes)
+  
+    - [ListExternalDataSourceRecordFields](#listexternaldatasourcerecordfields)
+  
     - [SetExternalDataSource](#setexternaldatasource)
   
 
@@ -241,7 +245,7 @@
   
     - [GetStatus](#getstatus)
   
-    - [GetLastError](#getlasterror)
+    - [GetLastMetricError](#getlastmetricerror)
   
     - [GetUsageReport](#getusagereport)
   
@@ -650,7 +654,6 @@ routes
 | name | [ string](#string) | none |
 | description | [ string](#string) | none |
 | allowed_users | [repeated string](#string) | none |
-| allowed_groups | [repeated string](#string) | none |
 | allowed_domains | [repeated string](#string) | none |
 | allowed_idp_claims | [map Policy.AllowedIdpClaimsEntry](#policyallowedidpclaimsentry) | none |
 | rego | [repeated string](#string) | custom rego definition in string format |
@@ -1134,6 +1137,10 @@ Settings defines the global pomerium settings
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _logo_url.logo_url | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _favicon_url.favicon_url | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _error_message_first_paragraph.error_message_first_paragraph | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider.identity_provider | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_options.identity_provider_options | [optional google.protobuf.Struct](#googleprotobufstruct) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_refresh_interval.identity_provider_refresh_interval | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_refresh_timeout.identity_provider_refresh_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2823,6 +2830,18 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
     [ListExternalDataSourcesResponse](#listexternaldatasourcesresponse)
 
 
+### ListExternalDataSourceRecordTypes
+
+> **rpc** ListExternalDataSourceRecordTypes([ListExternalDataSourceRecordTypesRequest](#listexternaldatasourcerecordtypesrequest))
+    [ListExternalDataSourceRecordTypesResponse](#listexternaldatasourcerecordtypesresponse)
+
+
+### ListExternalDataSourceRecordFields
+
+> **rpc** ListExternalDataSourceRecordFields([ListExternalDataSourceRecordFieldsRequest](#listexternaldatasourcerecordfieldsrequest))
+    [ListExternalDataSourceRecordFieldsResponse](#listexternaldatasourcerecordfieldsresponse)
+
+
 ### SetExternalDataSource
 
 > **rpc** SetExternalDataSource([SetExternalDataSourceRequest](#setexternaldatasourcerequest))
@@ -2898,6 +2917,45 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | external_data_source | [ ExternalDataSource](#externaldatasource) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListExternalDataSourceRecordFieldsRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| record_type | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListExternalDataSourceRecordFieldsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| record_fields | [repeated string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListExternalDataSourceRecordTypesRequest
+
+
+ <!-- end HasFields -->
+
+
+### ListExternalDataSourceRecordTypesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| record_types | [repeated string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3085,9 +3143,9 @@ returns current metric value
     [GetStatusResponse](#getstatusresponse)
 
 returns current status of scraping targets
-### GetLastError
+### GetLastMetricError
 
-> **rpc** GetLastError([LastErrorRequest](#lasterrorrequest))
+> **rpc** GetLastMetricError([LastErrorRequest](#lasterrorrequest))
     [LastErrorResponse](#lasterrorresponse)
 
 returns last known error for a metric, if available
@@ -3233,7 +3291,8 @@ Requests console metric time series
 
 
 ### LastErrorRequest
-LastErrorRequest will fetch last known error for certain error-related metrics
+LastErrorRequest will fetch last known error for certain error-related
+metrics
 
 
 | Field | Type | Description |
@@ -3287,6 +3346,7 @@ RouteMatcher may be used to query data for multiple routes
 | ----- | ---- | ----------- |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) matcher.route_id | [ string](#string) | route database ID |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) matcher.namespace_id | [ string](#string) | namespace ID |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) matcher.ext_data_source_id | [ string](#string) | external data source database ID |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3629,6 +3689,11 @@ https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manag
 | PROMETHEUS_STORAGE_BYTES | 80 | prometheus metrics |
 | MONTHLY_ACTIVE_USERS_THRESHOLD | 90 | console metrics |
 | MONTHLY_ACTIVE_USERS | 91 | none |
+| HTTP_REQUESTS_COMPLETED | 120 | http requests completed (not necessarily with code=200) |
+| HTTP_REQUESTS_FAILED | 121 | http requests failed due to network or dns error |
+| HTTP_REQUESTS_SUCCESS | 122 | http requests successfully completed (with code=200 or 304 (unchanged)) |
+| HTTP_REQUESTS_ERROR | 123 | http requests either failed or having codes that are not 200 or 304 |
+| HTTP_AVG_RESPONSE_SIZE_BYTES | 124 | http average response body size in bytes |
 
 
 

@@ -17,5 +17,3 @@ Most users will wish to use the language specific [clients](#official-clients).
 ## Generated Stubs
 
 [Go](https://github.com/pomerium/enterprise-client/tree/master/go/pb)
-
-[Python](https://github.com/pomerium/enterprise-client/tree/master/python/pb)
