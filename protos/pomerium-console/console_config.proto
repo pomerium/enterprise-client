@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "key_chain.proto";
+import "namespaces.proto";
+import "policy.proto";
+import "routes.proto";
+import "settings.proto";
+
+message ConsoleConfig {
+  repeated pomerium.dashboard.KeyPair key_pairs = 1;
+  repeated pomerium.dashboard.Namespace namespaces = 2;
+  repeated pomerium.dashboard.Policy policies = 3;
+  repeated pomerium.dashboard.Route routes = 4;
+  pomerium.dashboard.Settings settings = 5;
+}

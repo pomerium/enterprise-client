@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "github.com/pomerium/pomerium/pkg/grpc/databroker/databroker.proto";
+import "google/protobuf/empty.proto";
+
+message ListDataBrokerRecordsRequest { string record_type = 1; }
+message ListDataBrokerRecordsResponse {
+  repeated databroker.Record records = 1;
+}
+message ListDataBrokerRecordTypesResponse { repeated string record_types = 1; }
+
+service DataBroker {
+  rpc ListDataBrokerRecords(ListDataBrokerRecordsRequest)
+      returns (ListDataBrokerRecordsResponse);
+  rpc ListDataBrokerRecordTypes(google.protobuf.Empty)
+      returns (ListDataBrokerRecordTypesResponse);
+}

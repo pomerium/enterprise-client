@@ -120,3 +120,6 @@ _proto_files=(
     --go_out="$_import_paths,plugins=grpc,paths=source_relative:go/pb" \
     "${_proto_files[@]}"
 )
+
+cp -f "$_deps_dir/github.com/pomerium/pomerium/pkg/grpc/"**/*.proto "$_root_dir/protos/pomerium/"
+cp -f "$_deps_dir/github.com/pomerium/pomerium-console/pkg/pb/"*.proto "$_root_dir/protos/pomerium-console/"

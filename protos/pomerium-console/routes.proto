@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "envoy/config/cluster/v3/cluster.proto";
+import "envoy/config/route/v3/route_components.proto";
+import "policy.proto";
+
+message RouteRewriteHeader {
+  string header = 1;
+  oneof matcher { string prefix = 3; }
+  string value = 2;
+}
+
+// Route defines a proxy route's settings and policy associations
+message Route {
+  enum AuthorizationHeaderMode {
+    PASS_THROUGH = 0;
+    ACCESS_TOKEN = 1;
+    ID_TOKEN = 2;
+  }
+
+  string id = 1;
+  string namespace_id = 29;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp modified_at = 3;
+  google.protobuf.Timestamp deleted_at = 4;
+
+  string name = 5;
+
+  // name for prometheus stats, computed on first save
+  string stat_name = 47;
+
+  string from = 6;
+  repeated string to = 7;
+
+  optional string prefix = 8;
+  optional string path = 9;
+  optional string regex = 10;
+
+  optional string prefix_rewrite = 36;
+  optional string regex_rewrite_pattern = 37;
+  optional string regex_rewrite_substitution = 38;
+
+  optional string host_rewrite = 30;
+  optional string host_rewrite_header = 31;
+  optional string host_path_regex_rewrite_pattern = 32;
+  optional string host_path_regex_rewrite_substitution = 33;
+
+  optional int64 regex_priority_order = 45;
+
+  optional google.protobuf.Duration timeout = 13;
+  optional google.protobuf.Duration idle_timeout = 48;
+  optional bool allow_websockets = 14;
+  optional bool allow_spdy = 49;
+
+  optional bool tls_skip_verify = 15;
+  optional string tls_upstream_server_name = 51;
+  optional string tls_downstream_server_name = 52;
+  optional string tls_custom_ca_key_pair_id = 41;
+
+  optional string tls_client_key_pair_id = 42;
+
+  optional string tls_downstream_client_ca_key_pair_id = 43;
+
+  map<string, string> set_request_headers = 23;
+  repeated string remove_request_headers = 24;
+  repeated RouteRewriteHeader rewrite_response_headers = 44;
+  AuthorizationHeaderMode set_authorization_header = 50;
+
+  optional bool preserve_host_header = 25;
+  optional bool pass_identity_headers = 26;
+
+  optional string kubernetes_service_account_token = 27;
+  envoy.config.cluster.v3.Cluster envoy_opts = 39;
+  envoy.config.route.v3.RedirectAction redirect = 40;
+  bool enable_google_cloud_serverless_authentication = 46;
+  bool show_error_details = 53;
+  string originator_id = 54;
+
+  // policies applied to this route
+  repeated string policy_ids = 28;
+
+  // computed properties (may be nil)
+  repeated string policy_names = 34;
+  // computed
+  string namespace_name = 35;
+}
+
+// RouteWithPolicies contains automatically created routes and policies from a
+// LoadRoutesRequest
+message RouteWithPolicies {
+  Route route = 1;
+  repeated Policy policies = 2;
+}
+
+message DeleteRouteRequest { string id = 1; }
+message DeleteRouteResponse {}
+message GetRouteRequest { string id = 1; }
+message GetRouteResponse { Route route = 1; }
+// ListRoutesRequest defines the routes to list
+message ListRoutesRequest {
+  string namespace = 1;
+  // list Routes who's name, from or to contains the query string
+  optional string query = 2;
+  // list Routes starting from an offset in the total list
+  optional int64 offset = 3;
+  // limit the number of Route entries returned
+  optional int64 limit = 4;
+  // sort the Routes by newest, oldest, name or from
+  optional string order_by = 5;
+}
+
+// ListRoutesResponse is the list of routes found for a ListRoutesRequest
+message ListRoutesResponse {
+  repeated Route routes = 1;
+  int64 total_count = 2;
+}
+
+// LoadRoutesRequest creates a route based on a yaml payload
+message LoadRoutesRequest {
+  string name = 1;
+  // OSS pomerium policy block
+  bytes contents = 2;
+}
+
+// LoadRoutesResponse contains the routes and policies crated from a
+// LoadRoutesRequest
+message LoadRoutesResponse { repeated RouteWithPolicies routes = 1; }
+message SetRouteRequest { Route route = 1; }
+message SetRouteResponse { Route route = 1; }
+
+message MoveRoutesRequest {
+  repeated string route_ids = 1;
+  string new_namespace_id = 2;
+}
+message MoveRoutesResponse {}
+
+// RouteService manages proxy route definitions
+service RouteService {
+  // DeleteRoute removes an existing route
+  rpc DeleteRoute(DeleteRouteRequest) returns (DeleteRouteResponse);
+  // GetRoute retrieves an existing route
+  rpc GetRoute(GetRouteRequest) returns (GetRouteResponse);
+  // ListRoutes lists routes based on ListRoutesRequest
+  rpc ListRoutes(ListRoutesRequest) returns (ListRoutesResponse);
+  // LoadRoutes imports routes from an existing OSS configuration
+  rpc LoadRoutes(LoadRoutesRequest) returns (LoadRoutesResponse);
+  // SetRoute creates or, if id is defined, updates an existing route
+  rpc SetRoute(SetRouteRequest) returns (SetRouteResponse);
+  // MoveRoutes takes an array of routeIds and moves them to a new namespace
+  rpc MoveRoutes(MoveRoutesRequest) returns (MoveRoutesResponse);
+}
