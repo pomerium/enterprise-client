@@ -74,6 +74,8 @@
   
     - [SetSettings](#setsettings)
   
+    - [GetBrandingSettings](#getbrandingsettings)
+  
 
 
 
@@ -208,15 +210,6 @@
     - [ListExternalDataSourceRecordFields](#listexternaldatasourcerecordfields)
   
     - [SetExternalDataSource](#setexternaldatasource)
-  
-
-
-
-
-
-  - [Events](#events)
-  
-    - [Sync](#sync)
   
 
 
@@ -910,6 +903,7 @@ Route defines a proxy route's settings and policy associations
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_custom_ca_key_pair_id.tls_custom_ca_key_pair_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_client_key_pair_id.tls_client_key_pair_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_downstream_client_ca_key_pair_id.tls_downstream_client_ca_key_pair_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_upstream_allow_renegotiation.tls_upstream_allow_renegotiation | [optional bool](#bool) | none |
 | set_request_headers | [map Route.SetRequestHeadersEntry](#routesetrequestheadersentry) | none |
 | remove_request_headers | [repeated string](#string) | none |
 | rewrite_response_headers | [repeated RouteRewriteHeader](#routerewriteheader) | none |
@@ -1021,6 +1015,12 @@ GetSettings retrieves the currently applied settings
     [SetSettingsResponse](#setsettingsresponse)
 
 SetSettings applies new global settings
+### GetBrandingSettings
+
+> **rpc** GetBrandingSettings([GetSettingsRequest](#getsettingsrequest))
+    [GetSettingsResponse](#getsettingsresponse)
+
+GetBrandingSettings retrieves just the branding part of the settings
  <!-- end methods -->
  <!-- end services -->
 
@@ -2483,6 +2483,7 @@ DeviceService manages device credentials, enrollments and types
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | enrollment | [ DeviceEnrollment](#deviceenrollment) | none |
+| route_url | [ string](#string) | none |
 | redirect_url | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
@@ -3000,79 +3001,6 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
  <!-- end messages -->
 
 ## Enums
- <!-- end Enums -->
-
-
-# Events
-Events represent configuration changes made to envoy's controle plane by
-Pomerium
-
-## Methods
-### Sync
-
-> **rpc** Sync([SyncRequest](#syncrequest))
-    [SyncResponse](#syncresponse)
-
-Sync sends all current events and then pushes new events as they arrive
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### Event
-Event represents a single envoy DeltaDiscovery event
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| time | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| message | [ string](#string) | none |
-| code | [ int32](#int32) | none |
-| details | [repeated string](#string) | JSON serialized details |
-| config_version | [ uint64](#uint64) | databroker config version |
-| type_url | [ string](#string) | envoy resource type (i.e. listener, cluster) |
-| kind | [ Event.EventKind](#eventeventkind) | envoy event kind |
-| resource_subscribed | [repeated string](#string) | envoy clusters or listeners that were added to the configuration |
-| resource_unsubscribed | [repeated string](#string) | clusters or listeners that were removed from the envoy configuration |
-| instance | [ string](#string) | pomerium instance this event originated from |
-| seq_no | [ uint64](#uint64) | databroker record version during this event |
-| nonce | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SyncRequest
-
-
- <!-- end HasFields -->
-
-
-### SyncResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| event | [ Event](#event) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
-
-
-### Event.EventKind {#eventeventkind}
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| EVENT_KIND_UNDEFINED | 0 | none |
-| EVENT_DISCOVERY_REQUEST_ACK | 1 | envoy_service_discovery_v3.DeltaDiscoveryRequest |
-| EVENT_DISCOVERY_REQUEST_NACK | 2 | none |
-| EVENT_DISCOVERY_RESPONSE | 3 | envoy_service_discovery_v3.DeltaDiscoveryResponse |
-
-
  <!-- end Enums -->
 
 
