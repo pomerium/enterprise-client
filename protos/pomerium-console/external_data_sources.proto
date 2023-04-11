@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+message ExternalDataSource {
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp modified_at = 3;
+  google.protobuf.Timestamp deleted_at = 4;
+
+  // Url is th URL to query for data.
+  string url = 5;
+  // RecordType is how the queried records will be stored in the databroker.
+  string record_type = 6;
+  // ForeignKey is the key referenced for policy evaluation. E.g. user.id.
+  string foreign_key = 7;
+  // Headers are request headers sent to the external data source.
+  map<string, string> headers = 8;
+  // AllowInsecureTls ignores TLS errors from the external data source.
+  optional bool allow_insecure_tls = 9;
+  // ClientTlsKeyId is the key pair used for TLS to the external data source.
+  optional string client_tls_key_id = 10;
+  // PollingMinDelay is the minimum amount of time to wait before polling again.
+  optional google.protobuf.Duration polling_min_delay = 11;
+  // PollingMaxDelay is the maximum amount of time to wait before polling again.
+  optional google.protobuf.Duration polling_max_delay = 12;
+}
+
+message DeleteExternalDataSourceRequest { string id = 1; }
+message GetExternalDataSourceRequest { string id = 1; }
+message GetExternalDataSourceResponse {
+  ExternalDataSource external_data_source = 1;
+}
+message ListExternalDataSourcesRequest {}
+message ListExternalDataSourcesResponse {
+  repeated ExternalDataSource external_data_sources = 1;
+}
+message ListExternalDataSourceRecordTypesRequest {}
+message ListExternalDataSourceRecordTypesResponse {
+  repeated string record_types = 1;
+}
+message ListExternalDataSourceRecordFieldsRequest { string record_type = 1; }
+message ListExternalDataSourceRecordFieldsResponse {
+  repeated string record_fields = 1;
+}
+message SetExternalDataSourceRequest {
+  ExternalDataSource external_data_source = 1;
+}
+message SetExternalDataSourceResponse {
+  ExternalDataSource external_data_source = 1;
+}
+
+service ExternalDataSourceService {
+  rpc DeleteExternalDataSource(DeleteExternalDataSourceRequest)
+      returns (google.protobuf.Empty);
+  rpc GetExternalDataSource(GetExternalDataSourceRequest)
+      returns (GetExternalDataSourceResponse);
+  rpc ListExternalDataSources(ListExternalDataSourcesRequest)
+      returns (ListExternalDataSourcesResponse);
+  rpc ListExternalDataSourceRecordTypes(
+      ListExternalDataSourceRecordTypesRequest)
+      returns (ListExternalDataSourceRecordTypesResponse);
+  rpc ListExternalDataSourceRecordFields(
+      ListExternalDataSourceRecordFieldsRequest)
+      returns (ListExternalDataSourceRecordFieldsResponse);
+  rpc SetExternalDataSource(SetExternalDataSourceRequest)
+      returns (SetExternalDataSourceResponse);
+}

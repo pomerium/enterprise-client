@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "google/protobuf/timestamp.proto";
+
+// Event represents a single envoy DeltaDiscovery event
+message Event {
+  google.protobuf.Timestamp time = 1;
+  string message = 2;
+  int32 code = 3;
+  // JSON serialized details
+  repeated string details = 4;
+  // databroker config version
+  uint64 config_version = 5;
+  // envoy resource type (i.e. listener, cluster)
+  string type_url = 6;
+  enum EventKind {
+    EVENT_KIND_UNDEFINED = 0;
+    // envoy_service_discovery_v3.DeltaDiscoveryRequest
+    EVENT_DISCOVERY_REQUEST_ACK = 1;
+    EVENT_DISCOVERY_REQUEST_NACK = 2;
+    // envoy_service_discovery_v3.DeltaDiscoveryResponse
+    EVENT_DISCOVERY_RESPONSE = 3;
+  }
+  // envoy event kind
+  EventKind kind = 7;
+  // envoy clusters or listeners that were added to the configuration
+  repeated string resource_subscribed = 8;
+  // clusters or listeners that were removed from the envoy configuration
+  repeated string resource_unsubscribed = 9;
+  // pomerium instance this event originated from
+  string instance = 10;
+  // databroker record version during this event
+  uint64 seq_no = 11;
+  string nonce = 12;
+}
+
+message SyncRequest {}
+message SyncResponse { Event event = 1; }
+
+// Events represent configuration changes made to envoy's controle plane by
+// Pomerium
+service Events {
+  // Sync sends all current events and then pushes new events as they arrive
+  rpc Sync(SyncRequest) returns (stream SyncResponse);
+}
