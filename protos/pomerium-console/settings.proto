@@ -99,4 +99,6 @@ service SettingsService {
   rpc GetSettings(GetSettingsRequest) returns (GetSettingsResponse);
   // SetSettings applies new global settings
   rpc SetSettings(SetSettingsRequest) returns (SetSettingsResponse);
+  // GetBrandingSettings retrieves just the branding part of the settings
+  rpc GetBrandingSettings(GetSettingsRequest) returns (GetSettingsResponse);
 }

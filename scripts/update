@@ -6,12 +6,12 @@ _root_dir="$(dirname "$_scripts_dir")"
 _deps_dir="$_root_dir/deps"
 
 readonly _git_deps=(
-  "pomerium/pomerium|v0.20.0"
-  "pomerium/pomerium-console|v0.20.0"
+  "pomerium/pomerium|v0.21.3"
+  "pomerium/pomerium-console|v0.21.2"
   'envoyproxy/protoc-gen-validate|v0.6.1'
-  'envoyproxy/data-plane-api|main'
-  'cncf/xds|main'
-  'googleapis/googleapis|master'
+  'envoyproxy/data-plane-api|2456249b613d8feec6040169ba20292ac0322088'
+  'cncf/xds|32f1caf87195bf3390061c29f18987e51ca56a88'
+  'googleapis/googleapis|b79d42a1bc87174657918b4d47ed740bfc11cf94'
 )
 
 function clone() {
@@ -97,7 +97,6 @@ _proto_files=(
   report.proto
   devices.proto
   external_data_sources.proto
-  events.proto
   tsdb.proto
 )
 

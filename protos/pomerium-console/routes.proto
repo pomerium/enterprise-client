@@ -62,10 +62,10 @@ message Route {
   optional string tls_upstream_server_name = 51;
   optional string tls_downstream_server_name = 52;
   optional string tls_custom_ca_key_pair_id = 41;
-
   optional string tls_client_key_pair_id = 42;
-
   optional string tls_downstream_client_ca_key_pair_id = 43;
+
+  optional bool tls_upstream_allow_renegotiation = 55;
 
   map<string, string> set_request_headers = 23;
   repeated string remove_request_headers = 24;
