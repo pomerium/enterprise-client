@@ -3,42 +3,7 @@ set -euo pipefail
 
 _scripts_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 _root_dir="$(dirname "$_scripts_dir")"
-_deps_dir="$_root_dir/deps"
-
-readonly _git_deps=(
-  "pomerium/pomerium|v0.21.3"
-  "pomerium/pomerium-console|v0.21.2"
-  'envoyproxy/protoc-gen-validate|v0.6.1'
-  'envoyproxy/data-plane-api|2456249b613d8feec6040169ba20292ac0322088'
-  'cncf/xds|32f1caf87195bf3390061c29f18987e51ca56a88'
-  'googleapis/googleapis|b79d42a1bc87174657918b4d47ed740bfc11cf94'
-)
-
-function clone() {
-  local _name="$1"
-  local _tag="$2"
-  local _dst="$3"
-
-  echo "cloning $_name:$_tag to $_dst"
-  if [ ! -d "$_dst" ]; then
-    mkdir -p "$_dst"
-    git clone "git@github.com:$_name" "$_dst"
-  fi
-  (
-    cd "$_dst"
-    git fetch
-    git checkout "$_tag"
-  )
-}
-
-function clone_all() {
-  local _name _tag _dst
-  for _dep in "${_git_deps[@]}"; do
-    IFS=$'|' read -r _name _tag <<<"$_dep"
-    _dst="$_deps_dir/github.com/$_name"
-    clone "$_name" "$_tag" "$_dst"
-  done
-}
+_deps_dir="$_root_dir/protos"
 
 function download() {
   local _url="$1"
@@ -70,18 +35,8 @@ function join_by() {
   echo "$*"
 }
 
-clone_all
+go run github.com/stormcat24/protodep@v0.1.7 up -f
 download_all
-
-_imports=()
-while read -r _proto; do
-  if [[ "$_proto" == envoy/* ]]; then
-    _imports+=("M${_proto}=github.com/envoyproxy/go-control-plane/$(dirname "$_proto")")
-  elif [[ "$_proto" == xds/* || "$_proto" == udpa/* ]]; then
-    _imports+=("M${_proto}=github.com/cncf/xds/go/$(dirname "$_proto")")
-  fi
-done <"$_deps_dir/github.com/pomerium/pomerium-console/scripts/proto-dependencies.txt"
-_import_paths=$(join_by , "${_imports[@]}")
 
 _proto_files=(
   activity_log.proto
@@ -107,18 +62,10 @@ _proto_files=(
   protoc \
     --plugin="protoc-gen-doc=$_scripts_dir/protoc-gen-doc" \
     --plugin="protoc-gen-go=$_scripts_dir/protoc-gen-go" \
-    -I "$_deps_dir" \
-    -I "$_deps_dir/github.com/cncf/xds" \
-    -I "$_deps_dir/github.com/envoyproxy/data-plane-api" \
-    -I "$_deps_dir/github.com/envoyproxy/protoc-gen-validate" \
-    -I "$_deps_dir/github.com/googleapis/googleapis" \
-    -I "$_deps_dir/github.com/pomerium/pomerium/pkg/grpc" \
-    -I "$_deps_dir/github.com/pomerium/pomerium-console/pkg/pb" \
+    -I "$_deps_dir/ext" \
     --doc_out=./ \
     --doc_opt=.template.mustache,API.md \
-    --go_out="$_import_paths,plugins=grpc,paths=source_relative:go/pb" \
-    "${_proto_files[@]}"
+    --go_out="plugins=grpc,paths=source_relative:go/pb" \
+    --proto_path="$_deps_dir/pomerium" \
+    $(find $_deps_dir/pomerium -name '*.proto')
 )
-
-cp -f "$_deps_dir/github.com/pomerium/pomerium/pkg/grpc/"**/*.proto "$_root_dir/protos/pomerium/"
-cp -f "$_deps_dir/github.com/pomerium/pomerium-console/pkg/pb/"*.proto "$_root_dir/protos/pomerium-console/"

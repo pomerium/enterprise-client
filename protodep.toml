@@ -1,0 +1,37 @@
+proto_outdir = "./protos"
+
+[[dependencies]]
+target = "github.com/pomerium/pomerium/pkg/grpc"
+revision = "v0.21.3"
+path = "pomerium"
+protocol = "https"
+
+[[dependencies]]
+target = "github.com/pomerium/pomerium-console/pkg/pb"
+revision = "v0.21.2"
+path = "pomerium"
+
+[[dependencies]]
+target = "github.com/envoyproxy/protoc-gen-validate"
+revision = "v0.6.1"
+path = "ext"
+protocol = "https"
+
+[[dependencies]]
+target = "github.com/envoyproxy/data-plane-api"
+revision = "2456249b613d8feec6040169ba20292ac0322088"
+path = "ext"
+protocol = "https"
+
+[[dependencies]]
+target = "github.com/cncf/xds"
+revision = "32f1caf87195bf3390061c29f18987e51ca56a88"
+path = "ext"
+protocol = "https"
+
+[[dependencies]]
+target = "github.com/googleapis/googleapis"
+revision = "b79d42a1bc87174657918b4d47ed740bfc11cf94"
+path = "ext"
+protocol = "https"
+

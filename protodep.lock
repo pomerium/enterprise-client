@@ -1,0 +1,41 @@
+proto_outdir = "./protos"
+
+[[dependencies]]
+  target = "github.com/pomerium/pomerium/pkg/grpc"
+  subgroup = ""
+  revision = "ba0aae35712bbf757acd11d8da0a4783ed971440"
+  branch = ""
+  path = "pomerium"
+  protocol = ""
+
+[[dependencies]]
+  target = "github.com/envoyproxy/protoc-gen-validate"
+  subgroup = ""
+  revision = "758c5fc3a13b71bdb7e851b0c1ee8f6232e0ce7d"
+  branch = ""
+  path = "ext"
+  protocol = ""
+
+[[dependencies]]
+  target = "github.com/envoyproxy/data-plane-api"
+  subgroup = ""
+  revision = "2456249b613d8feec6040169ba20292ac0322088"
+  branch = ""
+  path = "ext"
+  protocol = ""
+
+[[dependencies]]
+  target = "github.com/cncf/xds"
+  subgroup = ""
+  revision = "32f1caf87195bf3390061c29f18987e51ca56a88"
+  branch = ""
+  path = "ext"
+  protocol = ""
+
+[[dependencies]]
+  target = "github.com/googleapis/googleapis"
+  subgroup = ""
+  revision = "b79d42a1bc87174657918b4d47ed740bfc11cf94"
+  branch = ""
+  path = "ext"
+  protocol = ""
