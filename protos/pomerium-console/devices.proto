@@ -3,6 +3,7 @@ syntax = "proto3";
 package pomerium.dashboard;
 
 option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+option java_package = "com.pomerium.grpc.console"
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";

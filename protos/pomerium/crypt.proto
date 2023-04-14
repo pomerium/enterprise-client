@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package pomerium.crypt;
 option go_package = "github.com/pomerium/pomerium/pkg/grpc/crypt";
+option java_package = "com.pomerium.grpc.crypt"
 
 // A SealedMessage is an encrypted protobuf message.
 message SealedMessage {

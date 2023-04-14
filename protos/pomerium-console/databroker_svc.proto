@@ -3,6 +3,7 @@ syntax = "proto3";
 package pomerium.dashboard;
 
 option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+option java_package = "com.pomerium.grpc.console"
 
 import "databroker/databroker.proto";
 import "google/protobuf/empty.proto";
