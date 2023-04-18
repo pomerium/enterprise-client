@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Copy generated Go
-        uses: andstor/copycat-action@v3
+        uses: andstor/copycat-action@c2b0316e9ab883478a4a7d40a4fcb03d17f281aa
         with:
           personal_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
           src_path: /go/pb/.
