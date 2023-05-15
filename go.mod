@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/envoyproxy/go-control-plane v0.11.0
-	github.com/envoyproxy/protoc-gen-validate v1.0.0
+	github.com/envoyproxy/protoc-gen-validate v1.0.1
 	github.com/golang/protobuf v1.5.3
 	github.com/pomerium/pomerium v0.22.1
 	github.com/pseudomuto/protoc-gen-doc v1.5.1
