@@ -6,7 +6,7 @@ require (
 	github.com/envoyproxy/go-control-plane v0.11.0
 	github.com/envoyproxy/protoc-gen-validate v1.0.1
 	github.com/golang/protobuf v1.5.3
-	github.com/pomerium/pomerium v0.22.1
+	github.com/pomerium/pomerium v0.22.2
 	github.com/pseudomuto/protoc-gen-doc v1.5.1
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
