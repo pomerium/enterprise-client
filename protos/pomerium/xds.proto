@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package pomerium.events;
 option go_package = "github.com/pomerium/pomerium/pkg/grpc/events";
+option java_package = "com.pomerium.grpc.events"
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/any.proto";
