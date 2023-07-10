@@ -9,7 +9,7 @@ require (
 	github.com/pomerium/pomerium v0.22.2
 	github.com/pseudomuto/protoc-gen-doc v1.5.1
 	google.golang.org/grpc v1.56.1
-	google.golang.org/protobuf v1.30.0
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
