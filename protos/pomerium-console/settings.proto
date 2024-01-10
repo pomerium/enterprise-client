@@ -9,17 +9,20 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 // Settings defines the global pomerium settings
+// Next id: 85.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
     bytes key_bytes = 4;
     string key_pair_id = 5;
   }
+  message StringList {
+    repeated string values = 1;
+  }
 
   google.protobuf.Timestamp modified_at = 1;
 
   optional string installation_id = 68;
-  optional bool debug = 2;
   optional string log_level = 3;
   optional string proxy_log_level = 4;
   optional string shared_secret = 5;
@@ -39,6 +42,7 @@ message Settings {
   optional string cookie_domain = 18;
   optional bool cookie_secure = 19;
   optional bool cookie_http_only = 20;
+  optional string cookie_same_site = 80;
   optional google.protobuf.Duration cookie_expire = 21;
   optional string idp_client_id = 22;
   optional string idp_client_secret = 23;
@@ -59,6 +63,7 @@ message Settings {
   optional string metrics_address = 40;
   optional string tracing_provider = 41;
   optional double tracing_sample_rate = 42;
+  optional string tracing_datadog_address = 81;
   optional string tracing_jaeger_collector_endpoint = 43;
   optional string tracing_jaeger_agent_endpoint = 44;
   optional string tracing_zipkin_endpoint = 45;
@@ -86,6 +91,9 @@ message Settings {
   optional google.protobuf.Struct identity_provider_options = 77;
   optional google.protobuf.Duration identity_provider_refresh_interval = 78;
   optional google.protobuf.Duration identity_provider_refresh_timeout = 79;
+  optional StringList access_log_fields = 82;
+  optional StringList authorize_log_fields = 83;
+  optional bool pass_identity_headers = 84;
 }
 
 message GetSettingsRequest {}

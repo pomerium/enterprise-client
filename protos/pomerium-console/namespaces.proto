@@ -28,6 +28,15 @@ message GetNamespaceRequest { string id = 1; }
 message GetNamespaceResponse { Namespace namespace = 1; }
 message ListNamespacesRequest {}
 message ListNamespacesResponse { repeated Namespace namespaces = 1; }
+message ListNamespaceResourcesRequest { repeated string ids = 1; }
+message ListNamespaceResourcesResponse {
+  message Resource {
+    string type = 1;
+    string id = 2;
+    string name = 3;
+  }
+  repeated Resource resources = 1;
+}
 message SetNamespaceRequest { Namespace namespace = 1; }
 message SetNamespaceResponse { Namespace namespace = 1; }
 
@@ -39,6 +48,8 @@ service NamespaceService {
   rpc GetNamespace(GetNamespaceRequest) returns (GetNamespaceResponse);
   // ListNamespaces lists all namespaces
   rpc ListNamespaces(ListNamespacesRequest) returns (ListNamespacesResponse);
+  // ListNamespaceResources lists all the resources for a namespace.
+  rpc ListNamespaceResources(ListNamespaceResourcesRequest) returns (ListNamespaceResourcesResponse);
   // SetNamespace creates a namespace or, if the id is specified, updates an
   // existing namespace
   rpc SetNamespace(SetNamespaceRequest) returns (SetNamespaceResponse);
