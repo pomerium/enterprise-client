@@ -17,6 +17,7 @@ message ActivityLogEntry {
   }
 
   string id = 1;
+  string name = 20;
   // `DELETE` or `SET`
   string activity_type = 2;
   google.protobuf.Timestamp created_at = 3;

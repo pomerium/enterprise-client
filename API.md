@@ -53,6 +53,8 @@
   
     - [DeleteRoute](#deleteroute)
   
+    - [DeleteRoutes](#deleteroutes)
+  
     - [GetRoute](#getroute)
   
     - [ListRoutes](#listroutes)
@@ -60,6 +62,8 @@
     - [LoadRoutes](#loadroutes)
   
     - [SetRoute](#setroute)
+  
+    - [SetRoutes](#setroutes)
   
     - [MoveRoutes](#moveroutes)
   
@@ -103,6 +107,8 @@
     - [GetNamespace](#getnamespace)
   
     - [ListNamespaces](#listnamespaces)
+  
+    - [ListNamespaceResources](#listnamespaceresources)
   
     - [SetNamespace](#setnamespace)
   
@@ -280,6 +286,7 @@ history
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
+| name | [ string](#string) | none |
 | activity_type | [ string](#string) | `DELETE` or `SET` |
 | created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | namespace_id | [ string](#string) | none |
@@ -723,6 +730,12 @@ RouteService manages proxy route definitions
     [DeleteRouteResponse](#deleterouteresponse)
 
 DeleteRoute removes an existing route
+### DeleteRoutes
+
+> **rpc** DeleteRoutes([DeleteRoutesRequest](#deleteroutesrequest))
+    [DeleteRoutesResponse](#deleteroutesresponse)
+
+DeleteRoutes removes existing routes.
 ### GetRoute
 
 > **rpc** GetRoute([GetRouteRequest](#getrouterequest))
@@ -747,6 +760,12 @@ LoadRoutes imports routes from an existing OSS configuration
     [SetRouteResponse](#setrouteresponse)
 
 SetRoute creates or, if id is defined, updates an existing route
+### SetRoutes
+
+> **rpc** SetRoutes([SetRoutesRequest](#setroutesrequest))
+    [SetRoutesResponse](#setroutesresponse)
+
+SetRoutes creates or, if id is defined, updates existing routes
 ### MoveRoutes
 
 > **rpc** MoveRoutes([MoveRoutesRequest](#moveroutesrequest))
@@ -771,6 +790,23 @@ MoveRoutes takes an array of routeIds and moves them to a new namespace
 
 
 ### DeleteRouteResponse
+
+
+ <!-- end HasFields -->
+
+
+### DeleteRoutesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| ids | [repeated string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteRoutesResponse
 
 
  <!-- end HasFields -->
@@ -906,14 +942,16 @@ Route defines a proxy route's settings and policy associations
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_upstream_allow_renegotiation.tls_upstream_allow_renegotiation | [optional bool](#bool) | none |
 | set_request_headers | [map Route.SetRequestHeadersEntry](#routesetrequestheadersentry) | none |
 | remove_request_headers | [repeated string](#string) | none |
+| set_response_headers | [map Route.SetResponseHeadersEntry](#routesetresponseheadersentry) | none |
 | rewrite_response_headers | [repeated RouteRewriteHeader](#routerewriteheader) | none |
-| set_authorization_header | [ Route.AuthorizationHeaderMode](#routeauthorizationheadermode) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _preserve_host_header.preserve_host_header | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token.kubernetes_service_account_token | [optional string](#string) | none |
 | envoy_opts | [ envoy.config.cluster.v3.Cluster](#envoyconfigclusterv3cluster) | none |
 | redirect | [ envoy.config.route.v3.RedirectAction](#envoyconfigroutev3redirectaction) | none |
 | enable_google_cloud_serverless_authentication | [ bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
 | show_error_details | [ bool](#bool) | none |
 | originator_id | [ string](#string) | none |
 | policy_ids | [repeated string](#string) | policies applied to this route |
@@ -924,6 +962,18 @@ Route defines a proxy route's settings and policy associations
 
 
 ### Route.SetRequestHeadersEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Route.SetResponseHeadersEntry
 
 
 
@@ -981,21 +1031,31 @@ LoadRoutesRequest
 | route | [ Route](#route) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
+
+
+### SetRoutesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| routes | [repeated Route](#route) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetRoutesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| routes | [repeated Route](#route) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
  <!-- end messages -->
 
 ## Enums
-
-
-### Route.AuthorizationHeaderMode {#routeauthorizationheadermode}
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| PASS_THROUGH | 0 | none |
-| ACCESS_TOKEN | 1 | none |
-| ID_TOKEN | 2 | none |
-
-
  <!-- end Enums -->
 
 
@@ -1068,13 +1128,13 @@ GetBrandingSettings retrieves just the branding part of the settings
 
 ### Settings
 Settings defines the global pomerium settings
+Next id: 85.
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _installation_id.installation_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _debug.debug | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _log_level.log_level | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _proxy_log_level.proxy_log_level | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _shared_secret.shared_secret | [optional string](#string) | none |
@@ -1094,6 +1154,7 @@ Settings defines the global pomerium settings
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_domain.cookie_domain | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_secure.cookie_secure | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_http_only.cookie_http_only | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_same_site.cookie_same_site | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_expire.cookie_expire | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
@@ -1114,6 +1175,7 @@ Settings defines the global pomerium settings
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _metrics_address.metrics_address | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_provider.tracing_provider | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_sample_rate.tracing_sample_rate | [optional double](#double) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_datadog_address.tracing_datadog_address | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_jaeger_collector_endpoint.tracing_jaeger_collector_endpoint | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_jaeger_agent_endpoint.tracing_jaeger_agent_endpoint | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_zipkin_endpoint.tracing_zipkin_endpoint | [optional string](#string) | none |
@@ -1141,6 +1203,9 @@ Settings defines the global pomerium settings
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_options.identity_provider_options | [optional google.protobuf.Struct](#googleprotobufstruct) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_refresh_interval.identity_provider_refresh_interval | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_refresh_timeout.identity_provider_refresh_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _access_log_fields.access_log_fields | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authorize_log_fields.authorize_log_fields | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1190,6 +1255,17 @@ Settings defines the global pomerium settings
 | ----- | ---- | ----------- |
 | key | [ string](#string) | none |
 | value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Settings.StringList
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| values | [repeated string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
  <!-- end messages -->
@@ -1263,6 +1339,12 @@ GetNamespace retrieves a namespace
     [ListNamespacesResponse](#listnamespacesresponse)
 
 ListNamespaces lists all namespaces
+### ListNamespaceResources
+
+> **rpc** ListNamespaceResources([ListNamespaceResourcesRequest](#listnamespaceresourcesrequest))
+    [ListNamespaceResourcesResponse](#listnamespaceresourcesresponse)
+
+ListNamespaceResources lists all the resources for a namespace.
 ### SetNamespace
 
 > **rpc** SetNamespace([SetNamespaceRequest](#setnamespacerequest))
@@ -1411,6 +1493,41 @@ existing namespace
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | namespace_permissions | [repeated NamespacePermission](#namespacepermission) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespaceResourcesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| ids | [repeated string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespaceResourcesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| resources | [repeated ListNamespaceResourcesResponse.Resource](#listnamespaceresourcesresponseresource) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespaceResourcesResponse.Resource
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| type | [ string](#string) | none |
+| id | [ string](#string) | none |
+| name | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 

@@ -33,13 +33,8 @@ message RouteRedirect {
   optional bool strip_query = 8;
 }
 
+// Next ID: 62.
 message Route {
-  enum AuthorizationHeaderMode {
-    PASS_THROUGH = 0;
-    ACCESS_TOKEN = 1;
-    ID_TOKEN = 2;
-  }
-
   string name = 1;
 
   string from = 2;
@@ -67,6 +62,7 @@ message Route {
   string prefix_rewrite = 29;
   string regex_rewrite_pattern = 30;
   string regex_rewrite_substitution = 31;
+  optional int64 regex_priority_order = 61;
 
   bool cors_allow_preflight = 10;
   bool allow_public_unauthenticated_access = 11;
@@ -96,10 +92,10 @@ message Route {
   repeated string remove_request_headers = 23;
   map<string, string> set_response_headers = 41;
   repeated RouteRewriteHeader rewrite_response_headers = 40;
-  AuthorizationHeaderMode set_authorization_header = 54;
+  // AuthorizationHeaderMode set_authorization_header = 54;
 
   bool preserve_host_header = 24;
-  bool pass_identity_headers = 25;
+  optional bool pass_identity_headers = 25;
 
   string kubernetes_service_account_token = 26;
   bool enable_google_cloud_serverless_authentication = 42;
@@ -132,15 +128,19 @@ message Policy {
   string remediation = 9;
 }
 
+// Next ID: 118.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
     bytes key_bytes = 4;
+    string id = 5;
   }
+  message StringList { repeated string values = 1; }
 
   optional string installation_id = 71;
-  optional bool debug = 2;
   optional string log_level = 3;
+  optional StringList access_log_fields = 114;
+  optional StringList authorize_log_fields = 115;
   optional string proxy_log_level = 4;
   optional string shared_secret = 5;
   optional string services = 6;
@@ -162,6 +162,7 @@ message Settings {
   optional bool cookie_secure = 19;
   optional bool cookie_http_only = 20;
   optional google.protobuf.Duration cookie_expire = 21;
+  optional string cookie_same_site = 113;
   optional string idp_client_id = 22;
   optional string idp_client_secret = 23;
   optional string idp_provider = 24;
@@ -201,8 +202,9 @@ message Settings {
   optional string databroker_storage_type = 101;
   optional string databroker_storage_connection_string = 102;
   optional bool databroker_storage_tls_skip_verify = 106;
-  optional string client_ca = 53;
-  optional string client_crl = 74;
+  optional DownstreamMtlsSettings downstream_mtls = 116;
+  // optional string client_ca = 53;
+  // optional string client_crl = 74;
   optional string google_cloud_serverless_authentication_service_account = 55;
   optional bool use_proxy_protocol = 107;
   optional bool autocert = 56;
@@ -232,4 +234,18 @@ message Settings {
   optional string logo_url = 89;
   optional string favicon_url = 90;
   optional string error_message_first_paragraph = 91;
+  optional bool pass_identity_headers = 117;
+}
+
+message DownstreamMtlsSettings {
+  optional string ca = 1;
+  optional string crl = 2;
+  optional MtlsEnforcementMode enforcement = 3;
+}
+
+enum MtlsEnforcementMode {
+  UNKNOWN = 0;
+  POLICY = 1;
+  POLICY_WITH_DEFAULT_DENY = 2;
+  REJECT_CONNECTION = 3;
 }

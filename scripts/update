@@ -5,13 +5,17 @@ _scripts_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 _root_dir="$(dirname "$_scripts_dir")"
 _deps_dir="$_root_dir/deps"
 
+# 
+# see deps in https://github.com/envoyproxy/envoy/blob/v1.28.0/api/bazel/repository_locations.bzl
+# envoyproxy/data-plane-api is a mirror from envoyproxy/envoy, thus you need manually recover the commit hash
+#
 readonly _git_deps=(
-  "pomerium/pomerium|v0.21.3"
-  "pomerium/pomerium-console|v0.21.2"
-  'envoyproxy/protoc-gen-validate|v0.6.1'
-  'envoyproxy/data-plane-api|2456249b613d8feec6040169ba20292ac0322088'
-  'cncf/xds|32f1caf87195bf3390061c29f18987e51ca56a88'
-  'googleapis/googleapis|b79d42a1bc87174657918b4d47ed740bfc11cf94'
+  "pomerium/pomerium|v0.25.0"
+  "pomerium/pomerium-console|v0.25.0"
+  'envoyproxy/protoc-gen-validate|v1.0.2'
+  'envoyproxy/data-plane-api|d525ab36724d6a94477f7642e02418b50a8c4043'
+  'cncf/xds|e9ce68804cb4e64cab5a52e3c8baf840d4ff87b7'
+  'googleapis/googleapis|114a745b2841a044e98cdbb19358ed29fcf4a5f1'
 )
 
 function clone() {
