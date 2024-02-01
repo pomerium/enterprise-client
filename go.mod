@@ -3,7 +3,7 @@ module github.com/pomerium/enterprise-client
 go 1.21
 
 require (
-	github.com/envoyproxy/go-control-plane v0.11.1
+	github.com/envoyproxy/go-control-plane v0.12.0
 	github.com/envoyproxy/protoc-gen-validate v1.0.4
 	github.com/golang/protobuf v1.5.3
 	github.com/pomerium/pomerium v0.25.0
