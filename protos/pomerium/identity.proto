@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package pomerium.identity;
 option go_package = "github.com/pomerium/pomerium/pkg/grpc/identity";
+option java_package = "com.pomerium.grpc.identity"
 
 import "google/protobuf/struct.proto";
 

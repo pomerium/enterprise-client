@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package pomerium.cli;
 option go_package = "github.com/pomerium/pomerium/pkg/grpc/cli";
+option java_package = "com.pomerium.grpc.cli"
 
 service Config {
   rpc List(Selector) returns (ListRecordsResponse);

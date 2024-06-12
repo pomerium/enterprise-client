@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package registry;
 option go_package = "github.com/pomerium/pomerium/pkg/grpc/registry";
+option java_package = "com.pomerium.grpc.registry"
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
