@@ -33,12 +33,28 @@ message RouteRedirect {
   optional bool strip_query = 8;
 }
 
-// Next ID: 62.
+message RouteDirectResponse {
+  uint32 status = 1;
+  string body = 2;
+}
+
+enum IssuerFormat {
+  // Issuer strings will be the hostname of the route, with no scheme or
+  // trailing slash.
+  IssuerHostOnly = 0;
+  // Issuer strings will be a complete URI, including the scheme and ending
+  // with a trailing slash.
+  IssuerURI = 1;
+}
+
+// Next ID: 66.
 message Route {
   string name = 1;
 
   string from = 2;
   repeated string to = 3;
+  RouteRedirect redirect = 34;
+  RouteDirectResponse response = 62;
 
   // https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/endpoint/v3/endpoint_components.proto#envoy-v3-api-msg-config-endpoint-v3-lbendpoint
   // optional load balancing weights assigned to upstream servers defined in TO
@@ -46,8 +62,6 @@ message Route {
   // if provided, load_balancing_weights[i] >= 1 and len(to) ==
   // len(load_balancing_weights)
   repeated uint32 load_balancing_weights = 37;
-
-  RouteRedirect redirect = 34;
 
   repeated string allowed_users = 4 [ deprecated = true ];
   // repeated string allowed_groups = 5 [ deprecated = true ];
@@ -98,11 +112,14 @@ message Route {
   optional bool pass_identity_headers = 25;
 
   string kubernetes_service_account_token = 26;
+  string kubernetes_service_account_token_file = 64;
   bool enable_google_cloud_serverless_authentication = 42;
+  IssuerFormat jwt_issuer_format = 65;
 
   envoy.config.cluster.v3.Cluster envoy_opts = 36;
 
   repeated Policy policies = 27;
+  repeated PPLPolicy ppl_policies = 63;
   string id = 28;
 
   optional string host_rewrite = 50;
@@ -114,6 +131,8 @@ message Route {
   optional string idp_client_secret = 56;
   bool show_error_details = 59;
 }
+
+message PPLPolicy { bytes raw = 1; }
 
 message Policy {
   string id = 1;
@@ -128,7 +147,7 @@ message Policy {
   string remediation = 9;
 }
 
-// Next ID: 118.
+// Next ID: 119.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
@@ -159,7 +178,7 @@ message Settings {
   optional string cookie_name = 16;
   optional string cookie_secret = 17;
   optional string cookie_domain = 18;
-  optional bool cookie_secure = 19;
+  // optional bool cookie_secure = 19;
   optional bool cookie_http_only = 20;
   optional google.protobuf.Duration cookie_expire = 21;
   optional string cookie_same_site = 113;
@@ -195,13 +214,13 @@ message Settings {
   optional string grpc_address = 46;
   optional bool grpc_insecure = 47;
   optional google.protobuf.Duration grpc_client_timeout = 99;
-  optional bool grpc_client_dns_roundrobin = 100;
+  reserved 100; // grpc_client_dns_roundrobin
   // optional string forward_auth_url = 50;
   repeated string databroker_service_urls = 52;
   optional string databroker_internal_service_url = 84;
   optional string databroker_storage_type = 101;
   optional string databroker_storage_connection_string = 102;
-  optional bool databroker_storage_tls_skip_verify = 106;
+  reserved 106; // databroker_storage_tls_skip_verify
   optional DownstreamMtlsSettings downstream_mtls = 116;
   // optional string client_ca = 53;
   // optional string client_crl = 74;
@@ -222,7 +241,7 @@ message Settings {
   optional string envoy_admin_profile_path = 109;
   optional string envoy_admin_address = 110;
   optional string envoy_bind_config_source_address = 111;
-  optional string envoy_bind_config_freebind = 112;
+  optional bool envoy_bind_config_freebind = 112;
   repeated string programmatic_redirect_domain_whitelist = 68;
   optional envoy.extensions.filters.network.http_connection_manager.v3
       .HttpConnectionManager.CodecType codec_type = 73;
@@ -235,12 +254,15 @@ message Settings {
   optional string favicon_url = 90;
   optional string error_message_first_paragraph = 91;
   optional bool pass_identity_headers = 117;
+  map<string, bool> runtime_flags = 118;
 }
 
 message DownstreamMtlsSettings {
   optional string ca = 1;
   optional string crl = 2;
   optional MtlsEnforcementMode enforcement = 3;
+  repeated SANMatcher match_subject_alt_names = 4;
+  optional uint32 max_verify_depth = 5;
 }
 
 enum MtlsEnforcementMode {
@@ -248,4 +270,17 @@ enum MtlsEnforcementMode {
   POLICY = 1;
   POLICY_WITH_DEFAULT_DENY = 2;
   REJECT_CONNECTION = 3;
+}
+
+message SANMatcher {
+  enum SANType {
+    SAN_TYPE_UNSPECIFIED = 0;
+    EMAIL = 1;
+    DNS = 2;
+    URI = 3;
+    IP_ADDRESS = 4;
+    USER_PRINCIPAL_NAME = 5;
+  }
+  SANType san_type = 1;
+  string pattern = 2;
 }

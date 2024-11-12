@@ -16,6 +16,20 @@ message RouteRewriteHeader {
   string value = 2;
 }
 
+message RouteDirectResponse {
+  uint32 status = 1;
+  string body = 2;
+}
+
+enum IssuerFormat {
+  // Issuer strings will be the hostname of the route, with no scheme or
+  // trailing slash.
+  IssuerHostOnly = 0;
+  // Issuer strings will be a complete URI, including the scheme and ending
+  // with a trailing slash.
+  IssuerURI = 1;
+}
+
 // Route defines a proxy route's settings and policy associations
 message Route {
   string id = 1;
@@ -31,6 +45,8 @@ message Route {
 
   string from = 6;
   repeated string to = 7;
+  envoy.config.route.v3.RedirectAction redirect = 40;
+  RouteDirectResponse response = 59;
 
   optional string prefix = 8;
   optional string path = 9;
@@ -71,9 +87,10 @@ message Route {
   optional bool pass_identity_headers = 26;
 
   optional string kubernetes_service_account_token = 27;
+  optional string kubernetes_service_account_token_file = 60;
   envoy.config.cluster.v3.Cluster envoy_opts = 39;
-  envoy.config.route.v3.RedirectAction redirect = 40;
   bool enable_google_cloud_serverless_authentication = 46;
+  IssuerFormat jwt_issuer_format = 61;
   optional string idp_client_id = 57;
   optional string idp_client_secret = 58;
   bool show_error_details = 53;
@@ -97,7 +114,7 @@ message RouteWithPolicies {
 
 message DeleteRouteRequest { string id = 1; }
 message DeleteRouteResponse {}
-message DeleteRoutesRequest {  repeated string ids = 1; }
+message DeleteRoutesRequest { repeated string ids = 1; }
 message DeleteRoutesResponse {}
 message GetRouteRequest { string id = 1; }
 message GetRouteResponse { Route route = 1; }
