@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package session;
 option go_package = "github.com/pomerium/pomerium/pkg/grpc/session";
+option java_package = "com.pomerium.grpc.session"
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/struct.proto";
