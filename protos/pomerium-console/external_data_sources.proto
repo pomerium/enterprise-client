@@ -14,7 +14,7 @@ message ExternalDataSource {
   google.protobuf.Timestamp modified_at = 3;
   google.protobuf.Timestamp deleted_at = 4;
 
-  // Url is th URL to query for data.
+  // Url is the URL to query for data.
   string url = 5;
   // RecordType is how the queried records will be stored in the databroker.
   string record_type = 6;
