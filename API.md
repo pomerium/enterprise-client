@@ -29,6 +29,8 @@
   
     - [ListDataBrokerRecordTypes](#listdatabrokerrecordtypes)
   
+    - [QueryDataBrokerRecords](#querydatabrokerrecords)
+  
 
 
 
@@ -79,6 +81,8 @@
     - [SetSettings](#setsettings)
   
     - [GetBrandingSettings](#getbrandingsettings)
+  
+    - [GetConsoleSettings](#getconsolesettings)
   
 
 
@@ -494,6 +498,12 @@ ListActivityLogEntriesRequest
     [ListDataBrokerRecordTypesResponse](#listdatabrokerrecordtypesresponse)
 
 
+### QueryDataBrokerRecords
+
+> **rpc** QueryDataBrokerRecords([QueryDataBrokerRecordsRequest](#querydatabrokerrecordsrequest))
+    [QueryDataBrokerRecordsResponse](#querydatabrokerrecordsresponse)
+
+
  <!-- end methods -->
  <!-- end services -->
 
@@ -529,6 +539,44 @@ ListActivityLogEntriesRequest
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | records | [repeated databroker.Record](#databrokerrecord) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### QueryDataBrokerRecordsRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| record_type | [ string](#string) | none |
+| query | [ string](#string) | look up records with any fields that match the query |
+| offset | [ int64](#int64) | list records starting from an offset in the total list |
+| limit | [ int64](#int64) | list records up to a limit |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### QueryDataBrokerRecordsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| records | [repeated Record](#record) | Maps record IDs to record properties |
+| total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Record
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | Record ID |
+| properties | [ google.protobuf.Struct](#googleprotobufstruct) | Record properties |
  <!-- end Fields -->
  <!-- end HasFields -->
  <!-- end messages -->
@@ -918,6 +966,8 @@ Route defines a proxy route's settings and policy associations
 | stat_name | [ string](#string) | name for prometheus stats, computed on first save |
 | from | [ string](#string) | none |
 | to | [repeated string](#string) | none |
+| redirect | [ envoy.config.route.v3.RedirectAction](#envoyconfigroutev3redirectaction) | none |
+| response | [ RouteDirectResponse](#routedirectresponse) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _prefix.prefix | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path.path | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex.regex | [optional string](#string) | none |
@@ -947,9 +997,10 @@ Route defines a proxy route's settings and policy associations
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _preserve_host_header.preserve_host_header | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token.kubernetes_service_account_token | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token_file.kubernetes_service_account_token_file | [optional string](#string) | none |
 | envoy_opts | [ envoy.config.cluster.v3.Cluster](#envoyconfigclusterv3cluster) | none |
-| redirect | [ envoy.config.route.v3.RedirectAction](#envoyconfigroutev3redirectaction) | none |
 | enable_google_cloud_serverless_authentication | [ bool](#bool) | none |
+| jwt_issuer_format | [ IssuerFormat](#issuerformat) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
 | show_error_details | [ bool](#bool) | none |
@@ -981,6 +1032,18 @@ Route defines a proxy route's settings and policy associations
 | ----- | ---- | ----------- |
 | key | [ string](#string) | none |
 | value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### RouteDirectResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| status | [ uint32](#uint32) | none |
+| body | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1056,6 +1119,17 @@ LoadRoutesRequest
  <!-- end messages -->
 
 ## Enums
+
+
+### IssuerFormat {#issuerformat}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| IssuerHostOnly | 0 | Issuer strings will be the hostname of the route, with no scheme or trailing slash. |
+| IssuerURI | 1 | Issuer strings will be a complete URI, including the scheme and ending with a trailing slash. |
+
+
  <!-- end Enums -->
 
 
@@ -1081,10 +1155,45 @@ SetSettings applies new global settings
     [GetSettingsResponse](#getsettingsresponse)
 
 GetBrandingSettings retrieves just the branding part of the settings
+### GetConsoleSettings
+
+> **rpc** GetConsoleSettings([GetConsoleSettingsRequest](#getconsolesettingsrequest))
+    [GetConsoleSettingsResponse](#getconsolesettingsresponse)
+
+GetConsoleSettings retrieves the console settings.
  <!-- end methods -->
  <!-- end services -->
 
 ## Messages
+
+
+### ConsoleSettings
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| enable_feedback_widget | [ bool](#bool) | none |
+| use_changesets | [ bool](#bool) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetConsoleSettingsRequest
+
+
+ <!-- end HasFields -->
+
+
+### GetConsoleSettingsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| console_settings | [ ConsoleSettings](#consolesettings) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
 
 
 ### GetSettingsRequest
@@ -2333,6 +2442,7 @@ KeyPairRecord provides existing Key Pair metadata
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | database record modification time |
 | cert_info | [ CertificateInfo](#certificateinfo) | information about the public certificate |
 | has_private_key | [ bool](#bool) | Key Pair has a private key attached |
+| certificate | [ bytes](#bytes) | public certificate data |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2413,9 +2523,10 @@ Name defines the x509 identity
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
-| format | [ Format](#format) | encoding format of data |
-| certificate | [ bytes](#bytes) | public certificate data |
-| key | [ bytes](#bytes) | private key data |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _name.name | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _format.format | [optional Format](#format) | encoding format of data |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate.certificate | [optional bytes](#bytes) | public certificate data |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _key.key | [optional bytes](#bytes) | private key data |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2993,7 +3104,7 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
 | created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| url | [ string](#string) | Url is th URL to query for data. |
+| url | [ string](#string) | Url is the URL to query for data. |
 | record_type | [ string](#string) | RecordType is how the queried records will be stored in the databroker. |
 | foreign_key | [ string](#string) | ForeignKey is the key referenced for policy evaluation. E.g. user.id. |
 | headers | [map ExternalDataSource.HeadersEntry](#externaldatasourceheadersentry) | Headers are request headers sent to the external data source. |

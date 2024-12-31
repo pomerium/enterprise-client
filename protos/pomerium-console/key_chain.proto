@@ -111,6 +111,8 @@ message KeyPairRecord {
   CertificateInfo cert_info = 7;
   // Key Pair has a private key attached
   bool has_private_key = 8;
+  // public certificate data
+  bytes certificate = 9;
 }
 
 message DeleteKeyPairRequest { string id = 1; }
@@ -157,12 +159,13 @@ message CreateKeyPairResponse { KeyPairRecord key_pair = 1; }
 
 message UpdateKeyPairRequest {
   string id = 1;
+  optional string name = 2;
   // encoding format of data
-  Format format = 3;
+  optional Format format = 3;
   // public certificate data
-  bytes certificate = 4;
+  optional bytes certificate = 4;
   // private key data
-  bytes key = 5;
+  optional bytes key = 5;
 }
 
 message UpdateKeyPairResponse { KeyPairRecord key_pair = 1; }

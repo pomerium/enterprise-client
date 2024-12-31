@@ -8,6 +8,11 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
+message ConsoleSettings {
+  bool enable_feedback_widget = 1;
+  bool use_changesets = 2;
+}
+
 // Settings defines the global pomerium settings
 // Next id: 85.
 message Settings {
@@ -16,9 +21,7 @@ message Settings {
     bytes key_bytes = 4;
     string key_pair_id = 5;
   }
-  message StringList {
-    repeated string values = 1;
-  }
+  message StringList { repeated string values = 1; }
 
   google.protobuf.Timestamp modified_at = 1;
 
@@ -96,6 +99,8 @@ message Settings {
   optional bool pass_identity_headers = 84;
 }
 
+message GetConsoleSettingsRequest {}
+message GetConsoleSettingsResponse { ConsoleSettings console_settings = 1; }
 message GetSettingsRequest {}
 message GetSettingsResponse { Settings settings = 1; }
 message SetSettingsRequest { Settings settings = 1; }
@@ -109,4 +114,7 @@ service SettingsService {
   rpc SetSettings(SetSettingsRequest) returns (SetSettingsResponse);
   // GetBrandingSettings retrieves just the branding part of the settings
   rpc GetBrandingSettings(GetSettingsRequest) returns (GetSettingsResponse);
+  // GetConsoleSettings retrieves the console settings.
+  rpc GetConsoleSettings(GetConsoleSettingsRequest)
+      returns (GetConsoleSettingsResponse);
 }
