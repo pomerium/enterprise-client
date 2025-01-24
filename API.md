@@ -14,15 +14,6 @@
 
 
 
-  - [AuditService](#auditservice)
-  
-    - [DecryptAuditRecords](#decryptauditrecords)
-  
-
-
-
-
-
   - [DataBroker](#databroker)
   
     - [ListDataBrokerRecords](#listdatabrokerrecords)
@@ -440,48 +431,6 @@ ListActivityLogEntriesRequest
  <!-- end Enums -->
 
 
-# AuditService
-
-
-## Methods
-### DecryptAuditRecords
-
-> **rpc** DecryptAuditRecords([DecryptAuditRecordsRequest](#decryptauditrecordsrequest))
-    [DecryptAuditRecordsResponse](#decryptauditrecordsresponse)
-
-
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### DecryptAuditRecordsRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| sealed_audit_records | [repeated pomerium.crypt.SealedMessage](#pomeriumcryptsealedmessage) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DecryptAuditRecordsResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| audit_records | [repeated pomerium.audit.Record](#pomeriumauditrecord) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
- <!-- end Enums -->
-
-
 # DataBroker
 
 
@@ -882,6 +831,18 @@ MoveRoutes takes an array of routeIds and moves them to a new namespace
  <!-- end HasFields -->
 
 
+### JwtGroupsFilter
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| groups | [repeated string](#string) | Explicit list of group IDs/names to include. |
+| infer_from_ppl | [ bool](#bool) | Infer group IDs/names based on PPL groups criteria. (Not yet implemented.) |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### ListRoutesRequest
 ListRoutesRequest defines the routes to list
 
@@ -953,6 +914,7 @@ LoadRoutesRequest
 
 ### Route
 Route defines a proxy route's settings and policy associations
+Next ID: 63
 
 
 | Field | Type | Description |
@@ -1001,6 +963,7 @@ Route defines a proxy route's settings and policy associations
 | envoy_opts | [ envoy.config.cluster.v3.Cluster](#envoyconfigclusterv3cluster) | none |
 | enable_google_cloud_serverless_authentication | [ bool](#bool) | none |
 | jwt_issuer_format | [ IssuerFormat](#issuerformat) | none |
+| jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
 | show_error_details | [ bool](#bool) | none |
@@ -1008,6 +971,8 @@ Route defines a proxy route's settings and policy associations
 | policy_ids | [repeated string](#string) | policies applied to this route |
 | policy_names | [repeated string](#string) | computed properties (may be nil) |
 | namespace_name | [ string](#string) | computed |
+| enforced_policy_ids | [repeated string](#string) | computed |
+| enforced_policy_names | [repeated string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1237,7 +1202,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 85.
+Next id: 88.
 
 
 | Field | Type | Description |
@@ -1280,14 +1245,13 @@ Next id: 85.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority_key_pair_id.certificate_authority_key_pair_id | [optional string](#string) | none |
 | set_response_headers | [map Settings.SetResponseHeadersEntry](#settingssetresponseheadersentry) | none |
 | jwt_claims_headers | [map Settings.JwtClaimsHeadersEntry](#settingsjwtclaimsheadersentry) | none |
+| jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _default_upstream_timeout.default_upstream_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _metrics_address.metrics_address | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_provider.tracing_provider | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_sample_rate.tracing_sample_rate | [optional double](#double) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_datadog_address.tracing_datadog_address | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_jaeger_collector_endpoint.tracing_jaeger_collector_endpoint | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_jaeger_agent_endpoint.tracing_jaeger_agent_endpoint | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_zipkin_endpoint.tracing_zipkin_endpoint | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_otlp_endpoint.tracing_otlp_endpoint | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_otlp_protocol.tracing_otlp_protocol | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_address.grpc_address | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_insecure.grpc_insecure | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cache_service_url.cache_service_url | [optional string](#string) | none |

@@ -30,7 +30,17 @@ enum IssuerFormat {
   IssuerURI = 1;
 }
 
+message JwtGroupsFilter {
+  // Explicit list of group IDs/names to include.
+	repeated string groups = 1;
+
+  // Infer group IDs/names based on PPL groups criteria.
+  // (Not yet implemented.)
+	bool infer_from_ppl = 2;
+}
+
 // Route defines a proxy route's settings and policy associations
+// Next ID: 63
 message Route {
   string id = 1;
   string namespace_id = 29;
@@ -91,6 +101,7 @@ message Route {
   envoy.config.cluster.v3.Cluster envoy_opts = 39;
   bool enable_google_cloud_serverless_authentication = 46;
   IssuerFormat jwt_issuer_format = 61;
+  JwtGroupsFilter jwt_groups_filter = 62;
   optional string idp_client_id = 57;
   optional string idp_client_secret = 58;
   bool show_error_details = 53;
@@ -103,6 +114,9 @@ message Route {
   repeated string policy_names = 34;
   // computed
   string namespace_name = 35;
+  // computed
+  repeated string enforced_policy_ids = 63;
+  repeated string enforced_policy_names = 64;
 }
 
 // RouteWithPolicies contains automatically created routes and policies from a

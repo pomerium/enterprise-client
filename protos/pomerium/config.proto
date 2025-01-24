@@ -8,8 +8,6 @@ import "google/protobuf/struct.proto";
 import "envoy/config/cluster/v3/cluster.proto";
 import "envoy/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto";
 
-import "crypt/crypt.proto";
-
 message Config {
   string name = 1;
   repeated Route routes = 2;
@@ -47,9 +45,11 @@ enum IssuerFormat {
   IssuerURI = 1;
 }
 
-// Next ID: 66.
+// Next ID: 69.
 message Route {
   string name = 1;
+  string description = 67;
+  string logo_url = 68;
 
   string from = 2;
   repeated string to = 3;
@@ -115,6 +115,7 @@ message Route {
   string kubernetes_service_account_token_file = 64;
   bool enable_google_cloud_serverless_authentication = 42;
   IssuerFormat jwt_issuer_format = 65;
+  repeated string jwt_groups_filter = 66;
 
   envoy.config.cluster.v3.Cluster envoy_opts = 36;
 
@@ -142,12 +143,13 @@ message Policy {
   repeated string allowed_domains = 5;
   map<string, google.protobuf.ListValue> allowed_idp_claims = 7;
   repeated string rego = 6;
+  optional string source_ppl = 10;
 
   string explanation = 8;
   string remediation = 9;
 }
 
-// Next ID: 119.
+// Next ID: 122.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
@@ -200,6 +202,7 @@ message Settings {
   map<string, string> set_response_headers = 69;
   // repeated string jwt_claims_headers = 37;
   map<string, string> jwt_claims_headers = 63;
+  repeated string jwt_groups_filter = 119;
   optional google.protobuf.Duration default_upstream_timeout = 39;
   optional string metrics_address = 40;
   optional string metrics_basic_auth = 64;
@@ -207,10 +210,12 @@ message Settings {
   optional string metrics_client_ca = 66;
   optional string tracing_provider = 41;
   optional double tracing_sample_rate = 42;
-  optional string tracing_datadog_address = 98;
-  optional string tracing_jaeger_collector_endpoint = 43;
-  optional string tracing_jaeger_agent_endpoint = 44;
-  optional string tracing_zipkin_endpoint = 45;
+  optional string tracing_otlp_endpoint = 120;
+  optional string tracing_otlp_protocol = 121;
+  reserved 98; // tracing_datadog_address
+  reserved 43; // tracing_jaeger_collector_endpoint
+  reserved 44; // tracing_jaeger_agent_endpoint
+  reserved 45; // tracing_zipkin_endpoint
   optional string grpc_address = 46;
   optional bool grpc_insecure = 47;
   optional google.protobuf.Duration grpc_client_timeout = 99;
@@ -245,7 +250,7 @@ message Settings {
   repeated string programmatic_redirect_domain_whitelist = 68;
   optional envoy.extensions.filters.network.http_connection_manager.v3
       .HttpConnectionManager.CodecType codec_type = 73;
-  optional pomerium.crypt.PublicKeyEncryptionKey audit_key = 72;
+  // optional pomerium.crypt.PublicKeyEncryptionKey audit_key = 72;
   optional string primary_color = 85;
   optional string secondary_color = 86;
   optional string darkmode_primary_color = 87;
