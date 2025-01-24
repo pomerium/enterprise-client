@@ -7,6 +7,7 @@ option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
 import "google/protobuf/duration.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "routes.proto";
 
 message ConsoleSettings {
   bool enable_feedback_widget = 1;
@@ -14,7 +15,7 @@ message ConsoleSettings {
 }
 
 // Settings defines the global pomerium settings
-// Next id: 85.
+// Next id: 88.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
@@ -62,14 +63,13 @@ message Settings {
   optional string certificate_authority_key_pair_id = 64;
   map<string, string> set_response_headers = 67;
   map<string, string> jwt_claims_headers = 66;
+  JwtGroupsFilter jwt_groups_filter = 87;
   optional google.protobuf.Duration default_upstream_timeout = 39;
   optional string metrics_address = 40;
   optional string tracing_provider = 41;
   optional double tracing_sample_rate = 42;
-  optional string tracing_datadog_address = 81;
-  optional string tracing_jaeger_collector_endpoint = 43;
-  optional string tracing_jaeger_agent_endpoint = 44;
-  optional string tracing_zipkin_endpoint = 45;
+  optional string tracing_otlp_endpoint = 85;
+  optional string tracing_otlp_protocol = 86;
   optional string grpc_address = 46;
   optional bool grpc_insecure = 47;
   optional string cache_service_url = 51;
