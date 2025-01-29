@@ -32,15 +32,15 @@ enum IssuerFormat {
 
 message JwtGroupsFilter {
   // Explicit list of group IDs/names to include.
-	repeated string groups = 1;
+  repeated string groups = 1;
 
   // Infer group IDs/names based on PPL groups criteria.
   // (Not yet implemented.)
-	bool infer_from_ppl = 2;
+  optional bool infer_from_ppl = 2;
 }
 
 // Route defines a proxy route's settings and policy associations
-// Next ID: 63
+// Next ID: 67
 message Route {
   string id = 1;
   string namespace_id = 29;
@@ -49,6 +49,8 @@ message Route {
   google.protobuf.Timestamp deleted_at = 4;
 
   string name = 5;
+  optional string description = 65;
+  optional string logo_url = 66;
 
   // name for prometheus stats, computed on first save
   string stat_name = 47;

@@ -838,7 +838,7 @@ MoveRoutes takes an array of routeIds and moves them to a new namespace
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | groups | [repeated string](#string) | Explicit list of group IDs/names to include. |
-| infer_from_ppl | [ bool](#bool) | Infer group IDs/names based on PPL groups criteria. (Not yet implemented.) |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _infer_from_ppl.infer_from_ppl | [optional bool](#bool) | Infer group IDs/names based on PPL groups criteria. (Not yet implemented.) |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -914,7 +914,7 @@ LoadRoutesRequest
 
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 63
+Next ID: 67
 
 
 | Field | Type | Description |
@@ -925,6 +925,8 @@ Next ID: 63
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | name | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _description.description | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _logo_url.logo_url | [optional string](#string) | none |
 | stat_name | [ string](#string) | name for prometheus stats, computed on first save |
 | from | [ string](#string) | none |
 | to | [repeated string](#string) | none |
