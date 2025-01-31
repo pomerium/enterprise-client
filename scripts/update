@@ -109,7 +109,6 @@ _proto_files=(
   echo "generating pomerium-console protobuf code"
   protoc \
     --plugin="protoc-gen-doc=$_scripts_dir/protoc-gen-doc" \
-    --plugin="protoc-gen-go=$_scripts_dir/protoc-gen-go" \
     -I "$_deps_dir" \
     -I "$_deps_dir/github.com/cncf/xds" \
     -I "$_deps_dir/github.com/envoyproxy/data-plane-api" \
@@ -119,7 +118,6 @@ _proto_files=(
     -I "$_deps_dir/github.com/pomerium/pomerium-console/pkg/pb" \
     --doc_out=./ \
     --doc_opt=.template.mustache,API.md \
-    --go_out="$_import_paths,plugins=grpc,paths=source_relative:go/pb" \
     "${_proto_files[@]}"
 )
 
