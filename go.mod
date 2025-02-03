@@ -5,8 +5,8 @@ go 1.23.0
 toolchain go1.23.1
 
 require (
-	github.com/envoyproxy/go-control-plane/envoy v1.32.2
-	github.com/envoyproxy/protoc-gen-validate v1.1.0
+	github.com/envoyproxy/go-control-plane/envoy v1.32.4
+	github.com/envoyproxy/protoc-gen-validate v1.2.1
 	github.com/golang/protobuf v1.5.4
 	github.com/pomerium/pomerium v0.28.0
 	github.com/pseudomuto/protoc-gen-doc v1.5.1
