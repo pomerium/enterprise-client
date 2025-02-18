@@ -7,8 +7,8 @@ option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "envoy/config/cluster/v3/cluster.proto";
-import "envoy/config/route/v3/route_components.proto";
 import "policy.proto";
+import "route_redirect_action.proto";
 
 message RouteRewriteHeader {
   string header = 1;
@@ -30,18 +30,26 @@ enum IssuerFormat {
   IssuerURI = 1;
 }
 
+enum BearerTokenFormat {
+  BEARER_TOKEN_FORMAT_UNKNOWN = 0;
+  BEARER_TOKEN_FORMAT_DEFAULT = 1;
+  BEARER_TOKEN_FORMAT_IDP_ACCESS_TOKEN = 2;
+  BEARER_TOKEN_FORMAT_IDP_IDENTITY_TOKEN = 3;
+}
+
 message JwtGroupsFilter {
   // Explicit list of group IDs/names to include.
   repeated string groups = 1;
 
   // Infer group IDs/names based on PPL groups criteria.
-  // (Not yet implemented.)
   optional bool infer_from_ppl = 2;
 }
 
 // Route defines a proxy route's settings and policy associations
-// Next ID: 67
+// Next ID: 70
 message Route {
+  message StringList { repeated string values = 1; }
+
   string id = 1;
   string namespace_id = 29;
   google.protobuf.Timestamp created_at = 2;
@@ -57,7 +65,8 @@ message Route {
 
   string from = 6;
   repeated string to = 7;
-  envoy.config.route.v3.RedirectAction redirect = 40;
+  reserved 40; // used envoy protobuf for redirect
+  RedirectAction redirect = 67;
   RouteDirectResponse response = 59;
 
   optional string prefix = 8;
@@ -103,6 +112,7 @@ message Route {
   envoy.config.cluster.v3.Cluster envoy_opts = 39;
   bool enable_google_cloud_serverless_authentication = 46;
   IssuerFormat jwt_issuer_format = 61;
+  optional BearerTokenFormat bearer_token_format = 68;
   JwtGroupsFilter jwt_groups_filter = 62;
   optional string idp_client_id = 57;
   optional string idp_client_secret = 58;
@@ -119,6 +129,7 @@ message Route {
   // computed
   repeated string enforced_policy_ids = 63;
   repeated string enforced_policy_names = 64;
+  optional StringList idp_access_token_allowed_audiences = 69;
 }
 
 // RouteWithPolicies contains automatically created routes and policies from a

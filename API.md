@@ -838,7 +838,7 @@ MoveRoutes takes an array of routeIds and moves them to a new namespace
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | groups | [repeated string](#string) | Explicit list of group IDs/names to include. |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _infer_from_ppl.infer_from_ppl | [optional bool](#bool) | Infer group IDs/names based on PPL groups criteria. (Not yet implemented.) |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _infer_from_ppl.infer_from_ppl | [optional bool](#bool) | Infer group IDs/names based on PPL groups criteria. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -914,7 +914,7 @@ LoadRoutesRequest
 
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 67
+Next ID: 70
 
 
 | Field | Type | Description |
@@ -930,7 +930,7 @@ Next ID: 67
 | stat_name | [ string](#string) | name for prometheus stats, computed on first save |
 | from | [ string](#string) | none |
 | to | [repeated string](#string) | none |
-| redirect | [ envoy.config.route.v3.RedirectAction](#envoyconfigroutev3redirectaction) | none |
+| redirect | [ RedirectAction](#redirectaction) | none |
 | response | [ RouteDirectResponse](#routedirectresponse) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _prefix.prefix | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path.path | [optional string](#string) | none |
@@ -965,6 +965,7 @@ Next ID: 67
 | envoy_opts | [ envoy.config.cluster.v3.Cluster](#envoyconfigclusterv3cluster) | none |
 | enable_google_cloud_serverless_authentication | [ bool](#bool) | none |
 | jwt_issuer_format | [ IssuerFormat](#issuerformat) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
 | jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
@@ -975,6 +976,7 @@ Next ID: 67
 | namespace_name | [ string](#string) | computed |
 | enforced_policy_ids | [repeated string](#string) | computed |
 | enforced_policy_names | [repeated string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Route.StringList](#routestringlist) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -999,6 +1001,17 @@ Next ID: 67
 | ----- | ---- | ----------- |
 | key | [ string](#string) | none |
 | value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Route.StringList
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| values | [repeated string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1086,6 +1099,19 @@ LoadRoutesRequest
  <!-- end messages -->
 
 ## Enums
+
+
+### BearerTokenFormat {#bearertokenformat}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| BEARER_TOKEN_FORMAT_UNKNOWN | 0 | none |
+| BEARER_TOKEN_FORMAT_DEFAULT | 1 | none |
+| BEARER_TOKEN_FORMAT_IDP_ACCESS_TOKEN | 2 | none |
+| BEARER_TOKEN_FORMAT_IDP_IDENTITY_TOKEN | 3 | none |
+
+
 
 
 ### IssuerFormat {#issuerformat}
@@ -1204,7 +1230,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 88.
+Next id: 106.
 
 
 | Field | Type | Description |
@@ -1250,10 +1276,21 @@ Next id: 88.
 | jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _default_upstream_timeout.default_upstream_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _metrics_address.metrics_address | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_provider.tracing_provider | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_sample_rate.tracing_sample_rate | [optional double](#double) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_otlp_endpoint.tracing_otlp_endpoint | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tracing_otlp_protocol.tracing_otlp_protocol | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_traces_exporter.otel_traces_exporter | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_traces_sampler_arg.otel_traces_sampler_arg | [optional double](#double) | none |
+| otel_resource_attributes | [repeated string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_log_level.otel_log_level | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_attribute_value_length_limit.otel_attribute_value_length_limit | [optional int32](#int32) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_endpoint.otel_exporter_otlp_endpoint | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_endpoint.otel_exporter_otlp_traces_endpoint | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_protocol.otel_exporter_otlp_protocol | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_protocol.otel_exporter_otlp_traces_protocol | [optional string](#string) | none |
+| otel_exporter_otlp_headers | [repeated string](#string) | none |
+| otel_exporter_otlp_traces_headers | [repeated string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_timeout.otel_exporter_otlp_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_timeout.otel_exporter_otlp_traces_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_bsp_schedule_delay.otel_bsp_schedule_delay | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_bsp_max_export_batch_size.otel_bsp_max_export_batch_size | [optional int32](#int32) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_address.grpc_address | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_insecure.grpc_insecure | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cache_service_url.cache_service_url | [optional string](#string) | none |
@@ -1281,6 +1318,9 @@ Next id: 88.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _access_log_fields.access_log_fields | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authorize_log_fields.authorize_log_fields | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
+| originator_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Settings.StringList](#settingsstringlist) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2319,6 +2359,7 @@ CreateKeyPairRequest defines a Key Pair to create
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
+| originator_id | [ string](#string) | none |
 | name | [ string](#string) | none |
 | namespace_id | [ string](#string) | none |
 | format | [ Format](#format) | encoding format of data |
@@ -2391,6 +2432,7 @@ KeyPair represents raw Key Pair data for internal usage
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | certificate | [ bytes](#bytes) | public certificate data |
 | key | [ bytes](#bytes) | private key data |
+| originator_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2409,6 +2451,7 @@ KeyPairRecord provides existing Key Pair metadata
 | cert_info | [ CertificateInfo](#certificateinfo) | information about the public certificate |
 | has_private_key | [ bool](#bool) | Key Pair has a private key attached |
 | certificate | [ bytes](#bytes) | public certificate data |
+| originator_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2489,6 +2532,7 @@ Name defines the x509 identity
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _name.name | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _format.format | [optional Format](#format) | encoding format of data |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate.certificate | [optional bytes](#bytes) | public certificate data |
@@ -3067,6 +3111,7 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
 | created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |

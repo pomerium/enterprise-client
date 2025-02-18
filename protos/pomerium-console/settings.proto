@@ -15,7 +15,7 @@ message ConsoleSettings {
 }
 
 // Settings defines the global pomerium settings
-// Next id: 88.
+// Next id: 106.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
@@ -66,10 +66,25 @@ message Settings {
   JwtGroupsFilter jwt_groups_filter = 87;
   optional google.protobuf.Duration default_upstream_timeout = 39;
   optional string metrics_address = 40;
-  optional string tracing_provider = 41;
-  optional double tracing_sample_rate = 42;
-  optional string tracing_otlp_endpoint = 85;
-  optional string tracing_otlp_protocol = 86;
+  reserved 41; // tracing_provider
+  reserved 42; // tracing_sample_rate
+  reserved 85; // tracing_otlp_endpoint
+  reserved 86; // tracing_otlp_protocol
+  optional string otel_traces_exporter = 88;
+  optional double otel_traces_sampler_arg = 89;
+  repeated string otel_resource_attributes = 90;
+  optional string otel_log_level = 91;
+  optional int32 otel_attribute_value_length_limit = 92;
+  optional string otel_exporter_otlp_endpoint = 93;
+  optional string otel_exporter_otlp_traces_endpoint = 94;
+  optional string otel_exporter_otlp_protocol = 95;
+  optional string otel_exporter_otlp_traces_protocol = 96;
+  repeated string otel_exporter_otlp_headers = 97;
+  repeated string otel_exporter_otlp_traces_headers = 98;
+  optional google.protobuf.Duration otel_exporter_otlp_timeout = 99;
+  optional google.protobuf.Duration otel_exporter_otlp_traces_timeout = 100;
+  optional google.protobuf.Duration otel_bsp_schedule_delay = 101;
+  optional int32 otel_bsp_max_export_batch_size = 102;
   optional string grpc_address = 46;
   optional bool grpc_insecure = 47;
   optional string cache_service_url = 51;
@@ -97,6 +112,9 @@ message Settings {
   optional StringList access_log_fields = 82;
   optional StringList authorize_log_fields = 83;
   optional bool pass_identity_headers = 84;
+  string originator_id = 103;
+  optional BearerTokenFormat bearer_token_format = 104;
+  optional StringList idp_access_token_allowed_audiences = 105;
 }
 
 message GetConsoleSettingsRequest {}

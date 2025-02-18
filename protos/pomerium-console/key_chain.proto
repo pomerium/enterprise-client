@@ -18,6 +18,7 @@ message KeyPair {
   bytes certificate = 7;
   // private key data
   bytes key = 8;
+  string originator_id = 9;
 }
 
 // PublicKeyAlgorithm is the algorithm of a public key
@@ -113,6 +114,7 @@ message KeyPairRecord {
   bool has_private_key = 8;
   // public certificate data
   bytes certificate = 9;
+  string originator_id = 10;
 }
 
 message DeleteKeyPairRequest { string id = 1; }
@@ -145,6 +147,7 @@ message ListKeyPairsResponse {
 
 // CreateKeyPairRequest defines a Key Pair to create
 message CreateKeyPairRequest {
+  string originator_id = 6;
   string name = 1;
   string namespace_id = 2;
   // encoding format of data
@@ -159,6 +162,7 @@ message CreateKeyPairResponse { KeyPairRecord key_pair = 1; }
 
 message UpdateKeyPairRequest {
   string id = 1;
+  string originator_id = 6;
   optional string name = 2;
   // encoding format of data
   optional Format format = 3;

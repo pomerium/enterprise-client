@@ -10,8 +10,8 @@ _deps_dir="$_root_dir/deps"
 # envoyproxy/data-plane-api is a mirror from envoyproxy/envoy, thus you need manually recover the commit hash
 #
 readonly _git_deps=(
-  "pomerium/pomerium|0bd6d8cc831544e6d63cd9b6a803f668b1b88f16"
-  "pomerium/pomerium-console|369133a94ee08d79f2ed1787b67eea444881a408"
+  "pomerium/pomerium|b9fd926618e2b99d48fd21a79a8065b11e70bf0a"
+  "pomerium/pomerium-console|fc081f7637869e23322765130e3319bf99ecc755"
   'envoyproxy/protoc-gen-validate|v1.0.2'
   'envoyproxy/data-plane-api|d525ab36724d6a94477f7642e02418b50a8c4043'
   'cncf/xds|e9ce68804cb4e64cab5a52e3c8baf840d4ff87b7'
