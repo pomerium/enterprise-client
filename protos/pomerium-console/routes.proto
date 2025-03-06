@@ -6,9 +6,10 @@ option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
-import "envoy/config/cluster/v3/cluster.proto";
 import "policy.proto";
+import "route_health_check.proto";
 import "route_redirect_action.proto";
+import "validate/validate.proto";
 
 message RouteRewriteHeader {
   string header = 1;
@@ -45,8 +46,25 @@ message JwtGroupsFilter {
   optional bool infer_from_ppl = 2;
 }
 
+// LoadBalancingPolicy defines the strategy used to balance requests across
+// upstream endpoints
+enum LoadBalancingPolicy {
+  // Default load balancing if not specified
+  LOAD_BALANCING_POLICY_UNSPECIFIED = 0;
+  // Classic round robin algorithm
+  LOAD_BALANCING_POLICY_ROUND_ROBIN = 1;
+  // Consistent hashing load balancing
+  LOAD_BALANCING_POLICY_MAGLEV = 2;
+  // Random selection of backend
+  LOAD_BALANCING_POLICY_RANDOM = 3;
+  // Consistent hashing on an attribute
+  LOAD_BALANCING_POLICY_RING_HASH = 4;
+  // Select backend with fewest active requests
+  LOAD_BALANCING_POLICY_LEAST_REQUEST = 5;
+}
+
 // Route defines a proxy route's settings and policy associations
-// Next ID: 70
+// Next ID: 72
 message Route {
   message StringList { repeated string values = 1; }
 
@@ -109,7 +127,7 @@ message Route {
 
   optional string kubernetes_service_account_token = 27;
   optional string kubernetes_service_account_token_file = 60;
-  envoy.config.cluster.v3.Cluster envoy_opts = 39;
+  reserved 39;
   bool enable_google_cloud_serverless_authentication = 46;
   IssuerFormat jwt_issuer_format = 61;
   optional BearerTokenFormat bearer_token_format = 68;
@@ -130,6 +148,11 @@ message Route {
   repeated string enforced_policy_ids = 63;
   repeated string enforced_policy_names = 64;
   optional StringList idp_access_token_allowed_audiences = 69;
+
+  optional LoadBalancingPolicy load_balancing_policy = 70
+      [ (validate.rules).enum = {defined_only : true} ];
+
+  repeated HealthCheck health_checks = 71;
 }
 
 // RouteWithPolicies contains automatically created routes and policies from a

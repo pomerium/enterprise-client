@@ -204,162 +204,176 @@
 */
 
 // adapted from :
-// -
-// https://github.com/envoyproxy/envoy/blob/057f7e0223d1985fd3b8f1adb1f6191454d963de/api/envoy/type/matcher/v3/regex.proto
-// -
-// https://github.com/envoyproxy/envoy/blob/057f7e0223d1985fd3b8f1adb1f6191454d963de/api/envoy/config/route/v3/route_components.proto#L1654
+// https://github.com/envoyproxy/envoy/blob/main/api/envoy/config/core/v3/health_check.proto
 
 syntax = "proto3";
 
 package pomerium.dashboard;
 
-import "validate/validate.proto";
-
 option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
 
-message RedirectAction {
-  // Describes how to match a string and then produce a new string using a
-  // regular expression and a substitution string.
-  message RegexMatchAndSubstitute {
-    // The regular expression used to find portions of a string (hereafter
-    // called the "subject string") that should be replaced. When a new string
-    // is produced during the substitution operation, the new string is
-    // initially the same as the subject string, but then all matches in the
-    // subject string are replaced by the substitution string. If replacing all
-    // matches isn't desired, regular expression anchors can be used to ensure a
-    // single match, so as to replace just one occurrence of a pattern. Capture
-    // groups can be used in the pattern to extract portions of the subject
-    // string, and then referenced in the substitution string.
-    string pattern = 1 [ (validate.rules).string = {min_len : 1} ];
+import "types.proto";
+import "google/protobuf/duration.proto";
+import "validate/validate.proto";
 
-    // The string that should be substituted into matching portions of the
-    // subject string during a substitution operation to produce a new string.
-    // Capture groups in the pattern can be referenced in the substitution
-    // string. Note, however, that the syntax for referring to capture groups is
-    // defined by the chosen regular expression engine. Google's `RE2
-    // <https://github.com/google/re2>`_ regular expression engine uses a
-    // backslash followed by the capture group number to denote a numbered
-    // capture group. E.g., ``\1`` refers to capture group 1, and ``\2`` refers
-    // to capture group 2.
-    string substitution = 2 [ (validate.rules).string = {
+// [#next-free-field: 27]
+message HealthCheck {
+  // Describes the encoding of the payload bytes in the payload.
+  message Payload {
+    oneof payload {
+      option (validate.required) = true;
+
+      // Hex encoded payload. E.g., "000000FF".
+      string text = 1 [ (validate.rules).string = {min_len : 1} ];
+
+      // Binary payload.
+      bytes binary = 2;
+    }
+  }
+
+  // [#next-free-field: 15]
+  message HttpHealthCheck {
+    // The value of the host header in the HTTP health check request. If
+    // left empty (default value), the name of the cluster this health check is
+    // associated with will be used. The host header can be customized for a
+    // specific endpoint by setting the :ref:`hostname
+    // <envoy_v3_api_field_config.endpoint.v3.Endpoint.HealthCheckConfig.hostname>`
+    // field.
+    string host = 1
+        [ (validate.rules).string = {well_known_regex : HTTP_HEADER_VALUE} ];
+
+    // Specifies the HTTP path that will be requested during health checking.
+    // For example
+    // ``/healthcheck``.
+    string path = 2 [ (validate.rules).string = {
+      min_len : 1
+      well_known_regex : HTTP_HEADER_VALUE
+    } ];
+
+    // Specifies a list of HTTP response statuses considered healthy. If
+    // provided, replaces default 200-only policy - 200 must be included
+    // explicitly as needed. Ranges follow half-open semantics of
+    // :ref:`Int64Range <envoy_v3_api_msg_type.v3.Int64Range>`. The start and
+    // end of each range are required. Only statuses in the range [100, 600) are
+    // allowed.
+    repeated Int64Range expected_statuses = 9;
+
+    // Specifies a list of HTTP response statuses considered retriable. If
+    // provided, responses in this range will count towards the configured
+    // :ref:`unhealthy_threshold
+    // <envoy_v3_api_field_config.core.v3.HealthCheck.unhealthy_threshold>`, but
+    // will not result in the host being considered immediately unhealthy.
+    // Ranges follow half-open semantics of :ref:`Int64Range
+    // <envoy_v3_api_msg_type.v3.Int64Range>`. The start and end of each range
+    // are required. Only statuses in the range [100, 600) are allowed. The
+    // :ref:`expected_statuses
+    // <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.expected_statuses>`
+    // field takes precedence for any range overlaps with this field i.e. if
+    // status code 200 is both retriable and expected, a 200 response will be
+    // considered a successful health check. By default all responses not in
+    // :ref:`expected_statuses
+    // <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.expected_statuses>`
+    // will result in the host being considered immediately unhealthy i.e. if
+    // status code 200 is expected and there are no configured retriable
+    // statuses, any non-200 response will result in the host being marked
+    // unhealthy.
+    repeated Int64Range retriable_statuses = 12;
+
+    // Use specified application protocol for health checks.
+    CodecClientType codec_client_type = 10
+        [ (validate.rules).enum = {defined_only : true} ];
+  }
+
+  message TcpHealthCheck {
+    // Empty payloads imply a connect-only health check.
+    Payload send = 1;
+
+    // When checking the response, “fuzzy” matching is performed such that each
+    // payload block must be found, and in the order specified, but not
+    // necessarily contiguous.
+    repeated Payload receive = 2;
+  }
+
+  // `grpc.health.v1.Health
+  // <https://github.com/grpc/grpc/blob/master/src/proto/grpc/health/v1/health.proto>`_-based
+  // healthcheck. See `gRPC doc
+  // <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`_ for
+  // details.
+  message GrpcHealthCheck {
+    // An optional service name parameter which will be sent to gRPC service in
+    // `grpc.health.v1.HealthCheckRequest
+    // <https://github.com/grpc/grpc/blob/master/src/proto/grpc/health/v1/health.proto#L20>`_.
+    // message. See `gRPC health-checking overview
+    // <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`_ for
+    // more information.
+    string service_name = 1;
+
+    // The value of the :authority header in the gRPC health check request. If
+    // left empty (default value), the name of the cluster this health check is
+    // associated with will be used. The authority header can be customized for
+    // a specific endpoint by setting the :ref:`hostname
+    // <envoy_v3_api_field_config.endpoint.v3.Endpoint.HealthCheckConfig.hostname>`
+    // field.
+    string authority = 2 [ (validate.rules).string = {
       well_known_regex : HTTP_HEADER_VALUE
       strict : false
     } ];
   }
 
-  enum RedirectResponseCode {
-    // Moved Permanently HTTP Status Code - 301.
-    MOVED_PERMANENTLY = 0;
-
-    // Found HTTP Status Code - 302.
-    FOUND = 1;
-
-    // See Other HTTP Status Code - 303.
-    SEE_OTHER = 2;
-
-    // Temporary Redirect HTTP Status Code - 307.
-    TEMPORARY_REDIRECT = 3;
-
-    // Permanent Redirect HTTP Status Code - 308.
-    PERMANENT_REDIRECT = 4;
-  }
-
-  // When the scheme redirection take place, the following rules apply:
-  //  1. If the source URI scheme is ``http`` and the port is explicitly
-  //     set to ``:80``, the port will be removed after the redirection
-  //  2. If the source URI scheme is ``https`` and the port is explicitly
-  //     set to ``:443``, the port will be removed after the redirection
-  oneof scheme_rewrite_specifier {
-    // The scheme portion of the URL will be swapped with "https".
-    bool https_redirect = 4;
-
-    // The scheme portion of the URL will be swapped with this value.
-    string scheme_redirect = 7;
-  }
-
-  // The host portion of the URL will be swapped with this value.
-  string host_redirect = 1 [ (validate.rules).string = {
-    well_known_regex : HTTP_HEADER_VALUE
-    strict : false
+  // The time to wait for a health check response. If the timeout is reached the
+  // health check attempt will be considered a failure.
+  google.protobuf.Duration timeout = 1 [ (validate.rules).duration = {
+    required : true
+    gt {}
   } ];
 
-  // The port value of the URL will be swapped with this value.
-  uint32 port_redirect = 8;
+  // The interval between health checks.
+  google.protobuf.Duration interval = 2 [ (validate.rules).duration = {
+    required : true
+    gt {}
+  } ];
 
-  oneof path_rewrite_specifier {
-    // The path portion of the URL will be swapped with this value.
-    // Please note that query string in path_redirect will override the
-    // request's query string and will not be stripped.
-    //
-    // For example, let's say we have the following routes:
-    //
-    // - match: { path: "/old-path-1" }
-    //   redirect: { path_redirect: "/new-path-1" }
-    // - match: { path: "/old-path-2" }
-    //   redirect: { path_redirect: "/new-path-2", strip-query: "true" }
-    // - match: { path: "/old-path-3" }
-    //   redirect: { path_redirect: "/new-path-3?foo=1", strip_query: "true" }
-    //
-    // 1. if request uri is "/old-path-1?bar=1", users will be redirected to
-    // "/new-path-1?bar=1"
-    // 2. if request uri is "/old-path-2?bar=1", users will be redirected to
-    // "/new-path-2"
-    // 3. if request uri is "/old-path-3?bar=1", users will be redirected to
-    // "/new-path-3?foo=1"
-    string path_redirect = 2 [ (validate.rules).string = {
-      well_known_regex : HTTP_HEADER_VALUE
-      strict : false
-    } ];
+  // An optional jitter amount in milliseconds. If specified, Envoy will start
+  // health checking after for a random time in ms between 0 and initial_jitter.
+  // This only applies to the first health check.
+  google.protobuf.Duration initial_jitter = 20;
 
-    // Indicates that during redirection, the matched prefix (or path)
-    // should be swapped with this value. This option allows redirect URLs be
-    // dynamically created based on the request.
-    //
-    // .. attention::
-    //
-    //   Pay attention to the use of trailing slashes as mentioned in
-    //   :ref:`RouteAction's prefix_rewrite
-    //   <envoy_v3_api_field_config.route.v3.RouteAction.prefix_rewrite>`.
-    string prefix_rewrite = 5 [ (validate.rules).string = {
-      well_known_regex : HTTP_HEADER_VALUE
-      strict : false
-    } ];
+  // An optional jitter amount in milliseconds. If specified, during every
+  // interval Envoy will add interval_jitter to the wait time.
+  google.protobuf.Duration interval_jitter = 3;
 
-    // Indicates that during redirect, portions of the path that match the
-    // pattern should be rewritten, even allowing the substitution of capture
-    // groups from the pattern into the new path as specified by the rewrite
-    // substitution string. This is useful to allow application paths to be
-    // rewritten in a way that is aware of segments with variable content like
-    // identifiers.
-    //
-    // Examples using Google's `RE2 <https://github.com/google/re2>`_ engine:
-    //
-    // * The path pattern ``^/service/([^/]+)(/.*)$`` paired with a substitution
-    //   string of ``\2/instance/\1`` would transform ``/service/foo/v1/api``
-    //   into ``/v1/api/instance/foo``.
-    //
-    // * The pattern ``one`` paired with a substitution string of ``two`` would
-    //   transform ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/two/zzz``.
-    //
-    // * The pattern ``^(.*?)one(.*)$`` paired with a substitution string of
-    //   ``\1two\2`` would replace only the first occurrence of ``one``,
-    //   transforming path ``/xxx/one/yyy/one/zzz`` into
-    //   ``/xxx/two/yyy/one/zzz``.
-    //
-    // * The pattern ``(?i)/xxx/`` paired with a substitution string of
-    // ``/yyy/``
-    //   would do a case-insensitive match and transform path ``/aaa/XxX/bbb``
-    //   to
-    //   ``/aaa/yyy/bbb``.
-    RegexMatchAndSubstitute regex_rewrite = 9;
+  // An optional jitter amount as a percentage of interval_ms. If specified,
+  // during every interval Envoy will add ``interval_ms`` *
+  // ``interval_jitter_percent`` / 100 to the wait time.
+  //
+  // If interval_jitter_ms and interval_jitter_percent are both set, both of
+  // them will be used to increase the wait time.
+  uint32 interval_jitter_percent = 18;
+
+  // The number of unhealthy health checks required before a host is marked
+  // unhealthy. Note that for ``http`` health checking if a host responds with a
+  // code not in :ref:`expected_statuses
+  // <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.expected_statuses>`
+  // or :ref:`retriable_statuses
+  // <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.retriable_statuses>`,
+  // this threshold is ignored and the host is considered immediately unhealthy.
+  uint32 unhealthy_threshold = 4 [ (validate.rules).uint32 = {gte : 1} ];
+
+  // The number of healthy health checks required before a host is marked
+  // healthy. Note that during startup, only a single successful health check is
+  // required to mark a host healthy.
+  uint32 healthy_threshold = 5 [ (validate.rules).uint32 = {gte : 1} ];
+
+  oneof health_checker {
+    option (validate.required) = true;
+
+    // HTTP health check.
+    HttpHealthCheck http_health_check = 8;
+
+    // TCP health check.
+    TcpHealthCheck tcp_health_check = 9;
+
+    // gRPC health check.
+    GrpcHealthCheck grpc_health_check = 11;
   }
-
-  // The HTTP status code to use in the redirect response. The default response
-  // code is MOVED_PERMANENTLY (301).
-  RedirectResponseCode response_code = 3
-      [ (validate.rules).enum = {defined_only : true} ];
-
-  // Indicates that during redirection, the query portion of the URL will
-  // be removed. Default value is false.
-  bool strip_query = 6;
 }

@@ -14,13 +14,89 @@
 
 
 
-  - [DataBroker](#databroker)
+  - [DeviceService](#deviceservice)
   
-    - [ListDataBrokerRecords](#listdatabrokerrecords)
+    - [ApproveDevice](#approvedevice)
   
-    - [ListDataBrokerRecordTypes](#listdatabrokerrecordtypes)
+    - [CreateDeviceEnrollment](#createdeviceenrollment)
   
-    - [QueryDataBrokerRecords](#querydatabrokerrecords)
+    - [SetDeviceType](#setdevicetype)
+  
+    - [DeleteDevice](#deletedevice)
+  
+    - [DeleteDeviceType](#deletedevicetype)
+  
+    - [ListDevices](#listdevices)
+  
+    - [ListDeviceTypes](#listdevicetypes)
+  
+
+
+
+
+
+  - [ExternalDataSourceService](#externaldatasourceservice)
+  
+    - [DeleteExternalDataSource](#deleteexternaldatasource)
+  
+    - [GetExternalDataSource](#getexternaldatasource)
+  
+    - [ListExternalDataSources](#listexternaldatasources)
+  
+    - [ListExternalDataSourceRecordTypes](#listexternaldatasourcerecordtypes)
+  
+    - [ListExternalDataSourceRecordFields](#listexternaldatasourcerecordfields)
+  
+    - [SetExternalDataSource](#setexternaldatasource)
+  
+
+
+
+
+
+  - [KeyChainService](#keychainservice)
+  
+    - [DeleteKeyPair](#deletekeypair)
+  
+    - [GetKeyPair](#getkeypair)
+  
+    - [ListKeyPairs](#listkeypairs)
+  
+    - [CreateKeyPair](#createkeypair)
+  
+    - [UpdateKeyPair](#updatekeypair)
+  
+
+
+
+
+
+  - [NamespacePermissionService](#namespacepermissionservice)
+  
+    - [DeleteNamespacePermission](#deletenamespacepermission)
+  
+    - [GetNamespacePermission](#getnamespacepermission)
+  
+    - [ListNamespacePermissions](#listnamespacepermissions)
+  
+    - [ListNamespacePermissionGroups](#listnamespacepermissiongroups)
+  
+    - [ListNamespacePermissionUsers](#listnamespacepermissionusers)
+  
+    - [SetNamespacePermission](#setnamespacepermission)
+  
+
+  - [NamespaceService](#namespaceservice)
+  
+    - [DeleteNamespace](#deletenamespace)
+  
+    - [GetNamespace](#getnamespace)
+  
+    - [ListNamespaces](#listnamespaces)
+  
+    - [ListNamespaceResources](#listnamespaceresources)
+  
+    - [SetNamespace](#setnamespace)
   
 
 
@@ -37,6 +113,10 @@
   
     - [SetPolicy](#setpolicy)
   
+
+
+
+
 
 
 
@@ -80,36 +160,6 @@
 
 
 
-  - [NamespacePermissionService](#namespacepermissionservice)
-  
-    - [DeleteNamespacePermission](#deletenamespacepermission)
-  
-    - [GetNamespacePermission](#getnamespacepermission)
-  
-    - [ListNamespacePermissions](#listnamespacepermissions)
-  
-    - [ListNamespacePermissionGroups](#listnamespacepermissiongroups)
-  
-    - [ListNamespacePermissionUsers](#listnamespacepermissionusers)
-  
-    - [SetNamespacePermission](#setnamespacepermission)
-  
-
-  - [NamespaceService](#namespaceservice)
-  
-    - [DeleteNamespace](#deletenamespace)
-  
-    - [GetNamespace](#getnamespace)
-  
-    - [ListNamespaces](#listnamespaces)
-  
-    - [ListNamespaceResources](#listnamespaceresources)
-  
-    - [SetNamespace](#setnamespace)
-  
-
-
-
 
 
   - [PomeriumServiceAccountService](#pomeriumserviceaccountservice)
@@ -143,105 +193,6 @@
     - [QueryGroups](#querygroups)
   
     - [QueryUsers](#queryusers)
-  
-
-
-
-
-
-  - [KeyChainService](#keychainservice)
-  
-    - [DeleteKeyPair](#deletekeypair)
-  
-    - [GetKeyPair](#getkeypair)
-  
-    - [ListKeyPairs](#listkeypairs)
-  
-    - [CreateKeyPair](#createkeypair)
-  
-    - [UpdateKeyPair](#updatekeypair)
-  
-
-
-
-
-
-
-
-  - [Report](#report)
-  
-    - [PolicyReport](#policyreport)
-  
-
-
-
-
-
-  - [DeviceService](#deviceservice)
-  
-    - [ApproveDevice](#approvedevice)
-  
-    - [CreateDeviceEnrollment](#createdeviceenrollment)
-  
-    - [SetDeviceType](#setdevicetype)
-  
-    - [DeleteDevice](#deletedevice)
-  
-    - [DeleteDeviceType](#deletedevicetype)
-  
-    - [ListDevices](#listdevices)
-  
-    - [ListDeviceTypes](#listdevicetypes)
-  
-
-
-
-
-
-  - [ExternalDataSourceService](#externaldatasourceservice)
-  
-    - [DeleteExternalDataSource](#deleteexternaldatasource)
-  
-    - [GetExternalDataSource](#getexternaldatasource)
-  
-    - [ListExternalDataSources](#listexternaldatasources)
-  
-    - [ListExternalDataSourceRecordTypes](#listexternaldatasourcerecordtypes)
-  
-    - [ListExternalDataSourceRecordFields](#listexternaldatasourcerecordfields)
-  
-    - [SetExternalDataSource](#setexternaldatasource)
-  
-
-
-
-
-
-  - [TimeSeriesDB](#timeseriesdb)
-  
-    - [GetRouteMetricChange](#getroutemetricchange)
-  
-    - [GetRouteMetricChangeHistogram](#getroutemetricchangehistogram)
-  
-    - [GetRouteMetricSeries](#getroutemetricseries)
-  
-    - [GetRouteMetricSeriesHistogram](#getroutemetricserieshistogram)
-  
-    - [GetRouteMetricSeriesMulti](#getroutemetricseriesmulti)
-  
-    - [GetUptime](#getuptime)
-  
-    - [GetInstances](#getinstances)
-  
-    - [GetServerMetricSeries](#getservermetricseries)
-  
-    - [GetServerMetric](#getservermetric)
-  
-    - [GetStatus](#getstatus)
-  
-    - [GetLastMetricError](#getlastmetricerror)
-  
-    - [GetUsageReport](#getusagereport)
   
 
 
@@ -423,2225 +374,6 @@ ListActivityLogEntriesRequest
 | ----- | ---- | ----------- |
 | entries | [repeated ActivityLogEntry](#activitylogentry) | Activity Log entries |
 | total_count | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
- <!-- end Enums -->
-
-
-# DataBroker
-
-
-## Methods
-### ListDataBrokerRecords
-
-> **rpc** ListDataBrokerRecords([ListDataBrokerRecordsRequest](#listdatabrokerrecordsrequest))
-    [ListDataBrokerRecordsResponse](#listdatabrokerrecordsresponse)
-
-
-### ListDataBrokerRecordTypes
-
-> **rpc** ListDataBrokerRecordTypes([.google.protobuf.Empty](#googleprotobufempty))
-    [ListDataBrokerRecordTypesResponse](#listdatabrokerrecordtypesresponse)
-
-
-### QueryDataBrokerRecords
-
-> **rpc** QueryDataBrokerRecords([QueryDataBrokerRecordsRequest](#querydatabrokerrecordsrequest))
-    [QueryDataBrokerRecordsResponse](#querydatabrokerrecordsresponse)
-
-
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### ListDataBrokerRecordTypesResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| record_types | [repeated string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListDataBrokerRecordsRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| record_type | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListDataBrokerRecordsResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| records | [repeated databroker.Record](#databrokerrecord) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### QueryDataBrokerRecordsRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| record_type | [ string](#string) | none |
-| query | [ string](#string) | look up records with any fields that match the query |
-| offset | [ int64](#int64) | list records starting from an offset in the total list |
-| limit | [ int64](#int64) | list records up to a limit |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### QueryDataBrokerRecordsResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| records | [repeated Record](#record) | Maps record IDs to record properties |
-| total_count | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Record
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | Record ID |
-| properties | [ google.protobuf.Struct](#googleprotobufstruct) | Record properties |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
- <!-- end Enums -->
-
-
-# PolicyService
-PolicyService manages policy creation and definition
-
-## Methods
-### DeletePolicy
-
-> **rpc** DeletePolicy([DeletePolicyRequest](#deletepolicyrequest))
-    [DeletePolicyResponse](#deletepolicyresponse)
-
-DeletePolicy deletes an existing policy
-### GetPolicy
-
-> **rpc** GetPolicy([GetPolicyRequest](#getpolicyrequest))
-    [GetPolicyResponse](#getpolicyresponse)
-
-GetPolicy retrieves an existing policy
-### ListPolicies
-
-> **rpc** ListPolicies([ListPoliciesRequest](#listpoliciesrequest))
-    [ListPoliciesResponse](#listpoliciesresponse)
-
-ListPolicies lists existing policies based on the ListPoliciesRequest
-parameters
-### SetPolicy
-
-> **rpc** SetPolicy([SetPolicyRequest](#setpolicyrequest))
-    [SetPolicyResponse](#setpolicyresponse)
-
-SetPolicy creates a new policy or, if the id is specified, updates an
-existing policy
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### DeletePolicyRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeletePolicyResponse
-
-
- <!-- end HasFields -->
-
-
-### GetPolicyRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetPolicyResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| policy | [ Policy](#policy) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListPoliciesRequest
-ListPoliciesRequest specifies the policies to list
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | list Policies whose name contains the query string |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Policies starting from an offset in the total list |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of entries returned |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Policies by newest, oldest or name |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListPoliciesResponse
-ListPoliciesResponse is the list of policies found for a ListPoliciesRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| policies | [repeated Policy](#policy) | none |
-| total_count | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Policy
-Policy defines an authorization policy which can be applied to a route or
-routes
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| name | [ string](#string) | none |
-| description | [ string](#string) | none |
-| allowed_users | [repeated string](#string) | none |
-| allowed_domains | [repeated string](#string) | none |
-| allowed_idp_claims | [map Policy.AllowedIdpClaimsEntry](#policyallowedidpclaimsentry) | none |
-| rego | [repeated string](#string) | custom rego definition in string format |
-| ppl | [ string](#string) | PPL definition in JSON format |
-| enforced | [ bool](#bool) | policy is automatically applied to all routes in namespace_id and child namespaces |
-| explanation | [ string](#string) | none |
-| remediation | [ string](#string) | none |
-| originator_id | [ string](#string) | none |
-| routes | [map Policy.RoutesEntry](#policyroutesentry) | computed
-
-route id => name |
-| namespace_name | [ string](#string) | computed |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Policy.AllowedIdpClaimsEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ google.protobuf.ListValue](#googleprotobuflistvalue) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Policy.RoutesEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetPolicyRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| policy | [ Policy](#policy) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetPolicyResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| policy | [ Policy](#policy) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
- <!-- end Enums -->
-
-
-# RouteService
-RouteService manages proxy route definitions
-
-## Methods
-### DeleteRoute
-
-> **rpc** DeleteRoute([DeleteRouteRequest](#deleterouterequest))
-    [DeleteRouteResponse](#deleterouteresponse)
-
-DeleteRoute removes an existing route
-### DeleteRoutes
-
-> **rpc** DeleteRoutes([DeleteRoutesRequest](#deleteroutesrequest))
-    [DeleteRoutesResponse](#deleteroutesresponse)
-
-DeleteRoutes removes existing routes.
-### GetRoute
-
-> **rpc** GetRoute([GetRouteRequest](#getrouterequest))
-    [GetRouteResponse](#getrouteresponse)
-
-GetRoute retrieves an existing route
-### ListRoutes
-
-> **rpc** ListRoutes([ListRoutesRequest](#listroutesrequest))
-    [ListRoutesResponse](#listroutesresponse)
-
-ListRoutes lists routes based on ListRoutesRequest
-### LoadRoutes
-
-> **rpc** LoadRoutes([LoadRoutesRequest](#loadroutesrequest))
-    [LoadRoutesResponse](#loadroutesresponse)
-
-LoadRoutes imports routes from an existing OSS configuration
-### SetRoute
-
-> **rpc** SetRoute([SetRouteRequest](#setrouterequest))
-    [SetRouteResponse](#setrouteresponse)
-
-SetRoute creates or, if id is defined, updates an existing route
-### SetRoutes
-
-> **rpc** SetRoutes([SetRoutesRequest](#setroutesrequest))
-    [SetRoutesResponse](#setroutesresponse)
-
-SetRoutes creates or, if id is defined, updates existing routes
-### MoveRoutes
-
-> **rpc** MoveRoutes([MoveRoutesRequest](#moveroutesrequest))
-    [MoveRoutesResponse](#moveroutesresponse)
-
-MoveRoutes takes an array of routeIds and moves them to a new namespace
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### DeleteRouteRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeleteRouteResponse
-
-
- <!-- end HasFields -->
-
-
-### DeleteRoutesRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| ids | [repeated string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeleteRoutesResponse
-
-
- <!-- end HasFields -->
-
-
-### GetRouteRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetRouteResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| route | [ Route](#route) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### JwtGroupsFilter
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| groups | [repeated string](#string) | Explicit list of group IDs/names to include. |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _infer_from_ppl.infer_from_ppl | [optional bool](#bool) | Infer group IDs/names based on PPL groups criteria. |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListRoutesRequest
-ListRoutesRequest defines the routes to list
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | list Routes who's name, from or to contains the query string |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Routes starting from an offset in the total list |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of Route entries returned |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Routes by newest, oldest, name or from |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListRoutesResponse
-ListRoutesResponse is the list of routes found for a ListRoutesRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| routes | [repeated Route](#route) | none |
-| total_count | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### LoadRoutesRequest
-LoadRoutesRequest creates a route based on a yaml payload
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| name | [ string](#string) | none |
-| contents | [ bytes](#bytes) | OSS pomerium policy block |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### LoadRoutesResponse
-LoadRoutesResponse contains the routes and policies crated from a
-LoadRoutesRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| routes | [repeated RouteWithPolicies](#routewithpolicies) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### MoveRoutesRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| route_ids | [repeated string](#string) | none |
-| new_namespace_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### MoveRoutesResponse
-
-
- <!-- end HasFields -->
-
-
-### Route
-Route defines a proxy route's settings and policy associations
-Next ID: 70
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| name | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _description.description | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _logo_url.logo_url | [optional string](#string) | none |
-| stat_name | [ string](#string) | name for prometheus stats, computed on first save |
-| from | [ string](#string) | none |
-| to | [repeated string](#string) | none |
-| redirect | [ RedirectAction](#redirectaction) | none |
-| response | [ RouteDirectResponse](#routedirectresponse) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _prefix.prefix | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path.path | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex.regex | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _prefix_rewrite.prefix_rewrite | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex_rewrite_pattern.regex_rewrite_pattern | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex_rewrite_substitution.regex_rewrite_substitution | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _host_rewrite.host_rewrite | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _host_rewrite_header.host_rewrite_header | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _host_path_regex_rewrite_pattern.host_path_regex_rewrite_pattern | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _host_path_regex_rewrite_substitution.host_path_regex_rewrite_substitution | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex_priority_order.regex_priority_order | [optional int64](#int64) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout.timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idle_timeout.idle_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_websockets.allow_websockets | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_spdy.allow_spdy | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_skip_verify.tls_skip_verify | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_upstream_server_name.tls_upstream_server_name | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_downstream_server_name.tls_downstream_server_name | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_custom_ca_key_pair_id.tls_custom_ca_key_pair_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_client_key_pair_id.tls_client_key_pair_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_downstream_client_ca_key_pair_id.tls_downstream_client_ca_key_pair_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_upstream_allow_renegotiation.tls_upstream_allow_renegotiation | [optional bool](#bool) | none |
-| set_request_headers | [map Route.SetRequestHeadersEntry](#routesetrequestheadersentry) | none |
-| remove_request_headers | [repeated string](#string) | none |
-| set_response_headers | [map Route.SetResponseHeadersEntry](#routesetresponseheadersentry) | none |
-| rewrite_response_headers | [repeated RouteRewriteHeader](#routerewriteheader) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _preserve_host_header.preserve_host_header | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token.kubernetes_service_account_token | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token_file.kubernetes_service_account_token_file | [optional string](#string) | none |
-| envoy_opts | [ envoy.config.cluster.v3.Cluster](#envoyconfigclusterv3cluster) | none |
-| enable_google_cloud_serverless_authentication | [ bool](#bool) | none |
-| jwt_issuer_format | [ IssuerFormat](#issuerformat) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
-| jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
-| show_error_details | [ bool](#bool) | none |
-| originator_id | [ string](#string) | none |
-| policy_ids | [repeated string](#string) | policies applied to this route |
-| policy_names | [repeated string](#string) | computed properties (may be nil) |
-| namespace_name | [ string](#string) | computed |
-| enforced_policy_ids | [repeated string](#string) | computed |
-| enforced_policy_names | [repeated string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Route.StringList](#routestringlist) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Route.SetRequestHeadersEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Route.SetResponseHeadersEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Route.StringList
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| values | [repeated string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### RouteDirectResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| status | [ uint32](#uint32) | none |
-| body | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### RouteRewriteHeader
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| header | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) matcher.prefix | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### RouteWithPolicies
-RouteWithPolicies contains automatically created routes and policies from a
-LoadRoutesRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| route | [ Route](#route) | none |
-| policies | [repeated Policy](#policy) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetRouteRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| route | [ Route](#route) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetRouteResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| route | [ Route](#route) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetRoutesRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| routes | [repeated Route](#route) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetRoutesResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| routes | [repeated Route](#route) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
-
-
-### BearerTokenFormat {#bearertokenformat}
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| BEARER_TOKEN_FORMAT_UNKNOWN | 0 | none |
-| BEARER_TOKEN_FORMAT_DEFAULT | 1 | none |
-| BEARER_TOKEN_FORMAT_IDP_ACCESS_TOKEN | 2 | none |
-| BEARER_TOKEN_FORMAT_IDP_IDENTITY_TOKEN | 3 | none |
-
-
-
-
-### IssuerFormat {#issuerformat}
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| IssuerHostOnly | 0 | Issuer strings will be the hostname of the route, with no scheme or trailing slash. |
-| IssuerURI | 1 | Issuer strings will be a complete URI, including the scheme and ending with a trailing slash. |
-
-
- <!-- end Enums -->
-
-
-# SettingsService
-SettingsService manages global pomerium settings
-
-## Methods
-### GetSettings
-
-> **rpc** GetSettings([GetSettingsRequest](#getsettingsrequest))
-    [GetSettingsResponse](#getsettingsresponse)
-
-GetSettings retrieves the currently applied settings
-### SetSettings
-
-> **rpc** SetSettings([SetSettingsRequest](#setsettingsrequest))
-    [SetSettingsResponse](#setsettingsresponse)
-
-SetSettings applies new global settings
-### GetBrandingSettings
-
-> **rpc** GetBrandingSettings([GetSettingsRequest](#getsettingsrequest))
-    [GetSettingsResponse](#getsettingsresponse)
-
-GetBrandingSettings retrieves just the branding part of the settings
-### GetConsoleSettings
-
-> **rpc** GetConsoleSettings([GetConsoleSettingsRequest](#getconsolesettingsrequest))
-    [GetConsoleSettingsResponse](#getconsolesettingsresponse)
-
-GetConsoleSettings retrieves the console settings.
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### ConsoleSettings
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| enable_feedback_widget | [ bool](#bool) | none |
-| use_changesets | [ bool](#bool) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetConsoleSettingsRequest
-
-
- <!-- end HasFields -->
-
-
-### GetConsoleSettingsResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| console_settings | [ ConsoleSettings](#consolesettings) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetSettingsRequest
-
-
- <!-- end HasFields -->
-
-
-### GetSettingsResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| settings | [ Settings](#settings) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetSettingsRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| settings | [ Settings](#settings) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetSettingsResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| settings | [ Settings](#settings) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Settings
-Settings defines the global pomerium settings
-Next id: 106.
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _installation_id.installation_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _log_level.log_level | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _proxy_log_level.proxy_log_level | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _shared_secret.shared_secret | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _services.services | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _address.address | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _insecure_server.insecure_server | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_lookup_family.dns_lookup_family | [optional string](#string) | none |
-| certificates | [repeated Settings.Certificate](#settingscertificate) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _http_redirect_addr.http_redirect_addr | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_read.timeout_read | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_write.timeout_write | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_idle.timeout_idle | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authenticate_service_url.authenticate_service_url | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authenticate_callback_path.authenticate_callback_path | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_name.cookie_name | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_secret.cookie_secret | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_domain.cookie_domain | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_secure.cookie_secure | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_http_only.cookie_http_only | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_same_site.cookie_same_site | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_expire.cookie_expire | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_provider.idp_provider | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_provider_url.idp_provider_url | [optional string](#string) | none |
-| scopes | [repeated string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_service_account.idp_service_account | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_refresh_directory_timeout.idp_refresh_directory_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_refresh_directory_interval.idp_refresh_directory_interval | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| request_params | [map Settings.RequestParamsEntry](#settingsrequestparamsentry) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authorize_service_url.authorize_service_url | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority.certificate_authority | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority_file.certificate_authority_file | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority_key_pair_id.certificate_authority_key_pair_id | [optional string](#string) | none |
-| set_response_headers | [map Settings.SetResponseHeadersEntry](#settingssetresponseheadersentry) | none |
-| jwt_claims_headers | [map Settings.JwtClaimsHeadersEntry](#settingsjwtclaimsheadersentry) | none |
-| jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _default_upstream_timeout.default_upstream_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _metrics_address.metrics_address | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_traces_exporter.otel_traces_exporter | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_traces_sampler_arg.otel_traces_sampler_arg | [optional double](#double) | none |
-| otel_resource_attributes | [repeated string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_log_level.otel_log_level | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_attribute_value_length_limit.otel_attribute_value_length_limit | [optional int32](#int32) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_endpoint.otel_exporter_otlp_endpoint | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_endpoint.otel_exporter_otlp_traces_endpoint | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_protocol.otel_exporter_otlp_protocol | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_protocol.otel_exporter_otlp_traces_protocol | [optional string](#string) | none |
-| otel_exporter_otlp_headers | [repeated string](#string) | none |
-| otel_exporter_otlp_traces_headers | [repeated string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_timeout.otel_exporter_otlp_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_timeout.otel_exporter_otlp_traces_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_bsp_schedule_delay.otel_bsp_schedule_delay | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_bsp_max_export_batch_size.otel_bsp_max_export_batch_size | [optional int32](#int32) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_address.grpc_address | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_insecure.grpc_insecure | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cache_service_url.cache_service_url | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _databroker_service_url.databroker_service_url | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _client_ca.client_ca | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _client_ca_file.client_ca_file | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _client_ca_key_pair_id.client_ca_key_pair_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _google_cloud_serverless_authentication_service_account.google_cloud_serverless_authentication_service_account | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert.autocert | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert_use_staging.autocert_use_staging | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert_must_staple.autocert_must_staple | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert_dir.autocert_dir | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _skip_xff_append.skip_xff_append | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _primary_color.primary_color | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _secondary_color.secondary_color | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _darkmode_primary_color.darkmode_primary_color | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _darkmode_secondary_color.darkmode_secondary_color | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _logo_url.logo_url | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _favicon_url.favicon_url | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _error_message_first_paragraph.error_message_first_paragraph | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider.identity_provider | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_options.identity_provider_options | [optional google.protobuf.Struct](#googleprotobufstruct) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_refresh_interval.identity_provider_refresh_interval | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_refresh_timeout.identity_provider_refresh_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _access_log_fields.access_log_fields | [optional Settings.StringList](#settingsstringlist) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authorize_log_fields.authorize_log_fields | [optional Settings.StringList](#settingsstringlist) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
-| originator_id | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Settings.StringList](#settingsstringlist) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Settings.Certificate
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| cert_bytes | [ bytes](#bytes) | none |
-| key_bytes | [ bytes](#bytes) | none |
-| key_pair_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Settings.JwtClaimsHeadersEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Settings.RequestParamsEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Settings.SetResponseHeadersEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Settings.StringList
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| values | [repeated string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
- <!-- end Enums -->
-
-
-# NamespacePermissionService
-NamespacePermissionService manages permissions set on namespaces
-
-## Methods
-### DeleteNamespacePermission
-
-> **rpc** DeleteNamespacePermission([DeleteNamespacePermissionRequest](#deletenamespacepermissionrequest))
-    [DeleteNamespacePermissionResponse](#deletenamespacepermissionresponse)
-
-DeleteNamespacePermission removes an existing permission definition
-### GetNamespacePermission
-
-> **rpc** GetNamespacePermission([GetNamespacePermissionRequest](#getnamespacepermissionrequest))
-    [GetNamespacePermissionResponse](#getnamespacepermissionresponse)
-
-GetNamespacePermission retrieves an existing permission definition
-### ListNamespacePermissions
-
-> **rpc** ListNamespacePermissions([ListNamespacePermissionsRequest](#listnamespacepermissionsrequest))
-    [ListNamespacePermissionsResponse](#listnamespacepermissionsresponse)
-
-ListNamespacePermissions retrieves existing permissions for all namespaces
-### ListNamespacePermissionGroups
-
-> **rpc** ListNamespacePermissionGroups([ListNamespacePermissionGroupsRequest](#listnamespacepermissiongroupsrequest))
-    [ListNamespacePermissionGroupsResponse](#listnamespacepermissiongroupsresponse)
-
-ListNamespacePermissionGroups retrieves existing group based permissions on
-a namespace
-### ListNamespacePermissionUsers
-
-> **rpc** ListNamespacePermissionUsers([ListNamespacePermissionUsersRequest](#listnamespacepermissionusersrequest))
-    [ListNamespacePermissionUsersResponse](#listnamespacepermissionusersresponse)
-
-ListNamespacePermissionUsers retrieves existing user based permissions on a
-namespace
-### SetNamespacePermission
-
-> **rpc** SetNamespacePermission([SetNamespacePermissionRequest](#setnamespacepermissionrequest))
-    [SetNamespacePermissionResponse](#setnamespacepermissionresponse)
-
-SetNamespacePermission set a new permission definition on a namespace
- <!-- end methods -->
-# NamespaceService
-NamespaceService manages namespaces
-
-## Methods
-### DeleteNamespace
-
-> **rpc** DeleteNamespace([DeleteNamespaceRequest](#deletenamespacerequest))
-    [DeleteNamespaceResponse](#deletenamespaceresponse)
-
-DeleteNamespace deletes a namespace
-### GetNamespace
-
-> **rpc** GetNamespace([GetNamespaceRequest](#getnamespacerequest))
-    [GetNamespaceResponse](#getnamespaceresponse)
-
-GetNamespace retrieves a namespace
-### ListNamespaces
-
-> **rpc** ListNamespaces([ListNamespacesRequest](#listnamespacesrequest))
-    [ListNamespacesResponse](#listnamespacesresponse)
-
-ListNamespaces lists all namespaces
-### ListNamespaceResources
-
-> **rpc** ListNamespaceResources([ListNamespaceResourcesRequest](#listnamespaceresourcesrequest))
-    [ListNamespaceResourcesResponse](#listnamespaceresourcesresponse)
-
-ListNamespaceResources lists all the resources for a namespace.
-### SetNamespace
-
-> **rpc** SetNamespace([SetNamespaceRequest](#setnamespacerequest))
-    [SetNamespaceResponse](#setnamespaceresponse)
-
-SetNamespace creates a namespace or, if the id is specified, updates an
-existing namespace
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### DeleteNamespacePermissionRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeleteNamespacePermissionResponse
-
-
- <!-- end HasFields -->
-
-
-### DeleteNamespaceRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeleteNamespaceResponse
-
-
- <!-- end HasFields -->
-
-
-### GetNamespacePermissionRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetNamespacePermissionResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace_permission | [ NamespacePermission](#namespacepermission) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetNamespaceRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetNamespaceResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace | [ Namespace](#namespace) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespacePermissionGroupsRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespacePermissionGroupsResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| groups | [repeated NamespacePermissionGroup](#namespacepermissiongroup) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespacePermissionUsersRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespacePermissionUsersResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| users | [repeated NamespacePermissionUser](#namespacepermissionuser) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespacePermissionsRequest
-
-
- <!-- end HasFields -->
-
-
-### ListNamespacePermissionsResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace_permissions | [repeated NamespacePermission](#namespacepermission) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespaceResourcesRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| ids | [repeated string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespaceResourcesResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| resources | [repeated ListNamespaceResourcesResponse.Resource](#listnamespaceresourcesresponseresource) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespaceResourcesResponse.Resource
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| type | [ string](#string) | none |
-| id | [ string](#string) | none |
-| name | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListNamespacesRequest
-
-
- <!-- end HasFields -->
-
-
-### ListNamespacesResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespaces | [repeated Namespace](#namespace) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Namespace
-Namespace defines a namespace
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| parent_id | [ string](#string) | none |
-| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| name | [ string](#string) | none |
-| originator_id | [ string](#string) | none |
-| route_count | [ int64](#int64) | computed |
-| policy_count | [ int64](#int64) | computed |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### NamespacePermission
-NamespacePermission defines a permission binding to an identity
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| namespace_id | [ string](#string) | none |
-| namespace_name | [ string](#string) | none |
-| subject_type | [ string](#string) | none |
-| subject_id | [ string](#string) | none |
-| role | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### NamespacePermissionGroup
-NamespacePermissionGroup defines a permission binding to a group identity
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| group_id | [ string](#string) | none |
-| group_name | [ string](#string) | none |
-| group_email | [ string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| namespace_name | [ string](#string) | none |
-| role | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### NamespacePermissionUser
-NamespacePermissionUser defines a permission binding to a user identity
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| user_id | [ string](#string) | none |
-| user_name | [ string](#string) | none |
-| user_email | [ string](#string) | none |
-| group_ids | [repeated string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| namespace_name | [ string](#string) | none |
-| role | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetNamespacePermissionRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace_permission | [ NamespacePermission](#namespacepermission) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetNamespacePermissionResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace_permission | [ NamespacePermission](#namespacepermission) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetNamespaceRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace | [ Namespace](#namespace) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetNamespaceResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace | [ Namespace](#namespace) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
- <!-- end Enums -->
-
-
-# PomeriumServiceAccountService
-PomeriumServiceAccountService manages service accounts for use with the
-pomerium console API
-
-## Methods
-### AddPomeriumServiceAccount
-
-> **rpc** AddPomeriumServiceAccount([AddPomeriumServiceAccountRequest](#addpomeriumserviceaccountrequest))
-    [AddPomeriumServiceAccountResponse](#addpomeriumserviceaccountresponse)
-
-AddPomeriumServiceAccount creates a new service account
-### DeletePomeriumServiceAccount
-
-> **rpc** DeletePomeriumServiceAccount([DeletePomeriumServiceAccountRequest](#deletepomeriumserviceaccountrequest))
-    [DeletePomeriumServiceAccountResponse](#deletepomeriumserviceaccountresponse)
-
-DeletePomeriumServiceAccount removes an existing service account
-### GetPomeriumServiceAccount
-
-> **rpc** GetPomeriumServiceAccount([GetPomeriumServiceAccountRequest](#getpomeriumserviceaccountrequest))
-    [GetPomeriumServiceAccountResponse](#getpomeriumserviceaccountresponse)
-
-GetPomeriumServiceAccount retrieves an existing service account
-### ListPomeriumServiceAccounts
-
-> **rpc** ListPomeriumServiceAccounts([ListPomeriumServiceAccountsRequest](#listpomeriumserviceaccountsrequest))
-    [ListPomeriumServiceAccountsResponse](#listpomeriumserviceaccountsresponse)
-
-ListPomeriumServiceAccounts lists service accounts based on the parameters
-in ListPomeriumServiceAccountsRequest
-### SetPomeriumServiceAccount
-
-> **rpc** SetPomeriumServiceAccount([SetPomeriumServiceAccountRequest](#setpomeriumserviceaccountrequest))
-    [SetPomeriumServiceAccountResponse](#setpomeriumserviceaccountresponse)
-
-
- <!-- end methods -->
-# PomeriumSessionService
-PomeriumSessionService manages user sessions inside the databroker
-
-## Methods
-### DeletePomeriumSession
-
-> **rpc** DeletePomeriumSession([DeletePomeriumSessionRequest](#deletepomeriumsessionrequest))
-    [DeletePomeriumSessionResponse](#deletepomeriumsessionresponse)
-
-DeletePomeriumSession clears an existing user session
-### GetPomeriumSession
-
-> **rpc** GetPomeriumSession([GetPomeriumSessionRequest](#getpomeriumsessionrequest))
-    [GetPomeriumSessionResponse](#getpomeriumsessionresponse)
-
-GetPomeriumSession retrieves information about an existing user session
-### Impersonate
-
-> **rpc** Impersonate([ImpersonateRequest](#impersonaterequest))
-    [ImpersonateResponse](#impersonateresponse)
-
-Impersonate updates an existing session to impersonate another identity
-### ListPomeriumSessions
-
-> **rpc** ListPomeriumSessions([ListPomeriumSessionsRequest](#listpomeriumsessionsrequest))
-    [ListPomeriumSessionsResponse](#listpomeriumsessionsresponse)
-
-ListPomeriumSessions lists existing sessions based on the parameters of
-ListPomeriumSessionsRequest
- <!-- end methods -->
-# UserService
-UserService supports querying directory data from the databroker
-
-## Methods
-### GetUserInfo
-
-> **rpc** GetUserInfo([GetUserInfoRequest](#getuserinforequest))
-    [GetUserInfoResponse](#getuserinforesponse)
-
-GetUserInfo retrieves identity information and permission mappings for a
-user
-### QueryGroups
-
-> **rpc** QueryGroups([QueryGroupsRequest](#querygroupsrequest))
-    [QueryGroupsResponse](#querygroupsresponse)
-
-QueryGroups retrieves groups from the databroker based on
-QueryGroupsRequest parameters
-### QueryUsers
-
-> **rpc** QueryUsers([QueryUsersRequest](#queryusersrequest))
-    [QueryUsersResponse](#queryusersresponse)
-
-QueryUsers retrieves users from the databroker based on QueryUsersRequest
-parameters
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### AddPomeriumServiceAccountRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### AddPomeriumServiceAccountResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
-| JWT | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeletePomeriumServiceAccountRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeletePomeriumServiceAccountResponse
-
-
- <!-- end HasFields -->
-
-
-### DeletePomeriumSessionRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeletePomeriumSessionResponse
-
-
- <!-- end HasFields -->
-
-
-### GetPomeriumServiceAccountRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetPomeriumServiceAccountResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetPomeriumSessionRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetPomeriumSessionResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| session | [ PomeriumSession](#pomeriumsession) | none |
-| associated_sessions | [repeated PomeriumSession](#pomeriumsession) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetUserInfoRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_id.user_id | [optional string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetUserInfoResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| user_info | [ UserInfo](#userinfo) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GroupInfo
-GroupInfo defines a directory group in the databroker
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| name | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ImpersonateRequest
-ImpersonateRequest defines the identity information to impersonate
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| session_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ImpersonateResponse
-
-
- <!-- end HasFields -->
-
-
-### ListPomeriumServiceAccountsRequest
-ListPomeriumServiceAccountsRequest specifies the service accounts to list
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListPomeriumServiceAccountsResponse
-ListPomeriumServiceAccountsResponse is the list of service accounts found for
-a ListPomeriumServiceAccountsRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| service_accounts | [repeated PomeriumServiceAccount](#pomeriumserviceaccount) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListPomeriumSessionsRequest
-ListPomeriumSessionsRequest specifies the sessions to list
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | list Sessions with any fields that contain the query string |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Sessions starting from an offset in the total list |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of Session entries returned |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Sessions by newest, oldest or name |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_id.user_id | [optional string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListPomeriumSessionsResponse
-ListPomeriumSessionsResponse is the sessions found for a
-ListPomeriumSessionsRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| sessions | [repeated PomeriumSession](#pomeriumsession) | none |
-| total_count | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### PomeriumServiceAccount
-PomeriumServiceAccount defines the identity properties of a service account
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _namespace_id.namespace_id | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _description.description | [optional string](#string) | none |
-| user_id | [ string](#string) | none |
-| accessed_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| issued_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### PomeriumSession
-PomeriumSession defines a user session from the databroker
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| user | [ PomeriumSession.User](#pomeriumsessionuser) | none |
-| groups | [repeated PomeriumSession.Group](#pomeriumsessiongroup) | none |
-| issuer | [ string](#string) | none |
-| accessed_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| issued_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| audience | [repeated string](#string) | none |
-| claims | [map PomeriumSession.ClaimsEntry](#pomeriumsessionclaimsentry) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### PomeriumSession.ClaimsEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ google.protobuf.ListValue](#googleprotobuflistvalue) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### PomeriumSession.Group
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| name | [ string](#string) | none |
-| email | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### PomeriumSession.User
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| name | [ string](#string) | none |
-| email | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### QueryGroupsRequest
-QueryGroupsRequest defines the groups to retrieve
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| query | [ string](#string) | none |
-| offset | [ int64](#int64) | none |
-| limit | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### QueryGroupsResponse
-QueryGroupsResponse is the list of groups retrieved from a QueryGroupsRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| groups | [repeated GroupInfo](#groupinfo) | none |
-| total_count | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### QueryUsersRequest
-QueryUsersRequest defines the users to retrieve
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| query | [ string](#string) | list Users with any fields that match the query |
-| offset | [ int64](#int64) | list Users starting from an offset in the total list |
-| limit | [ int64](#int64) | limit the number of User entries returned |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### QueryUsersResponse
-QueryUsersResponse is the list of users retrieved from a QueryUsersRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| users | [repeated UserInfo](#userinfo) | none |
-| total_count | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### RecoveryToken
-RecoveryToken is a recovery account for logging into the console without a
-functioning Pomerium proxy
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| namespace | [ string](#string) | none |
-| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| public_key | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetPomeriumServiceAccountRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### SetPomeriumServiceAccountResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### UserInfo
-UserInfo defines the metadata for a directory user in the databroker
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| name | [ string](#string) | none |
-| email | [ string](#string) | none |
-| groups | [repeated string](#string) | none |
-| namespace_roles | [map UserInfo.NamespaceRolesEntry](#userinfonamespacerolesentry) | none |
-| picture_url | [ string](#string) | none |
-| is_impersonated | [ bool](#bool) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### UserInfo.NamespaceRolesEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
- <!-- end Enums -->
-
-
-# KeyChainService
-KeyChainService manages and store TLS Certificates, Keys and CAs, known as
-Key Pairs
-
-## Methods
-### DeleteKeyPair
-
-> **rpc** DeleteKeyPair([DeleteKeyPairRequest](#deletekeypairrequest))
-    [DeleteKeyPairResponse](#deletekeypairresponse)
-
-DeleteKeyPair remove an x509 key pair based on a DeleteKeyPairRequest
-### GetKeyPair
-
-> **rpc** GetKeyPair([GetKeyPairRequest](#getkeypairrequest))
-    [GetKeyPairResponse](#getkeypairresponse)
-
-GetKeyPair retrieves an existing key pair
-### ListKeyPairs
-
-> **rpc** ListKeyPairs([ListKeyPairsRequest](#listkeypairsrequest))
-    [ListKeyPairsResponse](#listkeypairsresponse)
-
-ListKeyPairs lists existing key pairs based on parameters in
-ListKeyPairsRequest
-### CreateKeyPair
-
-> **rpc** CreateKeyPair([CreateKeyPairRequest](#createkeypairrequest))
-    [CreateKeyPairResponse](#createkeypairresponse)
-
-CreateKeyPair creates a new key pair
-### UpdateKeyPair
-
-> **rpc** UpdateKeyPair([UpdateKeyPairRequest](#updatekeypairrequest))
-    [UpdateKeyPairResponse](#updatekeypairresponse)
-
-CreateKeyPair creates a new key pair
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### CertificateInfo
-CertificateInfo is a .proto reflection of
-https://golang.org/pkg/crypto/x509/#Certificate
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| version | [ int64](#int64) | none |
-| serial | [ string](#string) | none |
-| issuer | [ Name](#name) | none |
-| subject | [ Name](#name) | none |
-| not_before | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| not_after | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| key_usage | [ KeyUsage](#keyusage) | none |
-| dns_names | [repeated string](#string) | none |
-| email_addresses | [repeated string](#string) | none |
-| ip_addresses | [repeated string](#string) | none |
-| uris | [repeated string](#string) | none |
-| permitted_dns_domains_critical | [ bool](#bool) | none |
-| permitted_dns_domains | [repeated string](#string) | none |
-| excluded_dns_domains | [repeated string](#string) | none |
-| permitted_ip_ranges | [repeated string](#string) | none |
-| excluded_ip_ranges | [repeated string](#string) | none |
-| permitted_email_addresses | [repeated string](#string) | none |
-| excluded_email_addresses | [repeated string](#string) | none |
-| permitted_uri_domains | [repeated string](#string) | none |
-| excluded_uri_domains | [repeated string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### CreateKeyPairRequest
-CreateKeyPairRequest defines a Key Pair to create
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| originator_id | [ string](#string) | none |
-| name | [ string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| format | [ Format](#format) | encoding format of data |
-| certificate | [ bytes](#bytes) | public certificate data |
-| key | [ bytes](#bytes) | private key data |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### CreateKeyPairResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key_pair | [ KeyPairRecord](#keypairrecord) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeleteKeyPairRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### DeleteKeyPairResponse
-
-
- <!-- end HasFields -->
-
-
-### GetKeyPairRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### GetKeyPairResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key_pair | [ KeyPairRecord](#keypairrecord) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### KeyPair
-KeyPair represents raw Key Pair data for internal usage
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| name | [ string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| certificate | [ bytes](#bytes) | public certificate data |
-| key | [ bytes](#bytes) | private key data |
-| originator_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### KeyPairRecord
-KeyPairRecord provides existing Key Pair metadata
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| name | [ string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | database record creation time |
-| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | database record modification time |
-| cert_info | [ CertificateInfo](#certificateinfo) | information about the public certificate |
-| has_private_key | [ bool](#bool) | Key Pair has a private key attached |
-| certificate | [ bytes](#bytes) | public certificate data |
-| originator_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### KeyUsage
-KeyUsage specifies the usage flags set on a signed TLS certificate
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| digital_signature | [ bool](#bool) | standard key usages |
-| content_commitment | [ bool](#bool) | none |
-| key_encipherment | [ bool](#bool) | none |
-| data_encipherment | [ bool](#bool) | none |
-| key_agreement | [ bool](#bool) | none |
-| cert_sign | [ bool](#bool) | certificate authority |
-| crl_sign | [ bool](#bool) | none |
-| encipher_only | [ bool](#bool) | none |
-| decipher_only | [ bool](#bool) | none |
-| server_auth | [ bool](#bool) | extensions derived from x509.ExtKeyUsage server certificate |
-| client_auth | [ bool](#bool) | client certificate |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListKeyPairsRequest
-ListKeyPairsRequest defines the types of key pairs to list
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| namespace_id | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | list Key Pairs whose name contains the query string |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Key Pairs starting from an offset in the total list |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of entries returned |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | `newest`, `oldest`, `name`, `from` |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _domain.domain | [optional string](#string) | return key pairs that match the given domain |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ListKeyPairsResponse
-ListKeyPairsResponse is the list of Key Pairs found from a
-ListKeyPairsRequest
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key_pairs | [repeated KeyPairRecord](#keypairrecord) | Key Pairs found |
-| total_count | [ int64](#int64) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Name
-Name defines the x509 identity
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| country | [repeated string](#string) | none |
-| organization | [repeated string](#string) | none |
-| organizational_unit | [repeated string](#string) | none |
-| locality | [repeated string](#string) | none |
-| province | [repeated string](#string) | none |
-| street_address | [repeated string](#string) | none |
-| postal_code | [repeated string](#string) | none |
-| serial_number | [ string](#string) | none |
-| common_name | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### UpdateKeyPairRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| id | [ string](#string) | none |
-| originator_id | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _name.name | [optional string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _format.format | [optional Format](#format) | encoding format of data |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate.certificate | [optional bytes](#bytes) | public certificate data |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _key.key | [optional bytes](#bytes) | private key data |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### UpdateKeyPairResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key_pair | [ KeyPairRecord](#keypairrecord) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
-
-
-### Format {#format}
-Format specifies the encoding format of a certificate or key
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| FORMAT_UNDEFINED_DO_NOT_USE | 0 | none |
-| PEM | 1 | none |
-
-
-
-
-### PublicKeyAlgorithm {#publickeyalgorithm}
-PublicKeyAlgorithm is the algorithm of a public key
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| PKA_UNKNOWN_DO_NOT_USE | 0 | none |
-| RSA | 1 | none |
-| DSA | 2 | none |
-| ECDSA | 3 | none |
-| ED25519 | 4 | none |
-
-
- <!-- end Enums -->
-
-
- <!-- end services -->
-
-## Messages
-
-
-### ConsoleConfig
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key_pairs | [repeated KeyPair](#keypair) | none |
-| namespaces | [repeated Namespace](#namespace) | none |
-| policies | [repeated Policy](#policy) | none |
-| routes | [repeated Route](#route) | none |
-| settings | [ Settings](#settings) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
- <!-- end messages -->
-
-## Enums
- <!-- end Enums -->
-
-
-# Report
-
-
-## Methods
-### PolicyReport
-
-> **rpc** PolicyReport([PolicyReportRequest](#policyreportrequest))
-    [PolicyReportResponse](#policyreportresponse)
-
-PolicyReport generates a policy report
- <!-- end methods -->
- <!-- end services -->
-
-## Messages
-
-
-### PolicyReportRequest
-PolicyReportRequest may either specify a list of routes,
-or request to report all routes of the namespace
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| route_ids | [repeated string](#string) | none |
-| namespace_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### PolicyReportResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| routes | [repeated Route](#route) | none |
-| policies | [repeated Policy](#policy) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
  <!-- end messages -->
@@ -3243,534 +975,274 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
  <!-- end Enums -->
 
 
-# TimeSeriesDB
-TimeSeriesDB is a generic service that is meant to be able to query for
-historical metrics and should provide a sufficient abstraction between the UI
-and underlying time series service, would it be Prometheus, embedded TSDB or
-other 3rd party provider
+# KeyChainService
+KeyChainService manages and store TLS Certificates, Keys and CAs, known as
+Key Pairs
 
 ## Methods
-### GetRouteMetricChange
+### DeleteKeyPair
 
-> **rpc** GetRouteMetricChange([RouteMetricChangeRequest](#routemetricchangerequest))
-    [Scalar](#scalar)
+> **rpc** DeleteKeyPair([DeleteKeyPairRequest](#deletekeypairrequest))
+    [DeleteKeyPairResponse](#deletekeypairresponse)
 
-returns metric change for a period of time
-### GetRouteMetricChangeHistogram
+DeleteKeyPair remove an x509 key pair based on a DeleteKeyPairRequest
+### GetKeyPair
 
-> **rpc** GetRouteMetricChangeHistogram([RouteMetricChangeRequest](#routemetricchangerequest))
-    [ScalarBuckets](#scalarbuckets)
+> **rpc** GetKeyPair([GetKeyPairRequest](#getkeypairrequest))
+    [GetKeyPairResponse](#getkeypairresponse)
 
-returns buckets of values for a given metric
-### GetRouteMetricSeries
+GetKeyPair retrieves an existing key pair
+### ListKeyPairs
 
-> **rpc** GetRouteMetricSeries([RouteMetricSeriesRequest](#routemetricseriesrequest))
-    [TimeSeriesResponse](#timeseriesresponse)
+> **rpc** ListKeyPairs([ListKeyPairsRequest](#listkeypairsrequest))
+    [ListKeyPairsResponse](#listkeypairsresponse)
 
-returns metric change as time series
-### GetRouteMetricSeriesHistogram
+ListKeyPairs lists existing key pairs based on parameters in
+ListKeyPairsRequest
+### CreateKeyPair
 
-> **rpc** GetRouteMetricSeriesHistogram([RouteMetricSeriesHistogramRequest](#routemetricserieshistogramrequest))
-    [TimeSeriesResponse](#timeseriesresponse)
+> **rpc** CreateKeyPair([CreateKeyPairRequest](#createkeypairrequest))
+    [CreateKeyPairResponse](#createkeypairresponse)
 
-returns metric change as time series
-### GetRouteMetricSeriesMulti
+CreateKeyPair creates a new key pair
+### UpdateKeyPair
 
-> **rpc** GetRouteMetricSeriesMulti([RouteMetricSeriesRequest](#routemetricseriesrequest))
-    [TimeSeriesResponseMulti](#timeseriesresponsemulti)
+> **rpc** UpdateKeyPair([UpdateKeyPairRequest](#updatekeypairrequest))
+    [UpdateKeyPairResponse](#updatekeypairresponse)
 
-returns multiple annotated time series
-### GetUptime
-
-> **rpc** GetUptime([UptimeRequest](#uptimerequest))
-    [UptimeResponse](#uptimeresponse)
-
-returns service uptime statistics
-### GetInstances
-
-> **rpc** GetInstances([GetInstancesRequest](#getinstancesrequest))
-    [Instances](#instances)
-
-returns list of system services with metrics
-### GetServerMetricSeries
-
-> **rpc** GetServerMetricSeries([ServerMetricSeriesRequest](#servermetricseriesrequest))
-    [TimeSeriesResponse](#timeseriesresponse)
-
-returns server queries
-### GetServerMetric
-
-> **rpc** GetServerMetric([ServerMetricRequest](#servermetricrequest))
-    [Sample](#sample)
-
-returns current metric value
-### GetStatus
-
-> **rpc** GetStatus([GetStatusRequest](#getstatusrequest))
-    [GetStatusResponse](#getstatusresponse)
-
-returns current status of scraping targets
-### GetLastMetricError
-
-> **rpc** GetLastMetricError([LastErrorRequest](#lasterrorrequest))
-    [LastErrorResponse](#lasterrorresponse)
-
-returns last known error for a metric, if available
-### GetUsageReport
-
-> **rpc** GetUsageReport([UsageReportRequest](#usagereportrequest))
-    [UsageReportResponse](#usagereportresponse)
-
-returns usage report
+CreateKeyPair creates a new key pair
  <!-- end methods -->
  <!-- end services -->
 
 ## Messages
 
 
-### ConsoleMetricRequest
-
+### CertificateInfo
+CertificateInfo is a .proto reflection of
+https://golang.org/pkg/crypto/x509/#Certificate
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| metric | [ Metric](#metric) | none |
+| version | [ int64](#int64) | none |
+| serial | [ string](#string) | none |
+| issuer | [ Name](#name) | none |
+| subject | [ Name](#name) | none |
+| not_before | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| not_after | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| key_usage | [ KeyUsage](#keyusage) | none |
+| dns_names | [repeated string](#string) | none |
+| email_addresses | [repeated string](#string) | none |
+| ip_addresses | [repeated string](#string) | none |
+| uris | [repeated string](#string) | none |
+| permitted_dns_domains_critical | [ bool](#bool) | none |
+| permitted_dns_domains | [repeated string](#string) | none |
+| excluded_dns_domains | [repeated string](#string) | none |
+| permitted_ip_ranges | [repeated string](#string) | none |
+| excluded_ip_ranges | [repeated string](#string) | none |
+| permitted_email_addresses | [repeated string](#string) | none |
+| excluded_email_addresses | [repeated string](#string) | none |
+| permitted_uri_domains | [repeated string](#string) | none |
+| excluded_uri_domains | [repeated string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### ConsoleMetricSeriesRequest
-Requests console metric time series
+### CreateKeyPairRequest
+CreateKeyPairRequest defines a Key Pair to create
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| metric | [ Metric](#metric) | metric to retrieve |
-| start | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | Start time |
-| end | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | End time |
+| originator_id | [ string](#string) | none |
+| name | [ string](#string) | none |
+| namespace_id | [ string](#string) | none |
+| format | [ Format](#format) | encoding format of data |
+| certificate | [ bytes](#bytes) | public certificate data |
+| key | [ bytes](#bytes) | private key data |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### GetInstanceInfoRequest
+### CreateKeyPairResponse
 
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| component | [ Component](#component) | none |
-| instance_id | [ string](#string) | none |
+| key_pair | [ KeyPairRecord](#keypairrecord) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### GetInstancesRequest
+### DeleteKeyPairRequest
 
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| start | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| end | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### GetStatusRequest
+### DeleteKeyPairResponse
 
 
  <!-- end HasFields -->
 
 
-### GetStatusResponse
+### GetKeyPairRequest
 
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| targets | [repeated GetStatusResponse.Target](#getstatusresponsetarget) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) status.ok | [ bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) status.last_error | [ string](#string) | none |
+| id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### GetStatusResponse.Target
+### GetKeyPairResponse
 
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| scrape_url | [ string](#string) | none |
-| global_url | [ string](#string) | none |
-| last_error | [ string](#string) | none |
-| last_scrape | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| health | [ GetStatusResponse.Target.Health](#getstatusresponsetargethealth) | none |
+| key_pair | [ KeyPairRecord](#keypairrecord) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### Instances
-
+### KeyPair
+KeyPair represents raw Key Pair data for internal usage
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| instances | [repeated Instances.Instance](#instancesinstance) | none |
+| id | [ string](#string) | none |
+| name | [ string](#string) | none |
+| namespace_id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| certificate | [ bytes](#bytes) | public certificate data |
+| key | [ bytes](#bytes) | private key data |
+| originator_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### Instances.Instance
-
+### KeyPairRecord
+KeyPairRecord provides existing Key Pair metadata
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| component | [ Component](#component) | none |
-| id | [ string](#string) | ID that should be used in requests for metrics |
-| name | [ string](#string) | human readable instance name |
+| id | [ string](#string) | none |
+| name | [ string](#string) | none |
+| namespace_id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | database record creation time |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | database record modification time |
+| cert_info | [ CertificateInfo](#certificateinfo) | information about the public certificate |
+| has_private_key | [ bool](#bool) | Key Pair has a private key attached |
+| certificate | [ bytes](#bytes) | public certificate data |
+| originator_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### Labels
-
+### KeyUsage
+KeyUsage specifies the usage flags set on a signed TLS certificate
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| labels | [map Labels.LabelsEntry](#labelslabelsentry) | none |
+| digital_signature | [ bool](#bool) | standard key usages |
+| content_commitment | [ bool](#bool) | none |
+| key_encipherment | [ bool](#bool) | none |
+| data_encipherment | [ bool](#bool) | none |
+| key_agreement | [ bool](#bool) | none |
+| cert_sign | [ bool](#bool) | certificate authority |
+| crl_sign | [ bool](#bool) | none |
+| encipher_only | [ bool](#bool) | none |
+| decipher_only | [ bool](#bool) | none |
+| server_auth | [ bool](#bool) | extensions derived from x509.ExtKeyUsage server certificate |
+| client_auth | [ bool](#bool) | client certificate |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### Labels.LabelsEntry
-
+### ListKeyPairsRequest
+ListKeyPairsRequest defines the types of key pairs to list
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
+| namespace_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | list Key Pairs whose name contains the query string |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Key Pairs starting from an offset in the total list |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of entries returned |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | `newest`, `oldest`, `name`, `from` |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _domain.domain | [optional string](#string) | return key pairs that match the given domain |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### LastErrorRequest
-LastErrorRequest will fetch last known error for certain error-related
-metrics
+### ListKeyPairsResponse
+ListKeyPairsResponse is the list of Key Pairs found from a
+ListKeyPairsRequest
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| metric | [ Metric](#metric) | none |
+| key_pairs | [repeated KeyPairRecord](#keypairrecord) | Key Pairs found |
+| total_count | [ int64](#int64) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### LastErrorResponse
-LastErrorResponse returns last known error for certain error-related metrics
+### Name
+Name defines the x509 identity
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| ts | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| message | [ string](#string) | none |
+| country | [repeated string](#string) | none |
+| organization | [repeated string](#string) | none |
+| organizational_unit | [repeated string](#string) | none |
+| locality | [repeated string](#string) | none |
+| province | [repeated string](#string) | none |
+| street_address | [repeated string](#string) | none |
+| postal_code | [repeated string](#string) | none |
+| serial_number | [ string](#string) | none |
+| common_name | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### Matrix
+### UpdateKeyPairRequest
 
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| series | [repeated TimeSeries](#timeseries) | none |
+| id | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _name.name | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _format.format | [optional Format](#format) | encoding format of data |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate.certificate | [optional bytes](#bytes) | public certificate data |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _key.key | [optional bytes](#bytes) | private key data |
  <!-- end Fields -->
  <!-- end HasFields -->
 
 
-### Range
+### UpdateKeyPairResponse
 
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| start | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | Start time |
-| end | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | End time |
-| step | [ google.protobuf.Duration](#googleprotobufduration) | Max time between two slices within [start:end] |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### RouteMatcher
-RouteMatcher may be used to query data for multiple routes
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) matcher.route_id | [ string](#string) | route database ID |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) matcher.namespace_id | [ string](#string) | namespace ID |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) matcher.ext_data_source_id | [ string](#string) | external data source database ID |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### RouteMetricChangeRequest
-Used to request a particular metric change within a given period of time
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| matcher | [ RouteMatcher](#routematcher) | route to match |
-| metric | [ Metric](#metric) | metric to retrieve |
-| start | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | Start time |
-| end | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | End time |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### RouteMetricSeriesHistogramRequest
-request route-specific metric time series histogram
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| matcher | [ RouteMatcher](#routematcher) | route to match |
-| metric | [ Metric](#metric) | metric to retrieve |
-| range | [ Range](#range) | time range and sampling step |
-| percentile | [ double](#double) | if data for the metric was precomputed as histogram, the data may be requested within a certain percentile |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### RouteMetricSeriesRequest
-request route-specific metric time series
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| matcher | [ RouteMatcher](#routematcher) | route to match |
-| metric | [ Metric](#metric) | metric to retrieve |
-| range | [ Range](#range) | time range and sampling step |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Sample
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| labels | [map Sample.LabelsEntry](#samplelabelsentry) | none |
-| value | [ Scalar](#scalar) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Sample.LabelsEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Scalar
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| value | [ double](#double) | none |
-| ts | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ScalarBuckets
-returns histogram values
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| buckets | [repeated ScalarBuckets.Bucket](#scalarbucketsbucket) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ScalarBuckets.Bucket
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| less_or_equal_than | [ double](#double) | bucket identifier |
-| count | [ int64](#int64) | occurences for the given bucket |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ServerMetricRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| component | [ Component](#component) | none |
-| instance_id | [ string](#string) | none |
-| metric | [ Metric](#metric) | metric to retrieve |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### ServerMetricSeriesRequest
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| metric | [ Metric](#metric) | metric to retrieve |
-| range | [ Range](#range) | time range and sampling step |
-| percentile | [ double](#double) | if data for the metric was precomputed as histogram, the data may be requested within a certain percentile |
-| component | [ Component](#component) | server component and instance ID |
-| instance_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### String
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| value | [ string](#string) | none |
-| ts | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### TimeSeries
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| labels | [map TimeSeries.LabelsEntry](#timeserieslabelsentry) | none |
-| series | [repeated Scalar](#scalar) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### TimeSeries.LabelsEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### TimeSeriesResponse
-TimeSeries response returns
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| rate | [ Rate](#rate) | provided for time-sampled values - i.e. requests <per second> |
-| series | [repeated Scalar](#scalar) | series are (timestamp,value) data points |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### TimeSeriesResponseMulti
-Multiple time series response
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| rate | [ Rate](#rate) | none |
-| series | [repeated TimeSeries](#timeseries) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### UptimeRequest
-uptime info for all pomerium services for a given period of time
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| start | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| end | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| component | [ Component](#component) | none |
-| instance_id | [ string](#string) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### UptimeResponse
-service uptime is calculated based on liveness probe published by each
-component it is delivered as 2-level hierarchical periods to make it simple
-for the UI consumer it does not provide statistics as data representation
-makes it trivial to calculate depending on the UI requirements
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| intervals | [repeated UptimeResponse.Summary](#uptimeresponsesummary) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### UptimeResponse.Summary
-summary provides a higher level information re health of the component
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| start | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| end | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
-| status | [ UptimeResponse.Status](#uptimeresponsestatus) | aggregate status of the system |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### UsageReportRequest
-
-
- <!-- end HasFields -->
-
-
-### UsageReportResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| report | [ bytes](#bytes) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### Vector
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| samples | [repeated Sample](#sample) | none |
+| key_pair | [ KeyPairRecord](#keypairrecord) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
  <!-- end messages -->
@@ -3778,115 +1250,1986 @@ summary provides a higher level information re health of the component
 ## Enums
 
 
-### Component {#component}
+### Format {#format}
+Format specifies the encoding format of a certificate or key
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| FORMAT_UNDEFINED_DO_NOT_USE | 0 | none |
+| PEM | 1 | none |
+
+
+
+
+### PublicKeyAlgorithm {#publickeyalgorithm}
+PublicKeyAlgorithm is the algorithm of a public key
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PKA_UNKNOWN_DO_NOT_USE | 0 | none |
+| RSA | 1 | none |
+| DSA | 2 | none |
+| ECDSA | 3 | none |
+| ED25519 | 4 | none |
+
+
+ <!-- end Enums -->
+
+
+# NamespacePermissionService
+NamespacePermissionService manages permissions set on namespaces
+
+## Methods
+### DeleteNamespacePermission
+
+> **rpc** DeleteNamespacePermission([DeleteNamespacePermissionRequest](#deletenamespacepermissionrequest))
+    [DeleteNamespacePermissionResponse](#deletenamespacepermissionresponse)
+
+DeleteNamespacePermission removes an existing permission definition
+### GetNamespacePermission
+
+> **rpc** GetNamespacePermission([GetNamespacePermissionRequest](#getnamespacepermissionrequest))
+    [GetNamespacePermissionResponse](#getnamespacepermissionresponse)
+
+GetNamespacePermission retrieves an existing permission definition
+### ListNamespacePermissions
+
+> **rpc** ListNamespacePermissions([ListNamespacePermissionsRequest](#listnamespacepermissionsrequest))
+    [ListNamespacePermissionsResponse](#listnamespacepermissionsresponse)
+
+ListNamespacePermissions retrieves existing permissions for all namespaces
+### ListNamespacePermissionGroups
+
+> **rpc** ListNamespacePermissionGroups([ListNamespacePermissionGroupsRequest](#listnamespacepermissiongroupsrequest))
+    [ListNamespacePermissionGroupsResponse](#listnamespacepermissiongroupsresponse)
+
+ListNamespacePermissionGroups retrieves existing group based permissions on
+a namespace
+### ListNamespacePermissionUsers
+
+> **rpc** ListNamespacePermissionUsers([ListNamespacePermissionUsersRequest](#listnamespacepermissionusersrequest))
+    [ListNamespacePermissionUsersResponse](#listnamespacepermissionusersresponse)
+
+ListNamespacePermissionUsers retrieves existing user based permissions on a
+namespace
+### SetNamespacePermission
+
+> **rpc** SetNamespacePermission([SetNamespacePermissionRequest](#setnamespacepermissionrequest))
+    [SetNamespacePermissionResponse](#setnamespacepermissionresponse)
+
+SetNamespacePermission set a new permission definition on a namespace
+ <!-- end methods -->
+# NamespaceService
+NamespaceService manages namespaces
+
+## Methods
+### DeleteNamespace
+
+> **rpc** DeleteNamespace([DeleteNamespaceRequest](#deletenamespacerequest))
+    [DeleteNamespaceResponse](#deletenamespaceresponse)
+
+DeleteNamespace deletes a namespace
+### GetNamespace
+
+> **rpc** GetNamespace([GetNamespaceRequest](#getnamespacerequest))
+    [GetNamespaceResponse](#getnamespaceresponse)
+
+GetNamespace retrieves a namespace
+### ListNamespaces
+
+> **rpc** ListNamespaces([ListNamespacesRequest](#listnamespacesrequest))
+    [ListNamespacesResponse](#listnamespacesresponse)
+
+ListNamespaces lists all namespaces
+### ListNamespaceResources
+
+> **rpc** ListNamespaceResources([ListNamespaceResourcesRequest](#listnamespaceresourcesrequest))
+    [ListNamespaceResourcesResponse](#listnamespaceresourcesresponse)
+
+ListNamespaceResources lists all the resources for a namespace.
+### SetNamespace
+
+> **rpc** SetNamespace([SetNamespaceRequest](#setnamespacerequest))
+    [SetNamespaceResponse](#setnamespaceresponse)
+
+SetNamespace creates a namespace or, if the id is specified, updates an
+existing namespace
+ <!-- end methods -->
+ <!-- end services -->
+
+## Messages
+
+
+### DeleteNamespacePermissionRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteNamespacePermissionResponse
+
+
+ <!-- end HasFields -->
+
+
+### DeleteNamespaceRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteNamespaceResponse
+
+
+ <!-- end HasFields -->
+
+
+### GetNamespacePermissionRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetNamespacePermissionResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace_permission | [ NamespacePermission](#namespacepermission) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetNamespaceRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetNamespaceResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace | [ Namespace](#namespace) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespacePermissionGroupsRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespacePermissionGroupsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| groups | [repeated NamespacePermissionGroup](#namespacepermissiongroup) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespacePermissionUsersRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespacePermissionUsersResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| users | [repeated NamespacePermissionUser](#namespacepermissionuser) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespacePermissionsRequest
+
+
+ <!-- end HasFields -->
+
+
+### ListNamespacePermissionsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace_permissions | [repeated NamespacePermission](#namespacepermission) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespaceResourcesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| ids | [repeated string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespaceResourcesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| resources | [repeated ListNamespaceResourcesResponse.Resource](#listnamespaceresourcesresponseresource) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespaceResourcesResponse.Resource
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| type | [ string](#string) | none |
+| id | [ string](#string) | none |
+| name | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListNamespacesRequest
+
+
+ <!-- end HasFields -->
+
+
+### ListNamespacesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespaces | [repeated Namespace](#namespace) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Namespace
+Namespace defines a namespace
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| parent_id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| name | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
+| route_count | [ int64](#int64) | computed |
+| policy_count | [ int64](#int64) | computed |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### NamespacePermission
+NamespacePermission defines a permission binding to an identity
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| namespace_id | [ string](#string) | none |
+| namespace_name | [ string](#string) | none |
+| subject_type | [ string](#string) | none |
+| subject_id | [ string](#string) | none |
+| role | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### NamespacePermissionGroup
+NamespacePermissionGroup defines a permission binding to a group identity
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| group_id | [ string](#string) | none |
+| group_name | [ string](#string) | none |
+| group_email | [ string](#string) | none |
+| namespace_id | [ string](#string) | none |
+| namespace_name | [ string](#string) | none |
+| role | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### NamespacePermissionUser
+NamespacePermissionUser defines a permission binding to a user identity
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| user_id | [ string](#string) | none |
+| user_name | [ string](#string) | none |
+| user_email | [ string](#string) | none |
+| group_ids | [repeated string](#string) | none |
+| namespace_id | [ string](#string) | none |
+| namespace_name | [ string](#string) | none |
+| role | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetNamespacePermissionRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace_permission | [ NamespacePermission](#namespacepermission) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetNamespacePermissionResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace_permission | [ NamespacePermission](#namespacepermission) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetNamespaceRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace | [ Namespace](#namespace) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetNamespaceResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace | [ Namespace](#namespace) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+ <!-- end Enums -->
+
+
+# PolicyService
+PolicyService manages policy creation and definition
+
+## Methods
+### DeletePolicy
+
+> **rpc** DeletePolicy([DeletePolicyRequest](#deletepolicyrequest))
+    [DeletePolicyResponse](#deletepolicyresponse)
+
+DeletePolicy deletes an existing policy
+### GetPolicy
+
+> **rpc** GetPolicy([GetPolicyRequest](#getpolicyrequest))
+    [GetPolicyResponse](#getpolicyresponse)
+
+GetPolicy retrieves an existing policy
+### ListPolicies
+
+> **rpc** ListPolicies([ListPoliciesRequest](#listpoliciesrequest))
+    [ListPoliciesResponse](#listpoliciesresponse)
+
+ListPolicies lists existing policies based on the ListPoliciesRequest
+parameters
+### SetPolicy
+
+> **rpc** SetPolicy([SetPolicyRequest](#setpolicyrequest))
+    [SetPolicyResponse](#setpolicyresponse)
+
+SetPolicy creates a new policy or, if the id is specified, updates an
+existing policy
+ <!-- end methods -->
+ <!-- end services -->
+
+## Messages
+
+
+### DeletePolicyRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeletePolicyResponse
+
+
+ <!-- end HasFields -->
+
+
+### GetPolicyRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetPolicyResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| policy | [ Policy](#policy) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListPoliciesRequest
+ListPoliciesRequest specifies the policies to list
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | list Policies whose name contains the query string |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Policies starting from an offset in the total list |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of entries returned |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Policies by newest, oldest or name |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListPoliciesResponse
+ListPoliciesResponse is the list of policies found for a ListPoliciesRequest
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| policies | [repeated Policy](#policy) | none |
+| total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Policy
+Policy defines an authorization policy which can be applied to a route or
+routes
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| namespace_id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| name | [ string](#string) | none |
+| description | [ string](#string) | none |
+| allowed_users | [repeated string](#string) | none |
+| allowed_domains | [repeated string](#string) | none |
+| allowed_idp_claims | [map Policy.AllowedIdpClaimsEntry](#policyallowedidpclaimsentry) | none |
+| rego | [repeated string](#string) | custom rego definition in string format |
+| ppl | [ string](#string) | PPL definition in JSON format |
+| enforced | [ bool](#bool) | policy is automatically applied to all routes in namespace_id and child namespaces |
+| explanation | [ string](#string) | none |
+| remediation | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
+| routes | [map Policy.RoutesEntry](#policyroutesentry) | computed
+
+route id => name |
+| namespace_name | [ string](#string) | computed |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Policy.AllowedIdpClaimsEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ google.protobuf.ListValue](#googleprotobuflistvalue) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Policy.RoutesEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetPolicyRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| policy | [ Policy](#policy) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetPolicyResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| policy | [ Policy](#policy) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+ <!-- end Enums -->
+
+
+ <!-- end services -->
+
+## Messages
+
+
+### HealthCheck
+[#next-free-field: 27]
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| timeout | [ google.protobuf.Duration](#googleprotobufduration) | The time to wait for a health check response. If the timeout is reached the health check attempt will be considered a failure. |
+| interval | [ google.protobuf.Duration](#googleprotobufduration) | The interval between health checks. |
+| initial_jitter | [ google.protobuf.Duration](#googleprotobufduration) | An optional jitter amount in milliseconds. If specified, Envoy will start health checking after for a random time in ms between 0 and initial_jitter. This only applies to the first health check. |
+| interval_jitter | [ google.protobuf.Duration](#googleprotobufduration) | An optional jitter amount in milliseconds. If specified, during every interval Envoy will add interval_jitter to the wait time. |
+| interval_jitter_percent | [ uint32](#uint32) | An optional jitter amount as a percentage of interval_ms. If specified, during every interval Envoy will add ``interval_ms`` * ``interval_jitter_percent`` / 100 to the wait time.
+
+If interval_jitter_ms and interval_jitter_percent are both set, both of them will be used to increase the wait time. |
+| unhealthy_threshold | [ uint32](#uint32) | The number of unhealthy health checks required before a host is marked unhealthy. Note that for ``http`` health checking if a host responds with a code not in :ref:`expected_statuses <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.expected_statuses>` or :ref:`retriable_statuses <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.retriable_statuses>`, this threshold is ignored and the host is considered immediately unhealthy. |
+| healthy_threshold | [ uint32](#uint32) | The number of healthy health checks required before a host is marked healthy. Note that during startup, only a single successful health check is required to mark a host healthy. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) health_checker.http_health_check | [ HealthCheck.HttpHealthCheck](#healthcheckhttphealthcheck) | HTTP health check. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) health_checker.tcp_health_check | [ HealthCheck.TcpHealthCheck](#healthchecktcphealthcheck) | TCP health check. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) health_checker.grpc_health_check | [ HealthCheck.GrpcHealthCheck](#healthcheckgrpchealthcheck) | gRPC health check. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### HealthCheck.GrpcHealthCheck
+`grpc.health.v1.Health
+<https://github.com/grpc/grpc/blob/master/src/proto/grpc/health/v1/health.proto>`_-based
+healthcheck. See `gRPC doc
+<https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`_ for
+details.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| service_name | [ string](#string) | An optional service name parameter which will be sent to gRPC service in `grpc.health.v1.HealthCheckRequest <https://github.com/grpc/grpc/blob/master/src/proto/grpc/health/v1/health.proto#L20>`_. message. See `gRPC health-checking overview <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`_ for more information. |
+| authority | [ string](#string) | The value of the :authority header in the gRPC health check request. If left empty (default value), the name of the cluster this health check is associated with will be used. The authority header can be customized for a specific endpoint by setting the :ref:`hostname <envoy_v3_api_field_config.endpoint.v3.Endpoint.HealthCheckConfig.hostname>` field. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### HealthCheck.HttpHealthCheck
+[#next-free-field: 15]
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| host | [ string](#string) | The value of the host header in the HTTP health check request. If left empty (default value), the name of the cluster this health check is associated with will be used. The host header can be customized for a specific endpoint by setting the :ref:`hostname <envoy_v3_api_field_config.endpoint.v3.Endpoint.HealthCheckConfig.hostname>` field. |
+| path | [ string](#string) | Specifies the HTTP path that will be requested during health checking. For example ``/healthcheck``. |
+| expected_statuses | [repeated Int64Range](#int64range) | Specifies a list of HTTP response statuses considered healthy. If provided, replaces default 200-only policy - 200 must be included explicitly as needed. Ranges follow half-open semantics of :ref:`Int64Range <envoy_v3_api_msg_type.v3.Int64Range>`. The start and end of each range are required. Only statuses in the range [100, 600) are allowed. |
+| retriable_statuses | [repeated Int64Range](#int64range) | Specifies a list of HTTP response statuses considered retriable. If provided, responses in this range will count towards the configured :ref:`unhealthy_threshold <envoy_v3_api_field_config.core.v3.HealthCheck.unhealthy_threshold>`, but will not result in the host being considered immediately unhealthy. Ranges follow half-open semantics of :ref:`Int64Range <envoy_v3_api_msg_type.v3.Int64Range>`. The start and end of each range are required. Only statuses in the range [100, 600) are allowed. The :ref:`expected_statuses <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.expected_statuses>` field takes precedence for any range overlaps with this field i.e. if status code 200 is both retriable and expected, a 200 response will be considered a successful health check. By default all responses not in :ref:`expected_statuses <envoy_v3_api_field_config.core.v3.HealthCheck.HttpHealthCheck.expected_statuses>` will result in the host being considered immediately unhealthy i.e. if status code 200 is expected and there are no configured retriable statuses, any non-200 response will result in the host being marked unhealthy. |
+| codec_client_type | [ CodecClientType](#codecclienttype) | Use specified application protocol for health checks. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### HealthCheck.Payload
+Describes the encoding of the payload bytes in the payload.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) payload.text | [ string](#string) | Hex encoded payload. E.g., "000000FF". |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) payload.binary | [ bytes](#bytes) | Binary payload. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### HealthCheck.TcpHealthCheck
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| send | [ HealthCheck.Payload](#healthcheckpayload) | Empty payloads imply a connect-only health check. |
+| receive | [repeated HealthCheck.Payload](#healthcheckpayload) | When checking the response, “fuzzy” matching is performed such that each payload block must be found, and in the order specified, but not necessarily contiguous. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+ <!-- end Enums -->
+
+
+ <!-- end services -->
+
+## Messages
+
+
+### RedirectAction
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) scheme_rewrite_specifier.https_redirect | [ bool](#bool) | The scheme portion of the URL will be swapped with "https". |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) scheme_rewrite_specifier.scheme_redirect | [ string](#string) | The scheme portion of the URL will be swapped with this value. |
+| host_redirect | [ string](#string) | The host portion of the URL will be swapped with this value. |
+| port_redirect | [ uint32](#uint32) | The port value of the URL will be swapped with this value. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) path_rewrite_specifier.path_redirect | [ string](#string) | The path portion of the URL will be swapped with this value. Please note that query string in path_redirect will override the request's query string and will not be stripped.
+
+For example, let's say we have the following routes:
+
+- match: { path: "/old-path-1" } redirect: { path_redirect: "/new-path-1" } - match: { path: "/old-path-2" } redirect: { path_redirect: "/new-path-2", strip-query: "true" } - match: { path: "/old-path-3" } redirect: { path_redirect: "/new-path-3?foo=1", strip_query: "true" }
+
+1. if request uri is "/old-path-1?bar=1", users will be redirected to "/new-path-1?bar=1" 2. if request uri is "/old-path-2?bar=1", users will be redirected to "/new-path-2" 3. if request uri is "/old-path-3?bar=1", users will be redirected to "/new-path-3?foo=1" |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) path_rewrite_specifier.prefix_rewrite | [ string](#string) | Indicates that during redirection, the matched prefix (or path) should be swapped with this value. This option allows redirect URLs be dynamically created based on the request.
+
+.. attention::
+
+ Pay attention to the use of trailing slashes as mentioned in :ref:`RouteAction's prefix_rewrite <envoy_v3_api_field_config.route.v3.RouteAction.prefix_rewrite>`. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) path_rewrite_specifier.regex_rewrite | [ RedirectAction.RegexMatchAndSubstitute](#redirectactionregexmatchandsubstitute) | Indicates that during redirect, portions of the path that match the pattern should be rewritten, even allowing the substitution of capture groups from the pattern into the new path as specified by the rewrite substitution string. This is useful to allow application paths to be rewritten in a way that is aware of segments with variable content like identifiers.
+
+Examples using Google's `RE2 <https://github.com/google/re2>`_ engine:
+
+* The path pattern ``^/service/([^/]+)(/.*)$`` paired with a substitution string of ``\2/instance/\1`` would transform ``/service/foo/v1/api`` into ``/v1/api/instance/foo``.
+
+* The pattern ``one`` paired with a substitution string of ``two`` would transform ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/two/zzz``.
+
+* The pattern ``^(.*?)one(.*)$`` paired with a substitution string of ``\1two\2`` would replace only the first occurrence of ``one``, transforming path ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/one/zzz``.
+
+* The pattern ``(?i)/xxx/`` paired with a substitution string of ``/yyy/`` would do a case-insensitive match and transform path ``/aaa/XxX/bbb`` to ``/aaa/yyy/bbb``. |
+| response_code | [ RedirectAction.RedirectResponseCode](#redirectactionredirectresponsecode) | The HTTP status code to use in the redirect response. The default response code is MOVED_PERMANENTLY (301). |
+| strip_query | [ bool](#bool) | Indicates that during redirection, the query portion of the URL will be removed. Default value is false. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### RedirectAction.RegexMatchAndSubstitute
+Describes how to match a string and then produce a new string using a
+regular expression and a substitution string.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| pattern | [ string](#string) | The regular expression used to find portions of a string (hereafter called the "subject string") that should be replaced. When a new string is produced during the substitution operation, the new string is initially the same as the subject string, but then all matches in the subject string are replaced by the substitution string. If replacing all matches isn't desired, regular expression anchors can be used to ensure a single match, so as to replace just one occurrence of a pattern. Capture groups can be used in the pattern to extract portions of the subject string, and then referenced in the substitution string. |
+| substitution | [ string](#string) | The string that should be substituted into matching portions of the subject string during a substitution operation to produce a new string. Capture groups in the pattern can be referenced in the substitution string. Note, however, that the syntax for referring to capture groups is defined by the chosen regular expression engine. Google's `RE2 <https://github.com/google/re2>`_ regular expression engine uses a backslash followed by the capture group number to denote a numbered capture group. E.g., ``\1`` refers to capture group 1, and ``\2`` refers to capture group 2. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+
+
+### RedirectAction.RedirectResponseCode {#redirectactionredirectresponsecode}
 
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| UNKNOWN_DO_NOT_USE | 0 | none |
-| AUTHENTICATE | 1 | none |
-| AUTHORIZE | 2 | none |
-| DATABROKER | 3 | none |
-| CONSOLE | 4 | none |
-| PROXY | 5 | none |
-| ALL_IN_ONE | 6 | used when all components are running in the all-in-one mode |
-| PROXY_ENVOY | 7 | Proxy envoy is always reported separately |
-| PROMETHEUS | 8 | none |
+| MOVED_PERMANENTLY | 0 | Moved Permanently HTTP Status Code - 301. |
+| FOUND | 1 | Found HTTP Status Code - 302. |
+| SEE_OTHER | 2 | See Other HTTP Status Code - 303. |
+| TEMPORARY_REDIRECT | 3 | Temporary Redirect HTTP Status Code - 307. |
+| PERMANENT_REDIRECT | 4 | Permanent Redirect HTTP Status Code - 308. |
+
+
+ <!-- end Enums -->
+
+
+# RouteService
+RouteService manages proxy route definitions
+
+## Methods
+### DeleteRoute
+
+> **rpc** DeleteRoute([DeleteRouteRequest](#deleterouterequest))
+    [DeleteRouteResponse](#deleterouteresponse)
+
+DeleteRoute removes an existing route
+### DeleteRoutes
+
+> **rpc** DeleteRoutes([DeleteRoutesRequest](#deleteroutesrequest))
+    [DeleteRoutesResponse](#deleteroutesresponse)
+
+DeleteRoutes removes existing routes.
+### GetRoute
+
+> **rpc** GetRoute([GetRouteRequest](#getrouterequest))
+    [GetRouteResponse](#getrouteresponse)
+
+GetRoute retrieves an existing route
+### ListRoutes
+
+> **rpc** ListRoutes([ListRoutesRequest](#listroutesrequest))
+    [ListRoutesResponse](#listroutesresponse)
+
+ListRoutes lists routes based on ListRoutesRequest
+### LoadRoutes
+
+> **rpc** LoadRoutes([LoadRoutesRequest](#loadroutesrequest))
+    [LoadRoutesResponse](#loadroutesresponse)
+
+LoadRoutes imports routes from an existing OSS configuration
+### SetRoute
+
+> **rpc** SetRoute([SetRouteRequest](#setrouterequest))
+    [SetRouteResponse](#setrouteresponse)
+
+SetRoute creates or, if id is defined, updates an existing route
+### SetRoutes
+
+> **rpc** SetRoutes([SetRoutesRequest](#setroutesrequest))
+    [SetRoutesResponse](#setroutesresponse)
+
+SetRoutes creates or, if id is defined, updates existing routes
+### MoveRoutes
+
+> **rpc** MoveRoutes([MoveRoutesRequest](#moveroutesrequest))
+    [MoveRoutesResponse](#moveroutesresponse)
+
+MoveRoutes takes an array of routeIds and moves them to a new namespace
+ <!-- end methods -->
+ <!-- end services -->
+
+## Messages
+
+
+### DeleteRouteRequest
 
 
 
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
 
-### GetStatusResponse.Target.Health {#getstatusresponsetargethealth}
+
+### DeleteRouteResponse
+
+
+ <!-- end HasFields -->
+
+
+### DeleteRoutesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| ids | [repeated string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteRoutesResponse
+
+
+ <!-- end HasFields -->
+
+
+### GetRouteRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetRouteResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| route | [ Route](#route) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### JwtGroupsFilter
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| groups | [repeated string](#string) | Explicit list of group IDs/names to include. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _infer_from_ppl.infer_from_ppl | [optional bool](#bool) | Infer group IDs/names based on PPL groups criteria. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListRoutesRequest
+ListRoutesRequest defines the routes to list
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | list Routes who's name, from or to contains the query string |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Routes starting from an offset in the total list |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of Route entries returned |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Routes by newest, oldest, name or from |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListRoutesResponse
+ListRoutesResponse is the list of routes found for a ListRoutesRequest
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| routes | [repeated Route](#route) | none |
+| total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### LoadRoutesRequest
+LoadRoutesRequest creates a route based on a yaml payload
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| name | [ string](#string) | none |
+| contents | [ bytes](#bytes) | OSS pomerium policy block |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### LoadRoutesResponse
+LoadRoutesResponse contains the routes and policies crated from a
+LoadRoutesRequest
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| routes | [repeated RouteWithPolicies](#routewithpolicies) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### MoveRoutesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| route_ids | [repeated string](#string) | none |
+| new_namespace_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### MoveRoutesResponse
+
+
+ <!-- end HasFields -->
+
+
+### Route
+Route defines a proxy route's settings and policy associations
+Next ID: 72
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| namespace_id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| name | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _description.description | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _logo_url.logo_url | [optional string](#string) | none |
+| stat_name | [ string](#string) | name for prometheus stats, computed on first save |
+| from | [ string](#string) | none |
+| to | [repeated string](#string) | none |
+| redirect | [ RedirectAction](#redirectaction) | none |
+| response | [ RouteDirectResponse](#routedirectresponse) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _prefix.prefix | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path.path | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex.regex | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _prefix_rewrite.prefix_rewrite | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex_rewrite_pattern.regex_rewrite_pattern | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex_rewrite_substitution.regex_rewrite_substitution | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _host_rewrite.host_rewrite | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _host_rewrite_header.host_rewrite_header | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _host_path_regex_rewrite_pattern.host_path_regex_rewrite_pattern | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _host_path_regex_rewrite_substitution.host_path_regex_rewrite_substitution | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _regex_priority_order.regex_priority_order | [optional int64](#int64) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout.timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idle_timeout.idle_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_websockets.allow_websockets | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_spdy.allow_spdy | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_skip_verify.tls_skip_verify | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_upstream_server_name.tls_upstream_server_name | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_downstream_server_name.tls_downstream_server_name | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_custom_ca_key_pair_id.tls_custom_ca_key_pair_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_client_key_pair_id.tls_client_key_pair_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_downstream_client_ca_key_pair_id.tls_downstream_client_ca_key_pair_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _tls_upstream_allow_renegotiation.tls_upstream_allow_renegotiation | [optional bool](#bool) | none |
+| set_request_headers | [map Route.SetRequestHeadersEntry](#routesetrequestheadersentry) | none |
+| remove_request_headers | [repeated string](#string) | none |
+| set_response_headers | [map Route.SetResponseHeadersEntry](#routesetresponseheadersentry) | none |
+| rewrite_response_headers | [repeated RouteRewriteHeader](#routerewriteheader) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _preserve_host_header.preserve_host_header | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token.kubernetes_service_account_token | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token_file.kubernetes_service_account_token_file | [optional string](#string) | none |
+| enable_google_cloud_serverless_authentication | [ bool](#bool) | none |
+| jwt_issuer_format | [ IssuerFormat](#issuerformat) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
+| jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
+| show_error_details | [ bool](#bool) | none |
+| originator_id | [ string](#string) | none |
+| policy_ids | [repeated string](#string) | policies applied to this route |
+| policy_names | [repeated string](#string) | computed properties (may be nil) |
+| namespace_name | [ string](#string) | computed |
+| enforced_policy_ids | [repeated string](#string) | computed |
+| enforced_policy_names | [repeated string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Route.StringList](#routestringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _load_balancing_policy.load_balancing_policy | [optional LoadBalancingPolicy](#loadbalancingpolicy) | none |
+| health_checks | [repeated HealthCheck](#healthcheck) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Route.SetRequestHeadersEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Route.SetResponseHeadersEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Route.StringList
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| values | [repeated string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### RouteDirectResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| status | [ uint32](#uint32) | none |
+| body | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### RouteRewriteHeader
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| header | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) matcher.prefix | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### RouteWithPolicies
+RouteWithPolicies contains automatically created routes and policies from a
+LoadRoutesRequest
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| route | [ Route](#route) | none |
+| policies | [repeated Policy](#policy) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetRouteRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| route | [ Route](#route) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetRouteResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| route | [ Route](#route) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetRoutesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| routes | [repeated Route](#route) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetRoutesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| routes | [repeated Route](#route) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+
+
+### BearerTokenFormat {#bearertokenformat}
 
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| TARGET_HEALTH_UNKNOWN | 0 | none |
-| TARGET_HEALTH_UP | 1 | none |
-| TARGET_HEALTH_DOWN | 2 | none |
+| BEARER_TOKEN_FORMAT_UNKNOWN | 0 | none |
+| BEARER_TOKEN_FORMAT_DEFAULT | 1 | none |
+| BEARER_TOKEN_FORMAT_IDP_ACCESS_TOKEN | 2 | none |
+| BEARER_TOKEN_FORMAT_IDP_IDENTITY_TOKEN | 3 | none |
 
 
 
 
-### Metric {#metric}
-see
-https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNDEFINED_METRIC_DO_NOT_USE | 0 | none |
-| REQUESTS | 1 | request counter |
-| REQUESTS_RATE | 2 | request rate (per second) |
-| REQUESTS_DURATION_MS | 3 | duration of the request in milliseconds - this is a histogram counter and requires percentile |
-| RESPONSE_CODES | 4 | returns distribution of response codes |
-| AUTHZ_OK | 20 | Total responses from the authz filter (note that does not imply that requests were allowed to pass thru) |
-| AUTHZ_DENIED | 21 | Total responses from the authorizations service that were to deny the traffic. |
-| AUTHZ_ERROR | 22 | Total errors contacting the external service. |
-| AUTHZ_DISABLED | 23 | Total requests that are allowed without calling external services due to the filter is disabled. |
-| AUTHZ_FAILURE_MODE_ALLOWED | 24 | Total requests that were error(s) but were allowed through because of failure_mode_allow set to true. |
-| MEMBERSHIP_HEALTHY | 30 | Current cluster healthy total (inclusive of both health checking and outlier detection) |
-| MEMBERSHIP_DEGRADED | 31 | Current cluster degraded total |
-| MEMBERSHIP_EXCLUDED | 32 | Current cluster excluded total |
-| MEMBERSHIP_TOTAL | 33 | Current cluster membership total |
-| RX_BYTES | 40 | bytes received - upstream_cx_rx_bytes_total |
-| TX_BYTES | 41 | bytes sent - upstream_cx_tx_bytes_total |
-| TOTAL_BYTES | 42 | total of rx + tx bytes |
-| MEMORY_ALLOCATED | 51 | system metrics |
-| CPU_USAGE | 52 | none |
-| IDP_LAST_REFRESH_TIMESTAMP | 60 | identity provider specific |
-| IDP_LAST_USER_REFRESH_SUCCESS_TIMESTAMP | 100 | none |
-| IDP_LAST_USER_REFRESH_ERROR_TIMESTAMP | 101 | none |
-| IDP_LAST_USER_REFRESH_ERROR | 102 | none |
-| IDP_LAST_USER_REFRESH_SUCCESS | 103 | none |
-| IDP_LAST_USER_GROUP_REFRESH_SUCCESS_TIMESTAMP | 104 | none |
-| IDP_LAST_USER_GROUP_REFRESH_ERROR_TIMESTAMP | 105 | none |
-| IDP_LAST_USER_GROUP_REFRESH_ERROR | 106 | none |
-| IDP_LAST_USER_GROUP_REFRESH_SUCCESS | 107 | none |
-| IDP_LAST_SESSION_REFRESH_SUCCESS_TIMESTAMP | 108 | none |
-| IDP_LAST_SESSION_REFRESH_ERROR_TIMESTAMP | 109 | none |
-| IDP_LAST_SESSION_REFRESH_ERROR | 110 | none |
-| IDP_LAST_SESSION_REFRESH_SUCCESS | 111 | none |
-| CONFIG_LAST_RELOAD_SUCCESS_TIMESTAMP | 70 | configuration related |
-| BUILD_INFO | 71 | none |
-| CONFIG_CHECKSUM_LOCAL | 72 | none |
-| CONFIG_CHECKSUM_DATABROKER | 73 | none |
-| CONFIG_VERSION | 74 | none |
-| CONFIG_ERRORS | 75 | none |
-| CONFIG_CONSOLE_VERSION | 76 | none |
-| PROMETHEUS_STORAGE_BYTES | 80 | prometheus metrics |
-| MONTHLY_ACTIVE_USERS_THRESHOLD | 90 | console metrics |
-| MONTHLY_ACTIVE_USERS | 91 | none |
-| HTTP_REQUESTS_COMPLETED | 120 | http requests completed (not necessarily with code=200) |
-| HTTP_REQUESTS_FAILED | 121 | http requests failed due to network or dns error |
-| HTTP_REQUESTS_SUCCESS | 122 | http requests successfully completed (with code=200 or 304 (unchanged)) |
-| HTTP_REQUESTS_ERROR | 123 | http requests either failed or having codes that are not 200 or 304 |
-| HTTP_AVG_RESPONSE_SIZE_BYTES | 124 | http average response body size in bytes |
-
-
-
-
-### Rate {#rate}
-Rate defines time-sampled values
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| NONE | 0 | undefined means this is an actual value that is not sampled |
-| PER_SECOND | 1 | value represents <something> per second |
-
-
-
-
-### UptimeResponse.Status {#uptimeresponsestatus}
+### IssuerFormat {#issuerformat}
 
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| UNDEFINED_STATUS_DO_NOT_USE | 0 | none |
-| LIVE | 1 | fully operational |
-| NO_DATA | 2 | no data is available for the period in the prometheus |
-| DOWN | 3 | prometheus is up but the scraping instance is down |
+| IssuerHostOnly | 0 | Issuer strings will be the hostname of the route, with no scheme or trailing slash. |
+| IssuerURI | 1 | Issuer strings will be a complete URI, including the scheme and ending with a trailing slash. |
 
 
+
+
+### LoadBalancingPolicy {#loadbalancingpolicy}
+LoadBalancingPolicy defines the strategy used to balance requests across
+upstream endpoints
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| LOAD_BALANCING_POLICY_UNSPECIFIED | 0 | Default load balancing if not specified |
+| LOAD_BALANCING_POLICY_ROUND_ROBIN | 1 | Classic round robin algorithm |
+| LOAD_BALANCING_POLICY_MAGLEV | 2 | Consistent hashing load balancing |
+| LOAD_BALANCING_POLICY_RANDOM | 3 | Random selection of backend |
+| LOAD_BALANCING_POLICY_RING_HASH | 4 | Consistent hashing on an attribute |
+| LOAD_BALANCING_POLICY_LEAST_REQUEST | 5 | Select backend with fewest active requests |
+
+
+ <!-- end Enums -->
+
+
+# SettingsService
+SettingsService manages global pomerium settings
+
+## Methods
+### GetSettings
+
+> **rpc** GetSettings([GetSettingsRequest](#getsettingsrequest))
+    [GetSettingsResponse](#getsettingsresponse)
+
+GetSettings retrieves the currently applied settings
+### SetSettings
+
+> **rpc** SetSettings([SetSettingsRequest](#setsettingsrequest))
+    [SetSettingsResponse](#setsettingsresponse)
+
+SetSettings applies new global settings
+### GetBrandingSettings
+
+> **rpc** GetBrandingSettings([GetSettingsRequest](#getsettingsrequest))
+    [GetSettingsResponse](#getsettingsresponse)
+
+GetBrandingSettings retrieves just the branding part of the settings
+### GetConsoleSettings
+
+> **rpc** GetConsoleSettings([GetConsoleSettingsRequest](#getconsolesettingsrequest))
+    [GetConsoleSettingsResponse](#getconsolesettingsresponse)
+
+GetConsoleSettings retrieves the console settings.
+ <!-- end methods -->
+ <!-- end services -->
+
+## Messages
+
+
+### ConsoleSettings
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| enable_feedback_widget | [ bool](#bool) | none |
+| use_changesets | [ bool](#bool) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetConsoleSettingsRequest
+
+
+ <!-- end HasFields -->
+
+
+### GetConsoleSettingsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| console_settings | [ ConsoleSettings](#consolesettings) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetSettingsRequest
+
+
+ <!-- end HasFields -->
+
+
+### GetSettingsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| settings | [ Settings](#settings) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetSettingsRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| settings | [ Settings](#settings) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetSettingsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| settings | [ Settings](#settings) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Settings
+Settings defines the global pomerium settings
+Next id: 106.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _installation_id.installation_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _log_level.log_level | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _proxy_log_level.proxy_log_level | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _shared_secret.shared_secret | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _services.services | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _address.address | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _insecure_server.insecure_server | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_lookup_family.dns_lookup_family | [optional string](#string) | none |
+| certificates | [repeated Settings.Certificate](#settingscertificate) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _http_redirect_addr.http_redirect_addr | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_read.timeout_read | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_write.timeout_write | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_idle.timeout_idle | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authenticate_service_url.authenticate_service_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authenticate_callback_path.authenticate_callback_path | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_name.cookie_name | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_secret.cookie_secret | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_domain.cookie_domain | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_secure.cookie_secure | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_http_only.cookie_http_only | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_same_site.cookie_same_site | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_expire.cookie_expire | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_secret.idp_client_secret | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_provider.idp_provider | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_provider_url.idp_provider_url | [optional string](#string) | none |
+| scopes | [repeated string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_service_account.idp_service_account | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_refresh_directory_timeout.idp_refresh_directory_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_refresh_directory_interval.idp_refresh_directory_interval | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| request_params | [map Settings.RequestParamsEntry](#settingsrequestparamsentry) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authorize_service_url.authorize_service_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority.certificate_authority | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority_file.certificate_authority_file | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority_key_pair_id.certificate_authority_key_pair_id | [optional string](#string) | none |
+| set_response_headers | [map Settings.SetResponseHeadersEntry](#settingssetresponseheadersentry) | none |
+| jwt_claims_headers | [map Settings.JwtClaimsHeadersEntry](#settingsjwtclaimsheadersentry) | none |
+| jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _default_upstream_timeout.default_upstream_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _metrics_address.metrics_address | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_traces_exporter.otel_traces_exporter | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_traces_sampler_arg.otel_traces_sampler_arg | [optional double](#double) | none |
+| otel_resource_attributes | [repeated string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_log_level.otel_log_level | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_attribute_value_length_limit.otel_attribute_value_length_limit | [optional int32](#int32) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_endpoint.otel_exporter_otlp_endpoint | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_endpoint.otel_exporter_otlp_traces_endpoint | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_protocol.otel_exporter_otlp_protocol | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_protocol.otel_exporter_otlp_traces_protocol | [optional string](#string) | none |
+| otel_exporter_otlp_headers | [repeated string](#string) | none |
+| otel_exporter_otlp_traces_headers | [repeated string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_timeout.otel_exporter_otlp_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_exporter_otlp_traces_timeout.otel_exporter_otlp_traces_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_bsp_schedule_delay.otel_bsp_schedule_delay | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_bsp_max_export_batch_size.otel_bsp_max_export_batch_size | [optional int32](#int32) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_address.grpc_address | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _grpc_insecure.grpc_insecure | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cache_service_url.cache_service_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _databroker_service_url.databroker_service_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _client_ca.client_ca | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _client_ca_file.client_ca_file | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _client_ca_key_pair_id.client_ca_key_pair_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _google_cloud_serverless_authentication_service_account.google_cloud_serverless_authentication_service_account | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert.autocert | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert_use_staging.autocert_use_staging | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert_must_staple.autocert_must_staple | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _autocert_dir.autocert_dir | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _skip_xff_append.skip_xff_append | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _primary_color.primary_color | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _secondary_color.secondary_color | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _darkmode_primary_color.darkmode_primary_color | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _darkmode_secondary_color.darkmode_secondary_color | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _logo_url.logo_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _favicon_url.favicon_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _error_message_first_paragraph.error_message_first_paragraph | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider.identity_provider | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_options.identity_provider_options | [optional google.protobuf.Struct](#googleprotobufstruct) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_refresh_interval.identity_provider_refresh_interval | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _identity_provider_refresh_timeout.identity_provider_refresh_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _access_log_fields.access_log_fields | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authorize_log_fields.authorize_log_fields | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _pass_identity_headers.pass_identity_headers | [optional bool](#bool) | none |
+| originator_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Settings.StringList](#settingsstringlist) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Settings.Certificate
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| cert_bytes | [ bytes](#bytes) | none |
+| key_bytes | [ bytes](#bytes) | none |
+| key_pair_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Settings.JwtClaimsHeadersEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Settings.RequestParamsEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Settings.SetResponseHeadersEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Settings.StringList
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| values | [repeated string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+ <!-- end Enums -->
+
+
+ <!-- end services -->
+
+## Messages
+
+
+### Int64Range
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| start | [ int64](#int64) | start of the range (inclusive) |
+| end | [ int64](#int64) | end of the range (exclusive) |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+
+
+### CodecClientType {#codecclienttype}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| HTTP1 | 0 | none |
+| HTTP2 | 1 | none |
+| HTTP3 | 2 | none |
+
+
+ <!-- end Enums -->
+
+
+# PomeriumServiceAccountService
+PomeriumServiceAccountService manages service accounts for use with the
+pomerium console API
+
+## Methods
+### AddPomeriumServiceAccount
+
+> **rpc** AddPomeriumServiceAccount([AddPomeriumServiceAccountRequest](#addpomeriumserviceaccountrequest))
+    [AddPomeriumServiceAccountResponse](#addpomeriumserviceaccountresponse)
+
+AddPomeriumServiceAccount creates a new service account
+### DeletePomeriumServiceAccount
+
+> **rpc** DeletePomeriumServiceAccount([DeletePomeriumServiceAccountRequest](#deletepomeriumserviceaccountrequest))
+    [DeletePomeriumServiceAccountResponse](#deletepomeriumserviceaccountresponse)
+
+DeletePomeriumServiceAccount removes an existing service account
+### GetPomeriumServiceAccount
+
+> **rpc** GetPomeriumServiceAccount([GetPomeriumServiceAccountRequest](#getpomeriumserviceaccountrequest))
+    [GetPomeriumServiceAccountResponse](#getpomeriumserviceaccountresponse)
+
+GetPomeriumServiceAccount retrieves an existing service account
+### ListPomeriumServiceAccounts
+
+> **rpc** ListPomeriumServiceAccounts([ListPomeriumServiceAccountsRequest](#listpomeriumserviceaccountsrequest))
+    [ListPomeriumServiceAccountsResponse](#listpomeriumserviceaccountsresponse)
+
+ListPomeriumServiceAccounts lists service accounts based on the parameters
+in ListPomeriumServiceAccountsRequest
+### SetPomeriumServiceAccount
+
+> **rpc** SetPomeriumServiceAccount([SetPomeriumServiceAccountRequest](#setpomeriumserviceaccountrequest))
+    [SetPomeriumServiceAccountResponse](#setpomeriumserviceaccountresponse)
+
+
+ <!-- end methods -->
+# PomeriumSessionService
+PomeriumSessionService manages user sessions inside the databroker
+
+## Methods
+### DeletePomeriumSession
+
+> **rpc** DeletePomeriumSession([DeletePomeriumSessionRequest](#deletepomeriumsessionrequest))
+    [DeletePomeriumSessionResponse](#deletepomeriumsessionresponse)
+
+DeletePomeriumSession clears an existing user session
+### GetPomeriumSession
+
+> **rpc** GetPomeriumSession([GetPomeriumSessionRequest](#getpomeriumsessionrequest))
+    [GetPomeriumSessionResponse](#getpomeriumsessionresponse)
+
+GetPomeriumSession retrieves information about an existing user session
+### Impersonate
+
+> **rpc** Impersonate([ImpersonateRequest](#impersonaterequest))
+    [ImpersonateResponse](#impersonateresponse)
+
+Impersonate updates an existing session to impersonate another identity
+### ListPomeriumSessions
+
+> **rpc** ListPomeriumSessions([ListPomeriumSessionsRequest](#listpomeriumsessionsrequest))
+    [ListPomeriumSessionsResponse](#listpomeriumsessionsresponse)
+
+ListPomeriumSessions lists existing sessions based on the parameters of
+ListPomeriumSessionsRequest
+ <!-- end methods -->
+# UserService
+UserService supports querying directory data from the databroker
+
+## Methods
+### GetUserInfo
+
+> **rpc** GetUserInfo([GetUserInfoRequest](#getuserinforequest))
+    [GetUserInfoResponse](#getuserinforesponse)
+
+GetUserInfo retrieves identity information and permission mappings for a
+user
+### QueryGroups
+
+> **rpc** QueryGroups([QueryGroupsRequest](#querygroupsrequest))
+    [QueryGroupsResponse](#querygroupsresponse)
+
+QueryGroups retrieves groups from the databroker based on
+QueryGroupsRequest parameters
+### QueryUsers
+
+> **rpc** QueryUsers([QueryUsersRequest](#queryusersrequest))
+    [QueryUsersResponse](#queryusersresponse)
+
+QueryUsers retrieves users from the databroker based on QueryUsersRequest
+parameters
+ <!-- end methods -->
+ <!-- end services -->
+
+## Messages
+
+
+### AddPomeriumServiceAccountRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### AddPomeriumServiceAccountResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+| JWT | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeletePomeriumServiceAccountRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeletePomeriumServiceAccountResponse
+
+
+ <!-- end HasFields -->
+
+
+### DeletePomeriumSessionRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeletePomeriumSessionResponse
+
+
+ <!-- end HasFields -->
+
+
+### GetPomeriumServiceAccountRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetPomeriumServiceAccountResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetPomeriumSessionRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetPomeriumSessionResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| session | [ PomeriumSession](#pomeriumsession) | none |
+| associated_sessions | [repeated PomeriumSession](#pomeriumsession) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetUserInfoRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_id.user_id | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetUserInfoResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| user_info | [ UserInfo](#userinfo) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GroupInfo
+GroupInfo defines a directory group in the databroker
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| name | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ImpersonateRequest
+ImpersonateRequest defines the identity information to impersonate
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| session_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ImpersonateResponse
+
+
+ <!-- end HasFields -->
+
+
+### ListPomeriumServiceAccountsRequest
+ListPomeriumServiceAccountsRequest specifies the service accounts to list
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| namespace | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListPomeriumServiceAccountsResponse
+ListPomeriumServiceAccountsResponse is the list of service accounts found for
+a ListPomeriumServiceAccountsRequest
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| service_accounts | [repeated PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListPomeriumSessionsRequest
+ListPomeriumSessionsRequest specifies the sessions to list
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | list Sessions with any fields that contain the query string |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Sessions starting from an offset in the total list |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of Session entries returned |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Sessions by newest, oldest or name |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_id.user_id | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListPomeriumSessionsResponse
+ListPomeriumSessionsResponse is the sessions found for a
+ListPomeriumSessionsRequest
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| sessions | [repeated PomeriumSession](#pomeriumsession) | none |
+| total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### PomeriumServiceAccount
+PomeriumServiceAccount defines the identity properties of a service account
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _namespace_id.namespace_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _description.description | [optional string](#string) | none |
+| user_id | [ string](#string) | none |
+| accessed_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| issued_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### PomeriumSession
+PomeriumSession defines a user session from the databroker
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| user | [ PomeriumSession.User](#pomeriumsessionuser) | none |
+| groups | [repeated PomeriumSession.Group](#pomeriumsessiongroup) | none |
+| issuer | [ string](#string) | none |
+| accessed_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| issued_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| audience | [repeated string](#string) | none |
+| claims | [map PomeriumSession.ClaimsEntry](#pomeriumsessionclaimsentry) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### PomeriumSession.ClaimsEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ google.protobuf.ListValue](#googleprotobuflistvalue) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### PomeriumSession.Group
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| name | [ string](#string) | none |
+| email | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### PomeriumSession.User
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| name | [ string](#string) | none |
+| email | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### QueryGroupsRequest
+QueryGroupsRequest defines the groups to retrieve
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| query | [ string](#string) | none |
+| offset | [ int64](#int64) | none |
+| limit | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### QueryGroupsResponse
+QueryGroupsResponse is the list of groups retrieved from a QueryGroupsRequest
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| groups | [repeated GroupInfo](#groupinfo) | none |
+| total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### QueryUsersRequest
+QueryUsersRequest defines the users to retrieve
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| query | [ string](#string) | list Users with any fields that match the query |
+| offset | [ int64](#int64) | list Users starting from an offset in the total list |
+| limit | [ int64](#int64) | limit the number of User entries returned |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### QueryUsersResponse
+QueryUsersResponse is the list of users retrieved from a QueryUsersRequest
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| users | [repeated UserInfo](#userinfo) | none |
+| total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### RecoveryToken
+RecoveryToken is a recovery account for logging into the console without a
+functioning Pomerium proxy
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| namespace | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| public_key | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetPomeriumServiceAccountRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SetPomeriumServiceAccountResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### UserInfo
+UserInfo defines the metadata for a directory user in the databroker
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| name | [ string](#string) | none |
+| email | [ string](#string) | none |
+| groups | [repeated string](#string) | none |
+| namespace_roles | [map UserInfo.NamespaceRolesEntry](#userinfonamespacerolesentry) | none |
+| picture_url | [ string](#string) | none |
+| is_impersonated | [ bool](#bool) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### UserInfo.NamespaceRolesEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
  <!-- end Enums -->
  <!-- end Files -->
 
