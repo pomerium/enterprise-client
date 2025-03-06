@@ -204,162 +204,25 @@
 */
 
 // adapted from :
-// -
-// https://github.com/envoyproxy/envoy/blob/057f7e0223d1985fd3b8f1adb1f6191454d963de/api/envoy/type/matcher/v3/regex.proto
-// -
-// https://github.com/envoyproxy/envoy/blob/057f7e0223d1985fd3b8f1adb1f6191454d963de/api/envoy/config/route/v3/route_components.proto#L1654
+// - https://github.com/envoyproxy/envoy/blob/main/api/envoy/type/range.proto
+// - https://github.com/envoyproxy/envoy/blob/main/api/envoy/type/http.proto
 
 syntax = "proto3";
 
 package pomerium.dashboard;
 
-import "validate/validate.proto";
-
 option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
 
-message RedirectAction {
-  // Describes how to match a string and then produce a new string using a
-  // regular expression and a substitution string.
-  message RegexMatchAndSubstitute {
-    // The regular expression used to find portions of a string (hereafter
-    // called the "subject string") that should be replaced. When a new string
-    // is produced during the substitution operation, the new string is
-    // initially the same as the subject string, but then all matches in the
-    // subject string are replaced by the substitution string. If replacing all
-    // matches isn't desired, regular expression anchors can be used to ensure a
-    // single match, so as to replace just one occurrence of a pattern. Capture
-    // groups can be used in the pattern to extract portions of the subject
-    // string, and then referenced in the substitution string.
-    string pattern = 1 [ (validate.rules).string = {min_len : 1} ];
+message Int64Range {
+  // start of the range (inclusive)
+  int64 start = 1;
 
-    // The string that should be substituted into matching portions of the
-    // subject string during a substitution operation to produce a new string.
-    // Capture groups in the pattern can be referenced in the substitution
-    // string. Note, however, that the syntax for referring to capture groups is
-    // defined by the chosen regular expression engine. Google's `RE2
-    // <https://github.com/google/re2>`_ regular expression engine uses a
-    // backslash followed by the capture group number to denote a numbered
-    // capture group. E.g., ``\1`` refers to capture group 1, and ``\2`` refers
-    // to capture group 2.
-    string substitution = 2 [ (validate.rules).string = {
-      well_known_regex : HTTP_HEADER_VALUE
-      strict : false
-    } ];
-  }
+  // end of the range (exclusive)
+  int64 end = 2;
+}
 
-  enum RedirectResponseCode {
-    // Moved Permanently HTTP Status Code - 301.
-    MOVED_PERMANENTLY = 0;
-
-    // Found HTTP Status Code - 302.
-    FOUND = 1;
-
-    // See Other HTTP Status Code - 303.
-    SEE_OTHER = 2;
-
-    // Temporary Redirect HTTP Status Code - 307.
-    TEMPORARY_REDIRECT = 3;
-
-    // Permanent Redirect HTTP Status Code - 308.
-    PERMANENT_REDIRECT = 4;
-  }
-
-  // When the scheme redirection take place, the following rules apply:
-  //  1. If the source URI scheme is ``http`` and the port is explicitly
-  //     set to ``:80``, the port will be removed after the redirection
-  //  2. If the source URI scheme is ``https`` and the port is explicitly
-  //     set to ``:443``, the port will be removed after the redirection
-  oneof scheme_rewrite_specifier {
-    // The scheme portion of the URL will be swapped with "https".
-    bool https_redirect = 4;
-
-    // The scheme portion of the URL will be swapped with this value.
-    string scheme_redirect = 7;
-  }
-
-  // The host portion of the URL will be swapped with this value.
-  string host_redirect = 1 [ (validate.rules).string = {
-    well_known_regex : HTTP_HEADER_VALUE
-    strict : false
-  } ];
-
-  // The port value of the URL will be swapped with this value.
-  uint32 port_redirect = 8;
-
-  oneof path_rewrite_specifier {
-    // The path portion of the URL will be swapped with this value.
-    // Please note that query string in path_redirect will override the
-    // request's query string and will not be stripped.
-    //
-    // For example, let's say we have the following routes:
-    //
-    // - match: { path: "/old-path-1" }
-    //   redirect: { path_redirect: "/new-path-1" }
-    // - match: { path: "/old-path-2" }
-    //   redirect: { path_redirect: "/new-path-2", strip-query: "true" }
-    // - match: { path: "/old-path-3" }
-    //   redirect: { path_redirect: "/new-path-3?foo=1", strip_query: "true" }
-    //
-    // 1. if request uri is "/old-path-1?bar=1", users will be redirected to
-    // "/new-path-1?bar=1"
-    // 2. if request uri is "/old-path-2?bar=1", users will be redirected to
-    // "/new-path-2"
-    // 3. if request uri is "/old-path-3?bar=1", users will be redirected to
-    // "/new-path-3?foo=1"
-    string path_redirect = 2 [ (validate.rules).string = {
-      well_known_regex : HTTP_HEADER_VALUE
-      strict : false
-    } ];
-
-    // Indicates that during redirection, the matched prefix (or path)
-    // should be swapped with this value. This option allows redirect URLs be
-    // dynamically created based on the request.
-    //
-    // .. attention::
-    //
-    //   Pay attention to the use of trailing slashes as mentioned in
-    //   :ref:`RouteAction's prefix_rewrite
-    //   <envoy_v3_api_field_config.route.v3.RouteAction.prefix_rewrite>`.
-    string prefix_rewrite = 5 [ (validate.rules).string = {
-      well_known_regex : HTTP_HEADER_VALUE
-      strict : false
-    } ];
-
-    // Indicates that during redirect, portions of the path that match the
-    // pattern should be rewritten, even allowing the substitution of capture
-    // groups from the pattern into the new path as specified by the rewrite
-    // substitution string. This is useful to allow application paths to be
-    // rewritten in a way that is aware of segments with variable content like
-    // identifiers.
-    //
-    // Examples using Google's `RE2 <https://github.com/google/re2>`_ engine:
-    //
-    // * The path pattern ``^/service/([^/]+)(/.*)$`` paired with a substitution
-    //   string of ``\2/instance/\1`` would transform ``/service/foo/v1/api``
-    //   into ``/v1/api/instance/foo``.
-    //
-    // * The pattern ``one`` paired with a substitution string of ``two`` would
-    //   transform ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/two/zzz``.
-    //
-    // * The pattern ``^(.*?)one(.*)$`` paired with a substitution string of
-    //   ``\1two\2`` would replace only the first occurrence of ``one``,
-    //   transforming path ``/xxx/one/yyy/one/zzz`` into
-    //   ``/xxx/two/yyy/one/zzz``.
-    //
-    // * The pattern ``(?i)/xxx/`` paired with a substitution string of
-    // ``/yyy/``
-    //   would do a case-insensitive match and transform path ``/aaa/XxX/bbb``
-    //   to
-    //   ``/aaa/yyy/bbb``.
-    RegexMatchAndSubstitute regex_rewrite = 9;
-  }
-
-  // The HTTP status code to use in the redirect response. The default response
-  // code is MOVED_PERMANENTLY (301).
-  RedirectResponseCode response_code = 3
-      [ (validate.rules).enum = {defined_only : true} ];
-
-  // Indicates that during redirection, the query portion of the URL will
-  // be removed. Default value is false.
-  bool strip_query = 6;
+enum CodecClientType {
+  HTTP1 = 0;
+  HTTP2 = 1;
+  HTTP3 = 2;
 }

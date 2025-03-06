@@ -5,17 +5,11 @@ _scripts_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 _root_dir="$(dirname "$_scripts_dir")"
 _deps_dir="$_root_dir/deps"
 
-#
-# see deps in https://github.com/envoyproxy/envoy/blob/v1.28.0/api/bazel/repository_locations.bzl
-# envoyproxy/data-plane-api is a mirror from envoyproxy/envoy, thus you need manually recover the commit hash
-#
 readonly _git_deps=(
-  "pomerium/pomerium|b9fd926618e2b99d48fd21a79a8065b11e70bf0a"
-  "pomerium/pomerium-console|fc081f7637869e23322765130e3319bf99ecc755"
-  'envoyproxy/protoc-gen-validate|v1.0.2'
-  'envoyproxy/data-plane-api|d525ab36724d6a94477f7642e02418b50a8c4043'
-  'cncf/xds|e9ce68804cb4e64cab5a52e3c8baf840d4ff87b7'
-  'googleapis/googleapis|114a745b2841a044e98cdbb19358ed29fcf4a5f1'
+  "pomerium/pomerium-console|8741064afdf480e602492e2d1135143775a96d08"
+  "envoyproxy/protoc-gen-validate|v1.2.1"
+  "googleapis/googleapis|114a745b2841a044e98cdbb19358ed29fcf4a5f1"
+  "protocolbuffers/protobuf|7a5905db8ebca0df67477082a697ddaaf6045e99"
 )
 
 function clone() {
@@ -89,37 +83,35 @@ _import_paths=$(join_by , "${_imports[@]}")
 
 _proto_files=(
   activity_log.proto
-  databroker_svc.proto
-  policy.proto
-  routes.proto
-  settings.proto
-  namespaces.proto
-  users.proto
-  key_chain.proto
-  console_config.proto
-  report.proto
   devices.proto
   external_data_sources.proto
-  tsdb.proto
+  key_chain.proto
+  namespaces.proto
+  policy.proto
+  route_health_check.proto
+  route_redirect_action.proto
+  routes.proto
+  settings.proto
+  types.proto
+  users.proto
 )
 
 (
   cd "$_root_dir"
 
   echo "generating pomerium-console protobuf code"
-  protoc \
+  "$_deps_dir/bin/protoc" \
     --plugin="protoc-gen-doc=$_scripts_dir/protoc-gen-doc" \
     -I "$_deps_dir" \
-    -I "$_deps_dir/github.com/cncf/xds" \
-    -I "$_deps_dir/github.com/envoyproxy/data-plane-api" \
-    -I "$_deps_dir/github.com/envoyproxy/protoc-gen-validate" \
     -I "$_deps_dir/github.com/googleapis/googleapis" \
-    -I "$_deps_dir/github.com/pomerium/pomerium/pkg/grpc" \
+    -I "$_deps_dir/github.com/protocolbuffers/protobuf/src" \
+    -I "$_deps_dir/github.com/envoyproxy/protoc-gen-validate" \
     -I "$_deps_dir/github.com/pomerium/pomerium-console/pkg/pb" \
     --doc_out=./ \
     --doc_opt=.template.mustache,API.md \
     "${_proto_files[@]}"
 )
 
-cp -f "$_deps_dir/github.com/pomerium/pomerium/pkg/grpc/"**/*.proto "$_root_dir/protos/pomerium/"
-cp -f "$_deps_dir/github.com/pomerium/pomerium-console/pkg/pb/"*.proto "$_root_dir/protos/pomerium-console/"
+for proto_file in "${_proto_files[@]}"; do
+  cp -f "$_deps_dir/github.com/pomerium/pomerium-console/pkg/pb/$proto_file" "$_root_dir/protos/pomerium-console/"
+done
