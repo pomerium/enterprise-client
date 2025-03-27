@@ -55,6 +55,8 @@ message ListPoliciesRequest {
   optional int64 limit = 4;
   // sort the Policies by newest, oldest or name
   optional string order_by = 5;
+  // list Policies belonging to the cluster, or the default cluster if not set
+  optional string cluster_id = 6;
 }
 // ListPoliciesResponse is the list of policies found for a ListPoliciesRequest
 message ListPoliciesResponse {

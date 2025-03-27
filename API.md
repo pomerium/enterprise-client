@@ -235,6 +235,7 @@ history
 | name | [ string](#string) | none |
 | activity_type | [ string](#string) | `DELETE` or `SET` |
 | created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
 | namespace_id | [ string](#string) | none |
 | namespace_name | [ string](#string) | none |
 | user_id | [ string](#string) | none |
@@ -424,7 +425,7 @@ DeviceService manages device credentials, enrollments and types
 
 ### ListDeviceTypes
 
-> **rpc** ListDeviceTypes([.google.protobuf.Empty](#googleprotobufempty))
+> **rpc** ListDeviceTypes([ListDeviceTypesRequest](#listdevicetypesrequest))
     [ListDeviceTypesResponse](#listdevicetypesresponse)
 
 
@@ -508,6 +509,7 @@ A DeviceCredential is a user's device-specific credential.
 | device_enrollment_id | [ string](#string) | none |
 | user_id | [ string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) specifier.webauthn | [ DeviceCredential.WebAuthn](#devicecredentialwebauthn) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -545,6 +547,7 @@ A DeviceEnrollment is used to approve a user's device.
 | enrolled_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | user_agent | [ string](#string) | none |
 | ip_address | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -590,6 +593,12 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
  <!-- end HasFields -->
 
 
+### ListDeviceTypesRequest
+
+
+ <!-- end HasFields -->
+
+
 ### ListDeviceTypesResponse
 
 
@@ -610,6 +619,7 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _type_id.type_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_id.user_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _approved_by.approved_by | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -844,6 +854,7 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
 | originator_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
 | created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
@@ -900,6 +911,7 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | record_type | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -918,6 +930,11 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
 ### ListExternalDataSourceRecordTypesRequest
 
 
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+ <!-- end Fields -->
  <!-- end HasFields -->
 
 
@@ -935,6 +952,11 @@ A DeviceType constrains which kinds of devices are allowed to be registered.
 ### ListExternalDataSourcesRequest
 
 
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+ <!-- end Fields -->
  <!-- end HasFields -->
 
 
@@ -1184,6 +1206,7 @@ ListKeyPairsRequest defines the types of key pairs to list
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of entries returned |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | `newest`, `oldest`, `name`, `from` |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _domain.domain | [optional string](#string) | return key pairs that match the given domain |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1564,6 +1587,7 @@ Namespace defines a namespace
 | deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | name | [ string](#string) | none |
 | originator_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
 | route_count | [ int64](#int64) | computed |
 | policy_count | [ int64](#int64) | computed |
  <!-- end Fields -->
@@ -1584,6 +1608,7 @@ NamespacePermission defines a permission binding to an identity
 | subject_type | [ string](#string) | none |
 | subject_id | [ string](#string) | none |
 | role | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1600,6 +1625,7 @@ NamespacePermissionGroup defines a permission binding to a group identity
 | namespace_id | [ string](#string) | none |
 | namespace_name | [ string](#string) | none |
 | role | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1617,6 +1643,7 @@ NamespacePermissionUser defines a permission binding to a user identity
 | namespace_id | [ string](#string) | none |
 | namespace_name | [ string](#string) | none |
 | role | [ string](#string) | none |
+| originator_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1755,6 +1782,7 @@ ListPoliciesRequest specifies the policies to list
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Policies starting from an offset in the total list |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of entries returned |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Policies by newest, oldest or name |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | list Policies belonging to the cluster, or the default cluster if not set |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2150,6 +2178,7 @@ ListRoutesRequest defines the routes to list
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional int64](#int64) | list Routes starting from an offset in the total list |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of Route entries returned |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Routes by newest, oldest, name or from |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | list Routes belonging to the cluster, or the default cluster if not set |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2259,7 +2288,7 @@ Next ID: 72
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token.kubernetes_service_account_token | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _kubernetes_service_account_token_file.kubernetes_service_account_token_file | [optional string](#string) | none |
 | enable_google_cloud_serverless_authentication | [ bool](#bool) | none |
-| jwt_issuer_format | [ IssuerFormat](#issuerformat) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _jwt_issuer_format.jwt_issuer_format | [optional IssuerFormat](#issuerformat) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
 | jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_client_id.idp_client_id | [optional string](#string) | none |
@@ -2505,6 +2534,11 @@ GetConsoleSettings retrieves the console settings.
 ### GetSettingsRequest
 
 
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+ <!-- end Fields -->
  <!-- end HasFields -->
 
 
@@ -2543,11 +2577,13 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 106.
+Next id: 109.
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _installation_id.installation_id | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _log_level.log_level | [optional string](#string) | none |
@@ -2587,6 +2623,7 @@ Next id: 106.
 | set_response_headers | [map Settings.SetResponseHeadersEntry](#settingssetresponseheadersentry) | none |
 | jwt_claims_headers | [map Settings.JwtClaimsHeadersEntry](#settingsjwtclaimsheadersentry) | none |
 | jwt_groups_filter | [ JwtGroupsFilter](#jwtgroupsfilter) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _jwt_issuer_format.jwt_issuer_format | [optional IssuerFormat](#issuerformat) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _default_upstream_timeout.default_upstream_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _metrics_address.metrics_address | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _otel_traces_exporter.otel_traces_exporter | [optional string](#string) | none |
@@ -2840,6 +2877,7 @@ parameters
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2863,6 +2901,7 @@ parameters
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2880,6 +2919,7 @@ parameters
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2897,6 +2937,7 @@ parameters
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2919,6 +2960,7 @@ parameters
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2942,6 +2984,7 @@ parameters
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_id.user_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2976,6 +3019,7 @@ ImpersonateRequest defines the identity information to impersonate
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | session_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2993,6 +3037,7 @@ ListPomeriumServiceAccountsRequest specifies the service accounts to list
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | namespace | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3020,6 +3065,7 @@ ListPomeriumSessionsRequest specifies the sessions to list
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional int64](#int64) | limit the number of Session entries returned |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | sort the Sessions by newest, oldest or name |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _user_id.user_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3050,6 +3096,7 @@ PomeriumServiceAccount defines the identity properties of a service account
 | accessed_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | issued_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _originator_id.originator_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3120,6 +3167,7 @@ QueryGroupsRequest defines the groups to retrieve
 | query | [ string](#string) | none |
 | offset | [ int64](#int64) | none |
 | limit | [ int64](#int64) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3145,6 +3193,7 @@ QueryUsersRequest defines the users to retrieve
 | query | [ string](#string) | list Users with any fields that match the query |
 | offset | [ int64](#int64) | list Users starting from an offset in the total list |
 | limit | [ int64](#int64) | limit the number of User entries returned |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3185,6 +3234,7 @@ functioning Pomerium proxy
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 

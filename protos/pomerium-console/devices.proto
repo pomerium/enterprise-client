@@ -27,7 +27,9 @@ message WebAuthnOptions {
     PLATFORM = 0;
     CROSS_PLATFORM = 2;
   }
-  enum PublicKeyCredentialType { PUBLIC_KEY = 0; }
+  enum PublicKeyCredentialType {
+    PUBLIC_KEY = 0;
+  }
   enum ResidentKeyRequirement {
     RESIDENT_KEY_DISCOURAGED = 0;
     RESIDENT_KEY_PREFERRED = 1;
@@ -83,6 +85,7 @@ message DeviceEnrollment {
   google.protobuf.Timestamp enrolled_at = 10;
   string user_agent = 11;
   string ip_address = 12;
+  optional string cluster_id = 13;
 }
 
 // A DeviceCredential is a user's device-specific credential.
@@ -109,6 +112,7 @@ message DeviceCredential {
   string user_id = 7;
 
   oneof specifier { WebAuthn webauthn = 8; }
+  optional string cluster_id = 9;
 }
 
 // A DeviceOwnerCredentialRecord is used to track credential owners to prevent
@@ -131,7 +135,6 @@ message CreateDeviceEnrollmentRequest {
   string route_url = 3;
   string redirect_url = 2;
 }
-
 message CreateDeviceEnrollmentResponse {
   DeviceEnrollment enrollment = 1;
   string enrollment_url = 2;
@@ -143,15 +146,14 @@ message DeleteDeviceRequest {
     string enrollment_id = 2;
   }
 }
-
 message DeleteDeviceTypeRequest { string type_id = 1; }
 
 message ListDevicesRequest {
   optional string type_id = 1;
   optional string user_id = 2;
   optional string approved_by = 3;
+  optional string cluster_id = 4;
 }
-
 message ListDevicesResponse {
   message Device {
     DeviceType type = 1;
@@ -165,10 +167,10 @@ message ListDevicesResponse {
   repeated Device devices = 4;
 }
 
+message ListDeviceTypesRequest {}
 message ListDeviceTypesResponse { repeated DeviceType types = 1; }
 
 message SetDeviceTypeRequest { DeviceType type = 1; }
-
 message SetDeviceTypeResponse { DeviceType type = 1; }
 
 // DeviceService manages device credentials, enrollments and types
@@ -180,5 +182,5 @@ service DeviceService {
   rpc DeleteDevice(DeleteDeviceRequest) returns (google.protobuf.Empty);
   rpc DeleteDeviceType(DeleteDeviceTypeRequest) returns (google.protobuf.Empty);
   rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse);
-  rpc ListDeviceTypes(google.protobuf.Empty) returns (ListDeviceTypesResponse);
+  rpc ListDeviceTypes(ListDeviceTypesRequest) returns (ListDeviceTypesResponse);
 }

@@ -36,7 +36,10 @@ message UserInfo {
   bool is_impersonated = 7;
 }
 
-message GetUserInfoRequest { optional string user_id = 1; }
+message GetUserInfoRequest {
+  optional string user_id = 1;
+  optional string cluster_id = 2;
+}
 message GetUserInfoResponse { UserInfo user_info = 1; }
 
 // QueryGroupsRequest defines the groups to retrieve
@@ -44,8 +47,8 @@ message QueryGroupsRequest {
   string query = 1;
   int64 offset = 2;
   int64 limit = 3;
+  optional string cluster_id = 4;
 }
-
 // QueryGroupsResponse is the list of groups retrieved from a QueryGroupsRequest
 message QueryGroupsResponse {
   repeated GroupInfo groups = 1;
@@ -60,8 +63,8 @@ message QueryUsersRequest {
   int64 offset = 2;
   // limit the number of User entries returned
   int64 limit = 3;
+  optional string cluster_id = 4;
 }
-
 // QueryUsersResponse is the list of users retrieved from a QueryUsersRequest
 message QueryUsersResponse {
   repeated UserInfo users = 1;
@@ -90,25 +93,37 @@ message PomeriumServiceAccount {
   google.protobuf.Timestamp accessed_at = 10;
   google.protobuf.Timestamp expires_at = 3;
   google.protobuf.Timestamp issued_at = 4;
+  optional string originator_id = 11;
 }
 
 message AddPomeriumServiceAccountRequest {
   PomeriumServiceAccount service_account = 1;
+  optional string cluster_id = 2;
 }
 message AddPomeriumServiceAccountResponse {
   PomeriumServiceAccount service_account = 1;
   string JWT = 2;
 }
-message DeletePomeriumServiceAccountRequest { string id = 1; }
+
+message DeletePomeriumServiceAccountRequest {
+  string id = 1;
+  optional string cluster_id = 2;
+}
 message DeletePomeriumServiceAccountResponse {}
-message GetPomeriumServiceAccountRequest { string id = 1; }
+
+message GetPomeriumServiceAccountRequest {
+  string id = 1;
+  optional string cluster_id = 2;
+}
 message GetPomeriumServiceAccountResponse {
   PomeriumServiceAccount service_account = 1;
 }
 
 // ListPomeriumServiceAccountsRequest specifies the service accounts to list
-message ListPomeriumServiceAccountsRequest { string namespace = 1; }
-
+message ListPomeriumServiceAccountsRequest {
+  string namespace = 1;
+  optional string cluster_id = 2;
+}
 // ListPomeriumServiceAccountsResponse is the list of service accounts found for
 // a ListPomeriumServiceAccountsRequest
 message ListPomeriumServiceAccountsResponse {
@@ -117,6 +132,7 @@ message ListPomeriumServiceAccountsResponse {
 
 message SetPomeriumServiceAccountRequest {
   PomeriumServiceAccount service_account = 1;
+  optional string cluster_id = 2;
 }
 message SetPomeriumServiceAccountResponse {
   PomeriumServiceAccount service_account = 1;
@@ -167,9 +183,15 @@ message PomeriumSession {
   map<string, google.protobuf.ListValue> claims = 8;
 }
 
-message DeletePomeriumSessionRequest { string id = 1; }
+message DeletePomeriumSessionRequest {
+  string id = 1;
+  optional string cluster_id = 2;
+}
 message DeletePomeriumSessionResponse {}
-message GetPomeriumSessionRequest { string id = 1; }
+message GetPomeriumSessionRequest {
+  string id = 1;
+  optional string cluster_id = 2;
+}
 message GetPomeriumSessionResponse {
   PomeriumSession session = 1;
   repeated PomeriumSession associated_sessions = 2;
@@ -186,6 +208,7 @@ message ListPomeriumSessionsRequest {
   // sort the Sessions by newest, oldest or name
   optional string order_by = 4;
   optional string user_id = 5;
+  optional string cluster_id = 6;
 }
 // ListPomeriumSessionsResponse is the sessions found for a
 // ListPomeriumSessionsRequest
@@ -195,7 +218,10 @@ message ListPomeriumSessionsResponse {
 }
 
 // ImpersonateRequest defines the identity information to impersonate
-message ImpersonateRequest { string session_id = 1; }
+message ImpersonateRequest {
+  string session_id = 1;
+  optional string cluster_id = 2;
+}
 message ImpersonateResponse {}
 
 // PomeriumSessionService manages user sessions inside the databroker

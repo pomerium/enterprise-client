@@ -15,6 +15,7 @@ message Namespace {
   google.protobuf.Timestamp deleted_at = 5;
   string name = 6;
   string originator_id = 9;
+  optional string cluster_id = 10;
 
   // computed
   int64 route_count = 7;
@@ -49,7 +50,8 @@ service NamespaceService {
   // ListNamespaces lists all namespaces
   rpc ListNamespaces(ListNamespacesRequest) returns (ListNamespacesResponse);
   // ListNamespaceResources lists all the resources for a namespace.
-  rpc ListNamespaceResources(ListNamespaceResourcesRequest) returns (ListNamespaceResourcesResponse);
+  rpc ListNamespaceResources(ListNamespaceResourcesRequest)
+      returns (ListNamespaceResourcesResponse);
   // SetNamespace creates a namespace or, if the id is specified, updates an
   // existing namespace
   rpc SetNamespace(SetNamespaceRequest) returns (SetNamespaceResponse);
@@ -65,6 +67,7 @@ message NamespacePermission {
   string subject_type = 5;
   string subject_id = 6;
   string role = 7;
+  string originator_id = 9;
 }
 
 // NamespacePermissionGroup defines a permission binding to a group identity
@@ -75,6 +78,7 @@ message NamespacePermissionGroup {
   string namespace_id = 4;
   string namespace_name = 5;
   string role = 6;
+  string originator_id = 7;
 }
 
 // NamespacePermissionUser defines a permission binding to a user identity
@@ -86,6 +90,7 @@ message NamespacePermissionUser {
   string namespace_id = 5;
   string namespace_name = 7;
   string role = 6;
+  string originator_id = 8;
 }
 
 message DeleteNamespacePermissionRequest { string id = 1; }
