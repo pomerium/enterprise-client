@@ -15,7 +15,7 @@ message ConsoleSettings {
 }
 
 // Settings defines the global pomerium settings
-// Next id: 106.
+// Next id: 109.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
@@ -24,6 +24,8 @@ message Settings {
   }
   message StringList { repeated string values = 1; }
 
+  string id = 107;
+  optional string cluster_id = 108;
   google.protobuf.Timestamp modified_at = 1;
 
   optional string installation_id = 68;
@@ -64,6 +66,7 @@ message Settings {
   map<string, string> set_response_headers = 67;
   map<string, string> jwt_claims_headers = 66;
   JwtGroupsFilter jwt_groups_filter = 87;
+  optional IssuerFormat jwt_issuer_format = 106;
   optional google.protobuf.Duration default_upstream_timeout = 39;
   optional string metrics_address = 40;
   reserved 41; // tracing_provider
@@ -119,8 +122,10 @@ message Settings {
 
 message GetConsoleSettingsRequest {}
 message GetConsoleSettingsResponse { ConsoleSettings console_settings = 1; }
-message GetSettingsRequest {}
+
+message GetSettingsRequest { optional string cluster_id = 1; }
 message GetSettingsResponse { Settings settings = 1; }
+
 message SetSettingsRequest { Settings settings = 1; }
 message SetSettingsResponse { Settings settings = 1; }
 

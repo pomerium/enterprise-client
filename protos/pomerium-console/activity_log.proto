@@ -21,6 +21,7 @@ message ActivityLogEntry {
   // `DELETE` or `SET`
   string activity_type = 2;
   google.protobuf.Timestamp created_at = 3;
+  optional string cluster_id = 21;
   string namespace_id = 4;
   string namespace_name = 5;
   string user_id = 6;

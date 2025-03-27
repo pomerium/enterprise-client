@@ -135,6 +135,7 @@ message ListKeyPairsRequest {
   optional string order_by = 5;
   // return key pairs that match the given domain
   optional string domain = 6;
+  optional string cluster_id = 7;
 }
 
 // ListKeyPairsResponse is the list of Key Pairs found from a

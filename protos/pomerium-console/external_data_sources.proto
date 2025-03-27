@@ -11,6 +11,7 @@ import "google/protobuf/timestamp.proto";
 message ExternalDataSource {
   string id = 1;
   string originator_id = 13;
+  optional string cluster_id = 14;
   google.protobuf.Timestamp created_at = 2;
   google.protobuf.Timestamp modified_at = 3;
   google.protobuf.Timestamp deleted_at = 4;
@@ -38,15 +39,20 @@ message GetExternalDataSourceRequest { string id = 1; }
 message GetExternalDataSourceResponse {
   ExternalDataSource external_data_source = 1;
 }
-message ListExternalDataSourcesRequest {}
+message ListExternalDataSourcesRequest { optional string cluster_id = 1; }
 message ListExternalDataSourcesResponse {
   repeated ExternalDataSource external_data_sources = 1;
 }
-message ListExternalDataSourceRecordTypesRequest {}
+message ListExternalDataSourceRecordTypesRequest {
+  optional string cluster_id = 1;
+}
 message ListExternalDataSourceRecordTypesResponse {
   repeated string record_types = 1;
 }
-message ListExternalDataSourceRecordFieldsRequest { string record_type = 1; }
+message ListExternalDataSourceRecordFieldsRequest {
+  string record_type = 1;
+  optional string cluster_id = 2;
+}
 message ListExternalDataSourceRecordFieldsResponse {
   repeated string record_fields = 1;
 }

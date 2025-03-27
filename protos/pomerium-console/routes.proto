@@ -129,7 +129,7 @@ message Route {
   optional string kubernetes_service_account_token_file = 60;
   reserved 39;
   bool enable_google_cloud_serverless_authentication = 46;
-  IssuerFormat jwt_issuer_format = 61;
+  optional IssuerFormat jwt_issuer_format = 61;
   optional BearerTokenFormat bearer_token_format = 68;
   JwtGroupsFilter jwt_groups_filter = 62;
   optional string idp_client_id = 57;
@@ -164,10 +164,13 @@ message RouteWithPolicies {
 
 message DeleteRouteRequest { string id = 1; }
 message DeleteRouteResponse {}
+
 message DeleteRoutesRequest { repeated string ids = 1; }
 message DeleteRoutesResponse {}
+
 message GetRouteRequest { string id = 1; }
 message GetRouteResponse { Route route = 1; }
+
 // ListRoutesRequest defines the routes to list
 message ListRoutesRequest {
   string namespace = 1;
@@ -179,8 +182,9 @@ message ListRoutesRequest {
   optional int64 limit = 4;
   // sort the Routes by newest, oldest, name or from
   optional string order_by = 5;
+  // list Routes belonging to the cluster, or the default cluster if not set
+  optional string cluster_id = 6;
 }
-
 // ListRoutesResponse is the list of routes found for a ListRoutesRequest
 message ListRoutesResponse {
   repeated Route routes = 1;
@@ -193,12 +197,13 @@ message LoadRoutesRequest {
   // OSS pomerium policy block
   bytes contents = 2;
 }
-
 // LoadRoutesResponse contains the routes and policies crated from a
 // LoadRoutesRequest
 message LoadRoutesResponse { repeated RouteWithPolicies routes = 1; }
+
 message SetRouteRequest { Route route = 1; }
 message SetRouteResponse { Route route = 1; }
+
 message SetRoutesRequest { repeated Route routes = 1; }
 message SetRoutesResponse { repeated Route routes = 1; }
 
