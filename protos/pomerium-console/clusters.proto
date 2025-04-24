@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package pomerium.dashboard;
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
+
+import "google/protobuf/timestamp.proto";
+import "namespaces.proto";
+import "settings.proto";
+
+message Cluster {
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp modified_at = 3;
+  google.protobuf.Timestamp deleted_at = 4;
+  string name = 5;
+  string databroker_service_url = 6;
+  bytes shared_secret = 7;
+  optional bool insecure_skip_verify = 8;
+  optional string override_certificate_name = 9;
+  optional bytes certificate_authority = 10;
+  optional string certificate_authority_file = 11;
+}
+
+message AddClusterRequest {
+  string parent_namespace_id = 1;
+  Cluster cluster = 2;
+}
+message AddClusterResponse {
+  Cluster cluster = 1;
+  Namespace namespace = 2;
+  Settings settings = 3;
+}
+
+message DeleteClusterRequest { string id = 1; }
+message DeleteClusterResponse {}
+
+message GetClusterRequest { string id = 1; }
+message GetClusterResponse {
+  Cluster cluster = 1;
+  Namespace namespace = 2;
+  Settings settings = 3;
+}
+
+message ListClustersRequest {}
+message ListClustersResponse { repeated Cluster clusters = 1; }
+
+message UpdateClusterRequest { Cluster cluster = 1; }
+message UpdateClusterResponse {
+  Cluster cluster = 1;
+  Namespace namespace = 2;
+  Settings settings = 3;
+}
+
+service ClustersService {
+  rpc AddCluster(AddClusterRequest) returns (AddClusterResponse);
+  rpc DeleteCluster(DeleteClusterRequest) returns (DeleteClusterResponse);
+  rpc GetCluster(GetClusterRequest) returns (GetClusterResponse);
+  rpc ListClusters(ListClustersRequest) returns (ListClustersResponse);
+  rpc UpdateCluster(UpdateClusterRequest) returns (UpdateClusterResponse);
+}

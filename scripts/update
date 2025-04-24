@@ -6,7 +6,7 @@ _root_dir="$(dirname "$_scripts_dir")"
 _deps_dir="$_root_dir/deps"
 
 readonly _git_deps=(
-  "pomerium/pomerium-console|3fecd0e6a1c46b3a14f6164086a968f4be264042"
+  "pomerium/pomerium-console|f63a010434491342810022a689092d3379ae5091"
   "envoyproxy/protoc-gen-validate|v1.2.1"
   "googleapis/googleapis|114a745b2841a044e98cdbb19358ed29fcf4a5f1"
   "protocolbuffers/protobuf|7a5905db8ebca0df67477082a697ddaaf6045e99"
@@ -20,12 +20,12 @@ function clone() {
   echo "cloning $_name:$_tag to $_dst"
   if [ ! -d "$_dst" ]; then
     mkdir -p "$_dst"
-    git clone "git@github.com:$_name" "$_dst"
+    (cd "$_dst" && git init && git remote add origin "git@github.com:$_name")
   fi
   (
     cd "$_dst"
-    git fetch
-    git checkout "$_tag"
+    git fetch --depth=1 origin
+    git switch --force-create dev "$_tag"
   )
 }
 
@@ -83,6 +83,7 @@ _import_paths=$(join_by , "${_imports[@]}")
 
 _proto_files=(
   activity_log.proto
+  clusters.proto
   devices.proto
   external_data_sources.proto
   key_chain.proto
