@@ -14,6 +14,23 @@
 
 
 
+  - [ClustersService](#clustersservice)
+  
+    - [AddCluster](#addcluster)
+  
+    - [DeleteCluster](#deletecluster)
+  
+    - [GetCluster](#getcluster)
+  
+    - [ListClusters](#listclusters)
+  
+    - [UpdateCluster](#updatecluster)
+  
+
+
+
+
+
   - [DeviceService](#deviceservice)
   
     - [ApproveDevice](#approvedevice)
@@ -375,6 +392,178 @@ ListActivityLogEntriesRequest
 | ----- | ---- | ----------- |
 | entries | [repeated ActivityLogEntry](#activitylogentry) | Activity Log entries |
 | total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+ <!-- end messages -->
+
+## Enums
+ <!-- end Enums -->
+
+
+# ClustersService
+
+
+## Methods
+### AddCluster
+
+> **rpc** AddCluster([AddClusterRequest](#addclusterrequest))
+    [AddClusterResponse](#addclusterresponse)
+
+
+### DeleteCluster
+
+> **rpc** DeleteCluster([DeleteClusterRequest](#deleteclusterrequest))
+    [DeleteClusterResponse](#deleteclusterresponse)
+
+
+### GetCluster
+
+> **rpc** GetCluster([GetClusterRequest](#getclusterrequest))
+    [GetClusterResponse](#getclusterresponse)
+
+
+### ListClusters
+
+> **rpc** ListClusters([ListClustersRequest](#listclustersrequest))
+    [ListClustersResponse](#listclustersresponse)
+
+
+### UpdateCluster
+
+> **rpc** UpdateCluster([UpdateClusterRequest](#updateclusterrequest))
+    [UpdateClusterResponse](#updateclusterresponse)
+
+
+ <!-- end methods -->
+ <!-- end services -->
+
+## Messages
+
+
+### AddClusterRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| parent_namespace_id | [ string](#string) | none |
+| cluster | [ Cluster](#cluster) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### AddClusterResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| cluster | [ Cluster](#cluster) | none |
+| namespace | [ Namespace](#namespace) | none |
+| settings | [ Settings](#settings) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Cluster
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| name | [ string](#string) | none |
+| databroker_service_url | [ string](#string) | none |
+| shared_secret | [ bytes](#bytes) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _insecure_skip_verify.insecure_skip_verify | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _override_certificate_name.override_certificate_name | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority.certificate_authority | [optional bytes](#bytes) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority_file.certificate_authority_file | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteClusterRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteClusterResponse
+
+
+ <!-- end HasFields -->
+
+
+### GetClusterRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetClusterResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| cluster | [ Cluster](#cluster) | none |
+| namespace | [ Namespace](#namespace) | none |
+| settings | [ Settings](#settings) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListClustersRequest
+
+
+ <!-- end HasFields -->
+
+
+### ListClustersResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| clusters | [repeated Cluster](#cluster) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### UpdateClusterRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| cluster | [ Cluster](#cluster) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### UpdateClusterResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| cluster | [ Cluster](#cluster) | none |
+| namespace | [ Namespace](#namespace) | none |
+| settings | [ Settings](#settings) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
  <!-- end messages -->
@@ -2239,7 +2428,7 @@ LoadRoutesRequest
 
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 72
+Next ID: 73
 
 
 | Field | Type | Description |
@@ -2296,6 +2485,7 @@ Next ID: 72
 | show_error_details | [ bool](#bool) | none |
 | originator_id | [ string](#string) | none |
 | policy_ids | [repeated string](#string) | policies applied to this route |
+| depends_on | [repeated string](#string) | multi-route login additional hosts |
 | policy_names | [repeated string](#string) | computed properties (may be nil) |
 | namespace_name | [ string](#string) | computed |
 | enforced_policy_ids | [repeated string](#string) | computed |

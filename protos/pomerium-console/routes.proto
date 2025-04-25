@@ -64,7 +64,7 @@ enum LoadBalancingPolicy {
 }
 
 // Route defines a proxy route's settings and policy associations
-// Next ID: 72
+// Next ID: 73
 message Route {
   message StringList { repeated string values = 1; }
 
@@ -139,6 +139,9 @@ message Route {
 
   // policies applied to this route
   repeated string policy_ids = 28;
+
+  // multi-route login additional hosts
+  repeated string depends_on = 72;
 
   // computed properties (may be nil)
   repeated string policy_names = 34;
