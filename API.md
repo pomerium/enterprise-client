@@ -482,6 +482,7 @@ ListActivityLogEntriesRequest
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _override_certificate_name.override_certificate_name | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority.certificate_authority | [optional bytes](#bytes) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _certificate_authority_file.certificate_authority_file | [optional string](#string) | none |
+| originator_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 

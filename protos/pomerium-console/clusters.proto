@@ -20,6 +20,7 @@ message Cluster {
   optional string override_certificate_name = 9;
   optional bytes certificate_authority = 10;
   optional string certificate_authority_file = 11;
+  string originator_id = 12;
 }
 
 message AddClusterRequest {
