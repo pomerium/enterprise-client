@@ -2768,7 +2768,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 109.
+Next id: 110.
 
 
 | Field | Type | Description |
@@ -2862,6 +2862,7 @@ Next id: 109.
 | originator_id | [ string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _codec_type.codec_type | [optional CodecType](#codectype) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2927,6 +2928,20 @@ Next id: 109.
  <!-- end messages -->
 
 ## Enums
+
+
+### CodecType {#codectype}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| CODEC_TYPE_UNKNOWN | 0 | none |
+| CODEC_TYPE_AUTO | 1 | none |
+| CODEC_TYPE_HTTP1 | 2 | none |
+| CODEC_TYPE_HTTP2 | 3 | none |
+| CODEC_TYPE_HTTP3 | 4 | none |
+
+
  <!-- end Enums -->
 
 
