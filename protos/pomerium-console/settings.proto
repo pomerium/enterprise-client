@@ -14,8 +14,16 @@ message ConsoleSettings {
   bool use_changesets = 2;
 }
 
+enum CodecType {
+  CODEC_TYPE_UNKNOWN = 0;
+  CODEC_TYPE_AUTO = 1;
+  CODEC_TYPE_HTTP1 = 2;
+  CODEC_TYPE_HTTP2 = 3;
+  CODEC_TYPE_HTTP3 = 4;
+}
+
 // Settings defines the global pomerium settings
-// Next id: 109.
+// Next id: 110.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
@@ -118,6 +126,7 @@ message Settings {
   string originator_id = 103;
   optional BearerTokenFormat bearer_token_format = 104;
   optional StringList idp_access_token_allowed_audiences = 105;
+  optional CodecType codec_type = 109;
 }
 
 message GetConsoleSettingsRequest {}
