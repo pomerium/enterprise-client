@@ -23,7 +23,7 @@ enum CodecType {
 }
 
 // Settings defines the global pomerium settings
-// Next id: 110.
+// Next id: 111.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
@@ -127,6 +127,7 @@ message Settings {
   optional BearerTokenFormat bearer_token_format = 104;
   optional StringList idp_access_token_allowed_audiences = 105;
   optional CodecType codec_type = 109;
+  optional CircuitBreakerThresholds circuit_breaker_thresholds = 110;
 }
 
 message GetConsoleSettingsRequest {}
