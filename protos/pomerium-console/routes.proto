@@ -63,8 +63,30 @@ enum LoadBalancingPolicy {
   LOAD_BALANCING_POLICY_LEAST_REQUEST = 5;
 }
 
+// CircuitBreakerThresholds defines CircuitBreaker settings.
+message CircuitBreakerThresholds {
+  // The maximum number of connections that Envoy will make to the upstream
+  // cluster. If not specified, the default is 1024.
+  optional uint32 max_connections = 1;
+  // The maximum number of pending requests that Envoy will allow to the
+  // upstream cluster. If not specified, the default is 1024. This limit is
+  // applied as a connection limit for non-HTTP traffic.
+  optional uint32 max_pending_requests = 2;
+  // The maximum number of parallel requests that Envoy will make to the
+  // upstream cluster. If not specified, the default is 1024. This limit does
+  // not apply to non-HTTP traffic.
+  optional uint32 max_requests = 3;
+  // The maximum number of parallel retries that Envoy will allow to the
+  // upstream cluster. If not specified, the default is 3.
+  optional uint32 max_retries = 4;
+  // The maximum number of connection pools per cluster that Envoy will
+  // concurrently support at once. If not specified, the default is unlimited.
+  // Set this for clusters which create a large number of connection pools.
+  optional uint32 max_connection_pools = 5;
+}
+
 // Route defines a proxy route's settings and policy associations
-// Next ID: 73
+// Next ID: 74
 message Route {
   message StringList { repeated string values = 1; }
 
@@ -156,6 +178,7 @@ message Route {
       [ (validate.rules).enum = {defined_only : true} ];
 
   repeated HealthCheck health_checks = 71;
+  optional CircuitBreakerThresholds circuit_breaker_thresholds = 73;
 }
 
 // RouteWithPolicies contains automatically created routes and policies from a

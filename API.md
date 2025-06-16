@@ -1809,11 +1809,14 @@ NamespacePermissionGroup defines a permission binding to a group identity
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| namespace_id | [ string](#string) | none |
+| namespace_name | [ string](#string) | none |
 | group_id | [ string](#string) | none |
 | group_name | [ string](#string) | none |
 | group_email | [ string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| namespace_name | [ string](#string) | none |
 | role | [ string](#string) | none |
 | originator_id | [ string](#string) | none |
  <!-- end Fields -->
@@ -1826,12 +1829,15 @@ NamespacePermissionUser defines a permission binding to a user identity
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| namespace_id | [ string](#string) | none |
+| namespace_name | [ string](#string) | none |
 | user_id | [ string](#string) | none |
 | user_name | [ string](#string) | none |
 | user_email | [ string](#string) | none |
 | group_ids | [repeated string](#string) | none |
-| namespace_id | [ string](#string) | none |
-| namespace_name | [ string](#string) | none |
 | role | [ string](#string) | none |
 | originator_id | [ string](#string) | none |
  <!-- end Fields -->
@@ -2289,6 +2295,21 @@ MoveRoutes takes an array of routeIds and moves them to a new namespace
 ## Messages
 
 
+### CircuitBreakerThresholds
+CircuitBreakerThresholds defines CircuitBreaker settings.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _max_connections.max_connections | [optional uint32](#uint32) | The maximum number of connections that Envoy will make to the upstream cluster. If not specified, the default is 1024. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _max_pending_requests.max_pending_requests | [optional uint32](#uint32) | The maximum number of pending requests that Envoy will allow to the upstream cluster. If not specified, the default is 1024. This limit is applied as a connection limit for non-HTTP traffic. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _max_requests.max_requests | [optional uint32](#uint32) | The maximum number of parallel requests that Envoy will make to the upstream cluster. If not specified, the default is 1024. This limit does not apply to non-HTTP traffic. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _max_retries.max_retries | [optional uint32](#uint32) | The maximum number of parallel retries that Envoy will allow to the upstream cluster. If not specified, the default is 3. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _max_connection_pools.max_connection_pools | [optional uint32](#uint32) | The maximum number of connection pools per cluster that Envoy will concurrently support at once. If not specified, the default is unlimited. Set this for clusters which create a large number of connection pools. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### DeleteRouteRequest
 
 
@@ -2429,7 +2450,7 @@ LoadRoutesRequest
 
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 73
+Next ID: 74
 
 
 | Field | Type | Description |
@@ -2494,6 +2515,7 @@ Next ID: 73
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Route.StringList](#routestringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _load_balancing_policy.load_balancing_policy | [optional LoadBalancingPolicy](#loadbalancingpolicy) | none |
 | health_checks | [repeated HealthCheck](#healthcheck) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _circuit_breaker_thresholds.circuit_breaker_thresholds | [optional CircuitBreakerThresholds](#circuitbreakerthresholds) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2768,7 +2790,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 110.
+Next id: 111.
 
 
 | Field | Type | Description |
@@ -2863,6 +2885,7 @@ Next id: 110.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bearer_token_format.bearer_token_format | [optional BearerTokenFormat](#bearertokenformat) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _codec_type.codec_type | [optional CodecType](#codectype) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _circuit_breaker_thresholds.circuit_breaker_thresholds | [optional CircuitBreakerThresholds](#circuitbreakerthresholds) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 

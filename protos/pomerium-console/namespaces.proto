@@ -72,23 +72,29 @@ message NamespacePermission {
 
 // NamespacePermissionGroup defines a permission binding to a group identity
 message NamespacePermissionGroup {
+  string id = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp modified_at = 10;
+  string namespace_id = 4;
+  string namespace_name = 5;
   string group_id = 1;
   string group_name = 2;
   string group_email = 3;
-  string namespace_id = 4;
-  string namespace_name = 5;
   string role = 6;
   string originator_id = 7;
 }
 
 // NamespacePermissionUser defines a permission binding to a user identity
 message NamespacePermissionUser {
+  string id = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp modified_at = 11;
+  string namespace_id = 5;
+  string namespace_name = 7;
   string user_id = 1;
   string user_name = 2;
   string user_email = 3;
   repeated string group_ids = 4;
-  string namespace_id = 5;
-  string namespace_name = 7;
   string role = 6;
   string originator_id = 8;
 }
