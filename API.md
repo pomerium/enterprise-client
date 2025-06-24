@@ -2790,7 +2790,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 111.
+Next id: 116.
 
 
 | Field | Type | Description |
@@ -2886,6 +2886,11 @@ Next id: 111.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _codec_type.codec_type | [optional CodecType](#codectype) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _circuit_breaker_thresholds.circuit_breaker_thresholds | [optional CircuitBreakerThresholds](#circuitbreakerthresholds) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_address.ssh_address | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_host_key_files.ssh_host_key_files | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_host_keys.ssh_host_keys | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_user_ca_key_file.ssh_user_ca_key_file | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_user_ca_key.ssh_user_ca_key | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 

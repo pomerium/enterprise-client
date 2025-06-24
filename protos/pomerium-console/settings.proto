@@ -23,7 +23,7 @@ enum CodecType {
 }
 
 // Settings defines the global pomerium settings
-// Next id: 111.
+// Next id: 116.
 message Settings {
   message Certificate {
     bytes cert_bytes = 3;
@@ -128,6 +128,11 @@ message Settings {
   optional StringList idp_access_token_allowed_audiences = 105;
   optional CodecType codec_type = 109;
   optional CircuitBreakerThresholds circuit_breaker_thresholds = 110;
+  optional string ssh_address = 111;
+  optional StringList ssh_host_key_files = 112;
+  optional StringList ssh_host_keys = 113;
+  optional string ssh_user_ca_key_file = 114;
+  optional string ssh_user_ca_key = 115;
 }
 
 message GetConsoleSettingsRequest {}
