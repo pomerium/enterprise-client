@@ -36,6 +36,12 @@ message UserInfo {
   bool is_impersonated = 7;
 }
 
+message GetGroupInfoRequest {
+  string group_id = 1;
+  optional string cluster_id = 2;
+}
+message GetGroupInfoResponse { GroupInfo group_info = 1; }
+
 message GetUserInfoRequest {
   optional string user_id = 1;
   optional string cluster_id = 2;
@@ -73,6 +79,8 @@ message QueryUsersResponse {
 
 // UserService supports querying directory data from the databroker
 service UserService {
+  // GetGroupInfo retrieves information about a group.
+  rpc GetGroupInfo(GetGroupInfoRequest) returns (GetGroupInfoResponse);
   // GetUserInfo retrieves identity information and permission mappings for a
   // user
   rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);

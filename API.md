@@ -205,6 +205,8 @@
 
   - [UserService](#userservice)
   
+    - [GetGroupInfo](#getgroupinfo)
+  
     - [GetUserInfo](#getuserinfo)
   
     - [QueryGroups](#querygroups)
@@ -3077,6 +3079,12 @@ ListPomeriumSessionsRequest
 UserService supports querying directory data from the databroker
 
 ## Methods
+### GetGroupInfo
+
+> **rpc** GetGroupInfo([GetGroupInfoRequest](#getgroupinforequest))
+    [GetGroupInfoResponse](#getgroupinforesponse)
+
+GetGroupInfo retrieves information about a group.
 ### GetUserInfo
 
 > **rpc** GetUserInfo([GetUserInfoRequest](#getuserinforequest))
@@ -3161,6 +3169,29 @@ parameters
 ### DeletePomeriumSessionResponse
 
 
+ <!-- end HasFields -->
+
+
+### GetGroupInfoRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| group_id | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetGroupInfoResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| group_info | [ GroupInfo](#groupinfo) | none |
+ <!-- end Fields -->
  <!-- end HasFields -->
 
 
