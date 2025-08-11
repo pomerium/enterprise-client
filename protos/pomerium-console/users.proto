@@ -225,6 +225,20 @@ message ListPomeriumSessionsResponse {
   int64 total_count = 2;
 }
 
+message ListPomeriumSessionsForImpersonationRequest {
+  optional string cluster_id = 1;
+  optional string query = 2;
+}
+message ListPomeriumSessionsForImpersonationResponse {
+  message Session {
+    string id = 1;
+    string user_display_name = 2;
+    string user_email = 3;
+  }
+
+  repeated Session sessions = 1;
+}
+
 // ImpersonateRequest defines the identity information to impersonate
 message ImpersonateRequest {
   string session_id = 1;
@@ -246,4 +260,9 @@ service PomeriumSessionService {
   // ListPomeriumSessionsRequest
   rpc ListPomeriumSessions(ListPomeriumSessionsRequest)
       returns (ListPomeriumSessionsResponse);
+  // ListPomeriumSessionsForImpersonation lists existing sessions for
+  // impersonation.
+  rpc ListPomeriumSessionsForImpersonation(
+      ListPomeriumSessionsForImpersonationRequest)
+      returns (ListPomeriumSessionsForImpersonationResponse);
 }
