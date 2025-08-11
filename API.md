@@ -202,6 +202,8 @@
   
     - [ListPomeriumSessions](#listpomeriumsessions)
   
+    - [ListPomeriumSessionsForImpersonation](#listpomeriumsessionsforimpersonation)
+  
 
   - [UserService](#userservice)
   
@@ -2432,6 +2434,37 @@ LoadRoutesRequest
  <!-- end HasFields -->
 
 
+### MCP
+MCP is an experimental support for Model Context Protocol upstreams configuration
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) mode.server | [ MCPServer](#mcpserver) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) mode.client | [ MCPClient](#mcpclient) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### MCPClient
+MCPClient holds configuration for an MCP client route
+
+ <!-- end HasFields -->
+
+
+### MCPServer
+MCPServer holds configuration for an MCP server route
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _upstream_oauth2.upstream_oauth2 | [optional UpstreamOAuth2](#upstreamoauth2) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _max_request_bytes.max_request_bytes | [optional uint32](#uint32) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path.path | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### MoveRoutesRequest
 
 
@@ -2450,9 +2483,22 @@ LoadRoutesRequest
  <!-- end HasFields -->
 
 
+### OAuth2Endpoint
+OAuth2Endpoint defines OAuth2 provider endpoints
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| auth_url | [ string](#string) | none |
+| token_url | [ string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _auth_style.auth_style | [optional OAuth2AuthStyle](#oauth2authstyle) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 74
+Next ID: 75
 
 
 | Field | Type | Description |
@@ -2518,6 +2564,8 @@ Next ID: 74
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _load_balancing_policy.load_balancing_policy | [optional LoadBalancingPolicy](#loadbalancingpolicy) | none |
 | health_checks | [repeated HealthCheck](#healthcheck) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _circuit_breaker_thresholds.circuit_breaker_thresholds | [optional CircuitBreakerThresholds](#circuitbreakerthresholds) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _mcp.mcp | [optional MCP](#mcp) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _healthy_panic_threshold.healthy_panic_threshold | [optional int32](#int32) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2637,6 +2685,20 @@ LoadRoutesRequest
 | routes | [repeated Route](#route) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
+
+
+### UpstreamOAuth2
+UpstreamOAuth2 configures OAuth2 authentication for upstream requests
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| client_id | [ string](#string) | none |
+| client_secret | [ string](#string) | none |
+| oauth2_endpoint | [ OAuth2Endpoint](#oauth2endpoint) | none |
+| scopes | [repeated string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
  <!-- end messages -->
 
 ## Enums
@@ -2678,6 +2740,18 @@ upstream endpoints
 | LOAD_BALANCING_POLICY_RANDOM | 3 | Random selection of backend |
 | LOAD_BALANCING_POLICY_RING_HASH | 4 | Consistent hashing on an attribute |
 | LOAD_BALANCING_POLICY_LEAST_REQUEST | 5 | Select backend with fewest active requests |
+
+
+
+
+### OAuth2AuthStyle {#oauth2authstyle}
+OAuth2AuthStyle defines the OAuth2 authentication style
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| OAUTH2_AUTH_STYLE_UNSPECIFIED | 0 | none |
+| OAUTH2_AUTH_STYLE_IN_PARAMS | 1 | none |
+| OAUTH2_AUTH_STYLE_IN_HEADER | 2 | none |
 
 
  <!-- end Enums -->
@@ -3074,6 +3148,13 @@ Impersonate updates an existing session to impersonate another identity
 
 ListPomeriumSessions lists existing sessions based on the parameters of
 ListPomeriumSessionsRequest
+### ListPomeriumSessionsForImpersonation
+
+> **rpc** ListPomeriumSessionsForImpersonation([ListPomeriumSessionsForImpersonationRequest](#listpomeriumsessionsforimpersonationrequest))
+    [ListPomeriumSessionsForImpersonationResponse](#listpomeriumsessionsforimpersonationresponse)
+
+ListPomeriumSessionsForImpersonation lists existing sessions for
+impersonation.
  <!-- end methods -->
 # UserService
 UserService supports querying directory data from the databroker
@@ -3315,6 +3396,42 @@ a ListPomeriumServiceAccountsRequest
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | service_accounts | [repeated PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListPomeriumSessionsForImpersonationRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _query.query | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListPomeriumSessionsForImpersonationResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| sessions | [repeated ListPomeriumSessionsForImpersonationResponse.Session](#listpomeriumsessionsforimpersonationresponsesession) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListPomeriumSessionsForImpersonationResponse.Session
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| user_display_name | [ string](#string) | none |
+| user_email | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
