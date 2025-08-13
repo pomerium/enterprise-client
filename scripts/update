@@ -23,9 +23,15 @@ function clone() {
     (cd "$_dst" && git init && git remote add origin "git@github.com:$_name")
   fi
   (
-    cd "$_dst"
-    git fetch --depth=1 origin
-    git switch --force-create dev "$_tag"
+      cd "$_dst"
+      if [[ "$_tag" =~ ^[0-9a-f]{40}$ ]]; then
+          echo "Checking out commit $_tag in $_name"
+          git fetch --depth=1 origin "$_tag"
+      else
+          echo "Checking out tag $_tag in $_name"
+          git fetch origin --depth=1 tag "$_tag" --no-tags
+      fi
+      git switch --force-create dev "$_tag"
   )
 }
 
