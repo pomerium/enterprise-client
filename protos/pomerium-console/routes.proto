@@ -128,7 +128,7 @@ enum OAuth2AuthStyle {
 }
 
 // Route defines a proxy route's settings and policy associations
-// Next ID: 75
+// Next ID: 77
 message Route {
   message StringList {
     repeated string values = 1;
@@ -225,7 +225,11 @@ message Route {
   optional MCP mcp = 74;
 
   optional int32 healthy_panic_threshold = 75;
+
+  optional UpstreamTunnel upstream_tunnel = 76;
 }
+
+message UpstreamTunnel {}
 
 // RouteWithPolicies contains automatically created routes and policies from a
 // LoadRoutesRequest
