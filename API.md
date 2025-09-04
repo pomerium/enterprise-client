@@ -2498,7 +2498,7 @@ OAuth2Endpoint defines OAuth2 provider endpoints
 
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 75
+Next ID: 77
 
 
 | Field | Type | Description |
@@ -2566,6 +2566,7 @@ Next ID: 75
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _circuit_breaker_thresholds.circuit_breaker_thresholds | [optional CircuitBreakerThresholds](#circuitbreakerthresholds) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _mcp.mcp | [optional MCP](#mcp) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _healthy_panic_threshold.healthy_panic_threshold | [optional int32](#int32) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _upstream_tunnel.upstream_tunnel | [optional UpstreamTunnel](#upstreamtunnel) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2698,6 +2699,12 @@ UpstreamOAuth2 configures OAuth2 authentication for upstream requests
 | oauth2_endpoint | [ OAuth2Endpoint](#oauth2endpoint) | none |
 | scopes | [repeated string](#string) | none |
  <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### UpstreamTunnel
+
+
  <!-- end HasFields -->
  <!-- end messages -->
 
