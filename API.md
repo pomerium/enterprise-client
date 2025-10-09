@@ -2873,7 +2873,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 120.
+Next id: 122.
 
 
 | Field | Type | Description |
@@ -2888,11 +2888,13 @@ Next id: 120.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _services.services | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _address.address | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _insecure_server.insecure_server | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_lookup_family.dns_lookup_family | [optional string](#string) | dns options |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_failure_refresh_rate.dns_failure_refresh_rate | [optional google.protobuf.Duration](#googleprotobufduration) | dns options |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_lookup_family.dns_lookup_family | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_query_timeout.dns_query_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_query_tries.dns_query_tries | [optional uint32](#uint32) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_refresh_rate.dns_refresh_rate | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_udp_max_queries.dns_udp_max_queries | [optional uint32](#uint32) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_use_tcp.dns_use_tcp | [optional bool](#bool) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_query_tries.dns_query_tries | [optional uint32](#uint32) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _dns_query_timeout.dns_query_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | certificates | [repeated Settings.Certificate](#settingscertificate) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _http_redirect_addr.http_redirect_addr | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_read.timeout_read | [optional google.protobuf.Duration](#googleprotobufduration) | none |
