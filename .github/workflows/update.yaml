@@ -12,6 +12,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           submodules: "true"
+          token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
 
       - name: Update
         run: |
