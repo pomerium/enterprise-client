@@ -110,11 +110,12 @@ message KeyPairRecord {
   google.protobuf.Timestamp modified_at = 5;
   // information about the public certificate
   CertificateInfo cert_info = 7;
-  // Key Pair has a private key attached
-  bool has_private_key = 8;
+  // Deprecated: This field will be removed in a future release. Use key_sha256 to verify presence of private key.
+  bool has_private_key = 8 [deprecated = true];
   // public certificate data
   bytes certificate = 9;
   string originator_id = 10;
+  optional string key_sha256 = 11;
 }
 
 message DeleteKeyPairRequest { string id = 1; }
@@ -148,7 +149,6 @@ message ListKeyPairsResponse {
 
 // CreateKeyPairRequest defines a Key Pair to create
 message CreateKeyPairRequest {
-  string originator_id = 6;
   string name = 1;
   string namespace_id = 2;
   // encoding format of data
@@ -157,6 +157,8 @@ message CreateKeyPairRequest {
   bytes certificate = 4;
   // private key data
   bytes key = 5;
+  string originator_id = 6;
+  optional string id = 7;
 }
 
 message CreateKeyPairResponse { KeyPairRecord key_pair = 1; }
