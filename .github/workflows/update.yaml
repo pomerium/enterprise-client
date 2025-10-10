@@ -25,6 +25,8 @@ jobs:
           git config --global user.name "GitHub Actions"
           git add .
           git diff --cached --exit-code || echo "changed=true" >> $GITHUB_OUTPUT
+          git commit -m "regenerate"
+          git push
 
       - name: Commit
         if: ${{ steps.git-diff.outputs.changed }} == 'true'
