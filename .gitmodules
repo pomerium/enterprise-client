@@ -1,0 +1,13 @@
+[submodule "deps/github.com/pomerium/pomerium-console"]
+	path = deps/github.com/pomerium/pomerium-console
+	url = git@github.com:pomerium/pomerium-console
+	branch = main
+[submodule "deps/github.com/envoyproxy/protoc-gen-validate"]
+	path = deps/github.com/envoyproxy/protoc-gen-validate
+	url = git@github.com:envoyproxy/protoc-gen-validate
+[submodule "deps/github.com/googleapis/googleapis"]
+	path = deps/github.com/googleapis/googleapis
+	url = git@github.com:googleapis/googleapis
+[submodule "deps/github.com/protocolbuffers/protobuf"]
+	path = deps/github.com/protocolbuffers/protobuf
+	url = git@github.com:protocolbuffers/protobuf

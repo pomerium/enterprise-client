@@ -1,3 +1,3 @@
-deps/*
-!deps/.gitkeep
 .vscode/
+deps/bin/
+deps/protoc.zip
