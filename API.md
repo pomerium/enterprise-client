@@ -1270,13 +1270,12 @@ CreateKeyPairRequest defines a Key Pair to create
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
+| originator_id | [ string](#string) | none |
 | name | [ string](#string) | none |
 | namespace_id | [ string](#string) | none |
 | format | [ Format](#format) | encoding format of data |
 | certificate | [ bytes](#bytes) | public certificate data |
 | key | [ bytes](#bytes) | private key data |
-| originator_id | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _id.id | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -1361,10 +1360,9 @@ KeyPairRecord provides existing Key Pair metadata
 | created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | database record creation time |
 | modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | database record modification time |
 | cert_info | [ CertificateInfo](#certificateinfo) | information about the public certificate |
-| has_private_key | [ bool](#bool) | Deprecated: This field will be removed in a future release. Use key_sha256 to verify presence of private key. |
+| has_private_key | [ bool](#bool) | Key Pair has a private key attached |
 | certificate | [ bytes](#bytes) | public certificate data |
 | originator_id | [ string](#string) | none |
-| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _key_sha256.key_sha256 | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2903,6 +2901,7 @@ Next id: 122.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_write.timeout_write | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _timeout_idle.timeout_idle | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authenticate_service_url.authenticate_service_url | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authenticate_callback_path.authenticate_callback_path | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_name.cookie_name | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_secret.cookie_secret | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cookie_domain.cookie_domain | [optional string](#string) | none |
