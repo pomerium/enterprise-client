@@ -15,9 +15,8 @@ jobs:
           submodules: "true"
           token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
 
-      - name: Update
-        run: |
-          ./scripts/update
+      - name: Generate
+        run: make generate
 
       - name: Commit
         uses: devops-infra/action-commit-push@e6a24fad602d1f92e46432c89a7e0c7fdd45d62d
