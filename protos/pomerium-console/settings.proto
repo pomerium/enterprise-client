@@ -59,7 +59,7 @@ message Settings {
   optional google.protobuf.Duration timeout_write = 12;
   optional google.protobuf.Duration timeout_idle = 13;
   optional string authenticate_service_url = 14;
-  optional string authenticate_callback_path = 15;
+  reserved 15; // authenticate_callback_path
   optional string cookie_name = 16;
   optional string cookie_secret = 17;
   optional string cookie_domain = 18;
