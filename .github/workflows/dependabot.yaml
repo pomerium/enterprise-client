@@ -1,12 +1,13 @@
-name: Update
+name: Dependabot
 
 on:
   pull_request:
 
 jobs:
-  update:
+  generate:
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    name: Generate
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'pomerium/enterprise-client'
     steps:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -19,7 +20,7 @@ jobs:
         run: make generate
 
       - name: Commit
-        uses: devops-infra/action-commit-push@e6a24fad602d1f92e46432c89a7e0c7fdd45d62d
+        uses: devops-infra/action-commit-push@68b7fc222377cf66850ef50a6fd6a1be983d176d
         with:
           github_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
-          commit_message: "ci: update"
+          commit_message: "dependabot: generate"
