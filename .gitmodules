@@ -1,7 +1,6 @@
 [submodule "deps/github.com/pomerium/pomerium-console"]
 	path = deps/github.com/pomerium/pomerium-console
 	url = git@github.com:pomerium/pomerium-console
-	branch = main
 [submodule "deps/github.com/envoyproxy/protoc-gen-validate"]
 	path = deps/github.com/envoyproxy/protoc-gen-validate
 	url = git@github.com:envoyproxy/protoc-gen-validate
