@@ -2875,7 +2875,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 122.
+Next id: 123.
 
 
 | Field | Type | Description |
@@ -2981,6 +2981,7 @@ Next id: 122.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_host_keys.ssh_host_keys | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_user_ca_key_file.ssh_user_ca_key_file | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_user_ca_key.ssh_user_ca_key | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _mcp_allowed_client_id_domains.mcp_allowed_client_id_domains | [optional Settings.StringList](#settingsstringlist) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
