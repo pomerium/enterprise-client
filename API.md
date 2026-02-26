@@ -3258,6 +3258,7 @@ parameters
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _block_user.block_user | [optional bool](#bool) | If set, in addition to revoking the session, revoke any other session associated with the session user id, and block the user from accessing any routes. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
