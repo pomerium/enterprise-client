@@ -97,9 +97,10 @@ message MCP {
 
 // MCPServer holds configuration for an MCP server route
 message MCPServer {
-  optional UpstreamOAuth2 upstream_oauth2   = 1;
-  optional uint32         max_request_bytes = 2;
-  optional string         path              = 3;
+  optional UpstreamOAuth2 upstream_oauth2          = 1;
+  optional uint32         max_request_bytes        = 2;
+  optional string         path                     = 3;
+  optional string         authorization_server_url = 4;
 }
 
 // MCPClient holds configuration for an MCP client route

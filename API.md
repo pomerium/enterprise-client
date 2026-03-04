@@ -2463,6 +2463,7 @@ MCPServer holds configuration for an MCP server route
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _upstream_oauth2.upstream_oauth2 | [optional UpstreamOAuth2](#upstreamoauth2) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _max_request_bytes.max_request_bytes | [optional uint32](#uint32) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path.path | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _authorization_server_url.authorization_server_url | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
