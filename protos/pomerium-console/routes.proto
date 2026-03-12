@@ -230,7 +230,9 @@ message Route {
   optional UpstreamTunnel upstream_tunnel = 76;
 }
 
-message UpstreamTunnel {}
+message UpstreamTunnel {
+  optional string ssh_policy_id = 1;
+}
 
 // RouteWithPolicies contains automatically created routes and policies from a
 // LoadRoutesRequest

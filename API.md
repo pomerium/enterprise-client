@@ -2708,6 +2708,11 @@ UpstreamOAuth2 configures OAuth2 authentication for upstream requests
 ### UpstreamTunnel
 
 
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_policy_id.ssh_policy_id | [optional string](#string) | none |
+ <!-- end Fields -->
  <!-- end HasFields -->
  <!-- end messages -->
 
