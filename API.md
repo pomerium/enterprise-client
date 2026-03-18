@@ -2701,6 +2701,19 @@ UpstreamOAuth2 configures OAuth2 authentication for upstream requests
 | client_secret | [ string](#string) | none |
 | oauth2_endpoint | [ OAuth2Endpoint](#oauth2endpoint) | none |
 | scopes | [repeated string](#string) | none |
+| authorization_url_params | [map UpstreamOAuth2.AuthorizationUrlParamsEntry](#upstreamoauth2authorizationurlparamsentry) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### UpstreamOAuth2.AuthorizationUrlParamsEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2892,7 +2905,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 125.
+Next id: 126.
 
 
 | Field | Type | Description |
@@ -3001,6 +3014,7 @@ Next id: 125.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _mcp_allowed_client_id_domains.mcp_allowed_client_id_domains | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _session_recording_enabled.session_recording_enabled | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _blob_storage.blob_storage | [optional BlobStorageSettings](#blobstoragesettings) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _auto_apply_changesets.auto_apply_changesets | [optional bool](#bool) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
