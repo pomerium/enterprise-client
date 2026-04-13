@@ -23,7 +23,7 @@ enum CodecType {
 }
 
 // Settings defines the global pomerium settings
-// Next id: 127.
+// Next id: 128.
 message Settings {
   message Certificate {
     bytes  cert_bytes  = 3;
@@ -149,10 +149,12 @@ message Settings {
   optional bool                     session_recording_enabled                              = 123;
   optional BlobStorageSettings      blob_storage                                           = 124;
   optional bool                     auto_apply_changesets                                  = 125;
+  optional StringList               allow_upgrades                                         = 127;
 }
 
 message BlobStorageSettings {
-  optional string bucket_uri = 1;
+  optional string bucket_uri     = 1;
+  optional string managed_prefix = 2;
 }
 
 message GetConsoleSettingsRequest {}

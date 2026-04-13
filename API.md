@@ -2501,7 +2501,7 @@ OAuth2Endpoint defines OAuth2 provider endpoints
 
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 77
+Next ID: 78
 
 
 | Field | Type | Description |
@@ -2570,6 +2570,7 @@ Next ID: 77
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _mcp.mcp | [optional MCP](#mcp) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _healthy_panic_threshold.healthy_panic_threshold | [optional int32](#int32) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _upstream_tunnel.upstream_tunnel | [optional UpstreamTunnel](#upstreamtunnel) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_upgrades.allow_upgrades | [optional Route.StringList](#routestringlist) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2826,6 +2827,7 @@ GetConsoleSettings retrieves the console settings.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _bucket_uri.bucket_uri | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _managed_prefix.managed_prefix | [optional string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2905,7 +2907,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 127.
+Next id: 128.
 
 
 | Field | Type | Description |
@@ -3016,6 +3018,7 @@ Next id: 127.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _session_recording_enabled.session_recording_enabled | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _blob_storage.blob_storage | [optional BlobStorageSettings](#blobstoragesettings) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _auto_apply_changesets.auto_apply_changesets | [optional bool](#bool) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_upgrades.allow_upgrades | [optional Settings.StringList](#settingsstringlist) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
