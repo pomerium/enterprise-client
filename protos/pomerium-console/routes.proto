@@ -130,7 +130,7 @@ enum OAuth2AuthStyle {
 }
 
 // Route defines a proxy route's settings and policy associations
-// Next ID: 77
+// Next ID: 78
 message Route {
   message StringList {
     repeated string values = 1;
@@ -229,6 +229,7 @@ message Route {
   optional int32 healthy_panic_threshold = 75;
 
   optional UpstreamTunnel upstream_tunnel = 76;
+  optional StringList     allow_upgrades  = 77;
 }
 
 message UpstreamTunnel {
