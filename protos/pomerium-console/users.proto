@@ -157,6 +157,7 @@ message SetPomeriumServiceAccountRequest {
 
 message SetPomeriumServiceAccountResponse {
   PomeriumServiceAccount service_account = 1;
+  string                 jwt             = 2;
 }
 
 // PomeriumServiceAccountService manages service accounts for use with the

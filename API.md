@@ -3681,6 +3681,7 @@ functioning Pomerium proxy
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | service_account | [ PomeriumServiceAccount](#pomeriumserviceaccount) | none |
+| jwt | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
