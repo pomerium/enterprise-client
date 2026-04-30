@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package pomerium.dashboard;
 
-option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
-
 import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
 
 // ActivityLogEntry contains context associated with a change in the deployment
 // history
@@ -16,37 +16,40 @@ message ActivityLogEntry {
     int64 removed = 2;
   }
 
-  string id = 1;
+  string id   = 1;
   string name = 20;
   // `DELETE` or `SET`
-  string activity_type = 2;
-  google.protobuf.Timestamp created_at = 3;
-  optional string cluster_id = 21;
-  string namespace_id = 4;
-  string namespace_name = 5;
-  string user_id = 6;
-  string user_name = 7;
-  string user_email = 8;
+  string                    activity_type  = 2;
+  google.protobuf.Timestamp created_at     = 3;
+  optional string           cluster_id     = 21;
+  string                    namespace_id   = 4;
+  string                    namespace_name = 5;
+  string                    user_id        = 6;
+  string                    user_name      = 7;
+  string                    user_email     = 8;
   // `route` | `policy` | `settings`
-  string entity_type = 9;
-  string entity_id = 10;
-  string entity_data = 11;
+  string      entity_type  = 9;
+  string      entity_id    = 10;
+  string      entity_data  = 11;
   DiffSummary diff_summary = 12;
   // databroker version this change synced to
-  uint64 db_version = 13;
-  string session_id = 14;
-  string service_account_id = 15;
-  string impersonate_user_id = 16;
-  string impersonate_user_name = 17;
-  string impersonate_user_email = 18;
+  uint64          db_version              = 13;
+  string          session_id              = 14;
+  string          service_account_id      = 15;
+  string          impersonate_user_id     = 16;
+  string          impersonate_user_name   = 17;
+  string          impersonate_user_email  = 18;
   repeated string impersonate_user_groups = 19;
 }
 
-message GetActivityLogEntryRequest { string id = 1; }
+message GetActivityLogEntryRequest {
+  string id = 1;
+}
+
 message GetActivityLogEntryResponse {
-  ActivityLogEntry entry = 1;
-  optional string previous_entry_id = 2;
-  optional string next_entry_id = 3;
+  ActivityLogEntry entry             = 1;
+  optional string  previous_entry_id = 2;
+  optional string  next_entry_id     = 3;
 }
 
 // ListActivityLogEntriesRequest defines the types of Activity Log entries to
@@ -54,11 +57,11 @@ message GetActivityLogEntryResponse {
 message ListActivityLogEntriesRequest {
   // `DELETE` | `SET`
   optional string activity_type = 1;
-  optional string namespace_id = 2;
-  optional string user_id = 3;
+  optional string namespace_id  = 2;
+  optional string user_id       = 3;
   // `route` | `policy` | `settings`
   optional string entity_type = 4;
-  optional string entity_id = 5;
+  optional string entity_id   = 5;
   // `newest` | `oldest` | `from` | `name`
   optional string query = 6;
   // list entries starting from an offset in the total list
@@ -73,7 +76,7 @@ message ListActivityLogEntriesRequest {
   // an entity is a single entity (route, policy, etc.)
   message Entity {
     string type = 1;
-    string id = 2;
+    string id   = 2;
   }
   // the entities are a list of entities to retrieve the activity log for
   repeated Entity entities = 10;
@@ -92,8 +95,8 @@ message ListActivityLogEntriesRequest {
   // filter for dates
   message DateFilter {
     // `=` | `!=` | `<` | `<=` | `>` | `>=`
-    string operator = 1;
-    google.protobuf.Timestamp date = 2;
+    string                    operator = 1;
+    google.protobuf.Timestamp date     = 2;
   }
 
   DateFilter date_filter = 13;
@@ -103,7 +106,7 @@ message ListActivityLogEntriesRequest {
     string fieldName = 1;
     // `contains` | `equals` | `startsWith` | `endsWith`
     string operator = 2;
-    string value = 3;
+    string value    = 3;
   }
 
   StringFilter string_filter = 14;
@@ -113,18 +116,24 @@ message ListActivityLogEntriesRequest {
 // ListActivityLogEntriesRequest
 message ListActivityLogEntriesResponse {
   // Activity Log entries
-  repeated ActivityLogEntry entries = 1;
-  int64 total_count = 2;
+  repeated ActivityLogEntry entries     = 1;
+  int64                     total_count = 2;
+}
+
+message ListEntityTypesRequest {}
+
+message ListEntityTypesResponse {
+  repeated string entity_types = 1;
 }
 
 // ActivityLogService tracks historical changes to configuration made through
 // Pomerium Enterprise
 service ActivityLogService {
   // GetActivityLogEntry retrieves a specific activity log entry
-  rpc GetActivityLogEntry(GetActivityLogEntryRequest)
-      returns (GetActivityLogEntryResponse);
+  rpc GetActivityLogEntry(GetActivityLogEntryRequest) returns (GetActivityLogEntryResponse);
   // ListActivityLogEntries lists activity log entries based on paramters in the
   // ListActivityLogEntriesRequest
-  rpc ListActivityLogEntries(ListActivityLogEntriesRequest)
-      returns (ListActivityLogEntriesResponse);
+  rpc ListActivityLogEntries(ListActivityLogEntriesRequest) returns (ListActivityLogEntriesResponse);
+  // Lists all the known entity types.
+  rpc ListEntityTypes(ListEntityTypesRequest) returns (ListEntityTypesResponse);
 }

@@ -9,6 +9,8 @@
   
     - [ListActivityLogEntries](#listactivitylogentries)
   
+    - [ListEntityTypes](#listentitytypes)
+  
 
 
 
@@ -239,6 +241,12 @@ GetActivityLogEntry retrieves a specific activity log entry
 
 ListActivityLogEntries lists activity log entries based on paramters in the
 ListActivityLogEntriesRequest
+### ListEntityTypes
+
+> **rpc** ListEntityTypes([ListEntityTypesRequest](#listentitytypesrequest))
+    [ListEntityTypesResponse](#listentitytypesresponse)
+
+Lists all the known entity types.
  <!-- end methods -->
  <!-- end services -->
 
@@ -396,6 +404,23 @@ ListActivityLogEntriesRequest
 | ----- | ---- | ----------- |
 | entries | [repeated ActivityLogEntry](#activitylogentry) | Activity Log entries |
 | total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListEntityTypesRequest
+
+
+ <!-- end HasFields -->
+
+
+### ListEntityTypesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| entity_types | [repeated string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
  <!-- end messages -->
