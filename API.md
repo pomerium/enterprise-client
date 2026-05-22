@@ -2596,6 +2596,7 @@ Next ID: 78
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _healthy_panic_threshold.healthy_panic_threshold | [optional int32](#int32) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _upstream_tunnel.upstream_tunnel | [optional UpstreamTunnel](#upstreamtunnel) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_upgrades.allow_upgrades | [optional Route.StringList](#routestringlist) | none |
+| session_recording | [ SessionRecording](#sessionrecording) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2669,6 +2670,17 @@ LoadRoutesRequest
 | ----- | ---- | ----------- |
 | route | [ Route](#route) | none |
 | policies | [repeated Policy](#policy) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### SessionRecording
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _enabled.enabled | [optional bool](#bool) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3044,6 +3056,8 @@ Next id: 128.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _blob_storage.blob_storage | [optional BlobStorageSettings](#blobstoragesettings) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _auto_apply_changesets.auto_apply_changesets | [optional bool](#bool) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_upgrades.allow_upgrades | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _envoy_dynamic_extensions.envoy_dynamic_extensions | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _session_recording_concurrency.session_recording_concurrency | [optional uint32](#uint32) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 

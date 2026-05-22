@@ -150,6 +150,8 @@ message Settings {
   optional BlobStorageSettings      blob_storage                                           = 124;
   optional bool                     auto_apply_changesets                                  = 125;
   optional StringList               allow_upgrades                                         = 127;
+  optional StringList               envoy_dynamic_extensions = 128;
+  optional uint32 session_recording_concurrency =129;
 }
 
 message BlobStorageSettings {
