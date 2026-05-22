@@ -230,7 +230,14 @@ message Route {
 
   optional UpstreamTunnel upstream_tunnel = 76;
   optional StringList     allow_upgrades  = 77;
+  SessionRecording session_recording = 78;
+
 }
+
+message SessionRecording{
+  optional bool enabled = 1;
+}
+
 
 message UpstreamTunnel {
   optional string ssh_policy_id = 1;
