@@ -2944,7 +2944,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 128.
+Next id: 134.
 
 
 | Field | Type | Description |
@@ -3058,6 +3058,10 @@ Next id: 128.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_upgrades.allow_upgrades | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _envoy_dynamic_extensions.envoy_dynamic_extensions | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _session_recording_concurrency.session_recording_concurrency | [optional uint32](#uint32) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _normalize_path.normalize_path | [optional bool](#bool) | Should paths be normalized according to RFC 3986 before any processing of requests by HTTP filters or routing? Defaults to true. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _merge_slashes.merge_slashes | [optional bool](#bool) | Determines if adjacent slashes in the path are merged into one before any processing of requests by HTTP filters or routing. Defaults to true. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path_with_escaped_slashes_action.path_with_escaped_slashes_action | [optional PathWithEscapedSlashesAction](#pathwithescapedslashesaction) | Action to take when request URL path contains escaped slash sequences (%2F, %2f, %5C and %5c). Defaults to rejecting requests. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _headers_with_underscores_action.headers_with_underscores_action | [optional HeadersWithUnderscoresAction](#headerswithunderscoresaction) | Action to take when a client request with a header name containing underscore characters is received. Defaults to rejecting the request. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3135,6 +3139,34 @@ Next id: 128.
 | CODEC_TYPE_HTTP1 | 2 | none |
 | CODEC_TYPE_HTTP2 | 3 | none |
 | CODEC_TYPE_HTTP3 | 4 | none |
+
+
+
+
+### HeadersWithUnderscoresAction {#headerswithunderscoresaction}
+Action to take when Envoy receives client request with header names containing underscore characters.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| HEADERS_WITH_UNDERSCORES_ACTION_UNKNOWN | 0 | none |
+| HEADERS_WITH_UNDERSCORES_ACTION_ALLOW | 1 | Allow headers with underscores. |
+| HEADERS_WITH_UNDERSCORES_ACTION_REJECT_REQUEST | 2 | ⁣Reject client request. This is the default behavior. |
+| HEADERS_WITH_UNDERSCORES_ACTION_DROP_HEADER | 3 | Drop the client header with name containing underscores. |
+
+
+
+
+### PathWithEscapedSlashesAction {#pathwithescapedslashesaction}
+PathWithEscapedSlashesAction determines the action for request that contain
+%2F, %2f, %5C or %5c sequences in the URI path.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PATH_WITH_ESCAPED_SLASHES_ACTION_UNKNOWN | 0 | none |
+| PATH_WITH_ESCAPED_SLASHES_ACTION_KEEP_UNCHANGED | 1 | ⁣Keep escaped slashes. |
+| PATH_WITH_ESCAPED_SLASHES_ACTION_REJECT_REQUEST | 2 | ⁣Reject client request with the 400 status. This is the default behavior. |
+| PATH_WITH_ESCAPED_SLASHES_ACTION_UNESCAPE_AND_REDIRECT | 3 | Unescape %2F and %5C sequences and redirect request to the new path if these sequences were present. |
+| PATH_WITH_ESCAPED_SLASHES_ACTION_UNESCAPE_AND_FORWARD | 4 | ⁣Unescape %2F and %5C sequences. |
 
 
  <!-- end Enums -->
