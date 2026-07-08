@@ -39,7 +39,10 @@ message Policy {
   string namespace_name = 12;
 }
 
-message DeletePolicyRequest { string id = 1; }
+message DeletePolicyRequest {
+  string id = 1;
+  bool remove_from_any_assigned_routes = 2;
+}
 message DeletePolicyResponse {}
 message GetPolicyRequest { string id = 1; }
 message GetPolicyResponse { Policy policy = 1; }
