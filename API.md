@@ -1966,6 +1966,7 @@ existing policy
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
+| remove_from_any_assigned_routes | [ bool](#bool) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
