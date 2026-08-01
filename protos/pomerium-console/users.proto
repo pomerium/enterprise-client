@@ -26,6 +26,7 @@ message GroupInfo {
 
 // UserInfo defines the metadata for a directory user in the databroker
 message UserInfo {
+  string              issuer          = 8;
   string              id              = 1;
   string              name            = 2;
   string              email           = 3;

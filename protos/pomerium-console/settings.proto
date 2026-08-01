@@ -10,8 +10,10 @@ import "routes.proto";
 option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
 
 message ConsoleSettings {
-  bool enable_feedback_widget = 1;
-  bool use_changesets         = 2;
+  bool   enable_feedback_widget    = 1;
+  bool   use_changesets            = 2;
+  bool   enable_remote_diagnostics = 3;
+  string installation_id           = 4;
 }
 
 enum CodecType {

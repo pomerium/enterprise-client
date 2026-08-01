@@ -2878,6 +2878,8 @@ GetConsoleSettings retrieves the console settings.
 | ----- | ---- | ----------- |
 | enable_feedback_widget | [ bool](#bool) | none |
 | use_changesets | [ bool](#bool) | none |
+| enable_remote_diagnostics | [ bool](#bool) | none |
+| installation_id | [ string](#string) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3764,6 +3766,7 @@ UserInfo defines the metadata for a directory user in the databroker
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
+| issuer | [ string](#string) | none |
 | id | [ string](#string) | none |
 | name | [ string](#string) | none |
 | email | [ string](#string) | none |
