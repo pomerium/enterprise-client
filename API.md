@@ -2527,7 +2527,7 @@ OAuth2Endpoint defines OAuth2 provider endpoints
 
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 78
+Next ID: 80
 
 
 | Field | Type | Description |
@@ -2598,6 +2598,7 @@ Next ID: 78
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _upstream_tunnel.upstream_tunnel | [optional UpstreamTunnel](#upstreamtunnel) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_upgrades.allow_upgrades | [optional Route.StringList](#routestringlist) | none |
 | session_recording | [ SessionRecording](#sessionrecording) | none |
+| identity_providers | [repeated string](#string) | Names of the identity_providers whose JWT bearer tokens this route accepts (when bearer_token_format is BEARER_TOKEN_FORMAT_JWT). Each entry must be a key in Settings.identity_providers. When empty, all configured providers are accepted. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2780,6 +2781,7 @@ UpstreamOAuth2 configures OAuth2 authentication for upstream requests
 | BEARER_TOKEN_FORMAT_DEFAULT | 1 | none |
 | BEARER_TOKEN_FORMAT_IDP_ACCESS_TOKEN | 2 | none |
 | BEARER_TOKEN_FORMAT_IDP_IDENTITY_TOKEN | 3 | none |
+| BEARER_TOKEN_FORMAT_JWT | 4 | none |
 
 
 
@@ -2923,6 +2925,28 @@ GetConsoleSettings retrieves the console settings.
  <!-- end HasFields -->
 
 
+### IdentityProvider
+IdentityProvider declares an additional identity provider. Today it is
+usable only to verify JWT bearer tokens issued by non-interactive workloads
+(Kubernetes projected service-account tokens, GitHub Actions OIDC, SPIFFE
+JWT-SVIDs, …) on routes whose bearer_token_format is BEARER_TOKEN_FORMAT_JWT.
+It does not replace the interactive SSO identity provider (the idp_* fields).
+
+Providers are declared as a map in Settings; the map key is the provider
+name, referenced from Route.identity_providers. Authorization on the verified
+claims is left to PPL (claim/...).
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| issuer | [ string](#string) | The `iss` claim tokens must carry. Required, and unique across providers. Used both to select the matching provider for an incoming token and (with OIDC discovery) to fetch the signing keys. |
+| jwks_url | [ string](#string) | Optional explicit JWKS URL. When set, OIDC discovery is skipped and keys are fetched directly from this URL. Useful when the issuer URL is not externally routable (e.g. Kubernetes' `kubernetes.default.svc.cluster.local`). |
+| supported_algs | [repeated string](#string) | Allowed JWT signing algorithms. When empty, defaults to {RS256, ES256, EdDSA}. `none` and HMAC (HS*) algorithms are rejected. |
+| audiences | [repeated string](#string) | Audiences accepted on tokens from this provider. Required and non-empty: at least one must intersect the token's `aud` claim. Fail-closed — an empty set rejects all tokens. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### SetSettingsRequest
 
 
@@ -2947,7 +2971,7 @@ GetConsoleSettings retrieves the console settings.
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 134.
+Next id: 135.
 
 
 | Field | Type | Description |
@@ -3065,6 +3089,7 @@ Next id: 134.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _merge_slashes.merge_slashes | [optional bool](#bool) | Determines if adjacent slashes in the path are merged into one before any processing of requests by HTTP filters or routing. Defaults to true. |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path_with_escaped_slashes_action.path_with_escaped_slashes_action | [optional PathWithEscapedSlashesAction](#pathwithescapedslashesaction) | Action to take when request URL path contains escaped slash sequences (%2F, %2f, %5C and %5c). Defaults to rejecting requests. |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _headers_with_underscores_action.headers_with_underscores_action | [optional HeadersWithUnderscoresAction](#headerswithunderscoresaction) | Action to take when a client request with a header name containing underscore characters is received. Defaults to rejecting the request. |
+| identity_providers | [map Settings.IdentityProvidersEntry](#settingsidentityprovidersentry) | Additional identity providers, keyed by provider name. Currently usable only to verify JWT bearer tokens from non-interactive workloads on routes whose bearer_token_format is BEARER_TOKEN_FORMAT_JWT; the interactive SSO provider is still configured via the idp_* fields. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3078,6 +3103,18 @@ Next id: 134.
 | cert_bytes | [ bytes](#bytes) | none |
 | key_bytes | [ bytes](#bytes) | none |
 | key_pair_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### Settings.IdentityProvidersEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ IdentityProvider](#identityprovider) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
