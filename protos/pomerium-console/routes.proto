@@ -38,6 +38,7 @@ enum BearerTokenFormat {
   BEARER_TOKEN_FORMAT_DEFAULT            = 1;
   BEARER_TOKEN_FORMAT_IDP_ACCESS_TOKEN   = 2;
   BEARER_TOKEN_FORMAT_IDP_IDENTITY_TOKEN = 3;
+  BEARER_TOKEN_FORMAT_JWT                = 4;
 }
 
 message JwtGroupsFilter {
@@ -130,7 +131,7 @@ enum OAuth2AuthStyle {
 }
 
 // Route defines a proxy route's settings and policy associations
-// Next ID: 78
+// Next ID: 80
 message Route {
   message StringList {
     repeated string values = 1;
@@ -228,16 +229,19 @@ message Route {
 
   optional int32 healthy_panic_threshold = 75;
 
-  optional UpstreamTunnel upstream_tunnel = 76;
-  optional StringList     allow_upgrades  = 77;
-  SessionRecording session_recording = 78;
-
+  optional UpstreamTunnel upstream_tunnel   = 76;
+  optional StringList     allow_upgrades    = 77;
+  SessionRecording        session_recording = 78;
+  // Names of the identity_providers whose JWT bearer tokens this route accepts
+  // (when bearer_token_format is BEARER_TOKEN_FORMAT_JWT). Each entry must be a
+  // key in Settings.identity_providers. When empty, all configured providers
+  // are accepted.
+  repeated string identity_providers = 79;
 }
 
-message SessionRecording{
+message SessionRecording {
   optional bool enabled = 1;
 }
-
 
 message UpstreamTunnel {
   optional string ssh_policy_id = 1;
