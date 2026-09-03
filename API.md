@@ -166,13 +166,21 @@
 
   - [SettingsService](#settingsservice)
   
-    - [GetSettings](#getsettings)
+    - [ActivateLicense](#activatelicense)
   
-    - [SetSettings](#setsettings)
+    - [AddLicense](#addlicense)
+  
+    - [DeleteLicense](#deletelicense)
   
     - [GetBrandingSettings](#getbrandingsettings)
   
     - [GetConsoleSettings](#getconsolesettings)
+  
+    - [GetSettings](#getsettings)
+  
+    - [ListLicenses](#listlicenses)
+  
+    - [SetSettings](#setsettings)
   
 
 
@@ -2830,18 +2838,24 @@ OAuth2AuthStyle defines the OAuth2 authentication style
 SettingsService manages global pomerium settings
 
 ## Methods
-### GetSettings
+### ActivateLicense
 
-> **rpc** GetSettings([GetSettingsRequest](#getsettingsrequest))
-    [GetSettingsResponse](#getsettingsresponse)
+> **rpc** ActivateLicense([ActivateLicenseRequest](#activatelicenserequest))
+    [ActivateLicenseResponse](#activatelicenseresponse)
 
-GetSettings retrieves the currently applied settings
-### SetSettings
+ActivateLicense activates a license.
+### AddLicense
 
-> **rpc** SetSettings([SetSettingsRequest](#setsettingsrequest))
-    [SetSettingsResponse](#setsettingsresponse)
+> **rpc** AddLicense([AddLicenseRequest](#addlicenserequest))
+    [AddLicenseResponse](#addlicenseresponse)
 
-SetSettings applies new global settings
+AddLicense adds a license.
+### DeleteLicense
+
+> **rpc** DeleteLicense([DeleteLicenseRequest](#deletelicenserequest))
+    [DeleteLicenseResponse](#deletelicenseresponse)
+
+DeleteLicense deletes a license.
 ### GetBrandingSettings
 
 > **rpc** GetBrandingSettings([GetSettingsRequest](#getsettingsrequest))
@@ -2854,10 +2868,67 @@ GetBrandingSettings retrieves just the branding part of the settings
     [GetConsoleSettingsResponse](#getconsolesettingsresponse)
 
 GetConsoleSettings retrieves the console settings.
+### GetSettings
+
+> **rpc** GetSettings([GetSettingsRequest](#getsettingsrequest))
+    [GetSettingsResponse](#getsettingsresponse)
+
+GetSettings retrieves the currently applied settings
+### ListLicenses
+
+> **rpc** ListLicenses([ListLicensesRequest](#listlicensesrequest))
+    [ListLicensesResponse](#listlicensesresponse)
+
+ListLicenses lists all the licenses.
+### SetSettings
+
+> **rpc** SetSettings([SetSettingsRequest](#setsettingsrequest))
+    [SetSettingsResponse](#setsettingsresponse)
+
+SetSettings applies new global settings
  <!-- end methods -->
  <!-- end services -->
 
 ## Messages
+
+
+### ActivateLicenseRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| license_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ActivateLicenseResponse
+
+
+ <!-- end HasFields -->
+
+
+### AddLicenseRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| license | [ License](#license) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### AddLicenseResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| license | [ License](#license) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
 
 
 ### BlobStorageSettings
@@ -2882,7 +2953,26 @@ GetConsoleSettings retrieves the console settings.
 | use_changesets | [ bool](#bool) | none |
 | enable_remote_diagnostics | [ bool](#bool) | none |
 | installation_id | [ string](#string) | none |
+| license_info | [ LicenseInfo](#licenseinfo) | none |
+| zero_base_url | [ string](#string) | none |
  <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteLicenseRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| license_id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### DeleteLicenseResponse
+
+
  <!-- end HasFields -->
 
 
@@ -2943,6 +3033,67 @@ claims is left to PPL (claim/...).
 | jwks_url | [ string](#string) | Optional explicit JWKS URL. When set, OIDC discovery is skipped and keys are fetched directly from this URL. Useful when the issuer URL is not externally routable (e.g. Kubernetes' `kubernetes.default.svc.cluster.local`). |
 | supported_algs | [repeated string](#string) | Allowed JWT signing algorithms. When empty, defaults to {RS256, ES256, EdDSA}. `none` and HMAC (HS*) algorithms are rejected. |
 | audiences | [repeated string](#string) | Audiences accepted on tokens from this provider. Required and non-empty: at least one must intersect the token's `aud` claim. Fail-closed — an empty set rejects all tokens. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### License
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| id | [ string](#string) | none |
+| created_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| modified_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| deleted_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+| active | [ bool](#bool) | none |
+| key | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### LicenseInfo
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| status | [ LicenseStatus](#licensestatus) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _status_reason.status_reason | [optional string](#string) | none |
+| options | [ LicenseOptions](#licenseoptions) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _expiry.expiry | [optional google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### LicenseOptions
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| readonly_after_expiry | [ bool](#bool) | none |
+| allow_offline_verification | [ bool](#bool) | none |
+| can_disable_remote_diagnostics | [ bool](#bool) | none |
+| mau | [ uint64](#uint64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListLicensesRequest
+
+
+ <!-- end HasFields -->
+
+
+### ListLicensesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| licenses | [repeated License](#license) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3192,6 +3343,20 @@ Action to take when Envoy receives client request with header names containing u
 | HEADERS_WITH_UNDERSCORES_ACTION_ALLOW | 1 | Allow headers with underscores. |
 | HEADERS_WITH_UNDERSCORES_ACTION_REJECT_REQUEST | 2 | ⁣Reject client request. This is the default behavior. |
 | HEADERS_WITH_UNDERSCORES_ACTION_DROP_HEADER | 3 | Drop the client header with name containing underscores. |
+
+
+
+
+### LicenseStatus {#licensestatus}
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| LICENSE_STATUS_UNKNOWN | 0 | none |
+| LICENSE_STATUS_OK | 1 | none |
+| LICENSE_STATUS_MISSING | 2 | none |
+| LICENSE_STATUS_EXPIRED | 3 | none |
+| LICENSE_STATUS_INVALID | 4 | none |
 
 
 
