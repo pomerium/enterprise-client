@@ -9,11 +9,44 @@ import "routes.proto";
 
 option go_package = "github.com/pomerium/pomerium-console/pkg/pb";
 
+message LicenseOptions {
+  bool   readonly_after_expiry          = 1;
+  bool   allow_offline_verification     = 2;
+  bool   can_disable_remote_diagnostics = 3;
+  uint64 mau                            = 4;
+}
+
+message License {
+  string                    id          = 1;
+  google.protobuf.Timestamp created_at  = 2;
+  google.protobuf.Timestamp modified_at = 3;
+  google.protobuf.Timestamp deleted_at  = 4;
+  bool                      active      = 5;
+  string                    key         = 6;
+}
+
+enum LicenseStatus {
+  LICENSE_STATUS_UNKNOWN = 0;
+  LICENSE_STATUS_OK      = 1;
+  LICENSE_STATUS_MISSING = 2;
+  LICENSE_STATUS_EXPIRED = 3;
+  LICENSE_STATUS_INVALID = 4;
+}
+
+message LicenseInfo {
+  LicenseStatus                      status        = 1;
+  optional string                    status_reason = 2;
+  LicenseOptions                     options       = 3;
+  optional google.protobuf.Timestamp expiry        = 4;
+}
+
 message ConsoleSettings {
-  bool   enable_feedback_widget    = 1;
-  bool   use_changesets            = 2;
-  bool   enable_remote_diagnostics = 3;
-  string installation_id           = 4;
+  bool        enable_feedback_widget    = 1;
+  bool        use_changesets            = 2;
+  bool        enable_remote_diagnostics = 3;
+  string      installation_id           = 4;
+  LicenseInfo license_info              = 5;
+  string      zero_base_url             = 6;
 }
 
 enum CodecType {
@@ -231,6 +264,26 @@ message BlobStorageSettings {
   optional string managed_prefix = 2;
 }
 
+message ActivateLicenseRequest {
+  string license_id = 1;
+}
+
+message ActivateLicenseResponse {}
+
+message AddLicenseRequest {
+  License license = 1;
+}
+
+message AddLicenseResponse {
+  License license = 2;
+}
+
+message DeleteLicenseRequest {
+  string license_id = 1;
+}
+
+message DeleteLicenseResponse {}
+
 message GetConsoleSettingsRequest {}
 
 message GetConsoleSettingsResponse {
@@ -245,6 +298,12 @@ message GetSettingsResponse {
   Settings settings = 1;
 }
 
+message ListLicensesRequest {}
+
+message ListLicensesResponse {
+  repeated License licenses = 1;
+}
+
 message SetSettingsRequest {
   Settings settings = 1;
 }
@@ -255,12 +314,20 @@ message SetSettingsResponse {
 
 // SettingsService manages global pomerium settings
 service SettingsService {
-  // GetSettings retrieves the currently applied settings
-  rpc GetSettings(GetSettingsRequest) returns (GetSettingsResponse);
-  // SetSettings applies new global settings
-  rpc SetSettings(SetSettingsRequest) returns (SetSettingsResponse);
+  // ActivateLicense activates a license.
+  rpc ActivateLicense(ActivateLicenseRequest) returns (ActivateLicenseResponse);
+  // AddLicense adds a license.
+  rpc AddLicense(AddLicenseRequest) returns (AddLicenseResponse);
+  // DeleteLicense deletes a license.
+  rpc DeleteLicense(DeleteLicenseRequest) returns (DeleteLicenseResponse);
   // GetBrandingSettings retrieves just the branding part of the settings
   rpc GetBrandingSettings(GetSettingsRequest) returns (GetSettingsResponse);
   // GetConsoleSettings retrieves the console settings.
   rpc GetConsoleSettings(GetConsoleSettingsRequest) returns (GetConsoleSettingsResponse);
+  // GetSettings retrieves the currently applied settings
+  rpc GetSettings(GetSettingsRequest) returns (GetSettingsResponse);
+  // ListLicenses lists all the licenses.
+  rpc ListLicenses(ListLicensesRequest) returns (ListLicensesResponse);
+  // SetSettings applies new global settings
+  rpc SetSettings(SetSettingsRequest) returns (SetSettingsResponse);
 }
