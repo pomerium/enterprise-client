@@ -298,10 +298,31 @@ message GetSettingsResponse {
   Settings settings = 1;
 }
 
+message GetUnmanagedSettingsRequest {
+  optional string cluster_id = 1;
+  string          id         = 2;
+}
+
+message GetUnmanagedSettingsResponse {
+  Settings settings = 1;
+}
+
 message ListLicensesRequest {}
 
 message ListLicensesResponse {
   repeated License licenses = 1;
+}
+
+message ListUnmanagedSettingsRequest {
+  optional string cluster_id = 1;
+  optional uint64 offset     = 2;
+  optional uint64 limit      = 3;
+  optional string order_by   = 4;
+}
+
+message ListUnmanagedSettingsResponse {
+  repeated Settings settings    = 1;
+  uint64            total_count = 2;
 }
 
 message SetSettingsRequest {
@@ -326,8 +347,12 @@ service SettingsService {
   rpc GetConsoleSettings(GetConsoleSettingsRequest) returns (GetConsoleSettingsResponse);
   // GetSettings retrieves the currently applied settings
   rpc GetSettings(GetSettingsRequest) returns (GetSettingsResponse);
+  // GetUnmanagedSettings retrieves the unmanaged settings for a cluster.
+  rpc GetUnmanagedSettings(GetUnmanagedSettingsRequest) returns (GetUnmanagedSettingsResponse);
   // ListLicenses lists all the licenses.
   rpc ListLicenses(ListLicensesRequest) returns (ListLicensesResponse);
+  // ListUnmanagedSettings lists all the unmanaged settings for a cluster.
+  rpc ListUnmanagedSettings(ListUnmanagedSettingsRequest) returns (ListUnmanagedSettingsResponse);
   // SetSettings applies new global settings
   rpc SetSettings(SetSettingsRequest) returns (SetSettingsResponse);
 }
