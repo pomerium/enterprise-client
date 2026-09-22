@@ -149,7 +149,11 @@
   
     - [GetRoute](#getroute)
   
+    - [GetUnmanagedRoute](#getunmanagedroute)
+  
     - [ListRoutes](#listroutes)
+  
+    - [ListUnmanagedRoutes](#listunmanagedroutes)
   
     - [LoadRoutes](#loadroutes)
   
@@ -178,7 +182,11 @@
   
     - [GetSettings](#getsettings)
   
+    - [GetUnmanagedSettings](#getunmanagedsettings)
+  
     - [ListLicenses](#listlicenses)
+  
+    - [ListUnmanagedSettings](#listunmanagedsettings)
   
     - [SetSettings](#setsettings)
   
@@ -2299,12 +2307,24 @@ DeleteRoutes removes existing routes.
     [GetRouteResponse](#getrouteresponse)
 
 GetRoute retrieves an existing route
+### GetUnmanagedRoute
+
+> **rpc** GetUnmanagedRoute([GetUnmanagedRouteRequest](#getunmanagedrouterequest))
+    [GetUnmanagedRouteResponse](#getunmanagedrouteresponse)
+
+GetUnmanagedRoute retrieves an unmanaged route.
 ### ListRoutes
 
 > **rpc** ListRoutes([ListRoutesRequest](#listroutesrequest))
     [ListRoutesResponse](#listroutesresponse)
 
 ListRoutes lists routes based on ListRoutesRequest
+### ListUnmanagedRoutes
+
+> **rpc** ListUnmanagedRoutes([ListUnmanagedRoutesRequest](#listunmanagedroutesrequest))
+    [ListUnmanagedRoutesResponse](#listunmanagedroutesresponse)
+
+ListUnmanagedRoutes lists routes based on ListUnmanagedRoutesRequest
 ### LoadRoutes
 
 > **rpc** LoadRoutes([LoadRoutesRequest](#loadroutesrequest))
@@ -2406,6 +2426,29 @@ CircuitBreakerThresholds defines CircuitBreaker settings.
  <!-- end HasFields -->
 
 
+### GetUnmanagedRouteRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetUnmanagedRouteResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| route | [ Route](#route) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### JwtGroupsFilter
 
 
@@ -2442,6 +2485,32 @@ ListRoutesResponse is the list of routes found for a ListRoutesRequest
 | ----- | ---- | ----------- |
 | routes | [repeated Route](#route) | none |
 | total_count | [ int64](#int64) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListUnmanagedRoutesRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional uint64](#uint64) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional uint64](#uint64) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListUnmanagedRoutesResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| routes | [repeated Route](#route) | none |
+| total_count | [ uint64](#uint64) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -2874,12 +2943,24 @@ GetConsoleSettings retrieves the console settings.
     [GetSettingsResponse](#getsettingsresponse)
 
 GetSettings retrieves the currently applied settings
+### GetUnmanagedSettings
+
+> **rpc** GetUnmanagedSettings([GetUnmanagedSettingsRequest](#getunmanagedsettingsrequest))
+    [GetUnmanagedSettingsResponse](#getunmanagedsettingsresponse)
+
+GetUnmanagedSettings retrieves the unmanaged settings for a cluster.
 ### ListLicenses
 
 > **rpc** ListLicenses([ListLicensesRequest](#listlicensesrequest))
     [ListLicensesResponse](#listlicensesresponse)
 
 ListLicenses lists all the licenses.
+### ListUnmanagedSettings
+
+> **rpc** ListUnmanagedSettings([ListUnmanagedSettingsRequest](#listunmanagedsettingsrequest))
+    [ListUnmanagedSettingsResponse](#listunmanagedsettingsresponse)
+
+ListUnmanagedSettings lists all the unmanaged settings for a cluster.
 ### SetSettings
 
 > **rpc** SetSettings([SetSettingsRequest](#setsettingsrequest))
@@ -3015,6 +3096,29 @@ SetSettings applies new global settings
  <!-- end HasFields -->
 
 
+### GetUnmanagedSettingsRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+| id | [ string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetUnmanagedSettingsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| settings | [ Settings](#settings) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### IdentityProvider
 IdentityProvider declares an additional identity provider. Today it is
 usable only to verify JWT bearer tokens issued by non-interactive workloads
@@ -3094,6 +3198,32 @@ claims is left to PPL (claim/...).
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | licenses | [repeated License](#license) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListUnmanagedSettingsRequest
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _cluster_id.cluster_id | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _offset.offset | [optional uint64](#uint64) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _limit.limit | [optional uint64](#uint64) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _order_by.order_by | [optional string](#string) | none |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### ListUnmanagedSettingsResponse
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| settings | [repeated Settings](#settings) | none |
+| total_count | [ uint64](#uint64) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 

@@ -274,6 +274,15 @@ message GetRouteResponse {
   Route route = 1;
 }
 
+message GetUnmanagedRouteRequest {
+  optional string cluster_id = 1;
+  string          id         = 2;
+}
+
+message GetUnmanagedRouteResponse {
+  Route route = 1;
+}
+
 // ListRoutesRequest defines the routes to list
 message ListRoutesRequest {
   string namespace = 1;
@@ -293,6 +302,18 @@ message ListRoutesRequest {
 message ListRoutesResponse {
   repeated Route routes      = 1;
   int64          total_count = 2;
+}
+
+message ListUnmanagedRoutesRequest {
+  optional string cluster_id = 1;
+  optional uint64 offset     = 2;
+  optional uint64 limit      = 3;
+  optional string order_by   = 4;
+}
+
+message ListUnmanagedRoutesResponse {
+  repeated Route routes      = 1;
+  uint64         total_count = 2;
 }
 
 // LoadRoutesRequest creates a route based on a yaml payload
@@ -339,8 +360,12 @@ service RouteService {
   rpc DeleteRoutes(DeleteRoutesRequest) returns (DeleteRoutesResponse);
   // GetRoute retrieves an existing route
   rpc GetRoute(GetRouteRequest) returns (GetRouteResponse);
+  // GetUnmanagedRoute retrieves an unmanaged route.
+  rpc GetUnmanagedRoute(GetUnmanagedRouteRequest) returns (GetUnmanagedRouteResponse);
   // ListRoutes lists routes based on ListRoutesRequest
   rpc ListRoutes(ListRoutesRequest) returns (ListRoutesResponse);
+  // ListUnmanagedRoutes lists routes based on ListUnmanagedRoutesRequest
+  rpc ListUnmanagedRoutes(ListUnmanagedRoutesRequest) returns (ListUnmanagedRoutesResponse);
   // LoadRoutes imports routes from an existing OSS configuration
   rpc LoadRoutes(LoadRoutesRequest) returns (LoadRoutesResponse);
   // SetRoute creates or, if id is defined, updates an existing route
