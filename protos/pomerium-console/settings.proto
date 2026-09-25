@@ -232,6 +232,7 @@ message Settings {
   optional StringList               ssh_host_keys                                          = 113;
   optional string                   ssh_user_ca_key_file                                   = 114;
   optional string                   ssh_user_ca_key                                        = 115;
+  optional google.protobuf.Duration ssh_two_person_approval_request_timeout                = 136;
   optional StringList               mcp_allowed_as_metadata_domains                        = 126;
   optional StringList               mcp_allowed_client_id_domains                          = 122;
   optional bool                     session_recording_enabled                              = 123;
@@ -257,6 +258,8 @@ message Settings {
   // whose bearer_token_format is BEARER_TOKEN_FORMAT_JWT; the interactive SSO
   // provider is still configured via the idp_* fields.
   map<string, IdentityProvider> identity_providers = 134;
+
+  optional StringList readonly_console_audiences = 135;
 }
 
 message BlobStorageSettings {
