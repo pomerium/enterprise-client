@@ -3358,6 +3358,7 @@ Next id: 135.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_host_keys.ssh_host_keys | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_user_ca_key_file.ssh_user_ca_key_file | [optional string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_user_ca_key.ssh_user_ca_key | [optional string](#string) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _ssh_two_person_approval_request_timeout.ssh_two_person_approval_request_timeout | [optional google.protobuf.Duration](#googleprotobufduration) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _mcp_allowed_as_metadata_domains.mcp_allowed_as_metadata_domains | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _mcp_allowed_client_id_domains.mcp_allowed_client_id_domains | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _session_recording_enabled.session_recording_enabled | [optional bool](#bool) | none |
@@ -3371,6 +3372,7 @@ Next id: 135.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _path_with_escaped_slashes_action.path_with_escaped_slashes_action | [optional PathWithEscapedSlashesAction](#pathwithescapedslashesaction) | Action to take when request URL path contains escaped slash sequences (%2F, %2f, %5C and %5c). Defaults to rejecting requests. |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _headers_with_underscores_action.headers_with_underscores_action | [optional HeadersWithUnderscoresAction](#headerswithunderscoresaction) | Action to take when a client request with a header name containing underscore characters is received. Defaults to rejecting the request. |
 | identity_providers | [map Settings.IdentityProvidersEntry](#settingsidentityprovidersentry) | Additional identity providers, keyed by provider name. Currently usable only to verify JWT bearer tokens from non-interactive workloads on routes whose bearer_token_format is BEARER_TOKEN_FORMAT_JWT; the interactive SSO provider is still configured via the idp_* fields. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _readonly_console_audiences.readonly_console_audiences | [optional Settings.StringList](#settingsstringlist) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
