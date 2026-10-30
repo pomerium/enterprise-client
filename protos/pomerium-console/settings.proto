@@ -110,8 +110,21 @@ message IdentityProvider {
   repeated string audiences = 4;
 }
 
+// LicenseType is the license type for Pomerium.
+enum LicenseType {
+  LICENSE_TYPE_UNKNOWN = 0;
+  // Open Source Edition
+  LICENSE_TYPE_OPEN_SOURCE = 1;
+  // Community Edition
+  LICENSE_TYPE_COMMUNITY = 2;
+  // Commercial Edition
+  LICENSE_TYPE_COMMERCIAL = 3;
+  // Commercial Trial Edition
+  LICENSE_TYPE_COMMERCIAL_TRIAL = 4;
+}
+
 // Settings defines the global pomerium settings
-// Next id: 135.
+// Next id: 138.
 message Settings {
   message Certificate {
     bytes  cert_bytes  = 3;
@@ -260,6 +273,8 @@ message Settings {
   map<string, IdentityProvider> identity_providers = 134;
 
   optional StringList readonly_console_audiences = 135;
+  // License type for Pomerium.
+  optional LicenseType license_type = 137;
 }
 
 message BlobStorageSettings {
