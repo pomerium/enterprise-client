@@ -3252,7 +3252,7 @@ claims is left to PPL (claim/...).
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 135.
+Next id: 138.
 
 
 | Field | Type | Description |
@@ -3373,6 +3373,7 @@ Next id: 135.
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _headers_with_underscores_action.headers_with_underscores_action | [optional HeadersWithUnderscoresAction](#headerswithunderscoresaction) | Action to take when a client request with a header name containing underscore characters is received. Defaults to rejecting the request. |
 | identity_providers | [map Settings.IdentityProvidersEntry](#settingsidentityprovidersentry) | Additional identity providers, keyed by provider name. Currently usable only to verify JWT bearer tokens from non-interactive workloads on routes whose bearer_token_format is BEARER_TOKEN_FORMAT_JWT; the interactive SSO provider is still configured via the idp_* fields. |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _readonly_console_audiences.readonly_console_audiences | [optional Settings.StringList](#settingsstringlist) | none |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _license_type.license_type | [optional LicenseType](#licensetype) | License type for Pomerium. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3489,6 +3490,20 @@ Action to take when Envoy receives client request with header names containing u
 | LICENSE_STATUS_MISSING | 2 | none |
 | LICENSE_STATUS_EXPIRED | 3 | none |
 | LICENSE_STATUS_INVALID | 4 | none |
+
+
+
+
+### LicenseType {#licensetype}
+LicenseType is the license type for Pomerium.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| LICENSE_TYPE_UNKNOWN | 0 | none |
+| LICENSE_TYPE_OPEN_SOURCE | 1 | Open Source Edition |
+| LICENSE_TYPE_COMMUNITY | 2 | Community Edition |
+| LICENSE_TYPE_COMMERCIAL | 3 | Commercial Edition |
+| LICENSE_TYPE_COMMERCIAL_TRIAL | 4 | Commercial Trial Edition |
 
 
 
