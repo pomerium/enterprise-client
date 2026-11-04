@@ -3,6 +3,15 @@ set -euo pipefail
 
 _project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)/.."
 
+require-command() {
+	local _command="${1?"command is required"}"
+
+	if ! command -v "$_command" >/dev/null 2>&1; then
+		echo "$_command is required"
+		exit 1
+	fi
+}
+
 update-pomerium() {
 	pushd "$_project_root"
 
@@ -11,11 +20,30 @@ update-pomerium() {
 	popd
 }
 
+update-tools() {
+	pushd "$_project_root"
+
+	require-command asdf
+
+	asdf plugin add protoc
+	asdf install protoc latest
+	asdf set protoc latest
+
+	git submodule update --remote deps/github.com/envoyproxy/protoc-gen-validate
+	git submodule update --remote deps/github.com/googleapis/googleapis
+
+	popd
+
+}
+
 run() {
 	local _command="$1"
 	case "$_command" in
 	pomerium)
 		update-pomerium
+		;;
+	tools)
+		update-tools
 		;;
 	*)
 		echo "unknown command $_command"
