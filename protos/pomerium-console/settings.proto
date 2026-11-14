@@ -124,7 +124,7 @@ enum LicenseType {
 }
 
 // Settings defines the global pomerium settings
-// Next id: 138.
+// Next id: 139.
 message Settings {
   message Certificate {
     bytes  cert_bytes  = 3;
@@ -275,6 +275,8 @@ message Settings {
   optional StringList readonly_console_audiences = 135;
   // License type for Pomerium.
   optional LicenseType license_type = 137;
+  // Configure default OIDC bridge support for all routes.
+  optional OIDCBridge oidc_bridge = 138;
 }
 
 message BlobStorageSettings {

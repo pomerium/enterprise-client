@@ -131,7 +131,7 @@ enum OAuth2AuthStyle {
 }
 
 // Route defines a proxy route's settings and policy associations
-// Next ID: 80
+// Next ID: 82
 message Route {
   message StringList {
     repeated string values = 1;
@@ -212,13 +212,6 @@ message Route {
   // multi-route login additional hosts
   repeated string depends_on = 72;
 
-  // computed properties (may be nil)
-  repeated string policy_names = 34;
-  // computed
-  string namespace_name = 35;
-  // computed
-  repeated string     enforced_policy_ids                = 63;
-  repeated string     enforced_policy_names              = 64;
   optional StringList idp_access_token_allowed_audiences = 69;
 
   optional LoadBalancingPolicy load_balancing_policy = 70 [(validate.rules).enum = {defined_only: true}];
@@ -237,6 +230,28 @@ message Route {
   // key in Settings.identity_providers. When empty, all configured providers
   // are accepted.
   repeated string identity_providers = 79;
+  optional OIDCBridge oidc_bridge = 81;
+
+  // computed properties (may be nil)
+  repeated string policy_names          = 34;
+  string          namespace_name        = 35;
+  repeated string enforced_policy_ids   = 63;
+  repeated string enforced_policy_names = 64;
+  repeated string inline_ppl_policies   = 80;
+  // Configure OIDC bridge support for this route.
+}
+
+// OIDC bridge settings control whether Pomerium can serve as an OpenID
+// provider for upstream applications.
+message OIDCBridge {
+  // Whether the OIDC bridge feature should be enabled.
+  optional bool enabled = 1;
+  // Client secret to use for upstream applications that do not support
+  // public clients / PKCE.
+  optional string client_secret = 2;
+  // List of allowed redirect_uris. By default allows any subpath of the
+  // configured route's `to` address.
+  repeated string redirect_uris = 3;
 }
 
 message SessionRecording {
