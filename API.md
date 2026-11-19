@@ -2602,9 +2602,23 @@ OAuth2Endpoint defines OAuth2 provider endpoints
  <!-- end HasFields -->
 
 
+### OIDCBridge
+OIDC bridge settings control whether Pomerium can serve as an OpenID
+provider for upstream applications.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _enabled.enabled | [optional bool](#bool) | Whether the OIDC bridge feature should be enabled. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _client_secret.client_secret | [optional string](#string) | Client secret to use for upstream applications that do not support public clients / PKCE. |
+| redirect_uris | [repeated string](#string) | List of allowed redirect_uris. By default allows any subpath of the configured route's `to` address. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
 ### Route
 Route defines a proxy route's settings and policy associations
-Next ID: 80
+Next ID: 82
 
 
 | Field | Type | Description |
@@ -2662,10 +2676,6 @@ Next ID: 80
 | originator_id | [ string](#string) | none |
 | policy_ids | [repeated string](#string) | policies applied to this route |
 | depends_on | [repeated string](#string) | multi-route login additional hosts |
-| policy_names | [repeated string](#string) | computed properties (may be nil) |
-| namespace_name | [ string](#string) | computed |
-| enforced_policy_ids | [repeated string](#string) | computed |
-| enforced_policy_names | [repeated string](#string) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _idp_access_token_allowed_audiences.idp_access_token_allowed_audiences | [optional Route.StringList](#routestringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _load_balancing_policy.load_balancing_policy | [optional LoadBalancingPolicy](#loadbalancingpolicy) | none |
 | health_checks | [repeated HealthCheck](#healthcheck) | none |
@@ -2676,6 +2686,12 @@ Next ID: 80
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _allow_upgrades.allow_upgrades | [optional Route.StringList](#routestringlist) | none |
 | session_recording | [ SessionRecording](#sessionrecording) | none |
 | identity_providers | [repeated string](#string) | Names of the identity_providers whose JWT bearer tokens this route accepts (when bearer_token_format is BEARER_TOKEN_FORMAT_JWT). Each entry must be a key in Settings.identity_providers. When empty, all configured providers are accepted. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _oidc_bridge.oidc_bridge | [optional OIDCBridge](#oidcbridge) | none |
+| policy_names | [repeated string](#string) | computed properties (may be nil) |
+| namespace_name | [ string](#string) | none |
+| enforced_policy_ids | [repeated string](#string) | none |
+| enforced_policy_names | [repeated string](#string) | none |
+| inline_ppl_policies | [repeated string](#string) | Configure OIDC bridge support for this route. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3252,7 +3268,7 @@ claims is left to PPL (claim/...).
 
 ### Settings
 Settings defines the global pomerium settings
-Next id: 138.
+Next id: 139.
 
 
 | Field | Type | Description |
@@ -3374,6 +3390,7 @@ Next id: 138.
 | identity_providers | [map Settings.IdentityProvidersEntry](#settingsidentityprovidersentry) | Additional identity providers, keyed by provider name. Currently usable only to verify JWT bearer tokens from non-interactive workloads on routes whose bearer_token_format is BEARER_TOKEN_FORMAT_JWT; the interactive SSO provider is still configured via the idp_* fields. |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _readonly_console_audiences.readonly_console_audiences | [optional Settings.StringList](#settingsstringlist) | none |
 | [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _license_type.license_type | [optional LicenseType](#licensetype) | License type for Pomerium. |
+| [**oneof**](https://developers.google.com/protocol-buffers/docs/proto3#oneof) _oidc_bridge.oidc_bridge | [optional OIDCBridge](#oidcbridge) | Configure default OIDC bridge support for all routes. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
