@@ -190,15 +190,16 @@ message PomeriumSession {
     string email = 3;
   }
 
-  string                                 id          = 1;
-  User                                   user        = 2;
-  repeated Group                         groups      = 3;
-  string                                 issuer      = 4;
-  google.protobuf.Timestamp              accessed_at = 9;
-  google.protobuf.Timestamp              issued_at   = 5;
-  google.protobuf.Timestamp              expires_at  = 6;
-  repeated string                        audience    = 7;
-  map<string, google.protobuf.ListValue> claims      = 8;
+  string                    id          = 1;
+  User                      user        = 2;
+  string                    issuer      = 4;
+  google.protobuf.Timestamp accessed_at = 9;
+  google.protobuf.Timestamp issued_at   = 5;
+  google.protobuf.Timestamp expires_at  = 6;
+  repeated string           audience    = 7;
+  // get the user's groups and the session's claims with GetPomeriumSession
+  reserved 3, 8;
+  reserved "groups", "claims";
 }
 
 message DeletePomeriumSessionRequest {
@@ -218,8 +219,14 @@ message GetPomeriumSessionRequest {
 }
 
 message GetPomeriumSessionResponse {
-  PomeriumSession          session             = 1;
-  repeated PomeriumSession associated_sessions = 2;
+  PomeriumSession session = 1;
+  // list the user's sessions with ListPomeriumSessions and user_id
+  reserved 2;
+  reserved "associated_sessions";
+  // the directory groups of the session's user
+  repeated PomeriumSession.Group groups = 3;
+  // the session's identity provider claims
+  map<string, google.protobuf.ListValue> claims = 4;
 }
 
 // ListPomeriumSessionsRequest specifies the sessions to list

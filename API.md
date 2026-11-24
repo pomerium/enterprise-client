@@ -3811,7 +3811,20 @@ parameters
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | session | [ PomeriumSession](#pomeriumsession) | none |
-| associated_sessions | [repeated PomeriumSession](#pomeriumsession) | none |
+| groups | [repeated PomeriumSession.Group](#pomeriumsessiongroup) | the directory groups of the session's user |
+| claims | [map GetPomeriumSessionResponse.ClaimsEntry](#getpomeriumsessionresponseclaimsentry) | the session's identity provider claims |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+
+### GetPomeriumSessionResponse.ClaimsEntry
+
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| key | [ string](#string) | none |
+| value | [ google.protobuf.ListValue](#googleprotobuflistvalue) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -3984,25 +3997,11 @@ PomeriumSession defines a user session from the databroker
 | ----- | ---- | ----------- |
 | id | [ string](#string) | none |
 | user | [ PomeriumSession.User](#pomeriumsessionuser) | none |
-| groups | [repeated PomeriumSession.Group](#pomeriumsessiongroup) | none |
 | issuer | [ string](#string) | none |
 | accessed_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | issued_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | expires_at | [ google.protobuf.Timestamp](#googleprotobuftimestamp) | none |
 | audience | [repeated string](#string) | none |
-| claims | [map PomeriumSession.ClaimsEntry](#pomeriumsessionclaimsentry) | none |
- <!-- end Fields -->
- <!-- end HasFields -->
-
-
-### PomeriumSession.ClaimsEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key | [ string](#string) | none |
-| value | [ google.protobuf.ListValue](#googleprotobuflistvalue) | none |
  <!-- end Fields -->
  <!-- end HasFields -->
 
